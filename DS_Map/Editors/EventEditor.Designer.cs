@@ -169,6 +169,26 @@ namespace DSPRE.Editors
       this.eventAreaDataUpDown = new System.Windows.Forms.NumericUpDown();
       this.eventMapTextureLabel = new System.Windows.Forms.Label();
       this.locateCurrentEvFile = new System.Windows.Forms.Button();
+      this.groupBox1 = new System.Windows.Forms.GroupBox();
+      this.groupBox14 = new System.Windows.Forms.GroupBox();
+      this.goToWarpButton = new System.Windows.Forms.Button();
+      this.label9 = new System.Windows.Forms.Label();
+      this.warpXMatrixUpDown = new System.Windows.Forms.NumericUpDown();
+      this.label15 = new System.Windows.Forms.Label();
+      this.warpYMatrixUpDown = new System.Windows.Forms.NumericUpDown();
+      this.groupBox12 = new System.Windows.Forms.GroupBox();
+      this.warpXMapUpDown = new System.Windows.Forms.NumericUpDown();
+      this.label24 = new System.Windows.Forms.Label();
+      this.label25 = new System.Windows.Forms.Label();
+      this.warpYMapUpDown = new System.Windows.Forms.NumericUpDown();
+      this.warpZUpDown = new System.Windows.Forms.NumericUpDown();
+      this.label16 = new System.Windows.Forms.Label();
+      this.groupBox6 = new System.Windows.Forms.GroupBox();
+      this.goToTriggerButton = new System.Windows.Forms.Button();
+      this.triggerYMatrixLabel = new System.Windows.Forms.Label();
+      this.triggerXMatrixUpDown = new System.Windows.Forms.NumericUpDown();
+      this.triggerXMatrixLabel = new System.Windows.Forms.Label();
+      this.triggerYMatrixUpDown = new System.Windows.Forms.NumericUpDown();
       ((System.ComponentModel.ISupportInitialize)(this.LeftClickPicture)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.wheelClickPicture)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.rightClickPicture)).BeginInit();
@@ -224,6 +244,17 @@ namespace DSPRE.Editors
       ((System.ComponentModel.ISupportInitialize)(this.eventMatrixYUpDown)).BeginInit();
       this.groupBox21.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.eventAreaDataUpDown)).BeginInit();
+      this.groupBox1.SuspendLayout();
+      this.groupBox14.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.warpXMatrixUpDown)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.warpYMatrixUpDown)).BeginInit();
+      this.groupBox12.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.warpXMapUpDown)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.warpYMapUpDown)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.warpZUpDown)).BeginInit();
+      this.groupBox6.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.triggerXMatrixUpDown)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.triggerYMatrixUpDown)).BeginInit();
       this.SuspendLayout();
       // 
       // saveEventsButton
@@ -1279,6 +1310,7 @@ namespace DSPRE.Editors
       // 
       this.warpsTabPage.Controls.Add(this.duplicateWarpsButton);
       this.warpsTabPage.Controls.Add(this.groupBox11);
+      this.warpsTabPage.Controls.Add(this.groupBox1);
       this.warpsTabPage.Controls.Add(this.removeWarpButton);
       this.warpsTabPage.Controls.Add(this.addWarpButton);
       this.warpsTabPage.Controls.Add(this.warpsListBox);
@@ -1409,6 +1441,7 @@ namespace DSPRE.Editors
       this.triggersTabPage.Controls.Add(this.triggerLogicGroupBox);
       this.triggersTabPage.Controls.Add(this.groupBox16);
       this.triggersTabPage.Controls.Add(this.groupBox15);
+      this.triggersTabPage.Controls.Add(this.groupBox6);
       this.triggersTabPage.Controls.Add(this.duplicateTriggersButton);
       this.triggersTabPage.Controls.Add(this.removeTriggerButton);
       this.triggersTabPage.Controls.Add(this.addTriggerButton);
@@ -1897,6 +1930,255 @@ namespace DSPRE.Editors
       this.locateCurrentEvFile.UseVisualStyleBackColor = true;
       this.locateCurrentEvFile.Click += new System.EventHandler(this.locateCurrentEvFile_Click);
       // 
+      // groupBox1
+      // 
+      this.groupBox1.Controls.Add(this.groupBox14);
+      this.groupBox1.Controls.Add(this.groupBox12);
+      this.groupBox1.Location = new System.Drawing.Point(192, 12);
+      this.groupBox1.Name = "groupBox1";
+      this.groupBox1.Size = new System.Drawing.Size(242, 182);
+      this.groupBox1.TabIndex = 21;
+      this.groupBox1.TabStop = false;
+      this.groupBox1.Text = "Start coordinates";
+      // 
+      // groupBox14
+      // 
+      this.groupBox14.Controls.Add(this.goToWarpButton);
+      this.groupBox14.Controls.Add(this.label9);
+      this.groupBox14.Controls.Add(this.warpXMatrixUpDown);
+      this.groupBox14.Controls.Add(this.label15);
+      this.groupBox14.Controls.Add(this.warpYMatrixUpDown);
+      this.groupBox14.Location = new System.Drawing.Point(9, 74);
+      this.groupBox14.Name = "groupBox14";
+      this.groupBox14.Size = new System.Drawing.Size(223, 97);
+      this.groupBox14.TabIndex = 23;
+      this.groupBox14.TabStop = false;
+      this.groupBox14.Text = "Matrix coordinates";
+      // 
+      // goToWarpButton
+      // 
+      this.goToWarpButton.Image = global::DSPRE.Properties.Resources.goToWarp;
+      this.goToWarpButton.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
+      this.goToWarpButton.Location = new System.Drawing.Point(63, 51);
+      this.goToWarpButton.Name = "goToWarpButton";
+      this.goToWarpButton.Size = new System.Drawing.Size(102, 39);
+      this.goToWarpButton.TabIndex = 25;
+      this.goToWarpButton.Text = "Go to start \r\ncoordinates";
+      this.goToWarpButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+      this.goToWarpButton.UseVisualStyleBackColor = true;
+      this.goToWarpButton.Click += new System.EventHandler(this.centerEventViewOnSelectedEvent_Click);
+      // 
+      // label9
+      // 
+      this.label9.AutoSize = true;
+      this.label9.Location = new System.Drawing.Point(117, 27);
+      this.label9.Name = "label9";
+      this.label9.Size = new System.Drawing.Size(38, 13);
+      this.label9.TabIndex = 24;
+      this.label9.Text = "Mat. Y";
+      // 
+      // warpXMatrixUpDown
+      // 
+      this.warpXMatrixUpDown.Location = new System.Drawing.Point(49, 23);
+      this.warpXMatrixUpDown.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+      this.warpXMatrixUpDown.Name = "warpXMatrixUpDown";
+      this.warpXMatrixUpDown.Size = new System.Drawing.Size(47, 20);
+      this.warpXMatrixUpDown.TabIndex = 21;
+      this.warpXMatrixUpDown.ValueChanged += new System.EventHandler(this.warpMatrixXUpDown_ValueChanged);
+      // 
+      // label15
+      // 
+      this.label15.AutoSize = true;
+      this.label15.Location = new System.Drawing.Point(10, 27);
+      this.label15.Name = "label15";
+      this.label15.Size = new System.Drawing.Size(38, 13);
+      this.label15.TabIndex = 22;
+      this.label15.Text = "Mat. X";
+      // 
+      // warpYMatrixUpDown
+      // 
+      this.warpYMatrixUpDown.Location = new System.Drawing.Point(157, 23);
+      this.warpYMatrixUpDown.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+      this.warpYMatrixUpDown.Name = "warpYMatrixUpDown";
+      this.warpYMatrixUpDown.Size = new System.Drawing.Size(47, 20);
+      this.warpYMatrixUpDown.TabIndex = 23;
+      this.warpYMatrixUpDown.ValueChanged += new System.EventHandler(this.warpMatrixYUpDown_ValueChanged);
+      // 
+      // groupBox12
+      // 
+      this.groupBox12.Controls.Add(this.warpXMapUpDown);
+      this.groupBox12.Controls.Add(this.label24);
+      this.groupBox12.Controls.Add(this.label25);
+      this.groupBox12.Controls.Add(this.warpYMapUpDown);
+      this.groupBox12.Controls.Add(this.warpZUpDown);
+      this.groupBox12.Controls.Add(this.label16);
+      this.groupBox12.Location = new System.Drawing.Point(9, 19);
+      this.groupBox12.Name = "groupBox12";
+      this.groupBox12.Size = new System.Drawing.Size(223, 49);
+      this.groupBox12.TabIndex = 22;
+      this.groupBox12.TabStop = false;
+      this.groupBox12.Text = "Map coordinates";
+      // 
+      // warpXMapUpDown
+      // 
+      this.warpXMapUpDown.Location = new System.Drawing.Point(25, 19);
+      this.warpXMapUpDown.Maximum = new decimal(new int[] {
+            32768,
+            0,
+            0,
+            0});
+      this.warpXMapUpDown.Minimum = new decimal(new int[] {
+            32768,
+            0,
+            0,
+            -2147483648});
+      this.warpXMapUpDown.Name = "warpXMapUpDown";
+      this.warpXMapUpDown.Size = new System.Drawing.Size(34, 20);
+      this.warpXMapUpDown.TabIndex = 10;
+      this.warpXMapUpDown.ValueChanged += new System.EventHandler(this.warpXMapUpDown_ValueChanged);
+      // 
+      // label24
+      // 
+      this.label24.AutoSize = true;
+      this.label24.Location = new System.Drawing.Point(86, 22);
+      this.label24.Name = "label24";
+      this.label24.Size = new System.Drawing.Size(14, 13);
+      this.label24.TabIndex = 21;
+      this.label24.Text = "Y";
+      // 
+      // label25
+      // 
+      this.label25.AutoSize = true;
+      this.label25.Location = new System.Drawing.Point(10, 22);
+      this.label25.Name = "label25";
+      this.label25.Size = new System.Drawing.Size(14, 13);
+      this.label25.TabIndex = 13;
+      this.label25.Text = "X";
+      // 
+      // warpYMapUpDown
+      // 
+      this.warpYMapUpDown.Location = new System.Drawing.Point(100, 19);
+      this.warpYMapUpDown.Maximum = new decimal(new int[] {
+            32768,
+            0,
+            0,
+            0});
+      this.warpYMapUpDown.Minimum = new decimal(new int[] {
+            32768,
+            0,
+            0,
+            -2147483648});
+      this.warpYMapUpDown.Name = "warpYMapUpDown";
+      this.warpYMapUpDown.Size = new System.Drawing.Size(34, 20);
+      this.warpYMapUpDown.TabIndex = 12;
+      this.warpYMapUpDown.ValueChanged += new System.EventHandler(this.warpYMapUpDown_ValueChanged);
+      // 
+      // warpZUpDown
+      // 
+      this.warpZUpDown.Location = new System.Drawing.Point(175, 19);
+      this.warpZUpDown.Maximum = new decimal(new int[] {
+            32768,
+            0,
+            0,
+            0});
+      this.warpZUpDown.Minimum = new decimal(new int[] {
+            32768,
+            0,
+            0,
+            -2147483648});
+      this.warpZUpDown.Name = "warpZUpDown";
+      this.warpZUpDown.Size = new System.Drawing.Size(34, 20);
+      this.warpZUpDown.TabIndex = 14;
+      this.warpZUpDown.ValueChanged += new System.EventHandler(this.warpZUpDown_ValueChanged);
+      // 
+      // label16
+      // 
+      this.label16.AutoSize = true;
+      this.label16.Location = new System.Drawing.Point(160, 22);
+      this.label16.Name = "label16";
+      this.label16.Size = new System.Drawing.Size(14, 13);
+      this.label16.TabIndex = 15;
+      this.label16.Text = "Z";
+      // 
+      // groupBox6
+      // 
+      this.groupBox6.Controls.Add(this.goToTriggerButton);
+      this.groupBox6.Controls.Add(this.triggerYMatrixLabel);
+      this.groupBox6.Controls.Add(this.triggerXMatrixUpDown);
+      this.groupBox6.Controls.Add(this.triggerXMatrixLabel);
+      this.groupBox6.Controls.Add(this.triggerYMatrixUpDown);
+      this.groupBox6.Location = new System.Drawing.Point(225, 251);
+      this.groupBox6.Name = "groupBox6";
+      this.groupBox6.Size = new System.Drawing.Size(200, 94);
+      this.groupBox6.TabIndex = 25;
+      this.groupBox6.TabStop = false;
+      this.groupBox6.Text = "Matrix Coordinates";
+      // 
+      // goToTriggerButton
+      // 
+      this.goToTriggerButton.Image = global::DSPRE.Properties.Resources.goToTrigger;
+      this.goToTriggerButton.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
+      this.goToTriggerButton.Location = new System.Drawing.Point(44, 47);
+      this.goToTriggerButton.Name = "goToTriggerButton";
+      this.goToTriggerButton.Size = new System.Drawing.Size(120, 39);
+      this.goToTriggerButton.TabIndex = 20;
+      this.goToTriggerButton.Text = "Find this trigger";
+      this.goToTriggerButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+      this.goToTriggerButton.UseVisualStyleBackColor = true;
+      this.goToTriggerButton.Click += new System.EventHandler(this.centerEventViewOnSelectedEvent_Click);
+      // 
+      // triggerYMatrixLabel
+      // 
+      this.triggerYMatrixLabel.AutoSize = true;
+      this.triggerYMatrixLabel.Location = new System.Drawing.Point(105, 24);
+      this.triggerYMatrixLabel.Name = "triggerYMatrixLabel";
+      this.triggerYMatrixLabel.Size = new System.Drawing.Size(45, 13);
+      this.triggerYMatrixLabel.TabIndex = 19;
+      this.triggerYMatrixLabel.Text = "Matrix Y";
+      // 
+      // triggerXMatrixUpDown
+      // 
+      this.triggerXMatrixUpDown.Location = new System.Drawing.Point(52, 21);
+      this.triggerXMatrixUpDown.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+      this.triggerXMatrixUpDown.Name = "triggerXMatrixUpDown";
+      this.triggerXMatrixUpDown.Size = new System.Drawing.Size(37, 20);
+      this.triggerXMatrixUpDown.TabIndex = 16;
+      this.triggerXMatrixUpDown.ValueChanged += new System.EventHandler(this.triggerXMatrixUpDown_ValueChanged);
+      // 
+      // triggerXMatrixLabel
+      // 
+      this.triggerXMatrixLabel.AutoSize = true;
+      this.triggerXMatrixLabel.Location = new System.Drawing.Point(6, 24);
+      this.triggerXMatrixLabel.Name = "triggerXMatrixLabel";
+      this.triggerXMatrixLabel.Size = new System.Drawing.Size(45, 13);
+      this.triggerXMatrixLabel.TabIndex = 17;
+      this.triggerXMatrixLabel.Text = "Matrix X";
+      // 
+      // triggerYMatrixUpDown
+      // 
+      this.triggerYMatrixUpDown.Location = new System.Drawing.Point(152, 21);
+      this.triggerYMatrixUpDown.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+      this.triggerYMatrixUpDown.Name = "triggerYMatrixUpDown";
+      this.triggerYMatrixUpDown.Size = new System.Drawing.Size(37, 20);
+      this.triggerYMatrixUpDown.TabIndex = 18;
+      this.triggerYMatrixUpDown.ValueChanged += new System.EventHandler(this.triggerYMatrixUpDown_ValueChanged);
+      // 
       // EventEditor
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1999,6 +2281,20 @@ namespace DSPRE.Editors
       this.groupBox21.ResumeLayout(false);
       this.groupBox21.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.eventAreaDataUpDown)).EndInit();
+      this.groupBox1.ResumeLayout(false);
+      this.groupBox14.ResumeLayout(false);
+      this.groupBox14.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.warpXMatrixUpDown)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.warpYMatrixUpDown)).EndInit();
+      this.groupBox12.ResumeLayout(false);
+      this.groupBox12.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.warpXMapUpDown)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.warpYMapUpDown)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.warpZUpDown)).EndInit();
+      this.groupBox6.ResumeLayout(false);
+      this.groupBox6.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.triggerXMatrixUpDown)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.triggerYMatrixUpDown)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -2020,7 +2316,7 @@ namespace DSPRE.Editors
     private System.Windows.Forms.PictureBox rightClickPicture;
     private System.Windows.Forms.Panel eventPanel;
     private System.Windows.Forms.PictureBox eventPictureBox;
-    private Tao.Platform.Windows.SimpleOpenGlControl eventOpenGlControl;
+    public Tao.Platform.Windows.SimpleOpenGlControl eventOpenGlControl;
     private System.Windows.Forms.TabControl eventsTabControl;
     private System.Windows.Forms.TabPage signsTabPage;
     private System.Windows.Forms.ComboBox spawnableTypeComboBox;
@@ -2075,7 +2371,7 @@ namespace DSPRE.Editors
     private System.Windows.Forms.CheckBox owPartnerTrainerCheckBox;
     private System.Windows.Forms.ComboBox owItemComboBox;
     private System.Windows.Forms.Label owItemLabel;
-    private System.Windows.Forms.ComboBox owTrainerComboBox;
+    public System.Windows.Forms.ComboBox owTrainerComboBox;
     private System.Windows.Forms.Label owSightRangeLabel;
     private System.Windows.Forms.NumericUpDown owSightRangeUpDown;
     private System.Windows.Forms.Label owTrainerLabel;
@@ -2096,7 +2392,7 @@ namespace DSPRE.Editors
     private System.Windows.Forms.Button duplicateWarpsButton;
     private System.Windows.Forms.GroupBox groupBox11;
     private System.Windows.Forms.Label eventEditorHeaderLocationNameLabel;
-    private System.Windows.Forms.ListBox eventEditorWarpHeaderListBox;
+    public System.Windows.Forms.ListBox eventEditorWarpHeaderListBox;
     private System.Windows.Forms.Button destinationWarpGoToButton;
     private System.Windows.Forms.NumericUpDown warpAnchorUpDown;
     private System.Windows.Forms.Label warpAnchorLabel;
@@ -2124,9 +2420,9 @@ namespace DSPRE.Editors
     private System.Windows.Forms.Button removeTriggerButton;
     private System.Windows.Forms.Button addTriggerButton;
     private System.Windows.Forms.ListBox triggersListBox;
-    private System.Windows.Forms.NumericUpDown eventMatrixUpDown;
+    public System.Windows.Forms.NumericUpDown eventMatrixUpDown;
     private System.Windows.Forms.Label backgroundMapLabel;
-    private System.Windows.Forms.ComboBox selectEventComboBox;
+    public System.Windows.Forms.ComboBox selectEventComboBox;
     private System.Windows.Forms.Panel eventMatrixPanel;
     private System.Windows.Forms.PictureBox eventMatrixPictureBox;
     private System.Windows.Forms.Label matrixNavigatorLabel;
@@ -2142,8 +2438,28 @@ namespace DSPRE.Editors
     private System.Windows.Forms.CheckBox showWarpsCheckBox;
     private System.Windows.Forms.CheckBox showOwsCheckBox;
     private System.Windows.Forms.CheckBox showSpawnablesCheckBox;
-    private System.Windows.Forms.NumericUpDown eventAreaDataUpDown;
+    public System.Windows.Forms.NumericUpDown eventAreaDataUpDown;
     private System.Windows.Forms.Label eventMapTextureLabel;
     private System.Windows.Forms.Button locateCurrentEvFile;
+    private System.Windows.Forms.GroupBox groupBox1;
+    private System.Windows.Forms.GroupBox groupBox14;
+    private System.Windows.Forms.Button goToWarpButton;
+    private System.Windows.Forms.Label label9;
+    private System.Windows.Forms.NumericUpDown warpXMatrixUpDown;
+    private System.Windows.Forms.Label label15;
+    private System.Windows.Forms.NumericUpDown warpYMatrixUpDown;
+    private System.Windows.Forms.GroupBox groupBox12;
+    private System.Windows.Forms.NumericUpDown warpXMapUpDown;
+    private System.Windows.Forms.Label label24;
+    private System.Windows.Forms.Label label25;
+    private System.Windows.Forms.NumericUpDown warpYMapUpDown;
+    private System.Windows.Forms.NumericUpDown warpZUpDown;
+    private System.Windows.Forms.Label label16;
+    private System.Windows.Forms.GroupBox groupBox6;
+    private System.Windows.Forms.Button goToTriggerButton;
+    private System.Windows.Forms.Label triggerYMatrixLabel;
+    private System.Windows.Forms.NumericUpDown triggerXMatrixUpDown;
+    private System.Windows.Forms.Label triggerXMatrixLabel;
+    private System.Windows.Forms.NumericUpDown triggerYMatrixUpDown;
   }
 }
