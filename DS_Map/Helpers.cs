@@ -91,7 +91,7 @@ namespace DSPRE {
       #endregion
 
       /* Invalidate drawing surfaces */
-      Program.MainProgram.mapOpenGlControl.Invalidate();
+      Program.MainProgram.mapEditor.mapOpenGlControl.Invalidate();
       Program.MainProgram.eventEditor.eventOpenGlControl.Invalidate();
 
       /* Adjust rendering settings */
@@ -149,7 +149,7 @@ namespace DSPRE {
       Gl.glClearColor(51f / 255f, 51f / 255f, 51f / 255f, 1f);
       float aspect;
       Gl.glViewport(0, 0, width, height);
-      aspect = Program.MainProgram.mapOpenGlControl.Width / Program.MainProgram.mapOpenGlControl.Height; //(vp[2] - vp[0]) / (vp[3] - vp[1]);
+      aspect = Program.MainProgram.mapEditor.mapOpenGlControl.Width / Program.MainProgram.mapEditor.mapOpenGlControl.Height; //(vp[2] - vp[0]) / (vp[3] - vp[1]);
       Gl.glMatrixMode(Gl.GL_PROJECTION);
       Gl.glLoadIdentity();
       Glu.gluPerspective(perspective, aspect, 0.2f, 500.0f); //0.02f, 32.0f);
