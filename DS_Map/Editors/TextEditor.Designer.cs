@@ -526,7 +526,7 @@ namespace DSPRE
     private System.Windows.Forms.Label label6;
     private System.Windows.Forms.Button selectedLineMoveUpButton;
     private System.Windows.Forms.ToolTip toolTip1;
-    private System.Windows.Forms.ComboBox selectTextFileComboBox;
+    public System.Windows.Forms.ComboBox selectTextFileComboBox;
     private System.Windows.Forms.Button locateCurrentTextArchive;
     private System.Windows.Forms.Button saveTextArchiveButton;
     private System.Windows.Forms.Button importTextFileButton;
