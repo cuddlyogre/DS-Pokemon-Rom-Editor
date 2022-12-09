@@ -860,9 +860,9 @@ namespace DSPRE.Editors
 
     #endregion
 
-    private System.Windows.Forms.ComboBox selectScriptFileComboBox;
+    public System.Windows.Forms.ComboBox selectScriptFileComboBox;
     private System.Windows.Forms.Label label5;
-    private System.Windows.Forms.TabControl scriptEditorTabControl;
+    public System.Windows.Forms.TabControl scriptEditorTabControl;
     private System.Windows.Forms.TabPage scriptsTabPage;
     private System.Windows.Forms.Panel PanelSearchScripts;
     private System.Windows.Forms.Button BtnNextSearchScript;
