@@ -2587,7 +2587,6 @@
             // 
             // setSpawnPointButton
             // 
-            this.setSpawnPointButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.setSpawnPointButton.Image = global::DSPRE.Properties.Resources.spawnCoordsMatrixeditorIcon;
             this.setSpawnPointButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.setSpawnPointButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
@@ -2753,9 +2752,6 @@
             // 
             // matrixTabControl
             // 
-            this.matrixTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.matrixTabControl.Controls.Add(this.headersTabPage);
             this.matrixTabControl.Controls.Add(this.heightsTabPage);
             this.matrixTabControl.Controls.Add(this.mapFilesTabPage);
@@ -3034,7 +3030,6 @@
             // 
             // saveMatrixButton
             // 
-            this.saveMatrixButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.saveMatrixButton.Image = global::DSPRE.Properties.Resources.save_rom;
             this.saveMatrixButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.saveMatrixButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
@@ -4341,7 +4336,6 @@
             // 
             // radio3D
             // 
-            this.radio3D.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.radio3D.Appearance = System.Windows.Forms.Appearance.Button;
             this.radio3D.AutoSize = true;
             this.radio3D.Checked = true;
@@ -4357,7 +4351,6 @@
             // 
             // radio2D
             // 
-            this.radio2D.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.radio2D.Appearance = System.Windows.Forms.Appearance.Button;
             this.radio2D.AutoSize = true;
             this.radio2D.ImeMode = System.Windows.Forms.ImeMode.NoControl;
@@ -4372,7 +4365,6 @@
             // 
             // wireframeCheckBox
             // 
-            this.wireframeCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.wireframeCheckBox.Appearance = System.Windows.Forms.Appearance.Button;
             this.wireframeCheckBox.AutoSize = true;
             this.wireframeCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
@@ -6764,8 +6756,6 @@
             // 
             // rightClickPicture
             // 
-            this.rightClickPicture.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.rightClickPicture.Image = global::DSPRE.Properties.Resources.RightClick;
             this.rightClickPicture.ImageLocation = "";
             this.rightClickPicture.Location = new System.Drawing.Point(468, 420);
@@ -6777,8 +6767,6 @@
             // 
             // wheelClickPicture
             // 
-            this.wheelClickPicture.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.wheelClickPicture.Image = global::DSPRE.Properties.Resources.WheelClick;
             this.wheelClickPicture.ImageLocation = "";
             this.wheelClickPicture.Location = new System.Drawing.Point(552, 420);
@@ -6790,8 +6778,6 @@
             // 
             // LeftClickPicture
             // 
-            this.LeftClickPicture.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.LeftClickPicture.Image = global::DSPRE.Properties.Resources.LeftClick;
             this.LeftClickPicture.ImageLocation = "";
             this.LeftClickPicture.Location = new System.Drawing.Point(510, 420);
@@ -7371,7 +7357,6 @@
             // 
             // PanelSearchScripts
             // 
-            this.PanelSearchScripts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.PanelSearchScripts.BackColor = System.Drawing.Color.White;
             this.PanelSearchScripts.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PanelSearchScripts.Controls.Add(this.BtnNextSearchScript);
@@ -7386,7 +7371,6 @@
             // 
             // BtnNextSearchScript
             // 
-            this.BtnNextSearchScript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnNextSearchScript.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnNextSearchScript.ForeColor = System.Drawing.Color.White;
             this.BtnNextSearchScript.Image = global::DSPRE.Properties.Resources.arrowdown;
@@ -7401,7 +7385,6 @@
             // 
             // BtnPrevSearchScript
             // 
-            this.BtnPrevSearchScript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnPrevSearchScript.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnPrevSearchScript.ForeColor = System.Drawing.Color.White;
             this.BtnPrevSearchScript.Image = global::DSPRE.Properties.Resources.arrowup;
@@ -7416,7 +7399,6 @@
             // 
             // BtnCloseSearchScript
             // 
-            this.BtnCloseSearchScript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnCloseSearchScript.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnCloseSearchScript.ForeColor = System.Drawing.Color.White;
             this.BtnCloseSearchScript.Image = global::DSPRE.Properties.Resources.Cross;
@@ -7431,8 +7413,6 @@
             // 
             // panelSearchScriptTextBox
             // 
-            this.panelSearchScriptTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.panelSearchScriptTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.panelSearchScriptTextBox.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelSearchScriptTextBox.Location = new System.Drawing.Point(10, 6);
@@ -7467,7 +7447,6 @@
             // 
             // PanelSearchFunctions
             // 
-            this.PanelSearchFunctions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.PanelSearchFunctions.BackColor = System.Drawing.Color.White;
             this.PanelSearchFunctions.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PanelSearchFunctions.Controls.Add(this.BtnNextSearchFunc);
@@ -7482,7 +7461,6 @@
             // 
             // BtnNextSearchFunc
             // 
-            this.BtnNextSearchFunc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnNextSearchFunc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnNextSearchFunc.ForeColor = System.Drawing.Color.White;
             this.BtnNextSearchFunc.Image = global::DSPRE.Properties.Resources.arrowdown;
@@ -7497,7 +7475,6 @@
             // 
             // BtnPrevSearchFunc
             // 
-            this.BtnPrevSearchFunc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnPrevSearchFunc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnPrevSearchFunc.ForeColor = System.Drawing.Color.White;
             this.BtnPrevSearchFunc.Image = global::DSPRE.Properties.Resources.arrowup;
@@ -7512,7 +7489,6 @@
             // 
             // BtnCloseSearchFunc
             // 
-            this.BtnCloseSearchFunc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnCloseSearchFunc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnCloseSearchFunc.ForeColor = System.Drawing.Color.White;
             this.BtnCloseSearchFunc.Image = global::DSPRE.Properties.Resources.Cross;
@@ -7527,8 +7503,6 @@
             // 
             // panelSearchFunctionTextBox
             // 
-            this.panelSearchFunctionTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.panelSearchFunctionTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.panelSearchFunctionTextBox.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelSearchFunctionTextBox.Location = new System.Drawing.Point(10, 6);
@@ -7563,7 +7537,6 @@
             // 
             // PanelSearchActions
             // 
-            this.PanelSearchActions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.PanelSearchActions.BackColor = System.Drawing.Color.White;
             this.PanelSearchActions.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PanelSearchActions.Controls.Add(this.BtnNextSearchActions);
@@ -7578,7 +7551,6 @@
             // 
             // BtnNextSearchActions
             // 
-            this.BtnNextSearchActions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnNextSearchActions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnNextSearchActions.ForeColor = System.Drawing.Color.White;
             this.BtnNextSearchActions.Image = global::DSPRE.Properties.Resources.arrowdown;
@@ -7593,7 +7565,6 @@
             // 
             // BtnPrevSearchActions
             // 
-            this.BtnPrevSearchActions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnPrevSearchActions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnPrevSearchActions.ForeColor = System.Drawing.Color.White;
             this.BtnPrevSearchActions.Image = global::DSPRE.Properties.Resources.arrowup;
@@ -7608,7 +7579,6 @@
             // 
             // BtnCloseSearchActions
             // 
-            this.BtnCloseSearchActions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnCloseSearchActions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnCloseSearchActions.ForeColor = System.Drawing.Color.White;
             this.BtnCloseSearchActions.Image = global::DSPRE.Properties.Resources.Cross;
@@ -7623,8 +7593,6 @@
             // 
             // panelSearchActionTextBox
             // 
-            this.panelSearchActionTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.panelSearchActionTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.panelSearchActionTextBox.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panelSearchActionTextBox.Location = new System.Drawing.Point(10, 6);
