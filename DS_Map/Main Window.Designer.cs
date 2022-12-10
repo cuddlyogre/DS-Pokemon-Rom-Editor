@@ -31,6 +31,7 @@
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainProgram));
       this.mainTabControl = new System.Windows.Forms.TabControl();
       this.headerEditorTabPage = new System.Windows.Forms.TabPage();
+      this.headerEditor = new DSPRE.Editors.HeaderEditor();
       this.matrixEditorTabPage = new System.Windows.Forms.TabPage();
       this.matrixEditor = new DSPRE.Editors.MatrixEditor();
       this.mapEditorTabPage = new System.Windows.Forms.TabPage();
@@ -119,7 +120,6 @@
       this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
       this.directoryEntry1 = new System.DirectoryServices.DirectoryEntry();
       this.directoryEntry2 = new System.DirectoryServices.DirectoryEntry();
-      this.headerEditor = new DSPRE.Editors.HeaderEditor();
       this.mainTabControl.SuspendLayout();
       this.headerEditorTabPage.SuspendLayout();
       this.matrixEditorTabPage.SuspendLayout();
@@ -170,6 +170,13 @@
       this.headerEditorTabPage.Size = new System.Drawing.Size(1185, 619);
       this.headerEditorTabPage.TabIndex = 0;
       this.headerEditorTabPage.Text = "Header Editor";
+      // 
+      // headerEditor
+      // 
+      this.headerEditor.Location = new System.Drawing.Point(7, 7);
+      this.headerEditor.Name = "headerEditor";
+      this.headerEditor.Size = new System.Drawing.Size(1164, 599);
+      this.headerEditor.TabIndex = 0;
       // 
       // matrixEditorTabPage
       // 
