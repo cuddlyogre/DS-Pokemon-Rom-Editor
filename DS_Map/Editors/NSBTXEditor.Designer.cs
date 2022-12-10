@@ -600,11 +600,11 @@ namespace DSPRE.Editors
 
     #endregion
 
-    private System.Windows.Forms.ListBox texturePacksListBox;
-    private System.Windows.Forms.RadioButton mapTilesetRadioButton;
+    public System.Windows.Forms.ListBox texturePacksListBox;
+    public System.Windows.Forms.RadioButton mapTilesetRadioButton;
     private System.Windows.Forms.RadioButton buildingsTilesetRadioButton;
-    private System.Windows.Forms.ListBox texturesListBox;
-    private System.Windows.Forms.ListBox palettesListBox;
+    public System.Windows.Forms.ListBox texturesListBox;
+    public System.Windows.Forms.ListBox palettesListBox;
     private System.Windows.Forms.Label texturesLabel;
     private System.Windows.Forms.Label palettesLabel;
     private OffsetPictureBox texturePictureBox;
@@ -626,10 +626,10 @@ namespace DSPRE.Editors
     private System.Windows.Forms.Label label34;
     private System.Windows.Forms.ComboBox areaDataLightTypeComboBox;
     private System.Windows.Forms.Label label33;
-    private System.Windows.Forms.NumericUpDown areaDataMapTilesetUpDown;
+    public System.Windows.Forms.NumericUpDown areaDataMapTilesetUpDown;
     private System.Windows.Forms.Label label32;
-    private System.Windows.Forms.NumericUpDown areaDataBuildingTilesetUpDown;
-    private System.Windows.Forms.ListBox selectAreaDataListBox;
+    public System.Windows.Forms.NumericUpDown areaDataBuildingTilesetUpDown;
+    public System.Windows.Forms.ListBox selectAreaDataListBox;
     private System.Windows.Forms.Button removeNSBTXButton;
     private System.Windows.Forms.Button locateCurrentNsbtx;
     private System.Windows.Forms.TableLayoutPanel tableLayoutPanel37;
