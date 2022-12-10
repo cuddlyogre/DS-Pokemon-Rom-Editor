@@ -262,8 +262,8 @@ namespace DSPRE.Editors {
       trainerComboBox.Items[trainerComboBox.SelectedIndex] = editedTrainer;
       Helpers.disableHandlers = false;
 
-      if (Program.MainProgram.eventEditor.eventEditorIsReady) {
-        Program.MainProgram.eventEditor.owTrainerComboBox.Items[trainerComboBox.SelectedIndex] = editedTrainer;
+      if (EditorPanels.eventEditor.eventEditorIsReady) {
+        EditorPanels.eventEditor.owTrainerComboBox.Items[trainerComboBox.SelectedIndex] = editedTrainer;
       }
     }
 
@@ -493,11 +493,11 @@ namespace DSPRE.Editors {
       Helpers.disableHandlers = false;
 
       //trainerClassListBox_SelectedIndexChanged(null, null);
-      if (gameFamily.Equals(gFamEnum.HGSS) && Program.MainProgram.tableEditor.tableEditorIsReady) {
-        Program.MainProgram.tableEditor.pbEffectsTrainerCombobox.Items[selectedTrClass] = trainerClassListBox.Items[selectedTrClass];
-        for (int i = 0; i < Program.MainProgram.tableEditor.vsTrainerEffectsList.Count; i++) {
-          if (Program.MainProgram.tableEditor.vsTrainerEffectsList[i].trainerClass == selectedTrClass) {
-            Program.MainProgram.tableEditor.pbEffectsVsTrainerListbox.Items[i] = Program.MainProgram.tableEditor.pbEffectsTrainerCombobox.Items[selectedTrClass] + " uses Combo #" + Program.MainProgram.tableEditor.vsTrainerEffectsList[i].comboID;
+      if (gameFamily.Equals(gFamEnum.HGSS) && EditorPanels.tableEditor.tableEditorIsReady) {
+        EditorPanels.tableEditor.pbEffectsTrainerCombobox.Items[selectedTrClass] = trainerClassListBox.Items[selectedTrClass];
+        for (int i = 0; i < EditorPanels.tableEditor.vsTrainerEffectsList.Count; i++) {
+          if (EditorPanels.tableEditor.vsTrainerEffectsList[i].trainerClass == selectedTrClass) {
+            EditorPanels.tableEditor.pbEffectsVsTrainerListbox.Items[i] = EditorPanels.tableEditor.pbEffectsTrainerCombobox.Items[selectedTrClass] + " uses Combo #" + EditorPanels.tableEditor.vsTrainerEffectsList[i].comboID;
           }
         }
       }

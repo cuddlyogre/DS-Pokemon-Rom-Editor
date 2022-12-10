@@ -15,14 +15,20 @@ using ScintillaNET;
 using ScintillaNET.Utils;
 
 namespace DSPRE {
-  public class Helpers {
+  public static class Helpers {
+    static MainProgram MainProgram;
+
     public static bool disableHandlers = false;
     public static RomInfo romInfo;
     public static bool hideBuildings = new bool();
-    public static ToolStripProgressBar toolStripProgressBar { get { return Helpers.toolStripProgressBar; } }
+    public static ToolStripProgressBar toolStripProgressBar { get { return MainProgram.toolStripProgressBar; } }
+
+    public static void Initialize(MainProgram mainProgram) {
+      MainProgram = mainProgram;
+    }
 
     public static void statusLabelMessage(string msg = "Ready") {
-      ToolStripStatusLabel statusLabel = Program.MainProgram.statusLabel;
+      ToolStripStatusLabel statusLabel = MainProgram.statusLabel;
       statusLabel.Text = msg;
       statusLabel.Font = new Font(statusLabel.Font, FontStyle.Regular);
       statusLabel.ForeColor = Color.Black;
@@ -30,7 +36,7 @@ namespace DSPRE {
     }
 
     public static void statusLabelError(string errorMsg, bool severe = true) {
-      ToolStripStatusLabel statusLabel = Program.MainProgram.statusLabel;
+      ToolStripStatusLabel statusLabel = MainProgram.statusLabel;
       statusLabel.Text = errorMsg;
       statusLabel.Font = new Font(statusLabel.Font, FontStyle.Bold);
       statusLabel.ForeColor = severe ? Color.Red : Color.DarkOrange;
@@ -96,8 +102,8 @@ namespace DSPRE {
       #endregion
 
       /* Invalidate drawing surfaces */
-      Program.MainProgram.mapEditor.mapOpenGlControl.Invalidate();
-      Program.MainProgram.eventEditor.eventOpenGlControl.Invalidate();
+      EditorPanels.mapEditor.mapOpenGlControl.Invalidate();
+      EditorPanels.eventEditor.eventOpenGlControl.Invalidate();
 
       /* Adjust rendering settings */
       SetupRenderer(ang, dist, elev, perspective, width, height);
@@ -154,7 +160,7 @@ namespace DSPRE {
       Gl.glClearColor(51f / 255f, 51f / 255f, 51f / 255f, 1f);
       float aspect;
       Gl.glViewport(0, 0, width, height);
-      aspect = Program.MainProgram.mapEditor.mapOpenGlControl.Width / Program.MainProgram.mapEditor.mapOpenGlControl.Height; //(vp[2] - vp[0]) / (vp[3] - vp[1]);
+      aspect = EditorPanels.mapEditor.mapOpenGlControl.Width / EditorPanels.mapEditor.mapOpenGlControl.Height; //(vp[2] - vp[0]) / (vp[3] - vp[1]);
       Gl.glMatrixMode(Gl.GL_PROJECTION);
       Gl.glLoadIdentity();
       Glu.gluPerspective(perspective, aspect, 0.2f, 500.0f); //0.02f, 32.0f);

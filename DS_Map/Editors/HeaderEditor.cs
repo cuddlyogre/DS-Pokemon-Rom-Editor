@@ -90,8 +90,8 @@ namespace DSPRE.Editors {
       }
 
       /*Add list of options to each control */
-      Program.MainProgram.textEditor.currentTextArchive = new TextArchive(RomInfo.locationNamesTextNumber);
-      Program.MainProgram.textEditor.ReloadHeaderEditorLocationsList(Program.MainProgram.textEditor.currentTextArchive.messages);
+      EditorPanels.textEditor.currentTextArchive = new TextArchive(RomInfo.locationNamesTextNumber);
+      EditorPanels.textEditor.ReloadHeaderEditorLocationsList(EditorPanels.textEditor.currentTextArchive.messages);
 
       switch (RomInfo.gameFamily) {
         case gFamEnum.DP:
@@ -462,8 +462,8 @@ namespace DSPRE.Editors {
     private void updateHeaderNameShown(int thisIndex) {
       Helpers.disableHandlers = true;
       string val = (string)(headerListBox.Items[thisIndex] = headerListBoxNames[currentHeader.ID]);
-      if (Program.MainProgram.eventEditor.eventEditorIsReady) {
-        Program.MainProgram.eventEditor.eventEditorWarpHeaderListBox.Items[thisIndex] = val;
+      if (EditorPanels.eventEditor.eventEditorIsReady) {
+        EditorPanels.eventEditor.eventEditorWarpHeaderListBox.Items[thisIndex] = val;
       }
 
       Helpers.disableHandlers = false;
@@ -489,8 +489,8 @@ namespace DSPRE.Editors {
       string elem = headerID.ToString("D3") + MapHeader.nameSeparator + internalNames[headerID];
       headerListBoxNames[headerID] = elem;
 
-      if (Program.MainProgram.eventEditor.eventEditorIsReady) {
-        Program.MainProgram.eventEditor.eventEditorWarpHeaderListBox.Items[headerID] = elem;
+      if (EditorPanels.eventEditor.eventEditorIsReady) {
+        EditorPanels.eventEditor.eventEditorWarpHeaderListBox.Items[headerID] = elem;
       }
     }
 
@@ -553,26 +553,26 @@ namespace DSPRE.Editors {
     }
 
     private void openLevelScriptButton_Click(object sender, EventArgs e) {
-      if (!Program.MainProgram.scriptEditor.scriptEditorIsReady) {
-        Program.MainProgram.scriptEditor.SetupScriptEditorTextAreas();
-        Program.MainProgram.scriptEditor.SetupScriptEditor();
-        Program.MainProgram.scriptEditor.scriptEditorIsReady = true;
+      if (!EditorPanels.scriptEditor.scriptEditorIsReady) {
+        EditorPanels.scriptEditor.SetupScriptEditorTextAreas();
+        EditorPanels.scriptEditor.SetupScriptEditor();
+        EditorPanels.scriptEditor.scriptEditorIsReady = true;
       }
 
-      Program.MainProgram.scriptEditor.selectScriptFileComboBox.SelectedIndex = (int)levelScriptUpDown.Value;
-      Program.MainProgram.mainTabControl.SelectedTab = Program.MainProgram.scriptEditorTabPage;
+      EditorPanels.scriptEditor.selectScriptFileComboBox.SelectedIndex = (int)levelScriptUpDown.Value;
+      EditorPanels.mainTabControl.SelectedTab = EditorPanels.scriptEditorTabPage;
     }
 
     private void openScriptButton_Click(object sender, EventArgs e) {
-      if (!Program.MainProgram.scriptEditor.scriptEditorIsReady) {
-        Program.MainProgram.scriptEditor.SetupScriptEditorTextAreas();
-        Program.MainProgram.scriptEditor.SetupScriptEditor();
-        Program.MainProgram.scriptEditor.scriptEditorIsReady = true;
+      if (!EditorPanels.scriptEditor.scriptEditorIsReady) {
+        EditorPanels.scriptEditor.SetupScriptEditorTextAreas();
+        EditorPanels.scriptEditor.SetupScriptEditor();
+        EditorPanels.scriptEditor.scriptEditorIsReady = true;
       }
 
-      Program.MainProgram.scriptEditor.scriptEditorTabControl.SelectedIndex = 0;
-      Program.MainProgram.scriptEditor.selectScriptFileComboBox.SelectedIndex = (int)scriptFileUpDown.Value;
-      Program.MainProgram.mainTabControl.SelectedTab = Program.MainProgram.scriptEditorTabPage;
+      EditorPanels.scriptEditor.scriptEditorTabControl.SelectedIndex = 0;
+      EditorPanels.scriptEditor.selectScriptFileComboBox.SelectedIndex = (int)scriptFileUpDown.Value;
+      EditorPanels.mainTabControl.SelectedTab = EditorPanels.scriptEditorTabPage;
     }
 
     private void scriptFileUpDown_ValueChanged(object sender, EventArgs e) {
@@ -1014,19 +1014,19 @@ namespace DSPRE.Editors {
     }
 
     private void openAreaDataButton_Click(object sender, EventArgs e) {
-      if (!Program.MainProgram.nsbtxEditor.nsbtxEditorIsReady) {
-        Program.MainProgram.nsbtxEditor.SetupNSBTXEditor();
-        Program.MainProgram.nsbtxEditor.nsbtxEditorIsReady = true;
+      if (!EditorPanels.nsbtxEditor.nsbtxEditorIsReady) {
+        EditorPanels.nsbtxEditor.SetupNSBTXEditor();
+        EditorPanels.nsbtxEditor.nsbtxEditorIsReady = true;
       }
 
-      Program.MainProgram.nsbtxEditor.selectAreaDataListBox.SelectedIndex = (int)areaDataUpDown.Value;
-      Program.MainProgram.nsbtxEditor.texturePacksListBox.SelectedIndex = (Program.MainProgram.nsbtxEditor.mapTilesetRadioButton.Checked ? (int)Program.MainProgram.nsbtxEditor.areaDataMapTilesetUpDown.Value : (int)Program.MainProgram.nsbtxEditor.areaDataBuildingTilesetUpDown.Value);
-      Program.MainProgram.mainTabControl.SelectedTab = Program.MainProgram.nsbtxEditorTabPage;
+      EditorPanels.nsbtxEditor.selectAreaDataListBox.SelectedIndex = (int)areaDataUpDown.Value;
+      EditorPanels.nsbtxEditor.texturePacksListBox.SelectedIndex = (EditorPanels.nsbtxEditor.mapTilesetRadioButton.Checked ? (int)EditorPanels.nsbtxEditor.areaDataMapTilesetUpDown.Value : (int)EditorPanels.nsbtxEditor.areaDataBuildingTilesetUpDown.Value);
+      EditorPanels.mainTabControl.SelectedTab = EditorPanels.nsbtxEditorTabPage;
 
-      if (Program.MainProgram.nsbtxEditor.texturesListBox.Items.Count > 0)
-        Program.MainProgram.nsbtxEditor.texturesListBox.SelectedIndex = 0;
-      if (Program.MainProgram.nsbtxEditor.palettesListBox.Items.Count > 0)
-        Program.MainProgram.nsbtxEditor.palettesListBox.SelectedIndex = 0;
+      if (EditorPanels.nsbtxEditor.texturesListBox.Items.Count > 0)
+        EditorPanels.nsbtxEditor.texturesListBox.SelectedIndex = 0;
+      if (EditorPanels.nsbtxEditor.palettesListBox.Items.Count > 0)
+        EditorPanels.nsbtxEditor.palettesListBox.SelectedIndex = 0;
     }
 
     private void copyMatrixButton_Click(object sender, EventArgs e) {
@@ -1036,23 +1036,23 @@ namespace DSPRE.Editors {
     }
 
     private void openMatrixButton_Click(object sender, EventArgs e) {
-      if (!Program.MainProgram.matrixEditor.matrixEditorIsReady) {
-        Program.MainProgram.matrixEditor.SetupMatrixEditor();
-        Program.MainProgram.matrixEditor.matrixEditorIsReady = true;
+      if (!EditorPanels.matrixEditor.matrixEditorIsReady) {
+        EditorPanels.matrixEditor.SetupMatrixEditor();
+        EditorPanels.matrixEditor.matrixEditorIsReady = true;
       }
 
-      Program.MainProgram.mainTabControl.SelectedTab = Program.MainProgram.matrixEditorTabPage;
+      EditorPanels.mainTabControl.SelectedTab = EditorPanels.matrixEditorTabPage;
       int matrixNumber = (int)matrixUpDown.Value;
-      Program.MainProgram.matrixEditor.selectMatrixComboBox.SelectedIndex = matrixNumber;
+      EditorPanels.matrixEditor.selectMatrixComboBox.SelectedIndex = matrixNumber;
 
-      if (Program.MainProgram.matrixEditor.currentMatrix.hasHeadersSection) {
-        Program.MainProgram.matrixEditor.matrixTabControl.SelectedTab = Program.MainProgram.matrixEditor.headersTabPage;
+      if (EditorPanels.matrixEditor.currentMatrix.hasHeadersSection) {
+        EditorPanels.matrixEditor.matrixTabControl.SelectedTab = EditorPanels.matrixEditor.headersTabPage;
 
         //Autoselect cell containing current header, if such cell exists [and if current matrix has headers sections]
-        for (int i = 0; i < Program.MainProgram.matrixEditor.headersGridView.RowCount; i++) {
-          for (int j = 0; j < Program.MainProgram.matrixEditor.headersGridView.ColumnCount; j++) {
-            if (currentHeader.ID.ToString() == Program.MainProgram.matrixEditor.headersGridView.Rows[i].Cells[j].Value.ToString()) {
-              Program.MainProgram.matrixEditor.headersGridView.CurrentCell = Program.MainProgram.matrixEditor.headersGridView.Rows[i].Cells[j];
+        for (int i = 0; i < EditorPanels.matrixEditor.headersGridView.RowCount; i++) {
+          for (int j = 0; j < EditorPanels.matrixEditor.headersGridView.ColumnCount; j++) {
+            if (currentHeader.ID.ToString() == EditorPanels.matrixEditor.headersGridView.Rows[i].Cells[j].Value.ToString()) {
+              EditorPanels.matrixEditor.headersGridView.CurrentCell = EditorPanels.matrixEditor.headersGridView.Rows[i].Cells[j];
               return;
             }
           }
@@ -1081,13 +1081,13 @@ namespace DSPRE.Editors {
     }
 
     private void openTextArchiveButton_Click(object sender, EventArgs e) {
-      if (!Program.MainProgram.textEditor.textEditorIsReady) {
-        Program.MainProgram.textEditor.SetupTextEditor();
-        Program.MainProgram.textEditor.textEditorIsReady = true;
+      if (!EditorPanels.textEditor.textEditorIsReady) {
+        EditorPanels.textEditor.SetupTextEditor();
+        EditorPanels.textEditor.textEditorIsReady = true;
       }
 
-      Program.MainProgram.textEditor.selectTextFileComboBox.SelectedIndex = (int)textFileUpDown.Value;
-      Program.MainProgram.mainTabControl.SelectedTab = Program.MainProgram.textEditorTabPage;
+      EditorPanels.textEditor.selectTextFileComboBox.SelectedIndex = (int)textFileUpDown.Value;
+      EditorPanels.mainTabControl.SelectedTab = EditorPanels.textEditorTabPage;
     }
 
     private void copyTextsButton_Click(object sender, EventArgs e) {
@@ -1115,20 +1115,20 @@ namespace DSPRE.Editors {
     }
 
     private void openEventsButton_Click(object sender, EventArgs e) {
-      if (!Program.MainProgram.eventEditor.eventEditorIsReady) {
-        Program.MainProgram.eventEditor.SetupEventEditor();
-        Program.MainProgram.eventEditor.eventEditorIsReady = true;
+      if (!EditorPanels.eventEditor.eventEditorIsReady) {
+        EditorPanels.eventEditor.SetupEventEditor();
+        EditorPanels.eventEditor.eventEditorIsReady = true;
       }
 
       if (matrixUpDown.Value != 0) {
-        Program.MainProgram.eventEditor.eventAreaDataUpDown.Value = areaDataUpDown.Value; // Use Area Data for textures if matrix is not 0
+        EditorPanels.eventEditor.eventAreaDataUpDown.Value = areaDataUpDown.Value; // Use Area Data for textures if matrix is not 0
       }
 
-      Program.MainProgram.eventEditor.eventMatrixUpDown.Value = matrixUpDown.Value; // Open the right matrix in event editor
-      Program.MainProgram.eventEditor.selectEventComboBox.SelectedIndex = (int)eventFileUpDown.Value; // Select event file
-      Program.MainProgram.mainTabControl.SelectedTab = Program.MainProgram.eventEditorTabPage;
+      EditorPanels.eventEditor.eventMatrixUpDown.Value = matrixUpDown.Value; // Open the right matrix in event editor
+      EditorPanels.eventEditor.selectEventComboBox.SelectedIndex = (int)eventFileUpDown.Value; // Select event file
+      EditorPanels.mainTabControl.SelectedTab = EditorPanels.eventEditorTabPage;
 
-      Program.MainProgram.eventEditor.eventMatrixUpDown_ValueChanged(null, null);
+      EditorPanels.eventEditor.eventMatrixUpDown_ValueChanged(null, null);
     }
 
     private void eventFileUpDown_ValueChanged(object sender, EventArgs e) {

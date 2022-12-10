@@ -250,7 +250,7 @@ namespace DSPRE.Editors {
       currentMatrix.SaveToFileDefaultDir(selectMatrixComboBox.SelectedIndex);
       GameMatrix saved = new GameMatrix(selectMatrixComboBox.SelectedIndex);
       selectMatrixComboBox.Items[selectMatrixComboBox.SelectedIndex] = saved.ToString();
-      Program.MainProgram.eventEditor.eventMatrix = saved;
+      EditorPanels.eventEditor.eventMatrix = saved;
     }
 
     private void selectMatrixComboBox_SelectedIndexChanged(object sender, EventArgs e) {
@@ -394,14 +394,14 @@ namespace DSPRE.Editors {
     }
 
     private void headersGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e) {
-      if (Program.MainProgram.headerEditor.headerListBox.Items.Count < Program.MainProgram.headerEditor.internalNames.Count) {
-        HeaderSearch.ResetResults(Program.MainProgram.headerEditor.headerListBox, Program.MainProgram.headerEditor.headerListBoxNames, prependNumbers: false);
+      if (EditorPanels.headerEditor.headerListBox.Items.Count < EditorPanels.headerEditor.internalNames.Count) {
+        HeaderSearch.ResetResults(EditorPanels.headerEditor.headerListBox, EditorPanels.headerEditor.headerListBoxNames, prependNumbers: false);
       }
 
       if (e.RowIndex >= 0 && e.ColumnIndex >= 0) {
         int headerNumber = Convert.ToInt32(headersGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
-        Program.MainProgram.headerEditor.headerListBox.SelectedIndex = headerNumber;
-        Program.MainProgram.mainTabControl.SelectedTab = Program.MainProgram.headerEditorTabPage;
+        EditorPanels.headerEditor.headerListBox.SelectedIndex = headerNumber;
+        EditorPanels.mainTabControl.SelectedTab = EditorPanels.headerEditorTabPage;
       }
     }
 
@@ -501,9 +501,9 @@ namespace DSPRE.Editors {
           return;
         }
 
-        if (!Program.MainProgram.mapEditor.mapEditorIsReady) {
-          Program.MainProgram.mapEditor.SetupMapEditor();
-          Program.MainProgram.mapEditor.mapEditorIsReady = true;
+        if (!EditorPanels.mapEditor.mapEditorIsReady) {
+          EditorPanels.mapEditor.SetupMapEditor();
+          EditorPanels.mapEditor.mapEditorIsReady = true;
         }
 
         int mapCount = Helpers.romInfo.GetMapCount();
@@ -519,18 +519,18 @@ namespace DSPRE.Editors {
           headerID = currentMatrix.headers[e.RowIndex, e.ColumnIndex];
         }
         else {
-          ushort[] result = HeaderSearch.AdvancedSearch(0, (ushort)Program.MainProgram.headerEditor.internalNames.Count, Program.MainProgram.headerEditor.internalNames, (int)MapHeader.SearchableFields.MatrixID, (int)HeaderSearch.NumOperators.Equal, selectMatrixComboBox.SelectedIndex.ToString())
+          ushort[] result = HeaderSearch.AdvancedSearch(0, (ushort)EditorPanels.headerEditor.internalNames.Count, EditorPanels.headerEditor.internalNames, (int)MapHeader.SearchableFields.MatrixID, (int)HeaderSearch.NumOperators.Equal, selectMatrixComboBox.SelectedIndex.ToString())
             .Select(x => ushort.Parse(x.Split()[0]))
             .ToArray();
 
           if (result.Length < 1) {
-            headerID = Program.MainProgram.headerEditor.currentHeader.ID;
+            headerID = EditorPanels.headerEditor.currentHeader.ID;
             Helpers.statusLabelMessage("This Matrix is not linked to any Header. DSPRE can't determine the most appropriate AreaData (and textures) to use.\nDisplaying Textures from the last selected Header (" + headerID + ")'s AreaData...");
           }
           else {
             if (result.Length > 1) {
-              if (result.Contains(Program.MainProgram.headerEditor.currentHeader.ID)) {
-                headerID = Program.MainProgram.headerEditor.currentHeader.ID;
+              if (result.Contains(EditorPanels.headerEditor.currentHeader.ID)) {
+                headerID = EditorPanels.headerEditor.currentHeader.ID;
 
                 Helpers.statusLabelMessage("Multiple Headers are associated to this Matrix, including the last selected one [Header " + headerID + "]. Now using its textures.");
               }
@@ -597,7 +597,7 @@ namespace DSPRE.Editors {
 
         Update();
 
-        if (headerID > Program.MainProgram.headerEditor.internalNames.Count) {
+        if (headerID > EditorPanels.headerEditor.internalNames.Count) {
           MessageBox.Show("This map is associated to a non-existent header.\nThis will lead to unpredictable behaviour and, possibily, problems, if you attempt to load it in game.",
             "Invalid header", MessageBoxButtons.OK, MessageBoxIcon.Information);
           headerID = 0;
@@ -616,20 +616,20 @@ namespace DSPRE.Editors {
         Helpers.disableHandlers = true;
 
         AreaData areaData = new AreaData(h.areaDataID);
-        Program.MainProgram.mapEditor.selectMapComboBox.SelectedIndex = currentMatrix.maps[e.RowIndex, e.ColumnIndex];
-        Program.MainProgram.mapEditor.mapTextureComboBox.SelectedIndex = areaData.mapTileset + 1;
-        Program.MainProgram.mapEditor.buildTextureComboBox.SelectedIndex = areaData.buildingsTileset + 1;
-        Program.MainProgram.mainTabControl.SelectedTab = Program.MainProgram.mapEditorTabPage;
+        EditorPanels.mapEditor.selectMapComboBox.SelectedIndex = currentMatrix.maps[e.RowIndex, e.ColumnIndex];
+        EditorPanels.mapEditor.mapTextureComboBox.SelectedIndex = areaData.mapTileset + 1;
+        EditorPanels.mapEditor.buildTextureComboBox.SelectedIndex = areaData.buildingsTileset + 1;
+        EditorPanels.mainTabControl.SelectedTab = EditorPanels.mapEditorTabPage;
 
         if (areaData.areaType == AreaData.TYPE_INDOOR) {
-          Program.MainProgram.mapEditor.interiorbldRadioButton.Checked = true;
+          EditorPanels.mapEditor.interiorbldRadioButton.Checked = true;
         }
         else {
-          Program.MainProgram.mapEditor.exteriorbldRadioButton.Checked = true;
+          EditorPanels.mapEditor.exteriorbldRadioButton.Checked = true;
         }
 
         Helpers.disableHandlers = false;
-        Program.MainProgram.mapEditor.selectMapComboBox_SelectedIndexChanged(null, null);
+        EditorPanels.mapEditor.selectMapComboBox_SelectedIndexChanged(null, null);
       }
     }
 
@@ -711,8 +711,8 @@ namespace DSPRE.Editors {
       selectMatrixComboBox.Items.Add(selectMatrixComboBox.Items.Count.ToString() + blankMatrix);
       selectMatrixComboBox.SelectedIndex = selectMatrixComboBox.Items.Count - 1;
 
-      if (Program.MainProgram.eventEditor.eventEditorIsReady) {
-        Program.MainProgram.eventEditor.eventMatrixUpDown.Maximum++;
+      if (EditorPanels.eventEditor.eventEditorIsReady) {
+        EditorPanels.eventEditor.eventMatrixUpDown.Maximum++;
       }
     }
 
@@ -731,8 +731,8 @@ namespace DSPRE.Editors {
             selectMatrixComboBox.SelectedIndex--;
           }
 
-          if (Program.MainProgram.eventEditor.eventEditorIsReady) {
-            Program.MainProgram.eventEditor.eventMatrixUpDown.Maximum--;
+          if (EditorPanels.eventEditor.eventEditorIsReady) {
+            EditorPanels.eventEditor.eventMatrixUpDown.Maximum--;
           }
 
           /* Remove entry from ComboBox, and decrease matrix count */
@@ -832,10 +832,10 @@ namespace DSPRE.Editors {
                             Environment.NewLine + "Do you want to check if any Header uses this Matrix and choose that one as your Spawn Header? " +
                             Environment.NewLine + "\nChoosing 'No' will pick the last selected Header.", "Couldn't find Header Tab", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
         if (d == DialogResult.Yes) {
-          result = HeaderSearch.AdvancedSearch(0, (ushort)Program.MainProgram.headerEditor.internalNames.Count, Program.MainProgram.headerEditor.internalNames, (int)MapHeader.SearchableFields.MatrixID, (int)HeaderSearch.NumOperators.Equal, selectMatrixComboBox.SelectedIndex.ToString());
+          result = HeaderSearch.AdvancedSearch(0, (ushort)EditorPanels.headerEditor.internalNames.Count, EditorPanels.headerEditor.internalNames, (int)MapHeader.SearchableFields.MatrixID, (int)HeaderSearch.NumOperators.Equal, selectMatrixComboBox.SelectedIndex.ToString());
           if (result.Count < 1) {
             MessageBox.Show("The current Matrix isn't assigned to any Header.\nThe default choice has been set to the last selected Header.", "No result", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            headerNumber = Program.MainProgram.headerEditor.currentHeader.ID;
+            headerNumber = EditorPanels.headerEditor.currentHeader.ID;
           }
           else if (result.Count == 1) {
             headerNumber = ushort.Parse(result.First().Split()[0]);
@@ -845,14 +845,14 @@ namespace DSPRE.Editors {
           }
         }
         else {
-          headerNumber = Program.MainProgram.headerEditor.currentHeader.ID;
+          headerNumber = EditorPanels.headerEditor.currentHeader.ID;
         }
       }
 
       int matrixX = selectedCell.ColumnIndex;
       int matrixY = selectedCell.RowIndex;
 
-      using (SpawnEditor ed = new SpawnEditor(result, Program.MainProgram.headerEditor.headerListBoxNames, headerNumber, matrixX, matrixY)) {
+      using (SpawnEditor ed = new SpawnEditor(result, EditorPanels.headerEditor.headerListBoxNames, headerNumber, matrixX, matrixY)) {
         ed.ShowDialog();
       }
     }

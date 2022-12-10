@@ -304,16 +304,16 @@ namespace DSPRE.Editors {
       if (mapTilesetRadioButton.Checked) {
         File.Copy(RomInfo.gameDirs[DirNames.mapTextures].unpackedDir + "\\" + 0.ToString("D4"), RomInfo.gameDirs[DirNames.mapTextures].unpackedDir + "\\" + texturePacksListBox.Items.Count.ToString("D4"));
 
-        if (Program.MainProgram.mapEditor.mapEditorIsReady) {
-          Program.MainProgram.mapEditor.mapTextureComboBox.Items.Add("Map Texture Pack [" + Program.MainProgram.mapEditor.mapTextureComboBox.Items.Count.ToString("D2") + "]");
+        if (EditorPanels.mapEditor.mapEditorIsReady) {
+          EditorPanels.mapEditor.mapTextureComboBox.Items.Add("Map Texture Pack [" + EditorPanels.mapEditor.mapTextureComboBox.Items.Count.ToString("D2") + "]");
         }
       }
       else {
         File.Copy(RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir + "\\" + 0.ToString("D4"), RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir + "\\" + texturePacksListBox.Items.Count.ToString("D4"));
         File.Copy(RomInfo.gameDirs[DirNames.buildingConfigFiles].unpackedDir + "\\" + 0.ToString("D4"), RomInfo.gameDirs[DirNames.buildingConfigFiles].unpackedDir + "\\" + texturePacksListBox.Items.Count.ToString("D4"));
 
-        if (Program.MainProgram.mapEditor.mapEditorIsReady) {
-          Program.MainProgram.mapEditor.buildTextureComboBox.Items.Add("Building Texture Pack [" + Program.MainProgram.mapEditor.buildTextureComboBox.Items.Count.ToString("D2") + "]");
+        if (EditorPanels.mapEditor.mapEditorIsReady) {
+          EditorPanels.mapEditor.buildTextureComboBox.Items.Add("Building Texture Pack [" + EditorPanels.mapEditor.buildTextureComboBox.Items.Count.ToString("D2") + "]");
         }
       }
 
@@ -372,8 +372,8 @@ namespace DSPRE.Editors {
         /* Remove item from ComboBox */
         selectAreaDataListBox.Items.RemoveAt(lastIndex);
 
-        if (Program.MainProgram.eventEditor.eventEditorIsReady) {
-          Program.MainProgram.eventEditor.eventAreaDataUpDown.Maximum--;
+        if (EditorPanels.eventEditor.eventEditorIsReady) {
+          EditorPanels.eventEditor.eventAreaDataUpDown.Maximum--;
         }
       }
       else {
@@ -391,8 +391,8 @@ namespace DSPRE.Editors {
       selectAreaDataListBox.Items.Add("AreaData File " + selectAreaDataListBox.Items.Count);
       selectAreaDataListBox.SelectedIndex = selectAreaDataListBox.Items.Count - 1;
 
-      if (Program.MainProgram.eventEditor.eventEditorIsReady) {
-        Program.MainProgram.eventEditor.eventAreaDataUpDown.Maximum++;
+      if (EditorPanels.eventEditor.eventEditorIsReady) {
+        EditorPanels.eventEditor.eventAreaDataUpDown.Maximum++;
       }
     }
 
@@ -466,16 +466,16 @@ namespace DSPRE.Editors {
           if (mapTilesetRadioButton.Checked) {
             File.Delete(RomInfo.gameDirs[DirNames.mapTextures].unpackedDir + "\\" + (texturePacksListBox.Items.Count - 1).ToString("D4"));
 
-            if (Program.MainProgram.mapEditor.mapEditorIsReady) {
-              Program.MainProgram.mapEditor.mapTextureComboBox.Items.RemoveAt(Program.MainProgram.mapEditor.mapTextureComboBox.Items.Count - 1);
+            if (EditorPanels.mapEditor.mapEditorIsReady) {
+              EditorPanels.mapEditor.mapTextureComboBox.Items.RemoveAt(EditorPanels.mapEditor.mapTextureComboBox.Items.Count - 1);
             }
           }
           else {
             File.Delete(RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir + "\\" + (texturePacksListBox.Items.Count - 1).ToString("D4"));
             File.Delete(RomInfo.gameDirs[DirNames.buildingConfigFiles].unpackedDir + "\\" + (texturePacksListBox.Items.Count - 1).ToString("D4"));
 
-            if (Program.MainProgram.mapEditor.mapEditorIsReady) {
-              Program.MainProgram.mapEditor.buildTextureComboBox.Items.RemoveAt(Program.MainProgram.mapEditor.buildTextureComboBox.Items.Count - 1);
+            if (EditorPanels.mapEditor.mapEditorIsReady) {
+              EditorPanels.mapEditor.buildTextureComboBox.Items.RemoveAt(EditorPanels.mapEditor.buildTextureComboBox.Items.Count - 1);
             }
           }
 

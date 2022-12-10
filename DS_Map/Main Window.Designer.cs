@@ -1140,14 +1140,14 @@
         private System.Windows.Forms.ToolStripMenuItem heartGoldAndSoulSilverToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton spawnEditorToolStripButton;
         private System.Windows.Forms.ToolStripMenuItem spawnEditorToolStripMenuItem;
-        private System.Windows.Forms.TabPage cameraEditorTabPage;
+        public System.Windows.Forms.TabPage cameraEditorTabPage;
         private System.Windows.Forms.ToolStripButton nsbmdExportTexButton;
         private System.Windows.Forms.ToolStripButton nsbmdRemoveTexButton;
         private System.Windows.Forms.ToolStripButton nsbmdAddTexButton;
         private System.Windows.Forms.ToolStripSeparator separator_afterMiscButtons;
-        private System.Windows.Forms.TabPage trainerEditorTabPage;
+        public System.Windows.Forms.TabPage trainerEditorTabPage;
         private System.Windows.Forms.ToolStripButton readDataFromFolderButton;
-        private System.Windows.Forms.TabPage tableEditorTabPage;
+        public System.Windows.Forms.TabPage tableEditorTabPage;
         private System.Windows.Forms.ToolStripMenuItem openFolderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem NarcUtilityToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem unpackToFolderToolStripMenuItem;
@@ -1184,7 +1184,7 @@
     public Editors.ScriptEditor scriptEditor;
     public Editors.TrainerEditor trainerEditor;
     public Editors.TableEditor tableEditor;
-    private Editors.CameraEditor cameraEditor;
+    public Editors.CameraEditor cameraEditor;
     public Editors.NSBTXEditor nsbtxEditor;
     public Editors.MatrixEditor matrixEditor;
     public Editors.HeaderEditor headerEditor;

@@ -17,6 +17,8 @@ namespace DSPRE {
     public partial class MainProgram : Form {
         public MainProgram() {
             InitializeComponent();
+            EditorPanels.Initialize(this);
+            Helpers.Initialize(this);
             SetMenuLayout(Properties.Settings.Default.menuLayout); //Read user settings for menu layout
         }
 

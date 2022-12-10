@@ -49,12 +49,12 @@ namespace DSPRE.Editors {
               ushort musicID = ar.ReadUInt16();
 
               conditionalMusicTable.Add((header, flag, musicID));
-              conditionalMusicTableListBox.Items.Add(Program.MainProgram.headerEditor.headerListBox.Items[header]);
+              conditionalMusicTableListBox.Items.Add(EditorPanels.headerEditor.headerListBox.Items[header]);
             }
           }
 
           headerConditionalMusicComboBox.Items.Clear();
-          foreach (string location in Program.MainProgram.headerEditor.headerListBox.Items) {
+          foreach (string location in EditorPanels.headerEditor.headerListBox.Items) {
             headerConditionalMusicComboBox.Items.Add(location);
           }
 
@@ -308,7 +308,7 @@ namespace DSPRE.Editors {
     }
 
     private void TBLEditortrainerClassPreviewPic_ValueChanged(object sender, EventArgs e) {
-      Program.MainProgram.trainerEditor.UpdateTrainerClassPic(tbEditorTrClassPictureBox, (int)((NumericUpDown)sender).Value);
+      EditorPanels.trainerEditor.UpdateTrainerClassPic(tbEditorTrClassPictureBox, (int)((NumericUpDown)sender).Value);
     }
 
     private void HOWVsTrainerButton_Click(object sender, EventArgs e) {
@@ -335,8 +335,8 @@ namespace DSPRE.Editors {
     }
 
     private void pbEffectsTrainerCombobox_SelectedIndexChanged(object sender, EventArgs e) {
-      int maxFrames = Program.MainProgram.trainerEditor.LoadTrainerClassPic((sender as ComboBox).SelectedIndex);
-      Program.MainProgram.trainerEditor.UpdateTrainerClassPic(tbEditorTrClassPictureBox);
+      int maxFrames = EditorPanels.trainerEditor.LoadTrainerClassPic((sender as ComboBox).SelectedIndex);
+      EditorPanels.trainerEditor.UpdateTrainerClassPic(tbEditorTrClassPictureBox);
 
       tbEditorTrClassFramePreviewUpDown.Maximum = maxFrames;
       tbEditortrainerClassFrameMaxLabel.Text = "/" + maxFrames;
