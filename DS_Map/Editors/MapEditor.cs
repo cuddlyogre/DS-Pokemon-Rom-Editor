@@ -1338,7 +1338,7 @@ namespace DSPRE.Editors {
       }
     }
 
-    private void selectMapComboBox_SelectedIndexChanged(object sender, EventArgs e) {
+    public void selectMapComboBox_SelectedIndexChanged(object sender, EventArgs e) {
       if (Helpers.disableHandlers) {
         return;
       }

@@ -596,14 +596,14 @@ namespace DSPRE.Editors
     #endregion
 
     private System.Windows.Forms.Button saveMatrixButton;
-    private System.Windows.Forms.ComboBox selectMatrixComboBox;
+    public System.Windows.Forms.ComboBox selectMatrixComboBox;
     private System.Windows.Forms.Label widthLabel;
     private System.Windows.Forms.NumericUpDown widthUpDown;
     private System.Windows.Forms.NumericUpDown heightUpDown;
     private System.Windows.Forms.TextBox matrixNameTextBox;
-    private System.Windows.Forms.TabControl matrixTabControl;
-    private System.Windows.Forms.TabPage headersTabPage;
-    private System.Windows.Forms.DataGridView headersGridView;
+    public System.Windows.Forms.TabControl matrixTabControl;
+    public System.Windows.Forms.TabPage headersTabPage;
+    public System.Windows.Forms.DataGridView headersGridView;
     private System.Windows.Forms.TabPage heightsTabPage;
     private System.Windows.Forms.DataGridView heightsGridView;
     private System.Windows.Forms.TabPage mapFilesTabPage;
