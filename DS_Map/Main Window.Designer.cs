@@ -1051,13 +1051,6 @@
       // 
       this.openFileDialog1.FileName = "openFileDialog1";
       // 
-      // headerEditor
-      // 
-      this.headerEditor.Location = new System.Drawing.Point(7, 7);
-      this.headerEditor.Name = "headerEditor";
-      this.headerEditor.Size = new System.Drawing.Size(1164, 599);
-      this.headerEditor.TabIndex = 0;
-      // 
       // MainProgram
       // 
       this.AllowDrop = true;
