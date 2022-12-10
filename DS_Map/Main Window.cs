@@ -340,12 +340,12 @@ namespace DSPRE {
                 editor.ShowDialog();
         }
         private void unpackBuildingEditorNARCs(bool forceUnpack = false) {
-            toolStripProgressBar.Visible = true;
+            Helpers.toolStripProgressBar.Visible = true;
 
             Helpers.statusLabelMessage("Attempting to unpack Building Editor NARCs... Please wait. This might take a while");
-            toolStripProgressBar.Visible = true;
-            toolStripProgressBar.Maximum = 4;
-            toolStripProgressBar.Value = 0;
+            Helpers.toolStripProgressBar.Visible = true;
+            Helpers.toolStripProgressBar.Maximum = 4;
+            Helpers.toolStripProgressBar.Value = 0;
             Update();
 
             List<DirNames> toUnpack = new List<DirNames> {
@@ -369,8 +369,8 @@ namespace DSPRE {
                 }
             }
 
-            toolStripProgressBar.Value = 0;
-            toolStripProgressBar.Visible = false;
+            Helpers.toolStripProgressBar.Value = 0;
+            Helpers.toolStripProgressBar.Visible = false;
             Helpers.statusLabelMessage();
             Update();
         }
@@ -621,17 +621,17 @@ namespace DSPRE {
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (d == DialogResult.Yes) {
-                toolStripProgressBar.Maximum = RomInfo.gameDirs.Count;
-                toolStripProgressBar.Visible = true;
-                toolStripProgressBar.Value = 0;
+                Helpers.toolStripProgressBar.Maximum = RomInfo.gameDirs.Count;
+                Helpers.toolStripProgressBar.Visible = true;
+                Helpers.toolStripProgressBar.Value = 0;
                 Helpers.statusLabelMessage("Attempting to unpack all NARCs... Be patient. This might take a while...");
                 Update();
 
                 DSUtils.ForceUnpackNarcs(Enum.GetValues(typeof(DirNames)).Cast<DirNames>().ToList());
                 MessageBox.Show("Operation completed.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                toolStripProgressBar.Value = 0;
-                toolStripProgressBar.Visible = false;
+                Helpers.toolStripProgressBar.Value = 0;
+                Helpers.toolStripProgressBar.Visible = false;
 
                 headerEditor.SetupHeaderEditor();
                 matrixEditor.SetupMatrixEditor();

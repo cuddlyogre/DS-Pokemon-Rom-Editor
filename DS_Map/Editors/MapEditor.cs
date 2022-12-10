@@ -48,9 +48,9 @@ namespace DSPRE.Editors {
 
     public void SetupMapEditor() {
       /* Extract essential NARCs sub-archives*/
-      Program.MainProgram.toolStripProgressBar.Visible = true;
-      Program.MainProgram.toolStripProgressBar.Maximum = 9;
-      Program.MainProgram.toolStripProgressBar.Value = 0;
+      Helpers.toolStripProgressBar.Visible = true;
+      Helpers.toolStripProgressBar.Maximum = 9;
+      Helpers.toolStripProgressBar.Value = 0;
       Helpers.statusLabelMessage("Attempting to unpack Map Editor NARCs... Please wait.");
       Update();
 
@@ -112,7 +112,7 @@ namespace DSPRE.Editors {
         }
       }
 
-      Program.MainProgram.toolStripProgressBar.Value++;
+      Helpers.toolStripProgressBar.Value++;
 
       /* Fill building models list */
       updateBuildingListComboBox(false);
@@ -124,7 +124,7 @@ namespace DSPRE.Editors {
         mapTextureComboBox.Items.Add("Map Texture Pack [" + i.ToString("D2") + "]");
       }
 
-      Program.MainProgram.toolStripProgressBar.Value++;
+      Helpers.toolStripProgressBar.Value++;
 
       /*  Fill building textures list */
       buildTextureComboBox.Items.Clear();
@@ -133,7 +133,7 @@ namespace DSPRE.Editors {
         buildTextureComboBox.Items.Add("Building Texture Pack [" + i.ToString("D2") + "]");
       }
 
-      Program.MainProgram.toolStripProgressBar.Value++;
+      Helpers.toolStripProgressBar.Value++;
 
       collisionPainterComboBox.Items.Clear();
       foreach (string s in PokeDatabase.System.MapCollisionPainters.Values) {
@@ -145,15 +145,15 @@ namespace DSPRE.Editors {
         collisionTypePainterComboBox.Items.Add(s);
       }
 
-      Program.MainProgram.toolStripProgressBar.Value++;
+      Helpers.toolStripProgressBar.Value++;
 
       /* Set controls' initial values */
       selectCollisionPanel.BackColor = Color.MidnightBlue;
       collisionTypePainterComboBox.SelectedIndex = 0;
       collisionPainterComboBox.SelectedIndex = 1;
 
-      Program.MainProgram.toolStripProgressBar.Value = 0;
-      Program.MainProgram.toolStripProgressBar.Visible = false;
+      Helpers.toolStripProgressBar.Value = 0;
+      Helpers.toolStripProgressBar.Visible = false;
       Helpers.disableHandlers = false;
 
       //Default selections
@@ -201,7 +201,7 @@ namespace DSPRE.Editors {
         buildIndexComboBox.Items.Add("[" + i + "] " + bldList[i]);
       }
 
-      Program.MainProgram.toolStripProgressBar.Value++;
+      Helpers.toolStripProgressBar.Value++;
     }
 
     private string[] GetBuildingsList(bool interior) {

@@ -19,6 +19,7 @@ namespace DSPRE {
     public static bool disableHandlers = false;
     public static RomInfo romInfo;
     public static bool hideBuildings = new bool();
+    public static ToolStripProgressBar toolStripProgressBar { get { return Helpers.toolStripProgressBar; } }
 
     public static void statusLabelMessage(string msg = "Ready") {
       ToolStripStatusLabel statusLabel = Program.MainProgram.statusLabel;

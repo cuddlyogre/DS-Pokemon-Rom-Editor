@@ -42,9 +42,9 @@ namespace DSPRE.Editors {
       /* Extract essential NARCs sub-archives*/
 
       Helpers.statusLabelMessage("Attempting to unpack Event Editor NARCs... Please wait. This might take a while");
-      Program.MainProgram.toolStripProgressBar.Visible = true;
-      Program.MainProgram.toolStripProgressBar.Maximum = 12;
-      Program.MainProgram.toolStripProgressBar.Value = 0;
+      Helpers.toolStripProgressBar.Visible = true;
+      Helpers.toolStripProgressBar.Maximum = 12;
+      Helpers.toolStripProgressBar.Value = 0;
       Update();
 
       DSUtils.TryUnpackNarcs(new List<DirNames> {
@@ -103,22 +103,22 @@ namespace DSPRE.Editors {
       eventEditorHeaderLocationNameLabel.Text = "";
 
       string[] trainerNames = Helpers.GetTrainerNames();
-      Program.MainProgram.toolStripProgressBar.Maximum = (int)(eventCount + RomInfo.OverworldTable.Keys.Max() + trainerNames.Length);
-      Program.MainProgram.toolStripProgressBar.Value = 0;
+      Helpers.toolStripProgressBar.Maximum = (int)(eventCount + RomInfo.OverworldTable.Keys.Max() + trainerNames.Length);
+      Helpers.toolStripProgressBar.Value = 0;
       Update();
 
       /* Add event list to event combobox */
       selectEventComboBox.Items.Clear();
       for (int i = 0; i < eventCount; i++) {
         selectEventComboBox.Items.Add("Event File " + i);
-        Program.MainProgram.toolStripProgressBar.Value++;
+        Helpers.toolStripProgressBar.Value++;
       }
 
       /* Add sprite list to ow sprite box */
       owSpriteComboBox.Items.Clear();
       foreach (ushort key in RomInfo.OverworldTable.Keys) {
         owSpriteComboBox.Items.Add("OW Entry " + key);
-        Program.MainProgram.toolStripProgressBar.Value++;
+        Helpers.toolStripProgressBar.Value++;
       }
 
       /* Add trainer list to ow trainer box */
@@ -175,8 +175,8 @@ namespace DSPRE.Editors {
       owItemComboBox.SelectedIndex = 0;
       owTrainerComboBox.SelectedIndex = 0;
 
-      Program.MainProgram.toolStripProgressBar.Value = 0;
-      Program.MainProgram.toolStripProgressBar.Visible = false;
+      Helpers.toolStripProgressBar.Value = 0;
+      Helpers.toolStripProgressBar.Visible = false;
 
       Helpers.statusLabelMessage();
     }
