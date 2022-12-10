@@ -49,12 +49,12 @@ namespace DSPRE.Editors {
     public void SetupHeaderEditor() {
             /* Extract essential NARCs sub-archives*/
 
-            Program.MainProgram.statusLabelMessage("Attempting to unpack Header Editor NARCs... Please wait.");
+            Helpers.statusLabelMessage("Attempting to unpack Header Editor NARCs... Please wait.");
             Update();
 
             DSUtils.TryUnpackNarcs(new List<DirNames> { DirNames.synthOverlay, DirNames.textArchives, DirNames.dynamicHeaders });
 
-            Program.MainProgram.statusLabelMessage("Reading internal names... Please wait.");
+            Helpers.statusLabelMessage("Reading internal names... Please wait.");
             Update();
 
             internalNames = new List<string>();
@@ -163,7 +163,7 @@ namespace DSPRE.Editors {
             if (headerListBox.Items.Count > 0) {
                 headerListBox.SelectedIndex = 0;
             }
-            Program.MainProgram.statusLabelMessage();
+            Helpers.statusLabelMessage();
         }
     private void followModeComboBox_SelectedIndexChanged(object sender, EventArgs e) {
       if (Helpers.disableHandlers) {
@@ -930,7 +930,7 @@ namespace DSPRE.Editors {
     public void resetHeaderSearch() {
       searchLocationTextBox.Clear();
       HeaderSearch.ResetResults(headerListBox, headerListBoxNames, prependNumbers: false);
-      Program.MainProgram.statusLabelMessage();
+      Helpers.statusLabelMessage();
     }
 
     private void searchHeaderButton_Click(object sender, EventArgs e) {
@@ -1233,12 +1233,12 @@ namespace DSPRE.Editors {
       openWildEditor(loadCurrent: true);
     }
     private void openWildEditor(bool loadCurrent) {
-      Program.MainProgram.statusLabelMessage("Attempting to extract Wild Encounters NARC...");
+      Helpers.statusLabelMessage("Attempting to extract Wild Encounters NARC...");
       Update();
 
       DSUtils.TryUnpackNarcs(new List<DirNames>() { DirNames.encounters, DirNames.monIcons });
 
-      Program.MainProgram.statusLabelMessage("Passing control to Wild Pokémon Editor...");
+      Helpers.statusLabelMessage("Passing control to Wild Pokémon Editor...");
       Update();
 
       int encToOpen = loadCurrent ? (int)wildPokeUpDown.Value : 0;
@@ -1255,7 +1255,7 @@ namespace DSPRE.Editors {
             editor.ShowDialog();
           break;
       }
-      Program.MainProgram.statusLabelMessage();
+      Helpers.statusLabelMessage();
     }
     private void pasteWildEncountersButton_Click(object sender, EventArgs e) {
       wildPokeUpDown.Value = encountersIDCopy;

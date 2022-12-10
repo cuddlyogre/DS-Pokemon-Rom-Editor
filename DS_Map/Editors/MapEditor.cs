@@ -51,7 +51,7 @@ namespace DSPRE.Editors {
       Program.MainProgram.toolStripProgressBar.Visible = true;
       Program.MainProgram.toolStripProgressBar.Maximum = 9;
       Program.MainProgram.toolStripProgressBar.Value = 0;
-      Program.MainProgram.statusLabelMessage("Attempting to unpack Map Editor NARCs... Please wait.");
+      Helpers.statusLabelMessage("Attempting to unpack Map Editor NARCs... Please wait.");
       Update();
 
       DSUtils.TryUnpackNarcs(new List<DirNames> {
@@ -177,7 +177,7 @@ namespace DSPRE.Editors {
 
       mapOpenGlControl.MouseWheel += new MouseEventHandler(mapOpenGlControl_MouseWheel);
 
-      Program.MainProgram.statusLabelMessage();
+      Helpers.statusLabelMessage();
     }
 
     public void makeCurrent() {

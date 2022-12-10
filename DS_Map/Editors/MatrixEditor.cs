@@ -17,7 +17,7 @@ namespace DSPRE.Editors {
     }
 
     public void SetupMatrixEditor() {
-      Program.MainProgram.statusLabelMessage("Setting up Matrix Editor...");
+      Helpers.statusLabelMessage("Setting up Matrix Editor...");
       Update();
 
       DSUtils.TryUnpackNarcs(new List<DirNames> { DirNames.matrices });
@@ -39,7 +39,7 @@ namespace DSPRE.Editors {
 
       Helpers.disableHandlers = false;
       selectMatrixComboBox.SelectedIndex = 0;
-      Program.MainProgram.statusLabelMessage();
+      Helpers.statusLabelMessage();
     }
 
     private bool ReadColorTable(string fileName, bool silent) {
@@ -427,7 +427,7 @@ namespace DSPRE.Editors {
     }
     private void DisplaySelection(DataGridViewSelectedCellCollection selectedCells) {
       if (selectedCells.Count > 0) {
-        Program.MainProgram.statusLabelMessage("Selection:   " + selectedCells[0].ColumnIndex + ", " + selectedCells[0].RowIndex);
+        Helpers.statusLabelMessage("Selection:   " + selectedCells[0].ColumnIndex + ", " + selectedCells[0].RowIndex);
       }
     }
     private void heightsGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
@@ -518,14 +518,14 @@ namespace DSPRE.Editors {
 
           if (result.Length < 1) {
             headerID = Program.MainProgram.headerEditor.currentHeader.ID;
-            Program.MainProgram.statusLabelMessage("This Matrix is not linked to any Header. DSPRE can't determine the most appropriate AreaData (and textures) to use.\nDisplaying Textures from the last selected Header (" + headerID + ")'s AreaData...");
+            Helpers.statusLabelMessage("This Matrix is not linked to any Header. DSPRE can't determine the most appropriate AreaData (and textures) to use.\nDisplaying Textures from the last selected Header (" + headerID + ")'s AreaData...");
           }
           else {
             if (result.Length > 1) {
               if (result.Contains(Program.MainProgram.headerEditor.currentHeader.ID)) {
                 headerID = Program.MainProgram.headerEditor.currentHeader.ID;
 
-                Program.MainProgram.statusLabelMessage("Multiple Headers are associated to this Matrix, including the last selected one [Header " + headerID + "]. Now using its textures.");
+                Helpers.statusLabelMessage("Multiple Headers are associated to this Matrix, including the last selected one [Header " + headerID + "]. Now using its textures.");
               }
               else {
                 if (gameFamily.Equals(gFamEnum.DP)) {
@@ -578,12 +578,12 @@ namespace DSPRE.Editors {
                   }
                 }
 
-                Program.MainProgram.statusLabelMessage("Multiple Headers are using this Matrix. Header " + headerID + "'s textures are currently being displayed.");
+                Helpers.statusLabelMessage("Multiple Headers are using this Matrix. Header " + headerID + "'s textures are currently being displayed.");
               }
             }
             else {
               headerID = result[0];
-              Program.MainProgram.statusLabelMessage("Loading Header " + headerID + "'s textures.");
+              Helpers.statusLabelMessage("Loading Header " + headerID + "'s textures.");
             }
           }
         }
@@ -744,7 +744,7 @@ namespace DSPRE.Editors {
     private void importMatrixButton_Click(object sender, EventArgs e) {
       /* Prompt user to select .mtx file */
       if (selectMatrixComboBox.SelectedIndex == 0) {
-        Program.MainProgram.statusLabelMessage("Awaiting user response...");
+        Helpers.statusLabelMessage("Awaiting user response...");
         DialogResult d = MessageBox.Show("Replacing a matrix - especially Matrix 0 - with a new file is risky.\n" +
                                          "Do not do it unless you are absolutely sure.\nProceed?", "Risky operation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
@@ -776,7 +776,7 @@ namespace DSPRE.Editors {
 
       /* Display success message */
       MessageBox.Show("Matrix imported successfully!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-      Program.MainProgram.statusLabelMessage();
+      Helpers.statusLabelMessage();
     }
 
     private void importColorTableButton_Click(object sender, EventArgs e) {

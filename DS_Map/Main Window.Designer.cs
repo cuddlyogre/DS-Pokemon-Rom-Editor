@@ -1108,7 +1108,7 @@
         private System.Windows.Forms.ToolStripMenuItem saveROMToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel statusLabel;
+        public System.Windows.Forms.ToolStripStatusLabel statusLabel;
         private System.Windows.Forms.ImageList mainTabImageList;
         private System.Windows.Forms.ToolStripButton loadRomButton;
         private System.Windows.Forms.ToolStripButton saveRomButton;

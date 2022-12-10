@@ -68,7 +68,7 @@ namespace DSPRE.Editors {
 
     public void SetupScriptEditor() {
       /* Extract essential NARCs sub-archives*/
-      Program.MainProgram.statusLabelMessage("Setting up Script Editor...");
+      Helpers.statusLabelMessage("Setting up Script Editor...");
       Update();
 
       DSUtils.TryUnpackNarcs(new List<DirNames> { DirNames.scripts }); //12 = scripts Narc Dir
@@ -81,7 +81,7 @@ namespace DSPRE.Editors {
 
       UpdateScriptNumberCheckBox((NumberStyles)Properties.Settings.Default.scriptEditorFormatPreference);
       selectScriptFileComboBox.SelectedIndex = 0;
-      Program.MainProgram.statusLabelMessage();
+      Helpers.statusLabelMessage();
     }
 
     public void SetupScriptEditorTextAreas() {
@@ -516,7 +516,7 @@ namespace DSPRE.Editors {
       }
 
       ScriptEditorSetClean();
-      Program.MainProgram.statusLabelMessage();
+      Helpers.statusLabelMessage();
       Helpers.disableHandlers = false;
       return true;
     }

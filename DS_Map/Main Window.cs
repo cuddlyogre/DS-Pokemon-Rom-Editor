@@ -33,19 +33,6 @@ namespace DSPRE {
             Properties.Settings.Default.Save();
         }
 
-        public void statusLabelMessage(string msg = "Ready") {
-            statusLabel.Text = msg;
-            statusLabel.Font = new Font(statusLabel.Font, FontStyle.Regular);
-            statusLabel.ForeColor = Color.Black;
-            statusLabel.Invalidate();
-        }
-
-        public void statusLabelError(string errorMsg, bool severe = true) {
-            statusLabel.Text = errorMsg;
-            statusLabel.Font = new Font(statusLabel.Font, FontStyle.Bold);
-            statusLabel.ForeColor = severe ? Color.Red : Color.DarkOrange;
-            statusLabel.Invalidate();
-        }
         private void PaintGameIcon(object sender, PaintEventArgs e) {
             if (iconON) {
                 FileStream banner;
@@ -166,7 +153,7 @@ namespace DSPRE {
             }
         }
         private bool UnpackRom(string ndsFileName) {
-            statusLabelMessage("Unpacking ROM contents to " + RomInfo.workDir + " ...");
+            Helpers.statusLabelMessage("Unpacking ROM contents to " + RomInfo.workDir + " ...");
             Update();
 
             Directory.CreateDirectory(RomInfo.workDir);
@@ -331,11 +318,11 @@ namespace DSPRE {
         }
         private void OpenCommandsDatabase(Dictionary<ushort, string> namesDict, Dictionary<ushort, byte[]> paramsDict, Dictionary<ushort, string> actionsDict,
             Dictionary<ushort, string> comparisonOPsDict) {
-            statusLabelMessage("Setting up Commands Database. Please wait...");
+            Helpers.statusLabelMessage("Setting up Commands Database. Please wait...");
             Update();
             CommandsDatabase form = new CommandsDatabase(namesDict, paramsDict, actionsDict, comparisonOPsDict);
             form.Show();
-            statusLabelMessage();
+            Helpers.statusLabelMessage();
         }
         private void headerSearchToolStripButton_Click(object sender, EventArgs e) {
             mainTabControl.SelectedIndex = 0; //Select Header Editor
@@ -355,7 +342,7 @@ namespace DSPRE {
         private void unpackBuildingEditorNARCs(bool forceUnpack = false) {
             toolStripProgressBar.Visible = true;
 
-            statusLabelMessage("Attempting to unpack Building Editor NARCs... Please wait. This might take a while");
+            Helpers.statusLabelMessage("Attempting to unpack Building Editor NARCs... Please wait. This might take a while");
             toolStripProgressBar.Visible = true;
             toolStripProgressBar.Maximum = 4;
             toolStripProgressBar.Value = 0;
@@ -384,7 +371,7 @@ namespace DSPRE {
 
             toolStripProgressBar.Value = 0;
             toolStripProgressBar.Visible = false;
-            statusLabelMessage();
+            Helpers.statusLabelMessage();
             Update();
         }
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -417,7 +404,7 @@ namespace DSPRE {
             int userchoice = UnpackRomCheckUserChoice();
             switch (userchoice) {
                 case -1:
-                    statusLabelMessage("Loading aborted");
+                    Helpers.statusLabelMessage("Loading aborted");
                     Update();
                     return;
                 case 0:
@@ -426,7 +413,7 @@ namespace DSPRE {
                 case 2:
                     Application.DoEvents();
                     if (userchoice == 1) {
-                        statusLabelMessage("Deleting old data...");
+                        Helpers.statusLabelMessage("Deleting old data...");
                         try {
                             Directory.Delete(RomInfo.workDir, true);
                         } catch (IOException) {
@@ -439,7 +426,7 @@ namespace DSPRE {
 
                     try {
                         if (!UnpackRom(openRom.FileName)) {
-                            statusLabelError("ERROR");
+                            Helpers.statusLabelError("ERROR");
                             languageLabel.Text = "";
                             versionLabel.Text = "Error";
                             return;
@@ -447,7 +434,7 @@ namespace DSPRE {
                         DSUtils.ARM9.EditSize(-12);
                     } catch (IOException) {
                         MessageBox.Show("Can't access temp directory: \n" + RomInfo.workDir + "\nThis might be a temporary issue.\nMake sure no other process is using it and try again.", "Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        statusLabelError("ERROR: Concurrent access to " + RomInfo.workDir);
+                        Helpers.statusLabelError("ERROR: Concurrent access to " + RomInfo.workDir);
                         Update();
                         return;
                     }
@@ -456,7 +443,7 @@ namespace DSPRE {
 
             iconON = true;
             gameIcon.Refresh();  // Paint game icon
-            statusLabelMessage("Attempting to unpack NARCs from folder...");
+            Helpers.statusLabelMessage("Attempting to unpack NARCs from folder...");
             Update();
 
             ReadROMInitData();
@@ -555,7 +542,7 @@ namespace DSPRE {
             spawnEditorToolStripMenuItem.Enabled = true;
 
             scriptCommandsButton.Enabled = true;
-            statusLabelMessage();
+            Helpers.statusLabelMessage();
             this.Text += "  -  " + RomInfo.fileName;
         }
 
@@ -567,7 +554,7 @@ namespace DSPRE {
                 return;
             }
 
-            statusLabelMessage("Repacking NARCS...");
+            Helpers.statusLabelMessage("Repacking NARCS...");
             Update();
 
             // Repack NARCs
@@ -580,7 +567,7 @@ namespace DSPRE {
 
 
             if ( DSUtils.ARM9.CheckCompressionMark() ) {
-                statusLabelMessage("Awaiting user response...");
+                Helpers.statusLabelMessage("Awaiting user response...");
                 DialogResult d = MessageBox.Show("The ARM9 file of this ROM is currently uncompressed, but marked as compressed.\n" +
                     "This will prevent your ROM from working on native hardware.\n\n" +
                 "Do you want to mark the ARM9 as uncompressed?", "ARM9 compression mismatch detected",
@@ -591,7 +578,7 @@ namespace DSPRE {
                 }
             }
 
-            statusLabelMessage("Repacking ROM...");
+            Helpers.statusLabelMessage("Repacking ROM...");
 
             if (DSUtils.CheckOverlayHasCompressionFlag(1)) {
                 if (ROMToolboxDialog.overlay1MustBeRestoredFromBackup) {
@@ -623,10 +610,10 @@ namespace DSPRE {
             }
 
             Properties.Settings.Default.Save();
-            statusLabelMessage();
+            Helpers.statusLabelMessage();
         }
         private void unpackAllButton_Click(object sender, EventArgs e) {
-            statusLabelMessage("Awaiting user response...");
+            Helpers.statusLabelMessage("Awaiting user response...");
             DialogResult d = MessageBox.Show("Do you wish to unpack all extracted NARCS?\n" +
                 "This operation might be long and can't be interrupted.\n\n" +
                 "Any unsaved changes made to the ROM in this session will be lost." +
@@ -637,7 +624,7 @@ namespace DSPRE {
                 toolStripProgressBar.Maximum = RomInfo.gameDirs.Count;
                 toolStripProgressBar.Visible = true;
                 toolStripProgressBar.Value = 0;
-                statusLabelMessage("Attempting to unpack all NARCs... Be patient. This might take a while...");
+                Helpers.statusLabelMessage("Attempting to unpack all NARCs... Be patient. This might take a while...");
                 Update();
 
                 DSUtils.ForceUnpackNarcs(Enum.GetValues(typeof(DirNames)).Cast<DirNames>().ToList());
@@ -656,12 +643,12 @@ namespace DSPRE {
                 textEditor.SetupTextEditor();
                 trainerEditor.SetupTrainerEditor();
 
-                statusLabelMessage();
+                Helpers.statusLabelMessage();
                 Update();
             }
         }
         private void updateMapNarcsButton_Click(object sender, EventArgs e) {
-            statusLabelMessage("Awaiting user response...");
+            Helpers.statusLabelMessage("Awaiting user response...");
             DialogResult d = MessageBox.Show("Do you wish to unpack all NARC files necessary for the Building Editor ?\n" +
                "This operation might be long and can't be interrupted.\n\n" +
                "Any unsaved changes made to building models and textures in this session will be lost." +
@@ -673,7 +660,7 @@ namespace DSPRE {
 
                 MessageBox.Show("Operation completed.", "Success",
                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                statusLabelMessage();
+                Helpers.statusLabelMessage();
 
                 if (mapEditor.mapEditorIsReady) {
                     mapEditor.updateBuildingListComboBox(mapEditor.interiorbldRadioButton.Checked);
@@ -763,12 +750,12 @@ namespace DSPRE {
         }
 
         private void openWildEditor(bool loadCurrent) {
-            statusLabelMessage("Attempting to extract Wild Encounters NARC...");
+            Helpers.statusLabelMessage("Attempting to extract Wild Encounters NARC...");
             Update();
 
             DSUtils.TryUnpackNarcs(new List<DirNames>() { DirNames.encounters, DirNames.monIcons });
 
-            statusLabelMessage("Passing control to Wild Pokémon Editor...");
+            Helpers.statusLabelMessage("Passing control to Wild Pokémon Editor...");
             Update();
 
             int encToOpen = loadCurrent ? (int)headerEditor.wildPokeUpDown.Value : 0;
@@ -785,7 +772,7 @@ namespace DSPRE {
                         editor.ShowDialog();
                     break;
             }
-            statusLabelMessage();
+            Helpers.statusLabelMessage();
         }
 
         private void mapEditorTabPage_Enter(object sender, EventArgs e) {

@@ -19,7 +19,7 @@ namespace DSPRE.Editors {
     }
 
     public void SetupNSBTXEditor() {
-      Program.MainProgram.statusLabelMessage("Attempting to unpack Tileset Editor NARCs... Please wait.");
+      Helpers.statusLabelMessage("Attempting to unpack Tileset Editor NARCs... Please wait.");
       Update();
 
       DSUtils.TryUnpackNarcs(new List<DirNames> {
@@ -75,7 +75,7 @@ namespace DSPRE.Editors {
         palettesListBox.SelectedIndex = 0;
       }
 
-      Program.MainProgram.statusLabelMessage();
+      Helpers.statusLabelMessage();
     }
 
     private void texturePacksListBox_SelectedIndexChanged(object sender, EventArgs e) {
@@ -174,19 +174,19 @@ namespace DSPRE.Editors {
       string findThis = texturesListBox.SelectedItem.ToString();
       string matchingPalette = findAndSelectMatchingPalette(findThis);
       if (matchingPalette == null) {
-        Program.MainProgram.statusLabelError("Couldn't find a palette to match " + '"' + findThis + '"', severe: false);
+        Helpers.statusLabelError("Couldn't find a palette to match " + '"' + findThis + '"', severe: false);
       }
       else {
         //palettesListBox.SelectedIndex = 0;
         palettesListBox.SelectedItem = matchingPalette;
-        Program.MainProgram.statusLabelMessage("Ready");
+        Helpers.statusLabelMessage("Ready");
       }
 
       Helpers.disableHandlers = disableHandlersBackup;
 
       int ctrlCode = NSBTXRender(tex: Math.Max(0, texturesListBox.SelectedIndex), pal: Math.Max(0, palettesListBox.SelectedIndex), scale: nsbtxScaleFactor);
       if (matchingPalette != null && ctrlCode > 0) {
-        Program.MainProgram.statusLabelError($"ERROR! The selected palette doesn't have enough colors for this Palette{ctrlCode} texture.");
+        Helpers.statusLabelError($"ERROR! The selected palette doesn't have enough colors for this Palette{ctrlCode} texture.");
       }
     }
 
@@ -221,7 +221,7 @@ namespace DSPRE.Editors {
     }
 
     private string findAndSelectMatchingPalette(string findThis) {
-      Program.MainProgram.statusLabelMessage("Searching palette...");
+      Helpers.statusLabelMessage("Searching palette...");
 
       string copy = findThis;
       while (copy.Length > 0) {
@@ -254,10 +254,10 @@ namespace DSPRE.Editors {
 
       int ctrlCode = NSBTXRender(tex: texturesListBox.SelectedIndex, pal: palettesListBox.SelectedIndex, scale: nsbtxScaleFactor);
       if (ctrlCode > 0) {
-        Program.MainProgram.statusLabelError($"ERROR! The selected palette doesn't have enough colors for this Palette{ctrlCode} texture.");
+        Helpers.statusLabelError($"ERROR! The selected palette doesn't have enough colors for this Palette{ctrlCode} texture.");
       }
       else {
-        Program.MainProgram.statusLabelMessage();
+        Helpers.statusLabelMessage();
       }
     }
 

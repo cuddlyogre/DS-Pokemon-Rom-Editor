@@ -18,7 +18,7 @@ namespace DSPRE {
     public void SetupTextEditor() {
       DSUtils.TryUnpackNarcs(new List<DirNames> { DirNames.textArchives });
 
-      Program.MainProgram.statusLabelMessage("Setting up Text Editor...");
+      Helpers.statusLabelMessage("Setting up Text Editor...");
       Update();
 
       selectTextFileComboBox.Items.Clear();
@@ -32,7 +32,7 @@ namespace DSPRE {
       Helpers.disableHandlers = false;
 
       selectTextFileComboBox.SelectedIndex = 0;
-      Program.MainProgram.statusLabelMessage();
+      Helpers.statusLabelMessage();
     }
 
     private List<string> searchTexts(int firstArchive, int lastArchive, Func<string, bool> criteria) {

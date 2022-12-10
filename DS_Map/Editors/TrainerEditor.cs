@@ -38,7 +38,7 @@ namespace DSPRE.Editors {
       Helpers.disableHandlers = true;
       SetupTrainerClassEncounterMusicTable();
       /* Extract essential NARCs sub-archives*/
-      Program.MainProgram.statusLabelMessage("Setting up Trainer Editor...");
+      Helpers.statusLabelMessage("Setting up Trainer Editor...");
       Update();
 
       DSUtils.TryUnpackNarcs(new List<DirNames> {
@@ -167,7 +167,7 @@ namespace DSPRE.Editors {
 
       Helpers.disableHandlers = false;
       trainerComboBox_SelectedIndexChanged(null, null);
-      Program.MainProgram.statusLabelMessage();
+      Helpers.statusLabelMessage();
     }
 
     Dictionary<byte, (uint entryOffset, ushort musicD, ushort? musicN)> trainerClassEncounterMusicDict;

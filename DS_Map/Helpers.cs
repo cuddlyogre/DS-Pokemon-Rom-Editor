@@ -20,6 +20,22 @@ namespace DSPRE {
     public static RomInfo romInfo;
     public static bool hideBuildings = new bool();
 
+    public static void statusLabelMessage(string msg = "Ready") {
+      ToolStripStatusLabel statusLabel = Program.MainProgram.statusLabel;
+      statusLabel.Text = msg;
+      statusLabel.Font = new Font(statusLabel.Font, FontStyle.Regular);
+      statusLabel.ForeColor = Color.Black;
+      statusLabel.Invalidate();
+    }
+
+    public static void statusLabelError(string errorMsg, bool severe = true) {
+      ToolStripStatusLabel statusLabel = Program.MainProgram.statusLabel;
+      statusLabel.Text = errorMsg;
+      statusLabel.Font = new Font(statusLabel.Font, FontStyle.Bold);
+      statusLabel.ForeColor = severe ? Color.Red : Color.DarkOrange;
+      statusLabel.Invalidate();
+    }
+
     //Locate File - buttons
     public static void ExplorerSelect(string path) {
       if (File.Exists(path)) {
@@ -275,7 +291,7 @@ namespace DSPRE {
 
     public static void PictureBoxDisable(object sender, PaintEventArgs e) {
       if (sender is PictureBox pict && pict.Image != null && (!pict.Enabled)) {
-        using (var img = new Bitmap(pict.Image, pict.ClientSize)) {
+        using (Bitmap img = new Bitmap(pict.Image, pict.ClientSize)) {
           ControlPaint.DrawImageDisabled(e.Graphics, img, 0, 0, pict.BackColor);
         }
       }

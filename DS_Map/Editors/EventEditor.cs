@@ -41,7 +41,7 @@ namespace DSPRE.Editors {
     public void SetupEventEditor() {
       /* Extract essential NARCs sub-archives*/
 
-      Program.MainProgram.statusLabelMessage("Attempting to unpack Event Editor NARCs... Please wait. This might take a while");
+      Helpers.statusLabelMessage("Attempting to unpack Event Editor NARCs... Please wait. This might take a while");
       Program.MainProgram.toolStripProgressBar.Visible = true;
       Program.MainProgram.toolStripProgressBar.Maximum = 12;
       Program.MainProgram.toolStripProgressBar.Value = 0;
@@ -92,7 +92,7 @@ namespace DSPRE.Editors {
       }
 
       /* Add event file numbers to box */
-      Program.MainProgram.statusLabelMessage("Loading Events... Please wait.");
+      Helpers.statusLabelMessage("Loading Events... Please wait.");
       Update();
 
       int eventCount = RomInfo.GetEventFileCount();
@@ -178,7 +178,7 @@ namespace DSPRE.Editors {
       Program.MainProgram.toolStripProgressBar.Value = 0;
       Program.MainProgram.toolStripProgressBar.Visible = false;
 
-      Program.MainProgram.statusLabelMessage();
+      Helpers.statusLabelMessage();
     }
 
     public void UpdateItemComboBox(string[] itemNames) {
@@ -740,7 +740,7 @@ namespace DSPRE.Editors {
     private void eventPictureBox_MouseMove(object sender, MouseEventArgs e) {
       Point coordinates = eventPictureBox.PointToClient(Cursor.Position);
       Point mouseTilePos = new Point(coordinates.X / (tileSize + 1), coordinates.Y / (tileSize + 1));
-      Program.MainProgram.statusLabelMessage("Local: " + mouseTilePos.X + ", " + mouseTilePos.Y + "   |   " + "Global: " + (eventMatrixXUpDown.Value * MapFile.mapSize + mouseTilePos.X).ToString() + ", " + (eventMatrixYUpDown.Value * MapFile.mapSize + mouseTilePos.Y).ToString());
+      Helpers.statusLabelMessage("Local: " + mouseTilePos.X + ", " + mouseTilePos.Y + "   |   " + "Global: " + (eventMatrixXUpDown.Value * MapFile.mapSize + mouseTilePos.X).ToString() + ", " + (eventMatrixYUpDown.Value * MapFile.mapSize + mouseTilePos.Y).ToString());
     }
 
     private void updateSelectedSpawnableName() {
