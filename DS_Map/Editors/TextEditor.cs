@@ -97,10 +97,10 @@ namespace DSPRE {
     }
 
     public void ReloadHeaderEditorLocationsList(IEnumerable<string> contents) {
-      int selection = Program.MainProgram.locationNameComboBox.SelectedIndex;
-      Program.MainProgram.locationNameComboBox.Items.Clear();
-      Program.MainProgram.locationNameComboBox.Items.AddRange(contents.ToArray());
-      Program.MainProgram.locationNameComboBox.SelectedIndex = selection;
+      int selection = Program.MainProgram.headerEditor.locationNameComboBox.SelectedIndex;
+      Program.MainProgram.headerEditor.locationNameComboBox.Items.Clear();
+      Program.MainProgram.headerEditor.locationNameComboBox.Items.AddRange(contents.ToArray());
+      Program.MainProgram.headerEditor.locationNameComboBox.SelectedIndex = selection;
     }
 
     private void updateTextEditorLineNumbers() {

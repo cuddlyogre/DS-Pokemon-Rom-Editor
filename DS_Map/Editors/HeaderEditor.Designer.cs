@@ -1625,7 +1625,7 @@ namespace DSPRE.Editors
     private System.Windows.Forms.CheckBox flag5CheckBox;
     private System.Windows.Forms.CheckBox flag4CheckBox;
     private System.Windows.Forms.Button saveHeaderButton;
-    private System.Windows.Forms.ListBox headerListBox;
+    public System.Windows.Forms.ListBox headerListBox;
     private System.Windows.Forms.GroupBox groupBox3;
     private System.Windows.Forms.Button pasteLevelScriptsButton;
     private System.Windows.Forms.Button copyLevelScriptsButton;
@@ -1675,7 +1675,7 @@ namespace DSPRE.Editors
     private System.Windows.Forms.Label label2;
     private System.Windows.Forms.ComboBox areaIconComboBox;
     private System.Windows.Forms.ComboBox areaSettingsComboBox;
-    private System.Windows.Forms.ComboBox locationNameComboBox;
+    public System.Windows.Forms.ComboBox locationNameComboBox;
     private System.Windows.Forms.Label areaImageLabel;
     private System.Windows.Forms.PictureBox areaIconPictureBox;
     private System.Windows.Forms.Button copyHeaderButton;
@@ -1712,7 +1712,7 @@ namespace DSPRE.Editors
     private System.Windows.Forms.GroupBox groupBox18;
     private System.Windows.Forms.Button openWildEditorWithIdButton;
     private System.Windows.Forms.Button pasteWildEncountersButton;
-    private System.Windows.Forms.NumericUpDown wildPokeUpDown;
+    public System.Windows.Forms.NumericUpDown wildPokeUpDown;
     private System.Windows.Forms.Button copyWildEncountersButton;
     private System.Windows.Forms.GroupBox worldmapCoordsGroupBox;
     private System.Windows.Forms.Button worldmapCoordsPasteButton;
@@ -1721,7 +1721,7 @@ namespace DSPRE.Editors
     private System.Windows.Forms.NumericUpDown worldmapYCoordUpDown;
     private System.Windows.Forms.Label label36;
     private System.Windows.Forms.NumericUpDown worldmapXCoordUpDown;
-    private System.Windows.Forms.Button addHeaderBTN;
-    private System.Windows.Forms.Button removeLastHeaderBTN;
+    public System.Windows.Forms.Button addHeaderBTN;
+    public System.Windows.Forms.Button removeLastHeaderBTN;
   }
 }

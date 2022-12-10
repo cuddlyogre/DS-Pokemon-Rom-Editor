@@ -115,7 +115,7 @@ namespace DSPRE.Editors {
       RomInfo.ReadOWTable();
 
       eventEditorWarpHeaderListBox.Items.Clear();
-      eventEditorWarpHeaderListBox.Items.AddRange(Program.MainProgram.headerListBoxNames.ToArray());
+      eventEditorWarpHeaderListBox.Items.AddRange(Program.MainProgram.headerEditor.headerListBoxNames.ToArray());
       eventEditorHeaderLocationNameLabel.Text = "";
 
       string[] trainerNames = Helpers.GetTrainerNames();
@@ -801,7 +801,7 @@ namespace DSPRE.Editors {
           DialogResult main = MessageBox.Show("The selected event tried to reference a bigger Matrix than the one which is currently being displayed.\nDo you want to check for another potentially compatible matrix?", "Event is out of range", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
           if (main.Equals(DialogResult.Yes)) {
-            ushort[] result = HeaderSearch.AdvancedSearch(0, (ushort)Program.MainProgram.internalNames.Count, Program.MainProgram.internalNames, (int)MapHeader.SearchableFields.EventFileID, (int)HeaderSearch.NumOperators.Equal, selectEventComboBox.SelectedIndex.ToString())
+            ushort[] result = HeaderSearch.AdvancedSearch(0, (ushort)Program.MainProgram.headerEditor.internalNames.Count, Program.MainProgram.headerEditor.internalNames, (int)MapHeader.SearchableFields.EventFileID, (int)HeaderSearch.NumOperators.Equal, selectEventComboBox.SelectedIndex.ToString())
               .Select(x => ushort.Parse(x.Split()[0]))
               .ToArray();
 
@@ -840,13 +840,13 @@ namespace DSPRE.Editors {
             }
             else {
               if (dict.Count > 1) {
-                if (dict.Keys.Contains(Program.MainProgram.currentHeader.ID)) {
+                if (dict.Keys.Contains(Program.MainProgram.headerEditor.currentHeader.ID)) {
                   DialogResult yn = MessageBox.Show("DSPRE found multiple Headers referencing the same Event File and a different Matrix.\n" +
-                                                    $"The last selected Header ({Program.MainProgram.currentHeader.ID}) is one of those.\n" +
-                                                    $"Do you want to load its matrix (#{Program.MainProgram.currentHeader.matrixID}?)", "Potential solution found", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                                    $"The last selected Header ({Program.MainProgram.headerEditor.currentHeader.ID}) is one of those.\n" +
+                                                    $"Do you want to load its matrix (#{Program.MainProgram.headerEditor.currentHeader.matrixID}?)", "Potential solution found", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                   if (yn.Equals(DialogResult.Yes)) {
-                    eventMatrixUpDown.Value = Program.MainProgram.currentHeader.matrixID;
+                    eventMatrixUpDown.Value = Program.MainProgram.headerEditor.currentHeader.matrixID;
                   }
                 }
                 else {
@@ -1555,7 +1555,7 @@ namespace DSPRE.Editors {
         }
       }
 
-      eventEditorHeaderLocationNameLabel.Text = (string)Program.MainProgram.locationNameComboBox.Items[locNum];
+      eventEditorHeaderLocationNameLabel.Text = (string)Program.MainProgram.headerEditor.locationNameComboBox.Items[locNum];
 
       if (Helpers.disableHandlers) {
         return;
@@ -1861,7 +1861,7 @@ namespace DSPRE.Editors {
       }
     }
 
-    private void eventMatrixUpDown_ValueChanged(object sender, EventArgs e) {
+    public void eventMatrixUpDown_ValueChanged(object sender, EventArgs e) {
       if (Helpers.disableHandlers) {
         return;
       }
