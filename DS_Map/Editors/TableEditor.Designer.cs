@@ -616,8 +616,8 @@ namespace DSPRE.Editors
     private System.Windows.Forms.Button HOWVsTrainerButton;
     private System.Windows.Forms.Button saveVSTrainerTableBTN;
     private System.Windows.Forms.Label label70;
-    private System.Windows.Forms.ComboBox pbEffectsTrainerCombobox;
-    private System.Windows.Forms.ListBox pbEffectsVsTrainerListbox;
+    public System.Windows.Forms.ComboBox pbEffectsTrainerCombobox;
+    public System.Windows.Forms.ListBox pbEffectsVsTrainerListbox;
     private System.Windows.Forms.GroupBox pbEffectsMonGroupBox;
     private System.Windows.Forms.PictureBox tbEditorPokeminiPictureBox;
     private System.Windows.Forms.Label label69;

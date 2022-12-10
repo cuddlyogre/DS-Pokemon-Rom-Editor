@@ -511,11 +511,11 @@ namespace DSPRE.Editors {
       Helpers.disableHandlers = false;
 
       //trainerClassListBox_SelectedIndexChanged(null, null);
-      if (gameFamily.Equals(gFamEnum.HGSS) && Program.MainProgram.tableEditorIsReady) {
-        Program.MainProgram.pbEffectsTrainerCombobox.Items[selectedTrClass] = trainerClassListBox.Items[selectedTrClass];
-        for (int i = 0; i < Program.MainProgram.vsTrainerEffectsList.Count; i++) {
-          if (Program.MainProgram.vsTrainerEffectsList[i].trainerClass == selectedTrClass) {
-            Program.MainProgram.pbEffectsVsTrainerListbox.Items[i] = Program.MainProgram.pbEffectsTrainerCombobox.Items[selectedTrClass] + " uses Combo #" + Program.MainProgram.vsTrainerEffectsList[i].comboID;
+      if (gameFamily.Equals(gFamEnum.HGSS) && Program.MainProgram.tableEditor.tableEditorIsReady) {
+        Program.MainProgram.tableEditor.pbEffectsTrainerCombobox.Items[selectedTrClass] = trainerClassListBox.Items[selectedTrClass];
+        for (int i = 0; i < Program.MainProgram.tableEditor.vsTrainerEffectsList.Count; i++) {
+          if (Program.MainProgram.tableEditor.vsTrainerEffectsList[i].trainerClass == selectedTrClass) {
+            Program.MainProgram.tableEditor.pbEffectsVsTrainerListbox.Items[i] = Program.MainProgram.tableEditor.pbEffectsTrainerCombobox.Items[selectedTrClass] + " uses Combo #" + Program.MainProgram.tableEditor.vsTrainerEffectsList[i].comboID;
           }
         }
       }
