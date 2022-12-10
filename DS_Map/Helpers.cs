@@ -1,30 +1,18 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using NarcAPI;
 using Tao.OpenGl;
 using LibNDSFormats.NSBMD;
 using LibNDSFormats.NSBTX;
-using DSPRE.Resources;
 using DSPRE.ROMFiles;
 using static DSPRE.RomInfo;
 using Images;
 using Ekona.Images;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using ScintillaNET;
 using ScintillaNET.Utils;
-using System.Globalization;
-using static DSPRE.ROMFiles.Event;
-using static ScintillaNET.Style;
-using static OpenTK.Graphics.OpenGL.GL;
-using NSMBe4.NSBMD;
 
 namespace DSPRE {
   public class Helpers {
@@ -274,6 +262,23 @@ namespace DSPRE {
       }
       // default:
       //partyPokemonPictureBoxList[partyPos].Image = cb.SelectedIndex > 0 ? (Image)Properties.PokePics.ResourceManager.GetObject(FixPokenameString(PokeDatabase.System.pokeNames[(ushort)cb.SelectedIndex])) : global::DSPRE.Properties.Resources.IconPokeball;
+    }
+
+    public static void GenerateKeystrokes(string keys, Scintilla textArea) {
+      //Example
+      //GenerateKeystrokes("+{TAB}");
+      HotKeyManager.Enable = false;
+      textArea.Focus();
+      SendKeys.Send(keys);
+      HotKeyManager.Enable = true;
+    }
+
+    public static void PictureBoxDisable(object sender, PaintEventArgs e) {
+      if (sender is PictureBox pict && pict.Image != null && (!pict.Enabled)) {
+        using (var img = new Bitmap(pict.Image, pict.ClientSize)) {
+          ControlPaint.DrawImageDisabled(e.Graphics, img, 0, 0, pict.BackColor);
+        }
+      }
     }
   }
 }

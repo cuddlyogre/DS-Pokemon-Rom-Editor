@@ -425,7 +425,7 @@
       this.openROMToolStripMenuItem.Image = global::DSPRE.Properties.Resources.open_rom;
       this.openROMToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
       this.openROMToolStripMenuItem.Name = "openROMToolStripMenuItem";
-      this.openROMToolStripMenuItem.Size = new System.Drawing.Size(155, 38);
+      this.openROMToolStripMenuItem.Size = new System.Drawing.Size(196, 38);
       this.openROMToolStripMenuItem.Text = "Open ROM";
       this.openROMToolStripMenuItem.Click += new System.EventHandler(this.loadRom_Click);
       // 
@@ -434,7 +434,7 @@
       this.openFolderToolStripMenuItem.Image = global::DSPRE.Properties.Resources.open_file;
       this.openFolderToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
       this.openFolderToolStripMenuItem.Name = "openFolderToolStripMenuItem";
-      this.openFolderToolStripMenuItem.Size = new System.Drawing.Size(155, 38);
+      this.openFolderToolStripMenuItem.Size = new System.Drawing.Size(196, 38);
       this.openFolderToolStripMenuItem.Text = "Open Folder";
       this.openFolderToolStripMenuItem.Click += new System.EventHandler(this.readDataFromFolderButton_Click);
       // 
@@ -444,7 +444,7 @@
       this.saveROMToolStripMenuItem.Image = global::DSPRE.Properties.Resources.save_rom;
       this.saveROMToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
       this.saveROMToolStripMenuItem.Name = "saveROMToolStripMenuItem";
-      this.saveROMToolStripMenuItem.Size = new System.Drawing.Size(155, 38);
+      this.saveROMToolStripMenuItem.Size = new System.Drawing.Size(196, 38);
       this.saveROMToolStripMenuItem.Text = "Save ROM";
       this.saveROMToolStripMenuItem.Click += new System.EventHandler(this.saveRom_Click);
       // 
@@ -655,14 +655,14 @@
       // essentialToolStripMenuItem
       // 
       this.essentialToolStripMenuItem.Name = "essentialToolStripMenuItem";
-      this.essentialToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+      this.essentialToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
       this.essentialToolStripMenuItem.Text = "Essential";
       this.essentialToolStripMenuItem.MouseDown += new System.Windows.Forms.MouseEventHandler(this.simpleToolStripMenuItem_MouseDown);
       // 
       // simpleToolStripMenuItem
       // 
       this.simpleToolStripMenuItem.Name = "simpleToolStripMenuItem";
-      this.simpleToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+      this.simpleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
       this.simpleToolStripMenuItem.Text = "Simple";
       this.simpleToolStripMenuItem.MouseDown += new System.Windows.Forms.MouseEventHandler(this.simpleToolStripMenuItem_MouseDown);
       // 
@@ -671,7 +671,7 @@
       this.fullViewToolStripMenuItem.Checked = true;
       this.fullViewToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
       this.fullViewToolStripMenuItem.Name = "fullViewToolStripMenuItem";
-      this.fullViewToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+      this.fullViewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
       this.fullViewToolStripMenuItem.Text = "Complete";
       this.fullViewToolStripMenuItem.MouseDown += new System.Windows.Forms.MouseEventHandler(this.simpleToolStripMenuItem_MouseDown);
       // 
