@@ -2001,7 +2001,7 @@ namespace DSPRE.Editors {
       currentEvFile.warps[warpsListBox.SelectedIndex].xMatrixPosition = (ushort)warpXMatrixUpDown.Value;
       DisplayActiveEvents();
     }
-    
+
     private void warpMatrixYUpDown_ValueChanged(object sender, EventArgs e) {
       if (Helpers.disableHandlers || warpsListBox.SelectedIndex < 0) {
         return;

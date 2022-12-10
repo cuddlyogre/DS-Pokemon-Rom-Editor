@@ -47,124 +47,129 @@ namespace DSPRE.Editors {
     }
 
     public void SetupHeaderEditor() {
-            /* Extract essential NARCs sub-archives*/
+      /* Extract essential NARCs sub-archives*/
 
-            Helpers.statusLabelMessage("Attempting to unpack Header Editor NARCs... Please wait.");
-            Update();
+      Helpers.statusLabelMessage("Attempting to unpack Header Editor NARCs... Please wait.");
+      Update();
 
-            DSUtils.TryUnpackNarcs(new List<DirNames> { DirNames.synthOverlay, DirNames.textArchives, DirNames.dynamicHeaders });
+      DSUtils.TryUnpackNarcs(new List<DirNames> { DirNames.synthOverlay, DirNames.textArchives, DirNames.dynamicHeaders });
 
-            Helpers.statusLabelMessage("Reading internal names... Please wait.");
-            Update();
+      Helpers.statusLabelMessage("Reading internal names... Please wait.");
+      Update();
 
-            internalNames = new List<string>();
-            headerListBoxNames = new List<string>();
-            int headerCount;
-            if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
-                addHeaderBTN.Enabled = true;
-                removeLastHeaderBTN.Enabled = true;
-                headerCount = Directory.GetFiles(RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir).Length;
-            } else {
-                headerCount = RomInfo.GetHeaderCount();
-            }
+      internalNames = new List<string>();
+      headerListBoxNames = new List<string>();
+      int headerCount;
+      if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
+        addHeaderBTN.Enabled = true;
+        removeLastHeaderBTN.Enabled = true;
+        headerCount = Directory.GetFiles(RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir).Length;
+      }
+      else {
+        headerCount = RomInfo.GetHeaderCount();
+      }
 
-            /* Read Header internal names */
-            try {
-                using (DSUtils.EasyReader reader = new DSUtils.EasyReader(RomInfo.internalNamesLocation)) {
-                    for (int i = 0; i < headerCount; i++) {
-                        byte[] row = reader.ReadBytes(RomInfo.internalNameLength);
+      /* Read Header internal names */
+      try {
+        using (DSUtils.EasyReader reader = new DSUtils.EasyReader(RomInfo.internalNamesLocation)) {
+          for (int i = 0; i < headerCount; i++) {
+            byte[] row = reader.ReadBytes(RomInfo.internalNameLength);
 
-                        string internalName = Encoding.ASCII.GetString(row);//.TrimEnd();
-                        headerListBoxNames.Add(i.ToString("D3") + MapHeader.nameSeparator + internalName);
-                        internalNames.Add(internalName.TrimEnd('\0'));
-                    }
-                }
-
-                headerListBox.Items.Clear();
-                headerListBox.Items.AddRange(headerListBoxNames.ToArray());
-            } catch (FileNotFoundException) {
-                MessageBox.Show(RomInfo.internalNamesLocation + " doesn't exist.", "Couldn't read internal names", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            /*Add list of options to each control */
-            Program.MainProgram.textEditor.currentTextArchive = new TextArchive(RomInfo.locationNamesTextNumber);
-            Program.MainProgram.textEditor.ReloadHeaderEditorLocationsList(Program.MainProgram.textEditor.currentTextArchive.messages);
-
-            switch (RomInfo.gameFamily) {
-                case gFamEnum.DP:
-                    areaIconComboBox.Enabled = false;
-                    areaIconPictureBox.Image = (Image)Properties.Resources.ResourceManager.GetObject("dpareaicon");
-                    areaSettingsLabel.Text = "Show nametag:";
-                    cameraComboBox.Items.Clear();
-                    musicDayComboBox.Items.Clear();
-                    musicNightComboBox.Items.Clear();
-                    areaSettingsComboBox.Items.Clear();
-                    cameraComboBox.Items.AddRange(PokeDatabase.CameraAngles.DPPtCameraDict.Values.ToArray());
-                    musicDayComboBox.Items.AddRange(PokeDatabase.MusicDB.DPMusicDict.Values.ToArray());
-                    musicNightComboBox.Items.AddRange(PokeDatabase.MusicDB.DPMusicDict.Values.ToArray());
-                    areaSettingsComboBox.Items.AddRange(PokeDatabase.ShowName.DPShowNameValues);
-                    weatherComboBox.Items.AddRange(PokeDatabase.Weather.DPWeatherDict.Values.ToArray());
-                    wildPokeUpDown.Maximum = 65535;
-
-                    battleBackgroundLabel.Location = new Point(battleBackgroundLabel.Location.X - 25, battleBackgroundLabel.Location.Y - 8);
-                    battleBackgroundUpDown.Location = new Point(battleBackgroundUpDown.Location.X - 25, battleBackgroundUpDown.Location.Y - 8);
-                    break;
-                case gFamEnum.Plat:
-                    areaSettingsLabel.Text = "Show nametag:";
-                    areaIconComboBox.Items.Clear();
-                    cameraComboBox.Items.Clear();
-                    musicDayComboBox.Items.Clear();
-                    musicNightComboBox.Items.Clear();
-                    areaSettingsComboBox.Items.Clear();
-                    weatherComboBox.Items.Clear();
-                    areaIconComboBox.Items.AddRange(PokeDatabase.Area.PtAreaIconValues);
-                    cameraComboBox.Items.AddRange(PokeDatabase.CameraAngles.DPPtCameraDict.Values.ToArray());
-                    musicDayComboBox.Items.AddRange(PokeDatabase.MusicDB.PtMusicDict.Values.ToArray());
-                    musicNightComboBox.Items.AddRange(PokeDatabase.MusicDB.PtMusicDict.Values.ToArray());
-                    areaSettingsComboBox.Items.AddRange(PokeDatabase.ShowName.PtShowNameValues);
-                    weatherComboBox.Items.AddRange(PokeDatabase.Weather.PtWeatherDict.Values.ToArray());
-                    wildPokeUpDown.Maximum = 65535;
-
-                    battleBackgroundLabel.Location = new Point(battleBackgroundLabel.Location.X - 25, battleBackgroundLabel.Location.Y - 8);
-                    battleBackgroundUpDown.Location = new Point(battleBackgroundUpDown.Location.X - 25, battleBackgroundUpDown.Location.Y - 8);
-                    break;
-                default:
-                    areaSettingsLabel.Text = "Area Settings:";
-                    areaIconComboBox.Items.Clear();
-                    cameraComboBox.Items.Clear();
-                    areaSettingsComboBox.Items.Clear();
-                    musicDayComboBox.Items.Clear();
-                    musicNightComboBox.Items.Clear();
-                    weatherComboBox.Items.Clear();
-                    areaIconComboBox.Items.AddRange(PokeDatabase.Area.HGSSAreaIconsDict.Values.ToArray());
-                    cameraComboBox.Items.AddRange(PokeDatabase.CameraAngles.HGSSCameraDict.Values.ToArray());
-                    areaSettingsComboBox.Items.AddRange(PokeDatabase.Area.HGSSAreaProperties);
-                    musicDayComboBox.Items.AddRange(PokeDatabase.MusicDB.HGSSMusicDict.Values.ToArray());
-                    musicNightComboBox.Items.AddRange(PokeDatabase.MusicDB.HGSSMusicDict.Values.ToArray());
-                    weatherComboBox.Items.AddRange(PokeDatabase.Weather.HGSSWeatherDict.Values.ToArray());
-                    wildPokeUpDown.Maximum = 255;
-
-                    followModeComboBox.Visible = true;
-                    followModeLabel.Visible = true;
-                    johtoRadioButton.Visible = true;
-                    kantoRadioButton.Visible = true;
-
-                    flag6CheckBox.Visible = true;
-                    flag5CheckBox.Visible = true;
-                    flag4CheckBox.Visible = true;
-                    flag6CheckBox.Text = "Flag ?";
-                    flag5CheckBox.Text = "Flag ?";
-                    flag4CheckBox.Text = "Flag ?";
-
-                    worldmapCoordsGroupBox.Enabled = true;
-                    break;
-            }
-            if (headerListBox.Items.Count > 0) {
-                headerListBox.SelectedIndex = 0;
-            }
-            Helpers.statusLabelMessage();
+            string internalName = Encoding.ASCII.GetString(row); //.TrimEnd();
+            headerListBoxNames.Add(i.ToString("D3") + MapHeader.nameSeparator + internalName);
+            internalNames.Add(internalName.TrimEnd('\0'));
+          }
         }
+
+        headerListBox.Items.Clear();
+        headerListBox.Items.AddRange(headerListBoxNames.ToArray());
+      }
+      catch (FileNotFoundException) {
+        MessageBox.Show(RomInfo.internalNamesLocation + " doesn't exist.", "Couldn't read internal names", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        return;
+      }
+
+      /*Add list of options to each control */
+      Program.MainProgram.textEditor.currentTextArchive = new TextArchive(RomInfo.locationNamesTextNumber);
+      Program.MainProgram.textEditor.ReloadHeaderEditorLocationsList(Program.MainProgram.textEditor.currentTextArchive.messages);
+
+      switch (RomInfo.gameFamily) {
+        case gFamEnum.DP:
+          areaIconComboBox.Enabled = false;
+          areaIconPictureBox.Image = (Image)Properties.Resources.ResourceManager.GetObject("dpareaicon");
+          areaSettingsLabel.Text = "Show nametag:";
+          cameraComboBox.Items.Clear();
+          musicDayComboBox.Items.Clear();
+          musicNightComboBox.Items.Clear();
+          areaSettingsComboBox.Items.Clear();
+          cameraComboBox.Items.AddRange(PokeDatabase.CameraAngles.DPPtCameraDict.Values.ToArray());
+          musicDayComboBox.Items.AddRange(PokeDatabase.MusicDB.DPMusicDict.Values.ToArray());
+          musicNightComboBox.Items.AddRange(PokeDatabase.MusicDB.DPMusicDict.Values.ToArray());
+          areaSettingsComboBox.Items.AddRange(PokeDatabase.ShowName.DPShowNameValues);
+          weatherComboBox.Items.AddRange(PokeDatabase.Weather.DPWeatherDict.Values.ToArray());
+          wildPokeUpDown.Maximum = 65535;
+
+          battleBackgroundLabel.Location = new Point(battleBackgroundLabel.Location.X - 25, battleBackgroundLabel.Location.Y - 8);
+          battleBackgroundUpDown.Location = new Point(battleBackgroundUpDown.Location.X - 25, battleBackgroundUpDown.Location.Y - 8);
+          break;
+        case gFamEnum.Plat:
+          areaSettingsLabel.Text = "Show nametag:";
+          areaIconComboBox.Items.Clear();
+          cameraComboBox.Items.Clear();
+          musicDayComboBox.Items.Clear();
+          musicNightComboBox.Items.Clear();
+          areaSettingsComboBox.Items.Clear();
+          weatherComboBox.Items.Clear();
+          areaIconComboBox.Items.AddRange(PokeDatabase.Area.PtAreaIconValues);
+          cameraComboBox.Items.AddRange(PokeDatabase.CameraAngles.DPPtCameraDict.Values.ToArray());
+          musicDayComboBox.Items.AddRange(PokeDatabase.MusicDB.PtMusicDict.Values.ToArray());
+          musicNightComboBox.Items.AddRange(PokeDatabase.MusicDB.PtMusicDict.Values.ToArray());
+          areaSettingsComboBox.Items.AddRange(PokeDatabase.ShowName.PtShowNameValues);
+          weatherComboBox.Items.AddRange(PokeDatabase.Weather.PtWeatherDict.Values.ToArray());
+          wildPokeUpDown.Maximum = 65535;
+
+          battleBackgroundLabel.Location = new Point(battleBackgroundLabel.Location.X - 25, battleBackgroundLabel.Location.Y - 8);
+          battleBackgroundUpDown.Location = new Point(battleBackgroundUpDown.Location.X - 25, battleBackgroundUpDown.Location.Y - 8);
+          break;
+        default:
+          areaSettingsLabel.Text = "Area Settings:";
+          areaIconComboBox.Items.Clear();
+          cameraComboBox.Items.Clear();
+          areaSettingsComboBox.Items.Clear();
+          musicDayComboBox.Items.Clear();
+          musicNightComboBox.Items.Clear();
+          weatherComboBox.Items.Clear();
+          areaIconComboBox.Items.AddRange(PokeDatabase.Area.HGSSAreaIconsDict.Values.ToArray());
+          cameraComboBox.Items.AddRange(PokeDatabase.CameraAngles.HGSSCameraDict.Values.ToArray());
+          areaSettingsComboBox.Items.AddRange(PokeDatabase.Area.HGSSAreaProperties);
+          musicDayComboBox.Items.AddRange(PokeDatabase.MusicDB.HGSSMusicDict.Values.ToArray());
+          musicNightComboBox.Items.AddRange(PokeDatabase.MusicDB.HGSSMusicDict.Values.ToArray());
+          weatherComboBox.Items.AddRange(PokeDatabase.Weather.HGSSWeatherDict.Values.ToArray());
+          wildPokeUpDown.Maximum = 255;
+
+          followModeComboBox.Visible = true;
+          followModeLabel.Visible = true;
+          johtoRadioButton.Visible = true;
+          kantoRadioButton.Visible = true;
+
+          flag6CheckBox.Visible = true;
+          flag5CheckBox.Visible = true;
+          flag4CheckBox.Visible = true;
+          flag6CheckBox.Text = "Flag ?";
+          flag5CheckBox.Text = "Flag ?";
+          flag4CheckBox.Text = "Flag ?";
+
+          worldmapCoordsGroupBox.Enabled = true;
+          break;
+      }
+
+      if (headerListBox.Items.Count > 0) {
+        headerListBox.SelectedIndex = 0;
+      }
+
+      Helpers.statusLabelMessage();
+    }
+
     private void followModeComboBox_SelectedIndexChanged(object sender, EventArgs e) {
       if (Helpers.disableHandlers) {
         return;
@@ -463,12 +468,15 @@ namespace DSPRE.Editors {
 
       Helpers.disableHandlers = false;
     }
+
     private byte[] StringToInternalName(string text) {
       if (text.Length > internalNameLength) {
         MessageBox.Show("Internal names can't be longer than " + internalNameLength + " characters!", "Length error", MessageBoxButtons.OK, MessageBoxIcon.Error);
       }
+
       return Encoding.ASCII.GetBytes(text.Substring(0, Math.Min(text.Length, internalNameLength)).PadRight(internalNameLength, '\0'));
     }
+
     private void updateCurrentInternalName() {
       /* Update internal name according to internalNameBox text*/
       ushort headerID = currentHeader.ID;
@@ -942,51 +950,55 @@ namespace DSPRE.Editors {
         startSearchGameLocation();
       }
     }
-        private void startSearchGameLocation() {
-            if (searchLocationTextBox.Text.Length != 0) {
-                headerListBox.Items.Clear();
-                bool noResult = true;
 
-                /* Check if dynamic headers patch has been applied, and load header from arm9 or a/0/5/0 accordingly */
-                for (ushort i = 0; i < internalNames.Count; i++) {
-                    MapHeader h;
-                    if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
-                        h = MapHeader.LoadFromFile(RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir + "\\" + i.ToString("D4"), i, 0);
-                    } else {
-                        h = MapHeader.LoadFromARM9(i);
-                    }
+    private void startSearchGameLocation() {
+      if (searchLocationTextBox.Text.Length != 0) {
+        headerListBox.Items.Clear();
+        bool noResult = true;
 
-                    string locationName = "";
-                    switch (RomInfo.gameFamily) {
-                        case gFamEnum.DP:
-                            locationName = locationNameComboBox.Items[((HeaderDP)h).locationName].ToString();
-                            break;
-                        case gFamEnum.Plat:
-                            locationName = locationNameComboBox.Items[((HeaderPt)h).locationName].ToString();
-                            break;
-                        case gFamEnum.HGSS:
-                            locationName = locationNameComboBox.Items[((HeaderHGSS)h).locationName].ToString();
-                            break;
-                    }
+        /* Check if dynamic headers patch has been applied, and load header from arm9 or a/0/5/0 accordingly */
+        for (ushort i = 0; i < internalNames.Count; i++) {
+          MapHeader h;
+          if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
+            h = MapHeader.LoadFromFile(RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir + "\\" + i.ToString("D4"), i, 0);
+          }
+          else {
+            h = MapHeader.LoadFromARM9(i);
+          }
 
-                    if (locationName.IndexOf(searchLocationTextBox.Text, StringComparison.InvariantCultureIgnoreCase) >= 0) {
-                        headerListBox.Items.Add(i.ToString("D3") + MapHeader.nameSeparator + internalNames[i]);
-                        noResult = false;
-                    }
-                }
+          string locationName = "";
+          switch (RomInfo.gameFamily) {
+            case gFamEnum.DP:
+              locationName = locationNameComboBox.Items[((HeaderDP)h).locationName].ToString();
+              break;
+            case gFamEnum.Plat:
+              locationName = locationNameComboBox.Items[((HeaderPt)h).locationName].ToString();
+              break;
+            case gFamEnum.HGSS:
+              locationName = locationNameComboBox.Items[((HeaderHGSS)h).locationName].ToString();
+              break;
+          }
 
-
-                if (noResult) {
-                    headerListBox.Items.Add("No result for " + '"' + searchLocationTextBox.Text + '"');
-                    headerListBox.Enabled = false;
-                } else {
-                    headerListBox.SelectedIndex = 0;
-                    headerListBox.Enabled = true;
-                }
-            } else if (headerListBox.Items.Count < internalNames.Count) {
-                HeaderSearch.ResetResults(headerListBox, headerListBoxNames, prependNumbers: false);
-            }
+          if (locationName.IndexOf(searchLocationTextBox.Text, StringComparison.InvariantCultureIgnoreCase) >= 0) {
+            headerListBox.Items.Add(i.ToString("D3") + MapHeader.nameSeparator + internalNames[i]);
+            noResult = false;
+          }
         }
+
+        if (noResult) {
+          headerListBox.Items.Add("No result for " + '"' + searchLocationTextBox.Text + '"');
+          headerListBox.Enabled = false;
+        }
+        else {
+          headerListBox.SelectedIndex = 0;
+          headerListBox.Enabled = true;
+        }
+      }
+      else if (headerListBox.Items.Count < internalNames.Count) {
+        HeaderSearch.ResetResults(headerListBox, headerListBoxNames, prependNumbers: false);
+      }
+    }
+
     private void pasteAreaDataButton_Click(object sender, EventArgs e) {
       areaDataUpDown.Value = areadataCopy;
     }
@@ -1232,6 +1244,7 @@ namespace DSPRE.Editors {
     private void openWildEditorWithIdButtonClick(object sender, EventArgs e) {
       openWildEditor(loadCurrent: true);
     }
+
     private void openWildEditor(bool loadCurrent) {
       Helpers.statusLabelMessage("Attempting to extract Wild Encounters NARC...");
       Update();
@@ -1255,8 +1268,10 @@ namespace DSPRE.Editors {
             editor.ShowDialog();
           break;
       }
+
       Helpers.statusLabelMessage();
     }
+
     private void pasteWildEncountersButton_Click(object sender, EventArgs e) {
       wildPokeUpDown.Value = encountersIDCopy;
     }

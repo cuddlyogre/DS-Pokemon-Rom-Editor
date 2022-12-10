@@ -76,6 +76,7 @@ namespace DSPRE.Editors {
           conditionalMusicGroupBox.Enabled = false;
           break;
       }
+
       SetupBattleEffectsTables();
     }
 

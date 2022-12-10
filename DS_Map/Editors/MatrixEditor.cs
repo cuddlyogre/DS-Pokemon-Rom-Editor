@@ -175,58 +175,60 @@ namespace DSPRE.Editors {
         return false;
       }
     }
-            private void GenerateMatrixTables() {
-            /* Generate table columns */
-            if (currentMatrix is null) {
-                return;
-            }
 
-            for (int i = 0; i < currentMatrix.width; i++) {
-                headersGridView.Columns.Add("Column" + i, i.ToString("D"));
-                headersGridView.Columns[i].Width = 32; // Set column size
-                headersGridView.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-                headersGridView.Columns[i].Frozen = false;
+    private void GenerateMatrixTables() {
+      /* Generate table columns */
+      if (currentMatrix is null) {
+        return;
+      }
 
-                heightsGridView.Columns.Add("Column" + i, i.ToString("D"));
-                heightsGridView.Columns[i].Width = 21; // Set column size
-                heightsGridView.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-                heightsGridView.Columns[i].Frozen = false;
+      for (int i = 0; i < currentMatrix.width; i++) {
+        headersGridView.Columns.Add("Column" + i, i.ToString("D"));
+        headersGridView.Columns[i].Width = 32; // Set column size
+        headersGridView.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+        headersGridView.Columns[i].Frozen = false;
 
-                mapFilesGridView.Columns.Add("Column" + i, i.ToString("D"));
-                mapFilesGridView.Columns[i].Width = 32; // Set column size
-                mapFilesGridView.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-                mapFilesGridView.Columns[i].Frozen = false;
-            }
+        heightsGridView.Columns.Add("Column" + i, i.ToString("D"));
+        heightsGridView.Columns[i].Width = 21; // Set column size
+        heightsGridView.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+        heightsGridView.Columns[i].Frozen = false;
 
-            /* Generate table rows */
-            for (int i = 0; i < currentMatrix.height; i++) {
-                mapFilesGridView.Rows.Add();
-                mapFilesGridView.Rows[i].HeaderCell.Value = i.ToString();
+        mapFilesGridView.Columns.Add("Column" + i, i.ToString("D"));
+        mapFilesGridView.Columns[i].Width = 32; // Set column size
+        mapFilesGridView.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+        mapFilesGridView.Columns[i].Frozen = false;
+      }
 
-                headersGridView.Rows.Add();
-                headersGridView.Rows[i].HeaderCell.Value = i.ToString();
+      /* Generate table rows */
+      for (int i = 0; i < currentMatrix.height; i++) {
+        mapFilesGridView.Rows.Add();
+        mapFilesGridView.Rows[i].HeaderCell.Value = i.ToString();
 
-                heightsGridView.Rows.Add();
-                heightsGridView.Rows[i].HeaderCell.Value = i.ToString();
-            }
+        headersGridView.Rows.Add();
+        headersGridView.Rows[i].HeaderCell.Value = i.ToString();
 
-            /* Fill tables */
-            for (int i = 0; i < currentMatrix.height; i++) {
-                for (int j = 0; j < currentMatrix.width; j++) {
-                    headersGridView.Rows[i].Cells[j].Value = currentMatrix.headers[i, j];
-                    heightsGridView.Rows[i].Cells[j].Value = currentMatrix.altitudes[i, j];
-                    mapFilesGridView.Rows[i].Cells[j].Value = currentMatrix.maps[i, j];
-                }
-            }
+        heightsGridView.Rows.Add();
+        heightsGridView.Rows[i].HeaderCell.Value = i.ToString();
+      }
 
-            if (currentMatrix.hasHeadersSection) {
-                matrixTabControl.TabPages.Add(headersTabPage);
-            }
-
-            if (currentMatrix.hasHeightsSection) {
-                matrixTabControl.TabPages.Add(heightsTabPage);
-            }
+      /* Fill tables */
+      for (int i = 0; i < currentMatrix.height; i++) {
+        for (int j = 0; j < currentMatrix.width; j++) {
+          headersGridView.Rows[i].Cells[j].Value = currentMatrix.headers[i, j];
+          heightsGridView.Rows[i].Cells[j].Value = currentMatrix.altitudes[i, j];
+          mapFilesGridView.Rows[i].Cells[j].Value = currentMatrix.maps[i, j];
         }
+      }
+
+      if (currentMatrix.hasHeadersSection) {
+        matrixTabControl.TabPages.Add(headersTabPage);
+      }
+
+      if (currentMatrix.hasHeightsSection) {
+        matrixTabControl.TabPages.Add(heightsTabPage);
+      }
+    }
+
     private void ClearMatrixTables() {
       headersGridView.Rows.Clear();
       headersGridView.Columns.Clear();
@@ -237,11 +239,13 @@ namespace DSPRE.Editors {
       matrixTabControl.TabPages.Remove(headersTabPage);
       matrixTabControl.TabPages.Remove(heightsTabPage);
     }
+
     public void Swap(ref uint a, ref uint b) {
       uint temp = a;
       a = b;
       b = temp;
     }
+
     private void saveMatrixButton_Click(object sender, EventArgs e) {
       currentMatrix.SaveToFileDefaultDir(selectMatrixComboBox.SelectedIndex);
       GameMatrix saved = new GameMatrix(selectMatrixComboBox.SelectedIndex);
@@ -385,6 +389,7 @@ namespace DSPRE.Editors {
         if (entry.Key.Contains(cellValue))
           return entry.Value;
       }
+
       return (Color.White, Color.Black);
     }
 
@@ -425,11 +430,13 @@ namespace DSPRE.Editors {
     private void headersGridView_SelectionChanged(object sender, EventArgs e) {
       DisplaySelection(headersGridView.SelectedCells);
     }
+
     private void DisplaySelection(DataGridViewSelectedCellCollection selectedCells) {
       if (selectedCells.Count > 0) {
         Helpers.statusLabelMessage("Selection:   " + selectedCells[0].ColumnIndex + ", " + selectedCells[0].RowIndex);
       }
     }
+
     private void heightsGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
       if (e.Value is null) {
         return;
