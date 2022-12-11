@@ -167,7 +167,7 @@ namespace DSPRE.Editors {
       selectScriptFileComboBox.Items.Clear();
       int scriptCount = Directory.GetFiles(RomInfo.gameDirs[DirNames.scripts].unpackedDir).Length;
       for (int i = 0; i < scriptCount; i++) {
-        ScriptFile currentScriptFile = new ScriptFile(i, false, false);
+        ScriptFile currentScriptFile = new ScriptFile(i, true, true);
         selectScriptFileComboBox.Items.Add(currentScriptFile);
       }
     }
