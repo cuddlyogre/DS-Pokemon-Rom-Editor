@@ -409,7 +409,7 @@ namespace DSPRE.Editors {
     private bool ReloadScript() {
       Console.WriteLine("Script Reload has been requested");
       /* clear controls */
-      if (Helpers.disableHandlers || selectScriptFileComboBox.SelectedIndex < 0) {
+      if (Helpers.disableHandlers || selectScriptFileComboBox.SelectedItem == null) {
         return false;
       }
 
@@ -418,7 +418,7 @@ namespace DSPRE.Editors {
 
         if (!d.Equals(DialogResult.Yes)) {
           Helpers.disableHandlers = true;
-          selectScriptFileComboBox.SelectedIndex = (int)currentScriptFile.fileID;
+          selectScriptFileComboBox.SelectedItem = currentScriptFile;
           Helpers.disableHandlers = false;
           return false;
         }
@@ -481,7 +481,7 @@ namespace DSPRE.Editors {
         for (int i = 0; i < currentScriptFile.allFunctions.Count; i++) {
           CommandContainer currentFunction = currentScriptFile.allFunctions[i];
 
-          /* Write Heaader */
+          /* Write Header */
           string header = ScriptFile.containerTypes.Function.ToString() + " " + (i + 1);
           buffer += header + ':' + Environment.NewLine;
           functionsNavListbox.Items.Add(header);
@@ -633,7 +633,8 @@ namespace DSPRE.Editors {
       DialogResult d = MessageBox.Show("Are you sure you want to delete the last Script File?", "Confirm deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
       if (d.Equals(DialogResult.Yes)) {
         /* Delete script file */
-        File.Delete(RomInfo.gameDirs[DirNames.scripts].unpackedDir + "\\" + (selectScriptFileComboBox.Items.Count - 1).ToString("D4"));
+        string path = Path.Combine(RomInfo.gameDirs[DirNames.scripts].unpackedDir, (selectScriptFileComboBox.Items.Count - 1).ToString("D4"));
+        File.Delete(path);
 
         /* Check if currently selected file is the last one, and in that case select the one before it */
         int lastIndex = selectScriptFileComboBox.Items.Count - 1;
@@ -651,13 +652,13 @@ namespace DSPRE.Editors {
       int fileID = selectScriptFileComboBox.Items.Count;
 
       ScriptFile scriptFile = new ScriptFile(
-        scriptLines: new Scintilla{Text = "Script 1:\nEnd"}.Lines.ToStringsList(trim: true),
+        scriptLines: new Scintilla { Text = "Script 1:\nEnd" }.Lines.ToStringsList(trim: true),
         functionLines: null,
         actionLines: null,
         fileID
       );
 
-      //check if ScriptFile instance was created succesfully
+      //check if ScriptFile instance was created successfully
       if (scriptFile.SaveToFileDefaultDir(fileID, showSuccessMessage: false)) {
         /* Update ComboBox and select new file */
         selectScriptFileComboBox.Items.Add(scriptFile);
@@ -667,7 +668,7 @@ namespace DSPRE.Editors {
 
     private void saveScriptFileButton_Click(object sender, EventArgs e) {
       /* Create new ScriptFile object using the values in the script editor */
-      int fileID = selectScriptFileComboBox.SelectedIndex;
+      int fileID = currentScriptFile.fileID;
 
       ScriptFile userEdited = new ScriptFile(
         scriptLines: ScriptTextArea.Lines.ToStringsList(trim: true),
@@ -676,17 +677,12 @@ namespace DSPRE.Editors {
         fileID
       );
 
-      if (userEdited.fileID == null) {
-        MessageBox.Show("This " + typeof(ScriptFile).Name + " couldn't be saved, due to a processing error.", "Can't save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+      if (userEdited.hasNoScripts) {
+        MessageBox.Show("This " + nameof(ScriptFile) + " couldn't be saved. A minimum of one script is required.", "Can't save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         return;
       }
 
-      if (userEdited.fileID == int.MaxValue) {
-        MessageBox.Show("This " + typeof(ScriptFile).Name + " is couldn't be saved since it's empty.", "Can't save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        return;
-      }
-
-      //check if ScriptFile instance was created succesfully
+      //check if ScriptFile instance was created successfully
       if (userEdited.SaveToFileDefaultDir(fileID)) {
         currentScriptFile = userEdited;
         ScriptEditorSetClean();
@@ -694,12 +690,7 @@ namespace DSPRE.Editors {
     }
 
     private void exportScriptFileButton_Click(object sender, EventArgs e) {
-      string suggestion = "Script File ";
-      if (currentScriptFile.isLevelScript) {
-        suggestion = "Level " + suggestion;
-      }
-
-      currentScriptFile.SaveToFileExplorePath(suggestion + selectScriptFileComboBox.SelectedIndex, blindmode: true);
+      currentScriptFile.SaveToFileExplorePath(currentScriptFile.ToString(), blindmode: true);
     }
 
     private void importScriptFileButton_Click(object sender, EventArgs e) {
@@ -712,8 +703,12 @@ namespace DSPRE.Editors {
       }
 
       /* Update scriptFile object in memory */
-      string path = RomInfo.gameDirs[DirNames.scripts].unpackedDir + "\\" + selectScriptFileComboBox.SelectedIndex.ToString("D4");
+      int i = selectScriptFileComboBox.SelectedIndex;
+      string path = Path.Combine(RomInfo.gameDirs[DirNames.scripts].unpackedDir, i.ToString("D4"));
       File.Copy(of.FileName, path, true);
+
+      populate_selectScriptFileComboBox();
+      selectScriptFileComboBox.SelectedIndex = i;
 
       /* Refresh controls */
       selectScriptFileComboBox_SelectedIndexChanged(null, null);
@@ -733,62 +728,51 @@ namespace DSPRE.Editors {
         return;
       }
 
-      int firstArchive;
-      int lastArchive;
-
+      ComboBox.ObjectCollection scriptsToSearch = selectScriptFileComboBox.Items;
       if (searchOnlyCurrentScriptCheckBox.Checked) {
-        firstArchive = selectScriptFileComboBox.SelectedIndex;
-        lastArchive = firstArchive + 1;
-      }
-      else {
-        firstArchive = 0;
-        lastArchive = Helpers.romInfo.GetScriptCount();
+        scriptsToSearch = new ComboBox.ObjectCollection(new ComboBox()) { currentScriptFile };
       }
 
       searchInScriptsResultListBox.Items.Clear();
       string searchString = searchInScriptsTextBox.Text;
+
       searchProgressBar.Maximum = selectScriptFileComboBox.Items.Count;
+      searchProgressBar.Value = 0;
 
-      List<string> results = new List<string>();
+      Func<string, bool> searchCriteriaCS = (string s) => s.IndexOf(searchString, StringComparison.InvariantCulture) >= 0;
+      Func<string, bool> searchCriteriaCI = (string s) => s.IndexOf(searchString, StringComparison.InvariantCultureIgnoreCase) >= 0;
+      Func<string, bool> searchCriteria = scriptSearchCaseSensitiveCheckBox.Checked ? searchCriteriaCS : searchCriteriaCI;
 
-      string scriptKw = ScriptFile.containerTypes.Script.ToString();
-      string functionKw = ScriptFile.containerTypes.Function.ToString();
+      List<ScriptEditorSearchResult> results = new List<ScriptEditorSearchResult>();
+      foreach (ScriptFile scriptFile in scriptsToSearch) {
+        Console.WriteLine("Attempting to load script " + scriptFile.fileID);
 
-      for (int i = firstArchive; i < lastArchive; i++) {
-        try {
-          Console.WriteLine("Attempting to load script " + i);
-          ScriptFile file = new ScriptFile(i, readActions: false);
+        List<ScriptEditorSearchResult> scriptResults = SearchInScripts(scriptFile, scriptFile.allScripts, searchCriteria);
+        List<ScriptEditorSearchResult> functionResults = SearchInScripts(scriptFile, scriptFile.allFunctions, searchCriteria);
+        // List<string> actionResults = SearchInScripts(scriptFile, scriptFile.allActions, searchCriteria);
+        results.AddRange(scriptResults);
+        results.AddRange(functionResults);
+        // results.AddRange(actionResults);
 
-          if (scriptSearchCaseSensitiveCheckBox.Checked) {
-            results.AddRange(SearchInScripts(i, file.allScripts, scriptKw, (string s) => s.Contains(searchString)));
-            results.AddRange(SearchInScripts(i, file.allFunctions, functionKw, (string s) => s.Contains(searchString)));
-          }
-          else {
-            results.AddRange(SearchInScripts(i, file.allScripts, scriptKw, (string s) => s.IndexOf(searchString, StringComparison.InvariantCultureIgnoreCase) >= 0));
-            results.AddRange(SearchInScripts(i, file.allFunctions, functionKw, (string s) => s.IndexOf(searchString, StringComparison.InvariantCultureIgnoreCase) >= 0));
-          }
-        }
-        catch {
-        }
-
-        searchProgressBar.Value = i;
+        searchProgressBar.Value = scriptFile.fileID;
       }
 
       searchProgressBar.Value = 0;
       searchInScriptsResultListBox.Items.AddRange(results.ToArray());
     }
 
-    private List<string> SearchInScripts(int fileID, List<CommandContainer> cmdList, string entryType, Func<string, bool> criteria) {
-      List<string> results = new List<string>();
+    private List<ScriptEditorSearchResult> SearchInScripts(ScriptFile scriptFile, List<CommandContainer> commandContainers, Func<string, bool> criteria) {
+      List<ScriptEditorSearchResult> results = new List<ScriptEditorSearchResult>();
 
-      for (int j = 0; j < cmdList.Count; j++) {
-        if (cmdList[j].commands is null) {
+      for (int j = 0; j < commandContainers.Count; j++) {
+        if (commandContainers[j].commands is null) {
           continue;
         }
 
-        foreach (ScriptCommand cur in cmdList[j].commands) {
-          if (criteria(cur.name)) {
-            results.Add($"File {fileID} - {entryType} {j + 1}: {cur.name}{Environment.NewLine}");
+        CommandContainer commandContainer = commandContainers[j];
+        foreach (ScriptCommand scriptCommand in commandContainer.commands) {
+          if (criteria(scriptCommand.name)) {
+            results.Add(new ScriptEditorSearchResult(scriptFile, commandContainer.containerType, j + 1, scriptCommand));
           }
         }
       }
@@ -798,42 +782,52 @@ namespace DSPRE.Editors {
 
     private void searchInScriptsResultListBox_KeyDown(object sender, KeyEventArgs e) {
       if (e.KeyCode == Keys.Enter) {
-        searchInScripts_GoToEntryResult(null, null);
+        goToSearchResult();
       }
     }
 
     private void searchInScripts_GoToEntryResult(object sender, MouseEventArgs e) {
-      if (searchInScriptsResultListBox.SelectedIndex < 0) {
-        return;
+      goToSearchResult();
+    }
+
+    private void goToSearchResult() {
+      if (searchInScriptsResultListBox.SelectedItem == null) return;
+
+      ScriptEditorSearchResult searchResult = (ScriptEditorSearchResult)searchInScriptsResultListBox.SelectedItem;
+      ScriptFile scriptFile = searchResult.scriptFile;
+      ScriptFile.containerTypes containerType = searchResult.containerType;
+
+      selectScriptFileComboBox.SelectedIndex = scriptFile.fileID;
+
+      if (containerType == ScriptFile.containerTypes.Script) {
+        displaySearchResult(scriptsTabPage, scriptSearchManager, searchResult);
+      }
+      else if (containerType == ScriptFile.containerTypes.Function) {
+        displaySearchResult(functionsTabPage, functionSearchManager, searchResult);
+      }
+      else if (containerType == ScriptFile.containerTypes.Action) {
+        displaySearchResult(actionsTabPage, actionSearchManager, searchResult);
+      }
+    }
+
+    private void displaySearchResult(TabPage tabPage, SearchManager searchManager, ScriptEditorSearchResult searchResult) {
+      if (scriptEditorTabControl.SelectedTab != tabPage) {
+        scriptEditorTabControl.SelectedTab = tabPage;
       }
 
-      string[] split = searchInScriptsResultListBox.SelectedItem.ToString().Trim().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-      selectScriptFileComboBox.SelectedIndex = int.Parse(split[1]);
-      string cmdNameAndParams = String.Join(" ", split.Skip(5).Take(split.Length - 5));
+      const int padding = 2;
 
-      if (split[3].StartsWith(ScriptFile.containerTypes.Script.ToString())) {
-        if (scriptEditorTabControl.SelectedTab != scriptsTabPage) {
-          scriptEditorTabControl.SelectedTab = scriptsTabPage;
-        }
+      searchManager.Find(true, false, searchResult.CommandBlockOpen);
+      int blockStart = searchManager.textAreaScintilla.CurrentLine - padding;
 
-        scriptSearchManager.Find(true, false, ScriptFile.containerTypes.Script.ToString() + " " + split[4].Replace(":", ""));
-        scriptSearchManager.Find(true, false, cmdNameAndParams);
+      searchManager.Find(true, false, searchResult.scriptCommand.name);
+      int resultStart = searchManager.textAreaScintilla.CurrentLine - padding;
+
+      if (scrollToBlockStartcheckBox1.Checked) {
+        searchManager.textAreaScintilla.FirstVisibleLine = blockStart;
       }
-      else if (split[3].StartsWith(ScriptFile.containerTypes.Function.ToString())) {
-        if (scriptEditorTabControl.SelectedTab != functionsTabPage) {
-          scriptEditorTabControl.SelectedTab = functionsTabPage;
-        }
-
-        functionSearchManager.Find(true, false, ScriptFile.containerTypes.Function.ToString() + " " + split[4].Replace(":", ""));
-        functionSearchManager.Find(true, false, cmdNameAndParams);
-      }
-      else if (split[3].StartsWith(ScriptFile.containerTypes.Action.ToString())) {
-        if (scriptEditorTabControl.SelectedTab != actionsTabPage) {
-          scriptEditorTabControl.SelectedTab = actionsTabPage;
-        }
-
-        actionSearchManager.Find(true, false, ScriptFile.containerTypes.Action.ToString() + " " + split[4].Replace(":", ""));
-        actionSearchManager.Find(true, false, cmdNameAndParams);
+      else {
+        searchManager.textAreaScintilla.FirstVisibleLine = resultStart;
       }
     }
 
@@ -919,13 +913,14 @@ namespace DSPRE.Editors {
     }
 
     private void clearCurrentLevelScriptButton_Click(object sender, EventArgs e) {
-      string path = RomInfo.gameDirs[DirNames.scripts].unpackedDir + "\\" + selectScriptFileComboBox.SelectedIndex.ToString("D4");
+      string path = Path.Combine(RomInfo.gameDirs[DirNames.scripts].unpackedDir, selectScriptFileComboBox.SelectedIndex.ToString("D4"));
       File.WriteAllBytes(path, new byte[4]);
       MessageBox.Show("Level script correctly cleared.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
 
     private void locateCurrentScriptFile_Click(object sender, EventArgs e) {
-      Helpers.ExplorerSelect(Path.Combine(gameDirs[DirNames.scripts].unpackedDir, selectScriptFileComboBox.SelectedIndex.ToString("D4")));
+      string path = Path.Combine(gameDirs[DirNames.scripts].unpackedDir, selectScriptFileComboBox.SelectedIndex.ToString("D4"));
+      Helpers.ExplorerSelect(path);
     }
   }
 }

@@ -29,8 +29,10 @@ namespace DSPRE.ROMFiles {
         public List<CommandContainer> allScripts = new List<CommandContainer>();
         public List<CommandContainer> allFunctions = new List<CommandContainer>();
         public List<ActionContainer> allActions = new List<ActionContainer>();
-        public int? fileID = null;
+        public int fileID = -1;
         public bool isLevelScript = new bool();
+
+        public bool hasNoScripts { get { return fileID == int.MaxValue; } }
 
         public static readonly char[] specialChars = { 'x', 'X', '#', '.', '_' };
         #endregion
