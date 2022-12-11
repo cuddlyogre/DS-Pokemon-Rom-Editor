@@ -63,7 +63,6 @@ namespace DSPRE.Editors
       this.scrollToBlockStartcheckBox1 = new System.Windows.Forms.CheckBox();
       this.scriptSearchCaseSensitiveCheckBox = new System.Windows.Forms.CheckBox();
       this.searchInScriptsTextBox = new System.Windows.Forms.TextBox();
-      this.label31 = new System.Windows.Forms.Label();
       this.searchProgressBar = new System.Windows.Forms.ProgressBar();
       this.label30 = new System.Windows.Forms.Label();
       this.label29 = new System.Windows.Forms.Label();
@@ -88,6 +87,7 @@ namespace DSPRE.Editors
       this.scriptEditorNumberFormatHex = new System.Windows.Forms.RadioButton();
       this.clearCurrentLevelScriptButton = new System.Windows.Forms.Button();
       this.locateCurrentScriptFile = new System.Windows.Forms.Button();
+      this.label31 = new System.Windows.Forms.Label();
       this.scriptEditorTabControl.SuspendLayout();
       this.scriptsTabPage.SuspendLayout();
       this.PanelSearchScripts.SuspendLayout();
@@ -492,9 +492,9 @@ namespace DSPRE.Editors
       // 
       this.searchInScriptsButton.Image = global::DSPRE.Properties.Resources.SearchMiniIcon;
       this.searchInScriptsButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-      this.searchInScriptsButton.Location = new System.Drawing.Point(375, 26);
+      this.searchInScriptsButton.Location = new System.Drawing.Point(272, 27);
       this.searchInScriptsButton.Name = "searchInScriptsButton";
-      this.searchInScriptsButton.Size = new System.Drawing.Size(91, 36);
+      this.searchInScriptsButton.Size = new System.Drawing.Size(69, 36);
       this.searchInScriptsButton.TabIndex = 32;
       this.searchInScriptsButton.Text = "Search";
       this.searchInScriptsButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -504,7 +504,7 @@ namespace DSPRE.Editors
       // searchOnlyCurrentScriptCheckBox
       // 
       this.searchOnlyCurrentScriptCheckBox.AutoSize = true;
-      this.searchOnlyCurrentScriptCheckBox.Location = new System.Drawing.Point(74, 61);
+      this.searchOnlyCurrentScriptCheckBox.Location = new System.Drawing.Point(347, 15);
       this.searchOnlyCurrentScriptCheckBox.Name = "searchOnlyCurrentScriptCheckBox";
       this.searchOnlyCurrentScriptCheckBox.Size = new System.Drawing.Size(84, 17);
       this.searchOnlyCurrentScriptCheckBox.TabIndex = 41;
@@ -515,7 +515,7 @@ namespace DSPRE.Editors
       // scrollToBlockStartcheckBox1
       // 
       this.scrollToBlockStartcheckBox1.AutoSize = true;
-      this.scrollToBlockStartcheckBox1.Location = new System.Drawing.Point(253, 61);
+      this.scrollToBlockStartcheckBox1.Location = new System.Drawing.Point(347, 61);
       this.scrollToBlockStartcheckBox1.Name = "scrollToBlockStartcheckBox1";
       this.scrollToBlockStartcheckBox1.Size = new System.Drawing.Size(116, 17);
       this.scrollToBlockStartcheckBox1.TabIndex = 39;
@@ -525,7 +525,7 @@ namespace DSPRE.Editors
       // scriptSearchCaseSensitiveCheckBox
       // 
       this.scriptSearchCaseSensitiveCheckBox.AutoSize = true;
-      this.scriptSearchCaseSensitiveCheckBox.Location = new System.Drawing.Point(164, 61);
+      this.scriptSearchCaseSensitiveCheckBox.Location = new System.Drawing.Point(347, 38);
       this.scriptSearchCaseSensitiveCheckBox.Name = "scriptSearchCaseSensitiveCheckBox";
       this.scriptSearchCaseSensitiveCheckBox.Size = new System.Drawing.Size(83, 17);
       this.scriptSearchCaseSensitiveCheckBox.TabIndex = 39;
@@ -534,32 +534,23 @@ namespace DSPRE.Editors
       // 
       // searchInScriptsTextBox
       // 
-      this.searchInScriptsTextBox.Location = new System.Drawing.Point(11, 35);
+      this.searchInScriptsTextBox.Location = new System.Drawing.Point(11, 36);
       this.searchInScriptsTextBox.Name = "searchInScriptsTextBox";
-      this.searchInScriptsTextBox.Size = new System.Drawing.Size(358, 20);
+      this.searchInScriptsTextBox.Size = new System.Drawing.Size(255, 20);
       this.searchInScriptsTextBox.TabIndex = 38;
       this.searchInScriptsTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.searchInScriptsTextBox_KeyDown);
       // 
-      // label31
-      // 
-      this.label31.AutoSize = true;
-      this.label31.Location = new System.Drawing.Point(9, 256);
-      this.label31.Name = "label31";
-      this.label31.Size = new System.Drawing.Size(48, 13);
-      this.label31.TabIndex = 37;
-      this.label31.Text = "Progress";
-      // 
       // searchProgressBar
       // 
-      this.searchProgressBar.Location = new System.Drawing.Point(11, 272);
+      this.searchProgressBar.Location = new System.Drawing.Point(11, 277);
       this.searchProgressBar.Name = "searchProgressBar";
-      this.searchProgressBar.Size = new System.Drawing.Size(452, 19);
+      this.searchProgressBar.Size = new System.Drawing.Size(452, 14);
       this.searchProgressBar.TabIndex = 36;
       // 
       // label30
       // 
       this.label30.AutoSize = true;
-      this.label30.Location = new System.Drawing.Point(11, 64);
+      this.label30.Location = new System.Drawing.Point(11, 68);
       this.label30.Name = "label30";
       this.label30.Size = new System.Drawing.Size(42, 13);
       this.label30.TabIndex = 35;
@@ -568,7 +559,7 @@ namespace DSPRE.Editors
       // label29
       // 
       this.label29.AutoSize = true;
-      this.label29.Location = new System.Drawing.Point(8, 18);
+      this.label29.Location = new System.Drawing.Point(11, 20);
       this.label29.Name = "label29";
       this.label29.Size = new System.Drawing.Size(77, 13);
       this.label29.TabIndex = 33;
@@ -576,7 +567,7 @@ namespace DSPRE.Editors
       // 
       // searchInScriptsResultListBox
       // 
-      this.searchInScriptsResultListBox.Location = new System.Drawing.Point(11, 80);
+      this.searchInScriptsResultListBox.Location = new System.Drawing.Point(11, 84);
       this.searchInScriptsResultListBox.Name = "searchInScriptsResultListBox";
       this.searchInScriptsResultListBox.Size = new System.Drawing.Size(452, 173);
       this.searchInScriptsResultListBox.TabIndex = 17;
@@ -819,6 +810,15 @@ namespace DSPRE.Editors
       this.locateCurrentScriptFile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       this.locateCurrentScriptFile.UseVisualStyleBackColor = true;
       this.locateCurrentScriptFile.Click += new System.EventHandler(this.locateCurrentScriptFile_Click);
+      // 
+      // label31
+      // 
+      this.label31.AutoSize = true;
+      this.label31.Location = new System.Drawing.Point(11, 261);
+      this.label31.Name = "label31";
+      this.label31.Size = new System.Drawing.Size(48, 13);
+      this.label31.TabIndex = 37;
+      this.label31.Text = "Progress";
       // 
       // ScriptEditor
       // 
