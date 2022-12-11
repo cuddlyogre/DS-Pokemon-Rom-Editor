@@ -663,21 +663,6 @@ namespace DSPRE.Editors {
         selectScriptFileComboBox.Items.Add(scriptFile);
         selectScriptFileComboBox.SelectedItem = scriptFile;
       }
-
-      // string scriptFilePath = RomInfo.gameDirs[DirNames.scripts].unpackedDir + "\\" + fileID.ToString("D4");
-      // ScriptFile scriptFile = new ScriptFile(0);
-      // File.WriteAllBytes(scriptFilePath, scriptFile.ToByteArray());
-
-      // /* Add new event file to event folder */
-      // int fileID = selectScriptFileComboBox.Items.Count;
-      //
-      // string scriptFilePath = RomInfo.gameDirs[DirNames.scripts].unpackedDir + "\\" + fileID.ToString("D4");
-      // ScriptFile scriptFile = new ScriptFile(fileID);
-      // File.WriteAllBytes(scriptFilePath, scriptFile.ToByteArray());
-      //
-      // /* Update ComboBox and select new file */
-      // selectScriptFileComboBox.Items.Add(scriptFile);
-      // selectScriptFileComboBox.SelectedItem = scriptFile;
     }
 
     private void saveScriptFileButton_Click(object sender, EventArgs e) {
