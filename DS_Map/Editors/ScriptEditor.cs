@@ -651,8 +651,8 @@ namespace DSPRE.Editors {
       int fileID = selectScriptFileComboBox.Items.Count;
 
       ScriptFile scriptFile = new ScriptFile(
-        scriptLines: new Scintilla{Text = "script 1\nend"}.Lines.ToStringsList(trim: true),
-        functionLines: new Scintilla{Text = ""}.Lines.ToStringsList(trim: true),
+        scriptLines: new Scintilla{Text = "Script 1:\nEnd"}.Lines.ToStringsList(trim: true),
+        functionLines: null,
         actionLines: null,
         fileID
       );
