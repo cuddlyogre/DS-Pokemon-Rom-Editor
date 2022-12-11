@@ -60,7 +60,7 @@ namespace DSPRE.Editors {
     /// <summary>
     /// set this true to show circular buttons for code folding (the [+] and [-] buttons on the margin)
     /// </summary>
-    private const bool CODEFOLDING_CIRCULAR = true;
+    private const bool CODE_FOLDING_CIRCULAR = true;
 
     public ScriptEditor() {
       InitializeComponent();
@@ -259,11 +259,11 @@ namespace DSPRE.Editors {
       }
 
       // Configure folding markers with respective symbols
-      textArea.Markers[Marker.Folder].Symbol = CODEFOLDING_CIRCULAR ? MarkerSymbol.CirclePlus : MarkerSymbol.BoxPlus;
-      textArea.Markers[Marker.FolderOpen].Symbol = CODEFOLDING_CIRCULAR ? MarkerSymbol.CircleMinus : MarkerSymbol.BoxMinus;
-      textArea.Markers[Marker.FolderEnd].Symbol = CODEFOLDING_CIRCULAR ? MarkerSymbol.CirclePlusConnected : MarkerSymbol.BoxPlusConnected;
+      textArea.Markers[Marker.Folder].Symbol = CODE_FOLDING_CIRCULAR ? MarkerSymbol.CirclePlus : MarkerSymbol.BoxPlus;
+      textArea.Markers[Marker.FolderOpen].Symbol = CODE_FOLDING_CIRCULAR ? MarkerSymbol.CircleMinus : MarkerSymbol.BoxMinus;
+      textArea.Markers[Marker.FolderEnd].Symbol = CODE_FOLDING_CIRCULAR ? MarkerSymbol.CirclePlusConnected : MarkerSymbol.BoxPlusConnected;
       textArea.Markers[Marker.FolderMidTail].Symbol = MarkerSymbol.TCorner;
-      textArea.Markers[Marker.FolderOpenMid].Symbol = CODEFOLDING_CIRCULAR ? MarkerSymbol.CircleMinusConnected : MarkerSymbol.BoxMinusConnected;
+      textArea.Markers[Marker.FolderOpenMid].Symbol = CODE_FOLDING_CIRCULAR ? MarkerSymbol.CircleMinusConnected : MarkerSymbol.BoxMinusConnected;
       textArea.Markers[Marker.FolderSub].Symbol = MarkerSymbol.VLine;
       textArea.Markers[Marker.FolderTail].Symbol = MarkerSymbol.LCorner;
 
