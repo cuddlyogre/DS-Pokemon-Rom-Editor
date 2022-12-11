@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using DSPRE.Resources;
 using DSPRE.ROMFiles;
@@ -15,9 +14,9 @@ using static DSPRE.ROMFiles.Event;
 namespace DSPRE.Editors {
   public partial class ScriptEditor : UserControl {
     public bool scriptEditorIsReady { get; set; } = false;
-    private ScintillaNET.Scintilla ScriptTextArea;
-    private ScintillaNET.Scintilla FunctionTextArea;
-    private ScintillaNET.Scintilla ActionTextArea;
+    private Scintilla ScriptTextArea;
+    private Scintilla FunctionTextArea;
+    private Scintilla ActionTextArea;
     private SearchManager scriptSearchManager;
     private SearchManager functionSearchManager;
     private SearchManager actionSearchManager;
@@ -82,13 +81,13 @@ namespace DSPRE.Editors {
       Helpers.statusLabelMessage();
     }
 
-    public void SetupScriptEditorTextAreas() {
+    private void SetupScriptEditorTextAreas() {
       //PREPARE SCRIPT EDITOR KEYWORDS
       cmdKeyWords = String.Join(" ", ScriptCommandNamesDict.Values) +
                     " " + String.Join(" ", ScriptDatabase.movementsDictIDName.Values);
       cmdKeyWords += " " + cmdKeyWords.ToUpper() + " " + cmdKeyWords.ToLower();
 
-      secondaryKeyWords = String.Join(" ", RomInfo.ScriptComparisonOperatorsDict.Values) +
+      secondaryKeyWords = String.Join(" ", ScriptComparisonOperatorsDict.Values) +
                           " " + String.Join(" ", ScriptDatabase.specialOverworlds.Values) +
                           " " + String.Join(" ", ScriptDatabase.overworldDirections.Values) +
                           " " + ScriptFile.containerTypes.Script.ToString() +
@@ -99,17 +98,17 @@ namespace DSPRE.Editors {
       secondaryKeyWords += " " + secondaryKeyWords.ToUpper() + " " + secondaryKeyWords.ToLower();
 
       // CREATE CONTROLS
-      ScriptTextArea = new ScintillaNET.Scintilla();
+      ScriptTextArea = new Scintilla();
       scriptSearchManager = new SearchManager(Program.MainProgram, ScriptTextArea, panelSearchScriptTextBox, PanelSearchScripts);
       scintillaScriptsPanel.Controls.Clear();
       scintillaScriptsPanel.Controls.Add(ScriptTextArea);
 
-      FunctionTextArea = new ScintillaNET.Scintilla();
+      FunctionTextArea = new Scintilla();
       functionSearchManager = new SearchManager(Program.MainProgram, FunctionTextArea, panelSearchFunctionTextBox, PanelSearchFunctions);
       scintillaFunctionsPanel.Controls.Clear();
       scintillaFunctionsPanel.Controls.Add(FunctionTextArea);
 
-      ActionTextArea = new ScintillaNET.Scintilla();
+      ActionTextArea = new Scintilla();
       actionSearchManager = new SearchManager(Program.MainProgram, ActionTextArea, panelSearchActionTextBox, PanelSearchActions);
       scintillaActionsPanel.Controls.Clear();
       scintillaActionsPanel.Controls.Add(ActionTextArea);
@@ -118,9 +117,9 @@ namespace DSPRE.Editors {
       currentSearchManager = scriptSearchManager;
 
       // BASIC CONFIG
-      ScriptTextArea.TextChanged += (this.OnTextChangedScript);
-      FunctionTextArea.TextChanged += (this.OnTextChangedFunction);
-      ActionTextArea.TextChanged += (this.OnTextChangedAction);
+      ScriptTextArea.TextChanged += (OnTextChangedScript);
+      FunctionTextArea.TextChanged += (OnTextChangedFunction);
+      ActionTextArea.TextChanged += (OnTextChangedAction);
 
       // INITIAL VIEW CONFIG
       InitialViewConfig(ScriptTextArea);
@@ -163,9 +162,9 @@ namespace DSPRE.Editors {
       */
     }
 
-    public void populate_selectScriptFileComboBox() {
+    private void populate_selectScriptFileComboBox() {
       selectScriptFileComboBox.Items.Clear();
-      int scriptCount = Directory.GetFiles(RomInfo.gameDirs[DirNames.scripts].unpackedDir).Length;
+      int scriptCount = Directory.GetFiles(gameDirs[DirNames.scripts].unpackedDir).Length;
       for (int i = 0; i < scriptCount; i++) {
         ScriptFile currentScriptFile = new ScriptFile(i, true, true);
         selectScriptFileComboBox.Items.Add(currentScriptFile);
@@ -174,7 +173,7 @@ namespace DSPRE.Editors {
 
     private void InitialViewConfig(Scintilla textArea) {
       textArea.Dock = DockStyle.Fill;
-      textArea.WrapMode = ScintillaNET.WrapMode.Word;
+      textArea.WrapMode = WrapMode.Word;
       textArea.IndentationGuides = IndentView.LookBoth;
       textArea.CaretPeriod = 500;
       textArea.CaretForeColor = Color.White;
@@ -213,7 +212,7 @@ namespace DSPRE.Editors {
       textArea.Styles[Style.IndentGuide].ForeColor = FORE_COLOR;
       textArea.Styles[Style.IndentGuide].BackColor = BACK_COLOR;
 
-      var nums = textArea.Margins[NUMBER_MARGIN];
+      Margin nums = textArea.Margins[NUMBER_MARGIN];
       nums.Type = MarginType.Number;
       nums.Sensitive = true;
       nums.Mask = 0;
@@ -224,14 +223,14 @@ namespace DSPRE.Editors {
     private void InitBookmarkMargin(Scintilla textArea) {
       //TextArea.SetFoldMarginColor(true, IntToColor(BACK_COLOR));
 
-      var margin = textArea.Margins[BOOKMARK_MARGIN];
+      Margin margin = textArea.Margins[BOOKMARK_MARGIN];
       margin.Width = 20;
       margin.Sensitive = true;
       margin.Type = MarginType.Symbol;
       margin.Mask = (1 << BOOKMARK_MARKER);
       //margin.Cursor = MarginCursor.Arrow;
 
-      var marker = textArea.Markers[BOOKMARK_MARKER];
+      Marker marker = textArea.Markers[BOOKMARK_MARKER];
       marker.Symbol = MarkerSymbol.Circle;
       marker.SetBackColor(Color.FromArgb(0xFF003B));
       marker.SetForeColor(Color.FromArgb(0x000000));
@@ -346,7 +345,7 @@ namespace DSPRE.Editors {
       if (e.Margin == BOOKMARK_MARGIN) {
         // Do we have a marker for this line?
         const uint mask = (1 << BOOKMARK_MARKER);
-        var line = textArea.Lines[textArea.LineFromPosition(e.Position)];
+        Line line = textArea.Lines[textArea.LineFromPosition(e.Position)];
         if ((line.MarkerGet()&mask) > 0) {
           // Remove existing bookmark
           line.MarkerDelete(BOOKMARK_MARKER);
@@ -633,7 +632,7 @@ namespace DSPRE.Editors {
       DialogResult d = MessageBox.Show("Are you sure you want to delete the last Script File?", "Confirm deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
       if (d.Equals(DialogResult.Yes)) {
         /* Delete script file */
-        string path = Path.Combine(RomInfo.gameDirs[DirNames.scripts].unpackedDir, (selectScriptFileComboBox.Items.Count - 1).ToString("D4"));
+        string path = Path.Combine(gameDirs[DirNames.scripts].unpackedDir, (selectScriptFileComboBox.Items.Count - 1).ToString("D4"));
         File.Delete(path);
 
         /* Check if currently selected file is the last one, and in that case select the one before it */
@@ -704,7 +703,7 @@ namespace DSPRE.Editors {
 
       /* Update scriptFile object in memory */
       int i = selectScriptFileComboBox.SelectedIndex;
-      string path = Path.Combine(RomInfo.gameDirs[DirNames.scripts].unpackedDir, i.ToString("D4"));
+      string path = Path.Combine(gameDirs[DirNames.scripts].unpackedDir, i.ToString("D4"));
       File.Copy(of.FileName, path, true);
 
       populate_selectScriptFileComboBox();
@@ -868,9 +867,9 @@ namespace DSPRE.Editors {
     }
 
     private void scriptEditorWordWrapCheckbox_CheckedChanged(object sender, EventArgs e) {
-      ScriptTextArea.WrapMode = scriptEditorWordWrapCheckbox.Checked ? ScintillaNET.WrapMode.Word : ScintillaNET.WrapMode.None;
-      FunctionTextArea.WrapMode = scriptEditorWordWrapCheckbox.Checked ? ScintillaNET.WrapMode.Word : ScintillaNET.WrapMode.None;
-      ActionTextArea.WrapMode = scriptEditorWordWrapCheckbox.Checked ? ScintillaNET.WrapMode.Word : ScintillaNET.WrapMode.None;
+      ScriptTextArea.WrapMode = scriptEditorWordWrapCheckbox.Checked ? WrapMode.Word : WrapMode.None;
+      FunctionTextArea.WrapMode = scriptEditorWordWrapCheckbox.Checked ? WrapMode.Word : WrapMode.None;
+      ActionTextArea.WrapMode = scriptEditorWordWrapCheckbox.Checked ? WrapMode.Word : WrapMode.None;
     }
 
     private void viewWhiteSpacesButton_Click(object sender, EventArgs e) {
@@ -913,7 +912,7 @@ namespace DSPRE.Editors {
     }
 
     private void clearCurrentLevelScriptButton_Click(object sender, EventArgs e) {
-      string path = Path.Combine(RomInfo.gameDirs[DirNames.scripts].unpackedDir, selectScriptFileComboBox.SelectedIndex.ToString("D4"));
+      string path = Path.Combine(gameDirs[DirNames.scripts].unpackedDir, selectScriptFileComboBox.SelectedIndex.ToString("D4"));
       File.WriteAllBytes(path, new byte[4]);
       MessageBox.Show("Level script correctly cleared.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
