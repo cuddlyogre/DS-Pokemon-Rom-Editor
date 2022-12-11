@@ -554,7 +554,6 @@ namespace DSPRE.Editors {
 
     private void openLevelScriptButton_Click(object sender, EventArgs e) {
       if (!EditorPanels.scriptEditor.scriptEditorIsReady) {
-        EditorPanels.scriptEditor.SetupScriptEditorTextAreas();
         EditorPanels.scriptEditor.SetupScriptEditor();
         EditorPanels.scriptEditor.scriptEditorIsReady = true;
       }
@@ -565,7 +564,6 @@ namespace DSPRE.Editors {
 
     private void openScriptButton_Click(object sender, EventArgs e) {
       if (!EditorPanels.scriptEditor.scriptEditorIsReady) {
-        EditorPanels.scriptEditor.SetupScriptEditorTextAreas();
         EditorPanels.scriptEditor.SetupScriptEditor();
         EditorPanels.scriptEditor.scriptEditorIsReady = true;
       }

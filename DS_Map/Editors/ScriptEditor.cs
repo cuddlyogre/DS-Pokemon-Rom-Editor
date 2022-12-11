@@ -67,6 +67,8 @@ namespace DSPRE.Editors {
     }
 
     public void SetupScriptEditor() {
+      SetupScriptEditorTextAreas();
+
       /* Extract essential NARCs sub-archives*/
       Helpers.statusLabelMessage("Setting up Script Editor...");
       Update();

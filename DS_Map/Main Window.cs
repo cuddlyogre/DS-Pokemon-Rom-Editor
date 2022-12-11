@@ -640,7 +640,6 @@ namespace DSPRE {
                 mapEditor.SetupMapEditor();
                 nsbtxEditor.SetupNSBTXEditor();
                 eventEditor.SetupEventEditor();
-                scriptEditor.SetupScriptEditorTextAreas();
                 scriptEditor.SetupScriptEditor();
                 textEditor.SetupTextEditor();
                 trainerEditor.SetupTrainerEditor();
@@ -708,7 +707,6 @@ namespace DSPRE {
                 }
             } else if (mainTabControl.SelectedTab == scriptEditorTabPage) {
                 if (!scriptEditor.scriptEditorIsReady) {
-                    scriptEditor.SetupScriptEditorTextAreas();
                     scriptEditor.SetupScriptEditor();
                     scriptEditor.scriptEditorIsReady = true;
                 }
