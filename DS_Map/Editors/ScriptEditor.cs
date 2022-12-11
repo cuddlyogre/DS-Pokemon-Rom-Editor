@@ -73,11 +73,7 @@ namespace DSPRE.Editors {
 
       DSUtils.TryUnpackNarcs(new List<DirNames> { DirNames.scripts }); //12 = scripts Narc Dir
 
-      selectScriptFileComboBox.Items.Clear();
-      int scriptCount = Directory.GetFiles(RomInfo.gameDirs[DirNames.scripts].unpackedDir).Length;
-      for (int i = 0; i < scriptCount; i++) {
-        selectScriptFileComboBox.Items.Add("Script File " + i);
-      }
+      populate_selectScriptFileComboBox();
 
       UpdateScriptNumberCheckBox((NumberStyles)Properties.Settings.Default.scriptEditorFormatPreference);
       selectScriptFileComboBox.SelectedIndex = 0;
@@ -163,6 +159,15 @@ namespace DSPRE.Editors {
       FunctionTextArea.DwellEnd += TextArea_DwellEnd;
       FunctionTextArea.DwellStart += TextArea_DwellStart;
       */
+    }
+
+    public void populate_selectScriptFileComboBox() {
+      selectScriptFileComboBox.Items.Clear();
+      int scriptCount = Directory.GetFiles(RomInfo.gameDirs[DirNames.scripts].unpackedDir).Length;
+      for (int i = 0; i < scriptCount; i++) {
+        ScriptFile currentScriptFile = new ScriptFile(i, false, false);
+        selectScriptFileComboBox.Items.Add(currentScriptFile);
+      }
     }
 
     private void InitialViewConfig(Scintilla textArea) {
@@ -417,7 +422,7 @@ namespace DSPRE.Editors {
         }
       }
 
-      currentScriptFile = new ScriptFile(selectScriptFileComboBox.SelectedIndex); // Load script file
+      currentScriptFile = (ScriptFile)selectScriptFileComboBox.SelectedItem;
 
       ScriptTextArea.ClearAll();
       FunctionTextArea.ClearAll();
@@ -622,16 +627,6 @@ namespace DSPRE.Editors {
       }
     }
 
-    private void addScriptFileButton_Click(object sender, EventArgs e) {
-      /* Add new event file to event folder */
-      string scriptFilePath = RomInfo.gameDirs[DirNames.scripts].unpackedDir + "\\" + selectScriptFileComboBox.Items.Count.ToString("D4");
-      File.WriteAllBytes(scriptFilePath, new ScriptFile(0).ToByteArray());
-
-      /* Update ComboBox and select new file */
-      selectScriptFileComboBox.Items.Add("Script File " + selectScriptFileComboBox.Items.Count);
-      selectScriptFileComboBox.SelectedIndex = selectScriptFileComboBox.Items.Count - 1;
-    }
-
     private void removeScriptFileButton_Click(object sender, EventArgs e) {
       DialogResult d = MessageBox.Show("Are you sure you want to delete the last Script File?", "Confirm deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
       if (d.Equals(DialogResult.Yes)) {
@@ -649,30 +644,65 @@ namespace DSPRE.Editors {
       }
     }
 
+    private void addScriptFileButton_Click(object sender, EventArgs e) {
+      /* Add new event file to event folder */
+      int fileID = selectScriptFileComboBox.Items.Count;
+
+      ScriptFile scriptFile = new ScriptFile(
+        scriptLines: new Scintilla{Text = "script 1\nend"}.Lines.ToStringsList(trim: true),
+        functionLines: new Scintilla{Text = ""}.Lines.ToStringsList(trim: true),
+        actionLines: null,
+        fileID
+      );
+
+      //check if ScriptFile instance was created succesfully
+      if (scriptFile.SaveToFileDefaultDir(fileID, showSuccessMessage: false)) {
+        /* Update ComboBox and select new file */
+        selectScriptFileComboBox.Items.Add(scriptFile);
+        selectScriptFileComboBox.SelectedItem = scriptFile;
+      }
+
+      // string scriptFilePath = RomInfo.gameDirs[DirNames.scripts].unpackedDir + "\\" + fileID.ToString("D4");
+      // ScriptFile scriptFile = new ScriptFile(0);
+      // File.WriteAllBytes(scriptFilePath, scriptFile.ToByteArray());
+
+      // /* Add new event file to event folder */
+      // int fileID = selectScriptFileComboBox.Items.Count;
+      //
+      // string scriptFilePath = RomInfo.gameDirs[DirNames.scripts].unpackedDir + "\\" + fileID.ToString("D4");
+      // ScriptFile scriptFile = new ScriptFile(fileID);
+      // File.WriteAllBytes(scriptFilePath, scriptFile.ToByteArray());
+      //
+      // /* Update ComboBox and select new file */
+      // selectScriptFileComboBox.Items.Add(scriptFile);
+      // selectScriptFileComboBox.SelectedItem = scriptFile;
+    }
+
     private void saveScriptFileButton_Click(object sender, EventArgs e) {
-      /* Create new ScriptFile object */
-      int idToAssign = selectScriptFileComboBox.SelectedIndex;
+      /* Create new ScriptFile object using the values in the script editor */
+      int fileID = selectScriptFileComboBox.SelectedIndex;
 
       ScriptFile userEdited = new ScriptFile(
         scriptLines: ScriptTextArea.Lines.ToStringsList(trim: true),
         functionLines: FunctionTextArea.Lines.ToStringsList(trim: true),
         actionLines: ActionTextArea.Lines.ToStringsList(trim: true),
-        selectScriptFileComboBox.SelectedIndex
+        fileID
       );
 
-      /* Write new scripts to file */
       if (userEdited.fileID == null) {
         MessageBox.Show("This " + typeof(ScriptFile).Name + " couldn't be saved, due to a processing error.", "Can't save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
       }
-      else if (userEdited.fileID == int.MaxValue) {
+
+      if (userEdited.fileID == int.MaxValue) {
         MessageBox.Show("This " + typeof(ScriptFile).Name + " is couldn't be saved since it's empty.", "Can't save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
       }
-      else {
-        //check if ScriptFile instance was created succesfully
-        if (userEdited.SaveToFileDefaultDir(selectScriptFileComboBox.SelectedIndex)) {
-          currentScriptFile = userEdited;
-          ScriptEditorSetClean();
-        }
+
+      //check if ScriptFile instance was created succesfully
+      if (userEdited.SaveToFileDefaultDir(fileID)) {
+        currentScriptFile = userEdited;
+        ScriptEditorSetClean();
       }
     }
 

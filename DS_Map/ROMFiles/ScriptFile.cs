@@ -148,11 +148,20 @@ namespace DSPRE.ROMFiles {
                 }
             }
         }
-        public ScriptFile(int fileID, bool readFunctions = true, bool readActions = true) : 
-            this(new FileStream(RomInfo.gameDirs[DirNames.scripts].unpackedDir + "\\" + fileID.ToString("D4"), FileMode.Open), readFunctions, readActions) {
-            
+
+        public ScriptFile(int fileID, bool readFunctions = true, bool readActions = true) : this(getFileStream(fileID), readFunctions, readActions) {
             this.fileID = fileID;
-        } 
+        }
+
+        static FileStream getFileStream(int fileID) {
+            return new FileStream(RomInfo.gameDirs[DirNames.scripts].unpackedDir + "\\" + fileID.ToString("D4"), FileMode.OpenOrCreate);
+        }
+
+        public override string ToString() {
+            string prefix = isLevelScript ? "Level " : "";
+            return $"{prefix}Script File " + this.fileID;
+        }
+
         public ScriptFile(List<CommandContainer> scripts, List<CommandContainer> functions, List<ActionContainer> movements, int fileID = -1) {
             allScripts = scripts;
             allFunctions = functions;
