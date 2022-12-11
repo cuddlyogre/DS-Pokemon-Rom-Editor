@@ -82,8 +82,6 @@ namespace DSPRE.Editors {
           break;
       }
 
-      ;
-
       /* Add map names to box */
       selectMapComboBox.Items.Clear();
       int mapCount = Helpers.romInfo.GetMapCount();
@@ -104,8 +102,6 @@ namespace DSPRE.Editors {
               reader.BaseStream.Position = backupPos + bgsSize + reader.ReadUInt32() + reader.ReadUInt32();
               break;
           }
-
-          ;
 
           reader.BaseStream.Position += 0x14;
           selectMapComboBox.Items.Add(i.ToString("D3") + MapHeader.nameSeparator + DSUtils.ReadNSBMDname(reader));
@@ -1565,8 +1561,6 @@ namespace DSPRE.Editors {
           typePainterUpDown.Value = newValue;
           updateTypeCollisions(newValue);
         }
-
-        ;
       }
     }
 

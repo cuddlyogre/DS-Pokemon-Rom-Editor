@@ -223,7 +223,7 @@ namespace DSPRE.ROMFiles {
                     }
                     for (int i = endval; i < maxPoke; i++) {
                         content[i] = new PartyPokemon();
-                    };
+                    }
                 } catch (EndOfStreamException) {
                     MessageBox.Show("There was a problem reading the party data of this " + this.GetType().Name + ".", "Read Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }

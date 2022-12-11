@@ -117,7 +117,7 @@ namespace DSPRE.ROMFiles {
                 if ( !LoadMapModel(reader.ReadBytes(nsbmdSectionLength), showMessages) ) { //Assign result to flag
                     correctnessFlag = false;
                     mapModel = null;
-                };
+                }
 
                 /* Read bdhc data */
                 ImportTerrain(reader.ReadBytes(bdhcSectionLength));

@@ -66,7 +66,7 @@ namespace DSPRE {
                 MessageBox.Show("No changes have been made.", "Operation canceled", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-        private void readDefaultSpawnPosButton_Click(object sender, EventArgs e) {;
+        private void readDefaultSpawnPosButton_Click(object sender, EventArgs e) {
             SetupFields(names);
 
             ushort headerNumber = BitConverter.ToUInt16(DSUtils.ARM9.ReadBytes(RomInfo.arm9spawnOffset, 2), 0);

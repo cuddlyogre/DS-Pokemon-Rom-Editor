@@ -288,8 +288,6 @@ namespace DSPRE.Editors {
         wr.Write(battleMusic);
       }
 
-      ;
-
       Helpers.disableHandlers = true;
       pbEffectsCombosListbox.Items[index] = pbEffectsTrainerChooseMainCombobox.Items[index] = pbEffectsPokemonChooseMainCombobox.Items[index] = "Combo " + index.ToString("D2") + " - " + "Effect #" + battleIntroEffect + ", " + "Music #" + battleMusic;
       Helpers.disableHandlers = false;
@@ -326,8 +324,6 @@ namespace DSPRE.Editors {
       using (DSUtils.EasyWriter wr = new DSUtils.EasyWriter(ROMToolboxDialog.flag_TrainerClassBattleTableRepointed ? expArmPath : RomInfo.arm9Path, vsTrainerTableStartAddress + 2 * index)) {
         wr.Write((ushort)((trainerClass&1023) + (comboID << 10)));
       }
-
-      ;
 
       Helpers.disableHandlers = true;
       pbEffectsVsTrainerListbox.Items[index] = "[" + trainerClass.ToString("D3") + "]" + " " + trcNames[trainerClass] + " uses Combo #" + comboID;
@@ -372,8 +368,6 @@ namespace DSPRE.Editors {
       using (DSUtils.EasyWriter wr = new DSUtils.EasyWriter(ROMToolboxDialog.flag_PokemonBattleTableRepointed ? expArmPath : RomInfo.arm9Path, vsPokemonTableStartAddress + 2 * index)) {
         wr.Write((ushort)((pokemonID&1023) + (comboID << 10))); //PokemonID
       }
-
-      ;
 
       Helpers.disableHandlers = true;
       pbEffectsVsPokemonListbox.Items[index] = "[" + pokemonID.ToString("D3") + "]" + " " + pokeNames[pokemonID] + " uses Combo #" + comboID;

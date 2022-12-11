@@ -1136,7 +1136,7 @@ namespace DSPRE {
 
                 if (terminationLine >= cFileLines.Length - 1) {
                     MessageBox.Show("Enum file is malformed.\nAborting", "Parser error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                };
+                }
 
                 if (terminationLine - enumStartLine <= 2) {
                     MessageBox.Show("This utility needs at least 2 enum entries.\nAborting.", "Parser error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1253,7 +1253,7 @@ namespace DSPRE {
             if (files.Length <= 0) {
                 MessageBox.Show("Folder " + "\"" + d.FullName + "\"" + " is empty.\nCan't proceed.", "Invalid folder", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return (null, null);
-            };
+            }
 
             return (d, files);
         }

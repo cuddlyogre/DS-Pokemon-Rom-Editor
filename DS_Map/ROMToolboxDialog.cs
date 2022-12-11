@@ -453,7 +453,7 @@ namespace DSPRE {
 
                     for (int i = 0; i < itemScriptFile.allScripts.Count - 1; i++) {
                         vanillaItemsArray[i] = BitConverter.ToInt16(itemScriptFile.allScripts[i].commands[0].cmdParams[1], 0);
-                    };
+                    }
 
                     // Parse all event files and fix instances of ground items according to the new order
                     for (int i = 0; i < RomInfo.GetEventFileCount(); i++) {
@@ -473,7 +473,7 @@ namespace DSPRE {
 
                         // Save event file
                         eventFile.SaveToFileDefaultDir(i, showSuccessMessage: false);
-                    };
+                    }
 
                     // Sort scripts in the Script File according to item indices
                     int itemCount = new TextArchive(RomInfo.itemNamesTextNumber).messages.Count;

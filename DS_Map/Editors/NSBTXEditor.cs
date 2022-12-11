@@ -54,8 +54,6 @@ namespace DSPRE.Editors {
           break;
       }
 
-      ;
-
       areaDataLightTypeComboBox.Items.Clear();
       areaDataLightTypeComboBox.Items.AddRange(lightTypes);
 
