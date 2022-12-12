@@ -212,7 +212,6 @@ namespace DSPRE.ROMFiles {
             } else {
                 try {
                     id = ushort.Parse(nameParts[0].PurgeSpecial(ScriptFile.specialChars), nameParts[0].GetNumberStyle());
-                    //id = ushort.Parse(nameParts[0].Substring(nameParts[0].("_")+1), Properties.Settings.Default.scriptEditorFormatPreference, CultureInfo.InvariantCulture);
                 } catch {
                     string details;
                     if (wholeLine.Contains(':') && wholeLine.ContainsNumber()) {
