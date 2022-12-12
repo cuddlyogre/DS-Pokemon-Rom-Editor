@@ -22,7 +22,7 @@ namespace DSPRE.Editors {
 
       DSUtils.TryUnpackNarcs(new List<DirNames> { DirNames.matrices });
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       /* Add matrix entries to ComboBox */
       selectMatrixComboBox.Items.Clear();
@@ -37,7 +37,7 @@ namespace DSPRE.Editors {
 
       RomInfo.SetupSpawnSettings();
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
       selectMatrixComboBox.SelectedIndex = 0;
       Helpers.statusLabelMessage();
     }
@@ -254,7 +254,7 @@ namespace DSPRE.Editors {
     }
 
     private void selectMatrixComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -263,19 +263,19 @@ namespace DSPRE.Editors {
       GenerateMatrixTables();
 
       /* Setup matrix editor controls */
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
       matrixNameTextBox.Text = currentMatrix.name;
       widthUpDown.Value = currentMatrix.width;
       heightUpDown.Value = currentMatrix.height;
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void widthUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       /* Add or remove rows in DataGridView control */
       int delta = (int)widthUpDown.Value - currentMatrix.width;
@@ -308,15 +308,15 @@ namespace DSPRE.Editors {
 
       /* Modify matrix object */
       currentMatrix.ResizeMatrix((int)heightUpDown.Value, (int)widthUpDown.Value);
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void heightUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       /* Add or remove rows in DataGridView control */
       int delta = (int)heightUpDown.Value - currentMatrix.height;
@@ -349,11 +349,11 @@ namespace DSPRE.Editors {
 
       /* Modify matrix object */
       currentMatrix.ResizeMatrix((int)heightUpDown.Value, (int)widthUpDown.Value);
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void matrixNameTextBox_TextChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -365,7 +365,7 @@ namespace DSPRE.Editors {
         return;
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       /* Format table cells corresponding to border maps or void */
       if (!ushort.TryParse(mapFilesGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString(), out ushort colorValue)) {
@@ -381,7 +381,7 @@ namespace DSPRE.Editors {
         e.Value = 0;
       }
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private (Color background, Color foreground) FormatMapCell(uint cellValue) {
@@ -406,7 +406,7 @@ namespace DSPRE.Editors {
     }
 
     private void headersGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -442,7 +442,7 @@ namespace DSPRE.Editors {
         return;
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       /* Format table cells corresponding to border maps or void */
       ushort colorValue = 0;
@@ -465,11 +465,11 @@ namespace DSPRE.Editors {
       }
 
       e.Value = cellValue;
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void heightsGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -613,7 +613,7 @@ namespace DSPRE.Editors {
         }
 
         /* Load Map File and switch to Map Editor tab */
-        Helpers.disableHandlers = true;
+        Helpers.DisableHandlers();
 
         AreaData areaData = new AreaData(h.areaDataID);
         EditorPanels.mapEditor.selectMapComboBox.SelectedIndex = currentMatrix.maps[e.RowIndex, e.ColumnIndex];
@@ -628,13 +628,13 @@ namespace DSPRE.Editors {
           EditorPanels.mapEditor.exteriorbldRadioButton.Checked = true;
         }
 
-        Helpers.disableHandlers = false;
+        Helpers.EnableHandlers();
         EditorPanels.mapEditor.selectMapComboBox_SelectedIndexChanged(null, null);
       }
     }
 
     private void mapFilesGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       /* Format table cells corresponding to border maps or void */
       ushort colorValue = GameMatrix.EMPTY;
@@ -651,11 +651,11 @@ namespace DSPRE.Editors {
       if (colorValue == GameMatrix.EMPTY)
         e.Value = '-';
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void mapFilesGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -775,11 +775,11 @@ namespace DSPRE.Editors {
       GenerateMatrixTables();
 
       /* Setup matrix editor controls */
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
       matrixNameTextBox.Text = currentMatrix.name;
       widthUpDown.Value = currentMatrix.width;
       heightUpDown.Value = currentMatrix.height;
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
 
       /* Display success message */
       MessageBox.Show("Matrix imported successfully!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);

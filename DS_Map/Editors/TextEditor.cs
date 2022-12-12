@@ -27,9 +27,9 @@ namespace DSPRE {
         selectTextFileComboBox.Items.Add("Text Archive " + i);
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
       hexRadiobutton.Checked = Properties.Settings.Default.textEditorPreferHex;
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
 
       selectTextFileComboBox.SelectedIndex = 0;
       Helpers.statusLabelMessage();
@@ -53,7 +53,7 @@ namespace DSPRE {
     }
 
     private void UpdateTextEditorFileView(bool readAgain) {
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       textEditorDataGridView.Rows.Clear();
       if (currentTextArchive is null || readAgain) {
@@ -71,7 +71,7 @@ namespace DSPRE {
         PrintTextEditorLinesDecimal();
       }
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
 
       textEditorDataGridView_CurrentCellChanged(textEditorDataGridView, null);
     }
@@ -84,7 +84,7 @@ namespace DSPRE {
     }
 
     private void updateTextEditorLineNumbers() {
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
       if (hexRadiobutton.Checked) {
         PrintTextEditorLinesHex();
       }
@@ -92,7 +92,7 @@ namespace DSPRE {
         PrintTextEditorLinesDecimal();
       }
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void PrintTextEditorLinesDecimal() {
@@ -117,7 +117,7 @@ namespace DSPRE {
 
       int rowInd = textEditorDataGridView.RowCount - 1;
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       string format = "X";
       string prefix = "0x";
@@ -127,7 +127,7 @@ namespace DSPRE {
       }
 
       textEditorDataGridView.Rows[rowInd].HeaderCell.Value = prefix + rowInd.ToString(format);
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void removeStringButton_Click(object sender, EventArgs e) {
@@ -138,7 +138,7 @@ namespace DSPRE {
     }
 
     private void textEditorDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -154,7 +154,7 @@ namespace DSPRE {
 
     private void textEditorDataGridView_CurrentCellChanged(object sender, EventArgs e) {
       DataGridView dgv = sender as DataGridView;
-      if (Helpers.disableHandlers || dgv == null || dgv.CurrentCell == null) {
+      if (Helpers.HandlersDisabled || dgv == null || dgv.CurrentCell == null) {
         return;
       }
 
@@ -302,7 +302,7 @@ namespace DSPRE {
 
           textSearchProgressBar.Value = cur;
           if (found) {
-            Helpers.disableHandlers = true;
+            Helpers.DisableHandlers();
 
             textSearchResultsListBox.Items.Add("Text archive (" + cur + ") - Succesfully edited");
             currentTextArchive.SaveToFileDefaultDir(cur, showSuccessMessage: false);
@@ -311,7 +311,7 @@ namespace DSPRE {
               UpdateTextEditorFileView(false);
             }
 
-            Helpers.disableHandlers = false;
+            Helpers.EnableHandlers();
           }
           //else searchMessageResultTextBox.AppendText(searchString + " not found in this file");
           //this.saveMessageFileButton_Click(sender, e);

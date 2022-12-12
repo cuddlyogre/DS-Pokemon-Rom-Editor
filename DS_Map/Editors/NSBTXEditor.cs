@@ -77,11 +77,11 @@ namespace DSPRE.Editors {
     }
 
     private void texturePacksListBox_SelectedIndexChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       /* Clear ListBoxes */
       texturesListBox.Items.Clear();
@@ -100,7 +100,7 @@ namespace DSPRE.Editors {
           texturePacksListBox.Items[texturePacksListBox.SelectedIndex] = "Error! - " + currentItemName;
         }
 
-        Helpers.disableHandlers = false;
+        Helpers.EnableHandlers();
         return;
       }
 
@@ -108,7 +108,7 @@ namespace DSPRE.Editors {
       texturesListBox.Items.AddRange(currentNsbtx.texInfo.names.ToArray());
       palettesListBox.Items.AddRange(currentNsbtx.palInfo.names.ToArray());
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
 
       if (texturesListBox.Items.Count > 0) {
         texturesListBox.SelectedIndex = 0;
@@ -160,12 +160,12 @@ namespace DSPRE.Editors {
     }
 
     private void texturesListBox_SelectedIndexChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
-      bool disableHandlersBackup = Helpers.disableHandlers;
-      Helpers.disableHandlers = true;
+      Helpers.BackUpDisableHandler();
+      Helpers.DisableHandlers(); 
 
       texturesLabel.Text = $"Textures [{texturesListBox.SelectedIndex + 1}/{texturesListBox.Items.Count}]";
 
@@ -180,7 +180,7 @@ namespace DSPRE.Editors {
         Helpers.statusLabelMessage("Ready");
       }
 
-      Helpers.disableHandlers = disableHandlersBackup;
+      Helpers.RestoreDisableHandler();
 
       int ctrlCode = NSBTXRender(tex: Math.Max(0, texturesListBox.SelectedIndex), pal: Math.Max(0, palettesListBox.SelectedIndex), scale: nsbtxScaleFactor);
       if (matchingPalette != null && ctrlCode > 0) {
@@ -244,7 +244,7 @@ namespace DSPRE.Editors {
     }
 
     private void palettesListBox_SelectedIndexChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -406,7 +406,7 @@ namespace DSPRE.Editors {
         areaDataDynamicTexturesNumericUpDown.ForeColor = Color.Black;
       }
 
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -414,7 +414,7 @@ namespace DSPRE.Editors {
     }
 
     private void areaDataLightTypeComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -422,7 +422,7 @@ namespace DSPRE.Editors {
     }
 
     private void areaDataMapTilesetUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -430,7 +430,7 @@ namespace DSPRE.Editors {
     }
 
     private void areaDataBuildingTilesetUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -444,7 +444,7 @@ namespace DSPRE.Editors {
       areaDataMapTilesetUpDown.Value = currentAreaData.mapTileset;
       areaDataLightTypeComboBox.SelectedIndex = currentAreaData.lightType;
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
       if (RomInfo.gameFamily == GameFamilies.HGSS) {
         areaDataDynamicTexturesNumericUpDown.Value = currentAreaData.dynamicTextureType;
 
@@ -453,7 +453,7 @@ namespace DSPRE.Editors {
         outdoorAreaRadioButton.Checked = !interior;
       }
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void removeNSBTXButton_Click(object sender, EventArgs e) {

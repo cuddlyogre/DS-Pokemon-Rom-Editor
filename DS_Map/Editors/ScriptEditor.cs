@@ -331,14 +331,14 @@ namespace DSPRE.Editors {
     }
 
     private void ScriptEditorSetClean() {
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       scriptsTabPage.Text = ScriptFile.ContainerTypes.Script.ToString() + "s";
       functionsTabPage.Text = ScriptFile.ContainerTypes.Function.ToString() + "s";
       actionsTabPage.Text = ScriptFile.ContainerTypes.Action.ToString() + "s";
       scriptsDirty = functionsDirty = actionsDirty = false;
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void OnTextChangedScript(object sender, EventArgs e) {
@@ -386,7 +386,7 @@ namespace DSPRE.Editors {
     }
 
     private void UpdateScriptNumberCheckBox(NumberStyles toSet) {
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
       Properties.Settings.Default.scriptEditorFormatPreference = (int)toSet;
 
       switch ((NumberStyles)Properties.Settings.Default.scriptEditorFormatPreference) {
@@ -402,11 +402,11 @@ namespace DSPRE.Editors {
       }
 
       Console.WriteLine("changed style to " + Properties.Settings.Default.scriptEditorFormatPreference);
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void UpdateScriptNumberFormat(RadioButton radioButton, NumberStyles numberStyle) {
-      if (!Helpers.disableHandlers) {
+      if (Helpers.HandlersEnabled) {
         NumberStyles old = (NumberStyles)Properties.Settings.Default.scriptEditorFormatPreference; //Local Backup
         Properties.Settings.Default.scriptEditorFormatPreference = (int)numberStyle;
 
@@ -432,7 +432,7 @@ namespace DSPRE.Editors {
       Console.WriteLine("Script Reload has been requested");
 
       /* clear controls */
-      if (Helpers.disableHandlers || selectScriptFileComboBox.SelectedItem == null) {
+      if (Helpers.HandlersDisabled || selectScriptFileComboBox.SelectedItem == null) {
         return false;
       }
 
@@ -440,9 +440,9 @@ namespace DSPRE.Editors {
         DialogResult d = MessageBox.Show("There are unsaved changes in this Script File.\nDo you wish to discard them?", "Unsaved work", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
         if (!d.Equals(DialogResult.Yes)) {
-          Helpers.disableHandlers = true;
+          Helpers.DisableHandlers();
           selectScriptFileComboBox.SelectedItem = currentScriptFile;
-          Helpers.disableHandlers = false;
+          Helpers.EnableHandlers();
           return false;
         }
       }
@@ -465,7 +465,7 @@ namespace DSPRE.Editors {
         clearCurrentLevelScriptButton.Visible = true;
       }
       else {
-        Helpers.disableHandlers = true;
+        Helpers.DisableHandlers();
         addScriptFileButton.Visible = true;
         removeScriptFileButton.Visible = true;
 
@@ -478,7 +478,7 @@ namespace DSPRE.Editors {
 
       ScriptEditorSetClean();
       Helpers.statusLabelMessage();
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
       return true;
     }
 

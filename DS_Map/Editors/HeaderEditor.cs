@@ -171,7 +171,7 @@ namespace DSPRE.Editors {
     }
 
     private void followModeComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -182,7 +182,7 @@ namespace DSPRE.Editors {
     }
 
     private void kantoRadioButton_CheckedChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -281,12 +281,12 @@ namespace DSPRE.Editors {
     }
 
     private void updateCameraPicAndComboBox() {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
       /* Update Camera Combobox*/
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
       try {
         switch (RomInfo.gameFamily) {
           case GameFamilies.DP:
@@ -304,7 +304,7 @@ namespace DSPRE.Editors {
         cameraComboBox.SelectedItem = null;
       }
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
 
       /* Update Camera Picture */
       string imageName;
@@ -332,12 +332,12 @@ namespace DSPRE.Editors {
     }
 
     private void updateWeatherPicAndComboBox() {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
       /* Update Weather Combobox*/
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
       try {
         switch (RomInfo.gameFamily) {
           case GameFamilies.DP:
@@ -355,7 +355,7 @@ namespace DSPRE.Editors {
         weatherComboBox.SelectedItem = null;
       }
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
 
       /* Update Weather Picture */
       try {
@@ -410,7 +410,7 @@ namespace DSPRE.Editors {
     }
 
     private void headerFlagsCheckBoxes_CheckedChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -451,22 +451,22 @@ namespace DSPRE.Editors {
         DSUtils.ARM9.WriteBytes(currentHeader.ToByteArray(), headerOffset);
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       updateCurrentInternalName();
       updateHeaderNameShown(headerListBox.SelectedIndex);
       headerListBox.Focus();
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void updateHeaderNameShown(int thisIndex) {
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
       string val = (string)(headerListBox.Items[thisIndex] = headerListBoxNames[currentHeader.ID]);
       if (EditorPanels.eventEditor.eventEditorIsReady) {
         EditorPanels.eventEditor.eventEditorWarpHeaderListBox.Items[thisIndex] = val;
       }
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private byte[] StringToInternalName(string text) {
@@ -495,7 +495,7 @@ namespace DSPRE.Editors {
     }
 
     private void headerListBox_SelectedValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers || headerListBox.SelectedIndex < 0) {
+      if (Helpers.HandlersDisabled || headerListBox.SelectedIndex < 0) {
         return;
       }
 
@@ -517,7 +517,7 @@ namespace DSPRE.Editors {
     }
 
     private void headerListBox_Leave(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -545,7 +545,7 @@ namespace DSPRE.Editors {
     }
 
     private void levelScriptUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -574,7 +574,7 @@ namespace DSPRE.Editors {
     }
 
     private void scriptFileUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -592,11 +592,11 @@ namespace DSPRE.Editors {
     }
 
     private void musicNightUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
       ushort updValue = (ushort)((NumericUpDown)sender).Value;
       currentHeader.musicNightID = updValue;
       try {
@@ -616,15 +616,15 @@ namespace DSPRE.Editors {
         musicNightComboBox.SelectedItem = null;
       }
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void musicDayUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
       ushort updValue = (ushort)((NumericUpDown)sender).Value;
       currentHeader.musicDayID = updValue;
       try {
@@ -644,7 +644,7 @@ namespace DSPRE.Editors {
         musicDayComboBox.SelectedItem = null;
       }
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void pasteCameraAngleButton_Click(object sender, EventArgs e) {
@@ -684,7 +684,7 @@ namespace DSPRE.Editors {
     }
 
     private void weatherComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers || weatherComboBox.SelectedIndex < 0) {
+      if (Helpers.HandlersDisabled || weatherComboBox.SelectedIndex < 0) {
         return;
       }
 
@@ -704,7 +704,7 @@ namespace DSPRE.Editors {
     }
 
     private void musicNightComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -722,7 +722,7 @@ namespace DSPRE.Editors {
     }
 
     private void cameraComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers || cameraComboBox.SelectedIndex < 0) {
+      if (Helpers.HandlersDisabled || cameraComboBox.SelectedIndex < 0) {
         return;
       }
 
@@ -742,7 +742,7 @@ namespace DSPRE.Editors {
     }
 
     private void musicDayComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -813,7 +813,7 @@ namespace DSPRE.Editors {
     }
 
     private void areaIconComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -835,7 +835,7 @@ namespace DSPRE.Editors {
     }
 
     private void areaSettingsComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers || areaSettingsComboBox.SelectedItem is null) {
+      if (Helpers.HandlersDisabled || areaSettingsComboBox.SelectedItem is null) {
         return;
       }
 
@@ -855,7 +855,7 @@ namespace DSPRE.Editors {
     }
 
     private void mapNameComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -1059,7 +1059,7 @@ namespace DSPRE.Editors {
     }
 
     private void areaDataUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -1067,7 +1067,7 @@ namespace DSPRE.Editors {
     }
 
     private void matrixUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -1099,7 +1099,7 @@ namespace DSPRE.Editors {
     }
 
     private void textFileUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -1130,7 +1130,7 @@ namespace DSPRE.Editors {
     }
 
     private void eventFileUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -1275,7 +1275,7 @@ namespace DSPRE.Editors {
     }
 
     private void wildPokeUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 

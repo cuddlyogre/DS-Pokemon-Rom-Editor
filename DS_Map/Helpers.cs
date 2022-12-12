@@ -18,13 +18,34 @@ namespace DSPRE {
   public static class Helpers {
     static MainProgram MainProgram;
 
-    public static bool disableHandlers = false;
     public static RomInfo romInfo;
     public static bool hideBuildings = new bool();
     public static ToolStripProgressBar toolStripProgressBar { get { return MainProgram.toolStripProgressBar; } }
 
     public static void Initialize(MainProgram mainProgram) {
       MainProgram = mainProgram;
+    }
+
+    static bool disableHandlersOld;
+    static bool disableHandlers;
+
+    public static bool HandlersDisabled { get { return disableHandlers == true; } }
+    public static bool HandlersEnabled { get { return disableHandlers == false; } }
+
+    public static void BackUpDisableHandler() {
+      disableHandlersOld = disableHandlers;
+    }
+
+    public static void RestoreDisableHandler() {
+      disableHandlers = disableHandlersOld;
+    }
+
+    public static void DisableHandlers() {
+      disableHandlers = true;
+    }
+
+    public static void EnableHandlers() {
+      disableHandlers = false;
     }
 
     public static void statusLabelMessage(string msg = "Ready") {

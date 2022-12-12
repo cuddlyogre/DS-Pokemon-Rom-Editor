@@ -217,7 +217,7 @@ namespace DSPRE.Editors {
     }
 
     private void musicIDconditionalMusicUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -226,7 +226,7 @@ namespace DSPRE.Editors {
     }
 
     private void flagConditionalMusicUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -235,7 +235,7 @@ namespace DSPRE.Editors {
     }
 
     private void headerConditionalMusicComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -261,12 +261,12 @@ namespace DSPRE.Editors {
       int selection = conditionalMusicTableListBox.SelectedIndex;
       headerConditionalMusicComboBox.SelectedIndex = conditionalMusicTable[selection].header;
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       flagConditionalMusicUpDown.Value = conditionalMusicTable[selection].flag;
       musicIDconditionalMusicUpDown.Value = conditionalMusicTable[selection].music;
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void HOWpbEffectsTableButton_Click(object sender, EventArgs e) {
@@ -288,15 +288,15 @@ namespace DSPRE.Editors {
         wr.Write(battleMusic);
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
       pbEffectsCombosListbox.Items[index] = pbEffectsTrainerChooseMainCombobox.Items[index] = pbEffectsPokemonChooseMainCombobox.Items[index] = "Combo " + index.ToString("D2") + " - " + "Effect #" + battleIntroEffect + ", " + "Music #" + battleMusic;
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void pbEffectsCombosListbox_SelectedIndexChanged(object sender, EventArgs e) {
       int comboSelection = pbEffectsCombosListbox.SelectedIndex;
 
-      if (Helpers.disableHandlers || comboSelection < 0) {
+      if (Helpers.HandlersDisabled || comboSelection < 0) {
         return;
       }
 
@@ -325,9 +325,9 @@ namespace DSPRE.Editors {
         wr.Write((ushort)((trainerClass&1023) + (comboID << 10)));
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
       pbEffectsVsTrainerListbox.Items[index] = "[" + trainerClass.ToString("D3") + "]" + " " + trcNames[trainerClass] + " uses Combo #" + comboID;
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void pbEffectsTrainerCombobox_SelectedIndexChanged(object sender, EventArgs e) {
@@ -340,7 +340,7 @@ namespace DSPRE.Editors {
 
     private void pbEffectsVsTrainerListbox_SelectedIndexChanged(object sender, EventArgs e) {
       int trainerSelection = pbEffectsVsTrainerListbox.SelectedIndex;
-      if (Helpers.disableHandlers || trainerSelection < 0) {
+      if (Helpers.HandlersDisabled || trainerSelection < 0) {
         return;
       }
 
@@ -369,9 +369,9 @@ namespace DSPRE.Editors {
         wr.Write((ushort)((pokemonID&1023) + (comboID << 10))); //PokemonID
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
       pbEffectsVsPokemonListbox.Items[index] = "[" + pokemonID.ToString("D3") + "]" + " " + pokeNames[pokemonID] + " uses Combo #" + comboID;
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void pbEffectsPokemonCombobox_SelectedIndexChanged(object sender, EventArgs e) {
@@ -383,7 +383,7 @@ namespace DSPRE.Editors {
     private void pbEffectsVsPokemonListbox_SelectedIndexChanged(object sender, EventArgs e) {
       int pokemonSelection = pbEffectsVsPokemonListbox.SelectedIndex;
 
-      if (Helpers.disableHandlers || pokemonSelection < 0) {
+      if (Helpers.HandlersDisabled || pokemonSelection < 0) {
         return;
       }
 

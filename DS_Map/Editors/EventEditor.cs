@@ -70,7 +70,7 @@ namespace DSPRE.Editors {
         DSUtils.TryUnpackNarcs(new List<DirNames> { DirNames.interiorBuildingModels });
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
       if (File.Exists(RomInfo.OWtablePath)) {
         switch (RomInfo.gameFamily) {
           case GameFamilies.DP:
@@ -169,7 +169,7 @@ namespace DSPRE.Editors {
       eventMatrixUpDown.Maximum = Helpers.romInfo.GetMatrixCount() - 1;
       eventAreaDataUpDown.Maximum = Helpers.romInfo.GetAreaDataCount() - 1;
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
 
       selectEventComboBox.SelectedIndex = 0;
       owItemComboBox.SelectedIndex = 0;
@@ -750,7 +750,7 @@ namespace DSPRE.Editors {
 
     private void spawnableTypeComboBox_SelectedIndexChanged(object sender, EventArgs e) {
       int selectedSpawnable = spawnablesListBox.SelectedIndex;
-      if (Helpers.disableHandlers || selectedSpawnable < 0) {
+      if (Helpers.HandlersDisabled || selectedSpawnable < 0) {
         return;
       }
 
@@ -865,7 +865,7 @@ namespace DSPRE.Editors {
 
     private void spawnableMatrixXUpDown_ValueChanged(object sender, EventArgs e) {
       int selectedSpawnable = spawnablesListBox.SelectedIndex;
-      if (Helpers.disableHandlers || selectedSpawnable < 0) {
+      if (Helpers.HandlersDisabled || selectedSpawnable < 0) {
         return;
       }
 
@@ -875,7 +875,7 @@ namespace DSPRE.Editors {
 
     private void spawnableMatrixYUpDown_ValueChanged(object sender, EventArgs e) {
       int selectedSpawnable = spawnablesListBox.SelectedIndex;
-      if (Helpers.disableHandlers || selectedSpawnable < 0) {
+      if (Helpers.HandlersDisabled || selectedSpawnable < 0) {
         return;
       }
 
@@ -885,7 +885,7 @@ namespace DSPRE.Editors {
 
     private void spawnableMapXUpDown_ValueChanged(object sender, EventArgs e) {
       int selectedSpawnable = spawnablesListBox.SelectedIndex;
-      if (Helpers.disableHandlers || selectedSpawnable < 0) {
+      if (Helpers.HandlersDisabled || selectedSpawnable < 0) {
         return;
       }
 
@@ -895,7 +895,7 @@ namespace DSPRE.Editors {
 
     private void spawnableZUpDown_ValueChanged(object sender, EventArgs e) {
       int selectedSpawnable = spawnablesListBox.SelectedIndex;
-      if (Helpers.disableHandlers || selectedSpawnable < 0) {
+      if (Helpers.HandlersDisabled || selectedSpawnable < 0) {
         return;
       }
 
@@ -905,7 +905,7 @@ namespace DSPRE.Editors {
 
     private void spawnableMapYUpDown_ValueChanged(object sender, EventArgs e) {
       int selectedSpawnable = spawnablesListBox.SelectedIndex;
-      if (Helpers.disableHandlers || selectedSpawnable < 0) {
+      if (Helpers.HandlersDisabled || selectedSpawnable < 0) {
         return;
       }
 
@@ -918,7 +918,7 @@ namespace DSPRE.Editors {
         return;
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       /* Remove trigger object from list and the corresponding entry in the ListBox */
       int spawnableNumber = spawnablesListBox.SelectedIndex;
@@ -927,7 +927,7 @@ namespace DSPRE.Editors {
 
       FillSpawnablesBox(); // Update ListBox
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
 
       if (spawnableNumber > 0) {
         spawnablesListBox.SelectedIndex = spawnableNumber - 1;
@@ -958,7 +958,7 @@ namespace DSPRE.Editors {
 
     private void spawnableDirComboBox_SelectedIndexChanged(object sender, EventArgs e) {
       int selectedSpawnable = spawnablesListBox.SelectedIndex;
-      if (Helpers.disableHandlers || selectedSpawnable < 0) {
+      if (Helpers.HandlersDisabled || selectedSpawnable < 0) {
         return;
       }
 
@@ -968,7 +968,7 @@ namespace DSPRE.Editors {
 
     private void spawnableScriptUpDown_ValueChanged(object sender, EventArgs e) {
       int selectedSpawnable = spawnablesListBox.SelectedIndex;
-      if (Helpers.disableHandlers || selectedSpawnable < 0) {
+      if (Helpers.HandlersDisabled || selectedSpawnable < 0) {
         return;
       }
 
@@ -977,9 +977,9 @@ namespace DSPRE.Editors {
     }
 
     private void spawnablesListBox_SelectedIndexChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers || spawnablesListBox.SelectedIndex < 0)
+      if (Helpers.HandlersDisabled || spawnablesListBox.SelectedIndex < 0)
         return;
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       /* Set Event */
       selectedEvent = currentEvFile.spawnables[spawnablesListBox.SelectedIndex];
@@ -996,7 +996,7 @@ namespace DSPRE.Editors {
       spawnableYMatrixUpDown.Value = currentEvFile.spawnables[spawnablesListBox.SelectedIndex].yMatrixPosition;
 
       DisplayActiveEvents();
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void OWTypeChanged(object sender, EventArgs e) {
@@ -1008,7 +1008,7 @@ namespace DSPRE.Editors {
         owScriptNumericUpDown.Enabled = true;
         owSpecialGroupBox.Enabled = false;
 
-        if (Helpers.disableHandlers) {
+        if (Helpers.HandlersDisabled) {
           return;
         }
 
@@ -1025,7 +1025,7 @@ namespace DSPRE.Editors {
         owSightRangeLabel.Enabled = false;
         owPartnerTrainerCheckBox.Enabled = false;
 
-        if (Helpers.disableHandlers) {
+        if (Helpers.HandlersDisabled) {
           return;
         }
 
@@ -1053,7 +1053,7 @@ namespace DSPRE.Editors {
         owItemComboBox.Enabled = false;
         itemsSelectorHelpBtn.Enabled = false;
 
-        if (Helpers.disableHandlers) {
+        if (Helpers.HandlersDisabled) {
           return;
         }
 
@@ -1066,7 +1066,7 @@ namespace DSPRE.Editors {
 
     private void owYMatrixUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = overworldsListBox.SelectedIndex;
-      if (Helpers.disableHandlers || selection < 0) {
+      if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
@@ -1079,7 +1079,7 @@ namespace DSPRE.Editors {
     private void owXMatrixUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = overworldsListBox.SelectedIndex;
 
-      if (Helpers.disableHandlers || selection < 0) {
+      if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
@@ -1158,7 +1158,7 @@ namespace DSPRE.Editors {
     private void owXRangeUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = overworldsListBox.SelectedIndex;
 
-      if (Helpers.disableHandlers || selection < 0) {
+      if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
@@ -1168,7 +1168,7 @@ namespace DSPRE.Editors {
     private void owYRangeUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = overworldsListBox.SelectedIndex;
 
-      if (Helpers.disableHandlers || selection < 0) {
+      if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
@@ -1185,7 +1185,7 @@ namespace DSPRE.Editors {
       if (selection >= 0) {
         owSpritePictureBox.BackgroundImage = GetOverworldImage(currentEvFile.overworlds[selection].overlayTableEntry, orientation);
 
-        if (!Helpers.disableHandlers) {
+        if (Helpers.HandlersEnabled) {
           currentEvFile.overworlds[selection].orientation = orientation;
           DisplayActiveEvents();
         }
@@ -1200,7 +1200,7 @@ namespace DSPRE.Editors {
     private void owMovementComboBox_SelectedIndexChanged(object sender, EventArgs e) {
       int selection = overworldsListBox.SelectedIndex;
 
-      if (Helpers.disableHandlers || selection < 0) {
+      if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
@@ -1210,7 +1210,7 @@ namespace DSPRE.Editors {
     private void owXMapUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = overworldsListBox.SelectedIndex;
 
-      if (Helpers.disableHandlers || selection < 0) {
+      if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
@@ -1221,7 +1221,7 @@ namespace DSPRE.Editors {
     private void owZPositionUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = overworldsListBox.SelectedIndex;
 
-      if (Helpers.disableHandlers || selection < 0) {
+      if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
@@ -1231,7 +1231,7 @@ namespace DSPRE.Editors {
     private void owYMapUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = overworldsListBox.SelectedIndex;
 
-      if (Helpers.disableHandlers || selection < 0) {
+      if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
@@ -1249,7 +1249,7 @@ namespace DSPRE.Editors {
     private void owPartnerTrainerCheckBox_CheckedChanged(object sender, EventArgs e) {
       int selection = overworldsListBox.SelectedIndex;
 
-      if (Helpers.disableHandlers || selection < 0) {
+      if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
@@ -1257,7 +1257,7 @@ namespace DSPRE.Editors {
     }
 
     private void owItemComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers || overworldsListBox.SelectedIndex < 0) {
+      if (Helpers.HandlersDisabled || overworldsListBox.SelectedIndex < 0) {
         return;
       }
 
@@ -1267,7 +1267,7 @@ namespace DSPRE.Editors {
     private void owTrainerComboBox_SelectedIndexChanged(object sender, EventArgs e) {
       int selection = overworldsListBox.SelectedIndex;
 
-      if (Helpers.disableHandlers || selection < 0) {
+      if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
@@ -1277,7 +1277,7 @@ namespace DSPRE.Editors {
     private void owSightRangeUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = overworldsListBox.SelectedIndex;
 
-      if (Helpers.disableHandlers || selection < 0) {
+      if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
@@ -1287,7 +1287,7 @@ namespace DSPRE.Editors {
     private void owScriptNumericUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = overworldsListBox.SelectedIndex;
 
-      if (Helpers.disableHandlers || selection < 0) {
+      if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
@@ -1298,7 +1298,7 @@ namespace DSPRE.Editors {
     private void owFlagNumericUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = overworldsListBox.SelectedIndex;
 
-      if (Helpers.disableHandlers || selection < 0) {
+      if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
@@ -1324,7 +1324,7 @@ namespace DSPRE.Editors {
       if (selection >= 0) {
         owSpritePictureBox.BackgroundImage = GetOverworldImage(overlayTableEntryID, currentEvFile.overworlds[selection].orientation);
 
-        if (!Helpers.disableHandlers) {
+        if (Helpers.HandlersEnabled) {
           currentEvFile.overworlds[selection].overlayTableEntry = overlayTableEntryID;
           DisplayActiveEvents();
         }
@@ -1340,7 +1340,7 @@ namespace DSPRE.Editors {
     private void owIDNumericUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = overworldsListBox.SelectedIndex;
 
-      if (Helpers.disableHandlers || selection < 0) {
+      if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
@@ -1365,7 +1365,7 @@ namespace DSPRE.Editors {
         return;
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       /* Remove overworld object from list and the corresponding entry in the ListBox */
       int owNumber = overworldsListBox.SelectedIndex;
@@ -1373,7 +1373,7 @@ namespace DSPRE.Editors {
       overworldsListBox.Items.RemoveAt(owNumber);
 
       FillOverworldsBox(); // Update ListBox
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
 
       if (owNumber > 0) {
         overworldsListBox.SelectedIndex = owNumber - 1;
@@ -1404,11 +1404,11 @@ namespace DSPRE.Editors {
     private void overworldsListBox_SelectedIndexChanged(object sender, EventArgs e) {
       int index = overworldsListBox.SelectedIndex;
 
-      if (Helpers.disableHandlers || index < 0) {
+      if (Helpers.HandlersDisabled || index < 0) {
         return;
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       selectedEvent = currentEvFile.overworlds[index];
       Overworld selectedOw = (Overworld)selectedEvent;
@@ -1481,7 +1481,7 @@ namespace DSPRE.Editors {
         MessageBox.Show(errorMsg, "Something went wrong", MessageBoxButtons.OK, MessageBoxIcon.Error);
       }
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void duplicateWarpsButton_Click(object sender, EventArgs e) {
@@ -1541,7 +1541,7 @@ namespace DSPRE.Editors {
 
       eventEditorHeaderLocationNameLabel.Text = (string)EditorPanels.headerEditor.locationNameComboBox.Items[locNum];
 
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -1588,7 +1588,7 @@ namespace DSPRE.Editors {
     }
 
     private void warpAnchorUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers || warpsListBox.SelectedIndex < 0) {
+      if (Helpers.HandlersDisabled || warpsListBox.SelectedIndex < 0) {
         return;
       }
 
@@ -1601,7 +1601,7 @@ namespace DSPRE.Editors {
         return;
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       /* Remove warp object from list and the corresponding entry in the ListBox */
       int warpNumber = warpsListBox.SelectedIndex;
@@ -1610,7 +1610,7 @@ namespace DSPRE.Editors {
 
       FillWarpsBox(); // Update ListBox
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
 
       if (warpNumber > 0) {
         warpsListBox.SelectedIndex = warpNumber - 1;
@@ -1643,14 +1643,14 @@ namespace DSPRE.Editors {
     }
 
     private void warpsListBox_SelectedIndexChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers || warpsListBox.SelectedIndex < 0) {
+      if (Helpers.HandlersDisabled || warpsListBox.SelectedIndex < 0) {
         return;
       }
 
       selectedEvent = currentEvFile.warps[warpsListBox.SelectedIndex];
       eventEditorWarpHeaderListBox.SelectedIndex = currentEvFile.warps[warpsListBox.SelectedIndex].header;
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       warpAnchorUpDown.Value = currentEvFile.warps[warpsListBox.SelectedIndex].anchor;
       warpXMapUpDown.Value = currentEvFile.warps[warpsListBox.SelectedIndex].xMapPosition;
@@ -1663,14 +1663,14 @@ namespace DSPRE.Editors {
 
       #region Re-enable events
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
 
       #endregion
     }
 
     private void expectedVarValueTriggerUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = triggersListBox.SelectedIndex;
-      if (Helpers.disableHandlers || selection < 0) {
+      if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
@@ -1680,7 +1680,7 @@ namespace DSPRE.Editors {
 
     private void triggerVariableWatchedUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = triggersListBox.SelectedIndex;
-      if (Helpers.disableHandlers || selection < 0) {
+      if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
@@ -1690,7 +1690,7 @@ namespace DSPRE.Editors {
 
     private void triggerScriptUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = triggersListBox.SelectedIndex;
-      if (Helpers.disableHandlers || selection < 0) {
+      if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
@@ -1700,7 +1700,7 @@ namespace DSPRE.Editors {
 
     private void triggerLengthUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = triggersListBox.SelectedIndex;
-      if (Helpers.disableHandlers || selection < 0) {
+      if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
@@ -1710,7 +1710,7 @@ namespace DSPRE.Editors {
 
     private void triggerWidthUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = triggersListBox.SelectedIndex;
-      if (Helpers.disableHandlers || selection < 0) {
+      if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
@@ -1720,7 +1720,7 @@ namespace DSPRE.Editors {
 
     private void triggerXMapUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = triggersListBox.SelectedIndex;
-      if (Helpers.disableHandlers || selection < 0) {
+      if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
@@ -1730,7 +1730,7 @@ namespace DSPRE.Editors {
 
     private void triggerZUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = triggersListBox.SelectedIndex;
-      if (Helpers.disableHandlers || selection < 0) {
+      if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
@@ -1740,7 +1740,7 @@ namespace DSPRE.Editors {
 
     private void triggerYMapUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = triggersListBox.SelectedIndex;
-      if (Helpers.disableHandlers || selection < 0) {
+      if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
@@ -1767,7 +1767,7 @@ namespace DSPRE.Editors {
         return;
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       /* Remove trigger object from list and the corresponding entry in the ListBox */
       currentEvFile.triggers.RemoveAt(selection);
@@ -1775,7 +1775,7 @@ namespace DSPRE.Editors {
 
       FillTriggersBox(); // Update ListBox
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
 
       if (selection > 0) {
         triggersListBox.SelectedIndex = selection - 1;
@@ -1796,11 +1796,11 @@ namespace DSPRE.Editors {
     private void triggersListBox_SelectedIndexChanged(object sender, EventArgs e) {
       int selectedIndex = triggersListBox.SelectedIndex;
 
-      if (Helpers.disableHandlers || selectedIndex < 0) {
+      if (Helpers.HandlersDisabled || selectedIndex < 0) {
         return;
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       Trigger t = (selectedEvent = currentEvFile.triggers[selectedIndex]) as Trigger;
 
@@ -1819,7 +1819,7 @@ namespace DSPRE.Editors {
 
       DisplayActiveEvents();
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void eventsTabControl_SelectedIndexChanged(object sender, EventArgs e) {
@@ -1846,18 +1846,18 @@ namespace DSPRE.Editors {
     }
 
     public void eventMatrixUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       eventMatrix = new GameMatrix((int)eventMatrixUpDown.Value);
       eventMatrixXUpDown.Maximum = eventMatrix.width - 1;
       eventMatrixYUpDown.Maximum = eventMatrix.height - 1;
       eventEditorFullMapReload((int)eventMatrixXUpDown.Value, (int)eventMatrixYUpDown.Value);
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
 
       CenterEventViewOnEntities();
     }
@@ -1906,10 +1906,10 @@ namespace DSPRE.Editors {
 
           areaDataID = h.areaDataID;
 
-          bool disableHandlersbackup = Helpers.disableHandlers;
-          Helpers.disableHandlers = true;
+          Helpers.BackUpDisableHandler();
+          Helpers.DisableHandlers();
           eventAreaDataUpDown.Value = h.areaDataID;
-          Helpers.disableHandlers = disableHandlersbackup;
+          Helpers.RestoreDisableHandler();
         }
         else {
           areaDataID = (byte)eventAreaDataUpDown.Value;
@@ -1939,7 +1939,7 @@ namespace DSPRE.Editors {
     }
 
     private void selectEventComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -1966,7 +1966,7 @@ namespace DSPRE.Editors {
     }
 
     private void eventMatrixCoordsUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -1974,7 +1974,7 @@ namespace DSPRE.Editors {
     }
 
     private void showEventsCheckBoxes_CheckedChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -1994,7 +1994,7 @@ namespace DSPRE.Editors {
     }
 
     private void warpMatrixXUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers || warpsListBox.SelectedIndex < 0) {
+      if (Helpers.HandlersDisabled || warpsListBox.SelectedIndex < 0) {
         return;
       }
 
@@ -2003,7 +2003,7 @@ namespace DSPRE.Editors {
     }
 
     private void warpMatrixYUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers || warpsListBox.SelectedIndex < 0) {
+      if (Helpers.HandlersDisabled || warpsListBox.SelectedIndex < 0) {
         return;
       }
 
@@ -2012,7 +2012,7 @@ namespace DSPRE.Editors {
     }
 
     private void warpXMapUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers || warpsListBox.SelectedIndex < 0) {
+      if (Helpers.HandlersDisabled || warpsListBox.SelectedIndex < 0) {
         return;
       }
 
@@ -2021,7 +2021,7 @@ namespace DSPRE.Editors {
     }
 
     private void warpYMapUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers || warpsListBox.SelectedIndex < 0) {
+      if (Helpers.HandlersDisabled || warpsListBox.SelectedIndex < 0) {
         return;
       }
 
@@ -2030,7 +2030,7 @@ namespace DSPRE.Editors {
     }
 
     private void warpZUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers || warpsListBox.SelectedIndex < 0) {
+      if (Helpers.HandlersDisabled || warpsListBox.SelectedIndex < 0) {
         return;
       }
 
@@ -2040,7 +2040,7 @@ namespace DSPRE.Editors {
 
     private void triggerXMatrixUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = triggersListBox.SelectedIndex;
-      if (Helpers.disableHandlers || selection < 0) {
+      if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
@@ -2050,7 +2050,7 @@ namespace DSPRE.Editors {
 
     private void triggerYMatrixUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = triggersListBox.SelectedIndex;
-      if (Helpers.disableHandlers || selection < 0) {
+      if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 

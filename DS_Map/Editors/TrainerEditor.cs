@@ -35,7 +35,7 @@ namespace DSPRE.Editors {
     }
 
     public void SetupTrainerEditor() {
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
       SetupTrainerClassEncounterMusicTable();
       /* Extract essential NARCs sub-archives*/
       Helpers.statusLabelMessage("Setting up Trainer Editor...");
@@ -165,7 +165,7 @@ namespace DSPRE.Editors {
 
       trainerComboBox.SelectedIndex = 0;
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
       trainerComboBox_SelectedIndexChanged(null, null);
       Helpers.statusLabelMessage();
     }
@@ -258,9 +258,9 @@ namespace DSPRE.Editors {
 
       string editedTrainer = "[" + currentTrainerFile.trp.trainerID.ToString("D2") + "] " + trClass + " " + currentTrainerFile.name;
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
       trainerComboBox.Items[trainerComboBox.SelectedIndex] = editedTrainer;
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
 
       if (EditorPanels.eventEditor.eventEditorIsReady) {
         EditorPanels.eventEditor.owTrainerComboBox.Items[trainerComboBox.SelectedIndex] = editedTrainer;
@@ -281,11 +281,11 @@ namespace DSPRE.Editors {
     }
 
     private void trainerComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       int currentIndex = trainerComboBox.SelectedIndex;
       string suffix = "\\" + currentIndex.ToString("D4");
@@ -305,7 +305,7 @@ namespace DSPRE.Editors {
       RefreshTrainerPartyGUI();
       RefreshTrainerPropertiesGUI();
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
 
       if (error) {
         MessageBox.Show("This Trainer File doesn't have a corresponding name.\n\n" +
@@ -382,7 +382,7 @@ namespace DSPRE.Editors {
         currentTrainerFile.party[i] = new PartyPokemon(currentTrainerFile.trp.hasItems, currentTrainerFile.trp.hasMoves);
       }
 
-      //if (!Helpers.disableHandlers) {
+      //if (Helpers.HandlersEnabled) {
       //    RefreshTrainerPartyGUI();
       //    RefreshTrainerPropertiesGUI();
       //}
@@ -470,7 +470,7 @@ namespace DSPRE.Editors {
     }
 
     private void saveTrainerClassButton_Click(object sender, EventArgs e) {
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       int selectedTrClass = trainerClassListBox.SelectedIndex;
 
@@ -490,7 +490,7 @@ namespace DSPRE.Editors {
         UpdateCurrentTrainerShownName();
       }
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
 
       //trainerClassListBox_SelectedIndexChanged(null, null);
       if (gameFamily.Equals(GameFamilies.HGSS) && EditorPanels.tableEditor.tableEditorIsReady) {
@@ -506,7 +506,7 @@ namespace DSPRE.Editors {
     }
 
     private void partyMoveComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-      if (!Helpers.disableHandlers) {
+      if (Helpers.HandlersEnabled) {
         for (int i = 0; i < TrainerFile.POKE_IN_PARTY; i++) {
           ushort[] moves = currentTrainerFile.party[i].moves;
 

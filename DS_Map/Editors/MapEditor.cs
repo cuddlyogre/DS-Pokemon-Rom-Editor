@@ -67,7 +67,7 @@ namespace DSPRE.Editors {
         DSUtils.TryUnpackNarcs(new List<DirNames> { DirNames.interiorBuildingModels });
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       collisionPainterPictureBox.Image = new Bitmap(100, 100);
       typePainterPictureBox.Image = new Bitmap(100, 100);
@@ -150,7 +150,7 @@ namespace DSPRE.Editors {
 
       Helpers.toolStripProgressBar.Value = 0;
       Helpers.toolStripProgressBar.Visible = false;
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
 
       //Default selections
       selectMapComboBox.SelectedIndex = 0;
@@ -263,90 +263,90 @@ namespace DSPRE.Editors {
     }
 
     private void yRotDegBldUpDown_ValueChanged(object sender, EventArgs e) {
-      if (buildingsListBox.SelectedIndex <= -1 || Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled || buildingsListBox.SelectedIndex <= -1) {
         return;
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       currentMapFile.buildings[buildingsListBox.SelectedIndex].yRotation = (ushort)(yRotBuildUpDown.Value =
         Building.DegToU16((float)yRotDegBldUpDown.Value));
       Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, ang, dist, elev, perspective, mapOpenGlControl.Width, mapOpenGlControl.Height, mapTexturesOn, bldTexturesOn);
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void xRotDegBldUpDown_ValueChanged(object sender, EventArgs e) {
-      if (buildingsListBox.SelectedIndex <= -1 || Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled || buildingsListBox.SelectedIndex <= -1) {
         return;
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       currentMapFile.buildings[buildingsListBox.SelectedIndex].xRotation = (ushort)(xRotBuildUpDown.Value =
         Building.DegToU16((float)xRotDegBldUpDown.Value));
       Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, ang, dist, elev, perspective, mapOpenGlControl.Width, mapOpenGlControl.Height, mapTexturesOn, bldTexturesOn);
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void zRotDegBldUpDown_ValueChanged(object sender, EventArgs e) {
-      if (buildingsListBox.SelectedIndex <= -1 || Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled || buildingsListBox.SelectedIndex <= -1) {
         return;
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       currentMapFile.buildings[buildingsListBox.SelectedIndex].zRotation = (ushort)(zRotBuildUpDown.Value =
         Building.DegToU16((float)zRotDegBldUpDown.Value));
       Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, ang, dist, elev, perspective, mapOpenGlControl.Width, mapOpenGlControl.Height, mapTexturesOn, bldTexturesOn);
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void yRotBuildUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = buildingsListBox.SelectedIndex;
 
-      if (selection <= -1 || Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled || selection <= -1) {
         return;
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       yRotDegBldUpDown.Value = (decimal)Building.U16ToDeg(currentMapFile.buildings[selection].yRotation = (ushort)((int)yRotBuildUpDown.Value&ushort.MaxValue));
       Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, ang, dist, elev, perspective, mapOpenGlControl.Width, mapOpenGlControl.Height, mapTexturesOn, bldTexturesOn);
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void xRotBuildUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = buildingsListBox.SelectedIndex;
 
-      if (selection <= -1 || Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled || selection <= -1) {
         return;
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       xRotDegBldUpDown.Value = (decimal)Building.U16ToDeg(currentMapFile.buildings[selection].xRotation = (ushort)((int)xRotBuildUpDown.Value&ushort.MaxValue));
       Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, ang, dist, elev, perspective, mapOpenGlControl.Width, mapOpenGlControl.Height, mapTexturesOn, bldTexturesOn);
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void zRotBuildUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = buildingsListBox.SelectedIndex;
 
-      if (selection <= -1 || Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled || selection <= -1) {
         return;
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       zRotDegBldUpDown.Value = (decimal)Building.U16ToDeg(currentMapFile.buildings[selection].zRotation = (ushort)((int)zRotBuildUpDown.Value&ushort.MaxValue));
       Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, ang, dist, elev, perspective, mapOpenGlControl.Width, mapOpenGlControl.Height, mapTexturesOn, bldTexturesOn);
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void bldPlaceLockXcheckbox_CheckedChanged(object sender, EventArgs e) {
@@ -354,17 +354,17 @@ namespace DSPRE.Editors {
     }
 
     private void ExclusiveCBInvert(CheckBox cb) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
 
       if (cb.Checked) {
         cb.Checked = !cb.Checked;
       }
 
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void bldPlaceLockZcheckbox_CheckedChanged(object sender, EventArgs e) {
@@ -454,7 +454,7 @@ namespace DSPRE.Editors {
     }
 
     private void interiorRadioButton_CheckedChanged(object sender, EventArgs e) {
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
       int index = buildIndexComboBox.SelectedIndex;
       buildIndexComboBox.Items.Clear();
 
@@ -478,17 +478,17 @@ namespace DSPRE.Editors {
 
       /* Render the map */
       Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, ang, dist, elev, perspective, mapOpenGlControl.Width, mapOpenGlControl.Height, mapTexturesOn, bldTexturesOn);
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
     }
 
     private void buildIndexComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers || buildingsListBox.SelectedIndex < 0) {
+      if (Helpers.HandlersDisabled || buildingsListBox.SelectedIndex < 0) {
         return;
       }
 
-      Helpers.disableHandlers = true;
+      Helpers.DisableHandlers();
       buildingsListBox.Items[buildingsListBox.SelectedIndex] = (buildingsListBox.SelectedIndex + 1).ToString("D2") + MapHeader.nameSeparator + buildIndexComboBox.SelectedItem;
-      Helpers.disableHandlers = false;
+      Helpers.EnableHandlers();
 
       currentMapFile.buildings[buildingsListBox.SelectedIndex].modelID = (uint)buildIndexComboBox.SelectedIndex;
       currentMapFile.buildings[buildingsListBox.SelectedIndex].LoadModelData(Helpers.romInfo.GetBuildingModelsDirPath(interiorbldRadioButton.Checked));
@@ -557,7 +557,7 @@ namespace DSPRE.Editors {
     private void removeBuildingButton_Click(object sender, EventArgs e) {
       int toRemoveListBoxID = buildingsListBox.SelectedIndex;
       if (toRemoveListBoxID > -1) {
-        Helpers.disableHandlers = true;
+        Helpers.DisableHandlers();
 
         /* Remove building object from list and the corresponding entry in the ListBox */
 
@@ -567,7 +567,7 @@ namespace DSPRE.Editors {
         FillBuildingsBox(); // Update ListBox
         Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, ang, dist, elev, perspective, mapOpenGlControl.Width, mapOpenGlControl.Height, mapTexturesOn, bldTexturesOn);
 
-        Helpers.disableHandlers = false;
+        Helpers.EnableHandlers();
 
         if (buildingsListBox.Items.Count > 0) {
           if (toRemoveListBoxID > 0) {
@@ -585,7 +585,7 @@ namespace DSPRE.Editors {
     }
 
     private void yBuildUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers || buildingsListBox.SelectedIndex < 0)
+      if (Helpers.HandlersDisabled || buildingsListBox.SelectedIndex < 0)
         return;
 
       var wholePart = Math.Truncate(yBuildUpDown.Value);
@@ -602,7 +602,7 @@ namespace DSPRE.Editors {
     }
 
     private void xBuildUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers || buildingsListBox.SelectedIndex < 0) {
+      if (Helpers.HandlersDisabled || buildingsListBox.SelectedIndex < 0) {
         return;
       }
 
@@ -620,7 +620,7 @@ namespace DSPRE.Editors {
     }
 
     private void zBuildUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers || buildingsListBox.SelectedIndex < 0)
+      if (Helpers.HandlersDisabled || buildingsListBox.SelectedIndex < 0)
         return;
 
       var wholePart = Math.Truncate(zBuildUpDown.Value);
@@ -638,12 +638,12 @@ namespace DSPRE.Editors {
 
     private void buildingsListBox_SelectedIndexChanged(object sender, EventArgs e) {
       int buildingNumber = buildingsListBox.SelectedIndex;
-      if (Helpers.disableHandlers || buildingNumber < 0) {
+      if (Helpers.HandlersDisabled || buildingNumber < 0) {
         return;
       }
 
-      bool oldStatus = Helpers.disableHandlers;
-      Helpers.disableHandlers = true;
+      Helpers.BackUpDisableHandler();
+      Helpers.DisableHandlers();
 
       Building selected = currentMapFile.buildings[buildingNumber];
       if (selected.NSBMDFile != null) {
@@ -666,7 +666,7 @@ namespace DSPRE.Editors {
         buildingLengthUpDown.Value = selected.length;
       }
 
-      Helpers.disableHandlers = oldStatus;
+      Helpers.RestoreDisableHandler();
     }
 
     private void clearCurrentButton_Click(object sender, EventArgs e) {
@@ -1338,7 +1338,7 @@ namespace DSPRE.Editors {
     }
 
     public void selectMapComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -1393,7 +1393,7 @@ namespace DSPRE.Editors {
     }
 
     private void mapTextureComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-      if (Helpers.disableHandlers) {
+      if (Helpers.HandlersDisabled) {
         return;
       }
 
@@ -1417,7 +1417,7 @@ namespace DSPRE.Editors {
     private void buildTextureComboBox_SelectedIndexChanged(object sender, EventArgs e) {
       int btIndex = buildTextureComboBox.SelectedIndex;
 
-      if (Helpers.disableHandlers || btIndex < 0) {
+      if (Helpers.HandlersDisabled || btIndex < 0) {
         return;
       }
 
@@ -1443,9 +1443,9 @@ namespace DSPRE.Editors {
             catch {
               string itemAtIndex = buildTextureComboBox.Items[btIndex].ToString();
               if (!itemAtIndex.StartsWith("Error!")) {
-                Helpers.disableHandlers = true;
+                Helpers.DisableHandlers();
                 buildTextureComboBox.Items[btIndex] = itemAtIndex.Insert(0, "Error! - ");
-                Helpers.disableHandlers = false;
+                Helpers.EnableHandlers();
               }
 
               bldTexturesOn = false;
