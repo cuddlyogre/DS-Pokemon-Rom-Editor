@@ -535,7 +535,7 @@ namespace DSPRE.Editors {
                 Helpers.statusLabelMessage("Multiple Headers are associated to this Matrix, including the last selected one [Header " + headerID + "]. Now using its textures.");
               }
               else {
-                if (gameFamily.Equals(gFamEnum.DP)) {
+                if (gameFamily.Equals(GameFamilies.DP)) {
                   foreach (ushort r in result) {
                     HeaderDP hdp;
 
@@ -552,7 +552,7 @@ namespace DSPRE.Editors {
                     }
                   }
                 }
-                else if (gameFamily.Equals(gFamEnum.Plat)) {
+                else if (gameFamily.Equals(GameFamilies.Plat)) {
                   foreach (ushort r in result) {
                     HeaderPt hpt;
                     if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {

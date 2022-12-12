@@ -43,8 +43,8 @@ namespace DSPRE.Editors {
       string[] lightTypes;
 
       switch (RomInfo.gameFamily) {
-        case gFamEnum.DP:
-        case gFamEnum.Plat:
+        case GameFamilies.DP:
+        case GameFamilies.Plat:
           lightTypes = new string[3] { "Day/Night Light", "Model's light", "Unknown Light" };
           break;
         default:
@@ -445,7 +445,7 @@ namespace DSPRE.Editors {
       areaDataLightTypeComboBox.SelectedIndex = currentAreaData.lightType;
 
       Helpers.disableHandlers = true;
-      if (RomInfo.gameFamily == gFamEnum.HGSS) {
+      if (RomInfo.gameFamily == GameFamilies.HGSS) {
         areaDataDynamicTexturesNumericUpDown.Value = currentAreaData.dynamicTextureType;
 
         bool interior = currentAreaData.areaType == 0;

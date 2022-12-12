@@ -360,13 +360,13 @@ namespace DSPRE {
             if (forceUnpack) {
                 DSUtils.ForceUnpackNarcs(toUnpack);
 
-                if (RomInfo.gameFamily == gFamEnum.HGSS) {
+                if (RomInfo.gameFamily == GameFamilies.HGSS) {
                     DSUtils.ForceUnpackNarcs(new List<DirNames> { DirNames.interiorBuildingModels });// Last = interior buildings dir
                 }
             } else {
                 DSUtils.TryUnpackNarcs(toUnpack);
 
-                if (RomInfo.gameFamily == gFamEnum.HGSS) {
+                if (RomInfo.gameFamily == GameFamilies.HGSS) {
                     DSUtils.TryUnpackNarcs(new List<DirNames> { DirNames.interiorBuildingModels });
                 }
             }
@@ -458,7 +458,7 @@ namespace DSPRE {
             versionLabel.Text = RomInfo.gameVersion.ToString() + " " + "[" + RomInfo.romID + "]";
             languageLabel.Text = "Lang: " + RomInfo.gameLanguage;
 
-            if (RomInfo.gameLanguage == gLangEnum.English) {
+            if (RomInfo.gameLanguage == GameLanguages.English) {
                 if (europeByte == 0x0A) {
                     languageLabel.Text += " [Europe]";
                 } else {
@@ -507,7 +507,7 @@ namespace DSPRE {
 
         private void ReadROMInitData() {
             if ( DSUtils.ARM9.CheckCompressionMark() ) {
-                if ( !RomInfo.gameFamily.Equals(gFamEnum.HGSS) ) {
+                if ( !RomInfo.gameFamily.Equals(GameFamilies.HGSS) ) {
                     MessageBox.Show("Unexpected compressed ARM9. It is advised that you double check the ARM9.");
                 }
                 if (!DSUtils.ARM9.Decompress(RomInfo.arm9Path)) {
@@ -576,7 +576,7 @@ namespace DSPRE {
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (d == DialogResult.Yes) {
-                    DSUtils.ARM9.WriteBytes( new byte[4] { 0, 0, 0, 0 }, (uint)(RomInfo.gameFamily == gFamEnum.DP ? 0xB7C : 0xBB4) );
+                    DSUtils.ARM9.WriteBytes( new byte[4] { 0, 0, 0, 0 }, (uint)(RomInfo.gameFamily == GameFamilies.DP ? 0xB7C : 0xBB4) );
                 }
             }
 
@@ -603,7 +603,7 @@ namespace DSPRE {
 
             DSUtils.RepackROM(saveRom.FileName);
 
-            if (RomInfo.gameFamily != gFamEnum.DP && RomInfo.gameFamily != gFamEnum.Plat) {
+            if (RomInfo.gameFamily != GameFamilies.DP && RomInfo.gameFamily != GameFamilies.Plat) {
                 if (eventEditor.eventEditorIsReady) {
                     if (DSUtils.OverlayIsCompressed(1)) {
                         DSUtils.DecompressOverlay(1);
@@ -670,16 +670,16 @@ namespace DSPRE {
             }
         }
         private void diamondAndPearlToolStripMenuItem_Click(object sender, EventArgs e) {
-            OpenCommandsDatabase(RomInfo.BuildCommandNamesDatabase(gFamEnum.DP), RomInfo.BuildCommandParametersDatabase(gFamEnum.DP),
-                RomInfo.BuildActionNamesDatabase(gFamEnum.DP), RomInfo.BuildComparisonOperatorsDatabase(gFamEnum.DP));
+            OpenCommandsDatabase(RomInfo.BuildCommandNamesDatabase(GameFamilies.DP), RomInfo.BuildCommandParametersDatabase(GameFamilies.DP),
+                RomInfo.BuildActionNamesDatabase(GameFamilies.DP), RomInfo.BuildComparisonOperatorsDatabase(GameFamilies.DP));
         }
         private void platinumToolStripMenuItem_Click(object sender, EventArgs e) {
-            OpenCommandsDatabase(RomInfo.BuildCommandNamesDatabase(gFamEnum.Plat), RomInfo.BuildCommandParametersDatabase(gFamEnum.Plat),
-                RomInfo.BuildActionNamesDatabase(gFamEnum.Plat), RomInfo.BuildComparisonOperatorsDatabase(gFamEnum.Plat));
+            OpenCommandsDatabase(RomInfo.BuildCommandNamesDatabase(GameFamilies.Plat), RomInfo.BuildCommandParametersDatabase(GameFamilies.Plat),
+                RomInfo.BuildActionNamesDatabase(GameFamilies.Plat), RomInfo.BuildComparisonOperatorsDatabase(GameFamilies.Plat));
         }
         private void heartGoldAndSoulSilverToolStripMenuItem_Click(object sender, EventArgs e) {
-            OpenCommandsDatabase(RomInfo.BuildCommandNamesDatabase(gFamEnum.HGSS), RomInfo.BuildCommandParametersDatabase(gFamEnum.HGSS),
-                RomInfo.BuildActionNamesDatabase(gFamEnum.HGSS), RomInfo.BuildComparisonOperatorsDatabase(gFamEnum.HGSS));
+            OpenCommandsDatabase(RomInfo.BuildCommandNamesDatabase(GameFamilies.HGSS), RomInfo.BuildCommandParametersDatabase(GameFamilies.HGSS),
+                RomInfo.BuildActionNamesDatabase(GameFamilies.HGSS), RomInfo.BuildComparisonOperatorsDatabase(GameFamilies.HGSS));
         }
 
         private void mainTabControl_SelectedIndexChanged(object sender, EventArgs e) {
@@ -762,8 +762,8 @@ namespace DSPRE {
 
             string wildPokeUnpackedPath = gameDirs[DirNames.encounters].unpackedDir;
             switch (RomInfo.gameFamily) {
-                case gFamEnum.DP:
-                case gFamEnum.Plat:
+                case GameFamilies.DP:
+                case GameFamilies.Plat:
                     using (WildEditorDPPt editor = new WildEditorDPPt(wildPokeUnpackedPath, RomInfo.GetPokemonNames(), encToOpen))
                         editor.ShowDialog();
                     break;

@@ -180,7 +180,7 @@ namespace DSPRE.Editors {
 
       uint entrySize = 4;
       uint tableSizeOffset = 10;
-      if (gameFamily == gFamEnum.HGSS) {
+      if (gameFamily == GameFamilies.HGSS) {
         entrySize += 2;
         tableSizeOffset += 2;
         encounterSSEQAltUpDown.Enabled = true;
@@ -192,7 +192,7 @@ namespace DSPRE.Editors {
           uint entryOffset = (uint)ar.BaseStream.Position;
           byte tclass = (byte)ar.ReadUInt16();
           ushort musicD = ar.ReadUInt16();
-          ushort? musicN = gameFamily == gFamEnum.HGSS ? ar.ReadUInt16() : (ushort?)null;
+          ushort? musicN = gameFamily == GameFamilies.HGSS ? ar.ReadUInt16() : (ushort?)null;
           trainerClassEncounterMusicDict[tclass] = (entryOffset, musicD, musicN);
         }
       }
@@ -397,7 +397,7 @@ namespace DSPRE.Editors {
       string tilesFilename = tilesFileID.ToString("D4");
       trainerTile = new NCGR(gameDirs[DirNames.trainerGraphics].unpackedDir + "\\" + tilesFilename, tilesFileID, tilesFilename);
 
-      if (gameFamily == gFamEnum.DP) {
+      if (gameFamily == GameFamilies.DP) {
         return 0;
       }
 
@@ -454,7 +454,7 @@ namespace DSPRE.Editors {
         encounterSSEQMainUpDown.Value = 0;
       }
 
-      eyeContactMusicAltLabel.Enabled = encounterSSEQAltUpDown.Enabled = (encounterSSEQMainUpDown.Enabled && gameFamily == gFamEnum.HGSS);
+      eyeContactMusicAltLabel.Enabled = encounterSSEQAltUpDown.Enabled = (encounterSSEQMainUpDown.Enabled && gameFamily == GameFamilies.HGSS);
       encounterSSEQAltUpDown.Value = output.musicN != null ? (ushort)output.musicN : 0;
       currentTrainerFile.trp.trainerClass = (byte)selection;
     }
@@ -493,7 +493,7 @@ namespace DSPRE.Editors {
       Helpers.disableHandlers = false;
 
       //trainerClassListBox_SelectedIndexChanged(null, null);
-      if (gameFamily.Equals(gFamEnum.HGSS) && EditorPanels.tableEditor.tableEditorIsReady) {
+      if (gameFamily.Equals(GameFamilies.HGSS) && EditorPanels.tableEditor.tableEditorIsReady) {
         EditorPanels.tableEditor.pbEffectsTrainerCombobox.Items[selectedTrClass] = trainerClassListBox.Items[selectedTrClass];
         for (int i = 0; i < EditorPanels.tableEditor.vsTrainerEffectsList.Count; i++) {
           if (EditorPanels.tableEditor.vsTrainerEffectsList[i].trainerClass == selectedTrClass) {

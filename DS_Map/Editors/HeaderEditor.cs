@@ -94,7 +94,7 @@ namespace DSPRE.Editors {
       EditorPanels.textEditor.ReloadHeaderEditorLocationsList(EditorPanels.textEditor.currentTextArchive.messages);
 
       switch (RomInfo.gameFamily) {
-        case gFamEnum.DP:
+        case GameFamilies.DP:
           areaIconComboBox.Enabled = false;
           areaIconPictureBox.Image = (Image)Properties.Resources.ResourceManager.GetObject("dpareaicon");
           areaSettingsLabel.Text = "Show nametag:";
@@ -112,7 +112,7 @@ namespace DSPRE.Editors {
           battleBackgroundLabel.Location = new Point(battleBackgroundLabel.Location.X - 25, battleBackgroundLabel.Location.Y - 8);
           battleBackgroundUpDown.Location = new Point(battleBackgroundUpDown.Location.X - 25, battleBackgroundUpDown.Location.Y - 8);
           break;
-        case gFamEnum.Plat:
+        case GameFamilies.Plat:
           areaSettingsLabel.Text = "Show nametag:";
           areaIconComboBox.Items.Clear();
           cameraComboBox.Items.Clear();
@@ -175,7 +175,7 @@ namespace DSPRE.Editors {
         return;
       }
 
-      if (RomInfo.gameFamily == gFamEnum.HGSS) {
+      if (RomInfo.gameFamily == GameFamilies.HGSS) {
         HeaderHGSS currentHeaderHGSS = (HeaderHGSS)currentHeader;
         currentHeaderHGSS.followMode = (byte)followModeComboBox.SelectedIndex;
       }
@@ -186,7 +186,7 @@ namespace DSPRE.Editors {
         return;
       }
 
-      if (RomInfo.gameFamily == gFamEnum.HGSS) {
+      if (RomInfo.gameFamily == GameFamilies.HGSS) {
         HeaderHGSS currentHeaderHGSS = (HeaderHGSS)currentHeader;
         currentHeaderHGSS.kantoFlag = kantoRadioButton.Checked;
       }
@@ -227,7 +227,7 @@ namespace DSPRE.Editors {
       cameraUpDown.Value = currentHeader.cameraAngleID;
       battleBackgroundUpDown.Value = currentHeader.battleBackground;
 
-      if (RomInfo.gameFamily == gFamEnum.HGSS) {
+      if (RomInfo.gameFamily == GameFamilies.HGSS) {
         areaSettingsComboBox.SelectedIndex = ((HeaderHGSS)currentHeader).locationType;
       }
 
@@ -236,7 +236,7 @@ namespace DSPRE.Editors {
       /* Setup controls for fields with version-specific differences */
       try {
         switch (RomInfo.gameFamily) {
-          case gFamEnum.DP: {
+          case GameFamilies.DP: {
             HeaderDP h = (HeaderDP)currentHeader;
 
             locationNameComboBox.SelectedIndex = h.locationName;
@@ -245,7 +245,7 @@ namespace DSPRE.Editors {
             areaSettingsComboBox.SelectedIndex = areaSettingsComboBox.FindString("[" + $"{currentHeader.locationSpecifier:D3}");
             break;
           }
-          case gFamEnum.Plat: {
+          case GameFamilies.Plat: {
             HeaderPt h = (HeaderPt)currentHeader;
 
             areaIconComboBox.SelectedIndex = h.areaIcon;
@@ -289,10 +289,10 @@ namespace DSPRE.Editors {
       Helpers.disableHandlers = true;
       try {
         switch (RomInfo.gameFamily) {
-          case gFamEnum.DP:
+          case GameFamilies.DP:
             cameraComboBox.SelectedItem = PokeDatabase.CameraAngles.DPPtCameraDict[currentHeader.cameraAngleID];
             break;
-          case gFamEnum.Plat:
+          case GameFamilies.Plat:
             cameraComboBox.SelectedItem = PokeDatabase.CameraAngles.DPPtCameraDict[currentHeader.cameraAngleID];
             break;
           default:
@@ -310,11 +310,11 @@ namespace DSPRE.Editors {
       string imageName;
       try {
         switch (RomInfo.gameFamily) {
-          case gFamEnum.DP:
+          case GameFamilies.DP:
             currentHeader.cameraAngleID = (byte)cameraComboBox.SelectedIndex;
             imageName = "dpcamera" + cameraUpDown.Value.ToString();
             break;
-          case gFamEnum.Plat:
+          case GameFamilies.Plat:
             currentHeader.cameraAngleID = (byte)cameraComboBox.SelectedIndex;
             imageName = "ptcamera" + cameraUpDown.Value.ToString();
             break;
@@ -340,10 +340,10 @@ namespace DSPRE.Editors {
       Helpers.disableHandlers = true;
       try {
         switch (RomInfo.gameFamily) {
-          case gFamEnum.DP:
+          case GameFamilies.DP:
             weatherComboBox.SelectedItem = PokeDatabase.Weather.DPWeatherDict[currentHeader.weatherID];
             break;
-          case gFamEnum.Plat:
+          case GameFamilies.Plat:
             weatherComboBox.SelectedItem = PokeDatabase.Weather.PtWeatherDict[currentHeader.weatherID];
             break;
           default:
@@ -361,10 +361,10 @@ namespace DSPRE.Editors {
       try {
         Dictionary<byte[], string> dict;
         switch (RomInfo.gameFamily) {
-          case gFamEnum.DP:
+          case GameFamilies.DP:
             dict = PokeDatabase.System.WeatherPics.dpWeatherImageDict;
             break;
-          case gFamEnum.Plat:
+          case GameFamilies.Plat:
             dict = PokeDatabase.System.WeatherPics.ptWeatherImageDict;
             break;
           default:
@@ -397,7 +397,7 @@ namespace DSPRE.Editors {
       flag2CheckBox.Checked = ba[2];
       flag3CheckBox.Checked = ba[3];
 
-      if (RomInfo.gameFamily == gFamEnum.HGSS) {
+      if (RomInfo.gameFamily == GameFamilies.HGSS) {
         flag4CheckBox.Checked = ba[4];
         flag5CheckBox.Checked = ba[5];
         flag6CheckBox.Checked = ba[6];
@@ -427,7 +427,7 @@ namespace DSPRE.Editors {
       if (flag3CheckBox.Checked)
         flagVal += (byte)Math.Pow(2, 3);
 
-      if (RomInfo.gameFamily == gFamEnum.HGSS) {
+      if (RomInfo.gameFamily == GameFamilies.HGSS) {
         if (flag4CheckBox.Checked)
           flagVal += (byte)Math.Pow(2, 4);
         if (flag5CheckBox.Checked)
@@ -601,10 +601,10 @@ namespace DSPRE.Editors {
       currentHeader.musicNightID = updValue;
       try {
         switch (RomInfo.gameFamily) {
-          case gFamEnum.DP:
+          case GameFamilies.DP:
             musicNightComboBox.SelectedItem = PokeDatabase.MusicDB.DPMusicDict[updValue];
             break;
-          case gFamEnum.Plat:
+          case GameFamilies.Plat:
             musicNightComboBox.SelectedItem = PokeDatabase.MusicDB.PtMusicDict[updValue];
             break;
           default:
@@ -629,10 +629,10 @@ namespace DSPRE.Editors {
       currentHeader.musicDayID = updValue;
       try {
         switch (RomInfo.gameFamily) {
-          case gFamEnum.DP:
+          case GameFamilies.DP:
             musicDayComboBox.SelectedItem = PokeDatabase.MusicDB.DPMusicDict[updValue];
             break;
-          case gFamEnum.Plat:
+          case GameFamilies.Plat:
             musicDayComboBox.SelectedItem = PokeDatabase.MusicDB.PtMusicDict[updValue];
             break;
           default:
@@ -689,10 +689,10 @@ namespace DSPRE.Editors {
       }
 
       switch (RomInfo.gameFamily) {
-        case gFamEnum.DP:
+        case GameFamilies.DP:
           weatherUpDown.Value = PokeDatabase.Weather.DPWeatherDict.Keys.ElementAt(weatherComboBox.SelectedIndex);
           break;
-        case gFamEnum.Plat:
+        case GameFamilies.Plat:
           weatherUpDown.Value = PokeDatabase.Weather.PtWeatherDict.Keys.ElementAt(weatherComboBox.SelectedIndex);
           break;
         default:
@@ -709,10 +709,10 @@ namespace DSPRE.Editors {
       }
 
       switch (RomInfo.gameFamily) {
-        case gFamEnum.DP:
+        case GameFamilies.DP:
           currentHeader.musicNightID = (ushort)(musicNightUpDown.Value = PokeDatabase.MusicDB.DPMusicDict.Keys.ElementAt(musicNightComboBox.SelectedIndex));
           break;
-        case gFamEnum.Plat:
+        case GameFamilies.Plat:
           currentHeader.musicNightID = (ushort)(musicNightUpDown.Value = PokeDatabase.MusicDB.PtMusicDict.Keys.ElementAt(musicNightComboBox.SelectedIndex));
           break;
         default:
@@ -727,10 +727,10 @@ namespace DSPRE.Editors {
       }
 
       switch (RomInfo.gameFamily) {
-        case gFamEnum.DP:
+        case GameFamilies.DP:
           cameraUpDown.Value = PokeDatabase.CameraAngles.DPPtCameraDict.Keys.ElementAt(cameraComboBox.SelectedIndex);
           break;
-        case gFamEnum.Plat:
+        case GameFamilies.Plat:
           cameraUpDown.Value = PokeDatabase.CameraAngles.DPPtCameraDict.Keys.ElementAt(cameraComboBox.SelectedIndex);
           break;
         default:
@@ -747,10 +747,10 @@ namespace DSPRE.Editors {
       }
 
       switch (RomInfo.gameFamily) {
-        case gFamEnum.DP:
+        case GameFamilies.DP:
           currentHeader.musicDayID = (ushort)(musicDayUpDown.Value = PokeDatabase.MusicDB.DPMusicDict.Keys.ElementAt(musicDayComboBox.SelectedIndex));
           break;
-        case gFamEnum.Plat:
+        case GameFamilies.Plat:
           currentHeader.musicDayID = (ushort)(musicDayUpDown.Value = PokeDatabase.MusicDB.PtMusicDict.Keys.ElementAt(musicDayComboBox.SelectedIndex));
           break;
         default:
@@ -819,9 +819,9 @@ namespace DSPRE.Editors {
 
       string imageName;
       switch (RomInfo.gameFamily) {
-        case gFamEnum.DP:
+        case GameFamilies.DP:
           break;
-        case gFamEnum.Plat:
+        case GameFamilies.Plat:
           ((HeaderPt)currentHeader).areaIcon = (byte)areaIconComboBox.SelectedIndex;
           imageName = "areaicon0" + areaIconComboBox.SelectedIndex.ToString();
           areaIconPictureBox.Image = (Image)Properties.Resources.ResourceManager.GetObject(imageName);
@@ -840,11 +840,11 @@ namespace DSPRE.Editors {
       }
 
       switch (RomInfo.gameFamily) {
-        case gFamEnum.DP:
-        case gFamEnum.Plat:
+        case GameFamilies.DP:
+        case GameFamilies.Plat:
           currentHeader.locationSpecifier = Byte.Parse(areaSettingsComboBox.SelectedItem.ToString().Substring(1, 3));
           break;
-        case gFamEnum.HGSS:
+        case GameFamilies.HGSS:
           HeaderHGSS ch = (HeaderHGSS)currentHeader;
           ch.locationType = (byte)areaSettingsComboBox.SelectedIndex;
           //areaImageLabel.Text = "Area icon";
@@ -860,10 +860,10 @@ namespace DSPRE.Editors {
       }
 
       switch (RomInfo.gameFamily) {
-        case gFamEnum.DP:
+        case GameFamilies.DP:
           ((HeaderDP)currentHeader).locationName = (ushort)locationNameComboBox.SelectedIndex;
           break;
-        case gFamEnum.Plat:
+        case GameFamilies.Plat:
           ((HeaderPt)currentHeader).locationName = (byte)locationNameComboBox.SelectedIndex;
           break;
         default:
@@ -966,13 +966,13 @@ namespace DSPRE.Editors {
 
           string locationName = "";
           switch (RomInfo.gameFamily) {
-            case gFamEnum.DP:
+            case GameFamilies.DP:
               locationName = locationNameComboBox.Items[((HeaderDP)h).locationName].ToString();
               break;
-            case gFamEnum.Plat:
+            case GameFamilies.Plat:
               locationName = locationNameComboBox.Items[((HeaderPt)h).locationName].ToString();
               break;
-            case gFamEnum.HGSS:
+            case GameFamilies.HGSS:
               locationName = locationNameComboBox.Items[((HeaderHGSS)h).locationName].ToString();
               break;
           }
@@ -1143,11 +1143,11 @@ namespace DSPRE.Editors {
       wildPokeUpDown.Value = encountersIDCopy;
 
       switch (RomInfo.gameFamily) {
-        case gFamEnum.DP:
-        case gFamEnum.Plat:
+        case GameFamilies.DP:
+        case GameFamilies.Plat:
           areaSettingsComboBox.SelectedIndex = shownameCopy;
           break;
-        case gFamEnum.HGSS:
+        case GameFamilies.HGSS:
           areaSettingsComboBox.SelectedIndex = areaSettingsCopy;
           break;
       }
@@ -1256,8 +1256,8 @@ namespace DSPRE.Editors {
 
       string wildPokeUnpackedPath = gameDirs[DirNames.encounters].unpackedDir;
       switch (RomInfo.gameFamily) {
-        case gFamEnum.DP:
-        case gFamEnum.Plat:
+        case GameFamilies.DP:
+        case GameFamilies.Plat:
           using (WildEditorDPPt editor = new WildEditorDPPt(wildPokeUnpackedPath, RomInfo.GetPokemonNames(), encToOpen))
             editor.ShowDialog();
           break;

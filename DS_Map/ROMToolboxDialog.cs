@@ -34,7 +34,7 @@ namespace DSPRE {
 
             CheckStandardizedItems();
 
-            if (RomInfo.gameLanguage == gLangEnum.English || RomInfo.gameLanguage == gLangEnum.Spanish) {
+            if (RomInfo.gameLanguage == GameLanguages.English || RomInfo.gameLanguage == GameLanguages.Spanish) {
                 CheckARM9ExpansionApplied();
             } else {
                 DisableARM9patch("Unsupported\nlanguage");
@@ -43,31 +43,31 @@ namespace DSPRE {
             }
 
             switch (RomInfo.gameFamily) {
-                case gFamEnum.DP:
+                case GameFamilies.DP:
                     DisableOverlay1patch("Unsupported");
                     DisableDynamicHeadersPatch("Unsupported");
                     DisableMatrixExpansionPatch("Unsupported");
                     DisableScrcmdRepointPatch("Unsupported");
                     DisableKillTextureAnimationsPatch("Unsupported");
                     break;
-                case gFamEnum.Plat:
+                case GameFamilies.Plat:
                     DisableOverlay1patch("Unsupported");
                     DisableMatrixExpansionPatch("Unsupported");
                     DisableScrcmdRepointPatch("Unsupported");
                     DisableKillTextureAnimationsPatch("Unsupported");
 
-                    if (RomInfo.gameLanguage == gLangEnum.English || RomInfo.gameLanguage == gLangEnum.Spanish) {
+                    if (RomInfo.gameLanguage == GameLanguages.English || RomInfo.gameLanguage == GameLanguages.Spanish) {
                         CheckBDHCamPatchApplied();
                     }
                     CheckDynamicHeadersPatchApplied();
                     break;
-                case gFamEnum.HGSS:
+                case GameFamilies.HGSS:
                     if (!DSUtils.CheckOverlayHasCompressionFlag(1)) {
                         DisableOverlay1patch("Already applied");
                         overlay1CB.Visible = true;
                     }
 
-                    if (RomInfo.gameLanguage == gLangEnum.English || RomInfo.gameLanguage == gLangEnum.Spanish) {
+                    if (RomInfo.gameLanguage == GameLanguages.English || RomInfo.gameLanguage == GameLanguages.Spanish) {
                         CheckBDHCamPatchApplied();
                         CheckMatrixExpansionApplied();
                         CheckScrcmdRepointPatchApplied();
@@ -251,8 +251,8 @@ namespace DSPRE {
             DisableARM9patch("Already applied");
 
             switch (RomInfo.gameFamily) {
-                case gFamEnum.Plat:
-                case gFamEnum.HGSS:
+                case GameFamilies.Plat:
+                case GameFamilies.HGSS:
                     BDHCamARM9requiredLBL.Visible = false;
                     BDHCamPatchButton.Enabled = true;
                     BDHCamPatchLBL.Enabled = true;
@@ -334,7 +334,7 @@ namespace DSPRE {
         private void BDHCAMPatchButton_Click(object sender, EventArgs e) {
             BDHCAMPatchData data = new BDHCAMPatchData();
 
-            if (RomInfo.gameFamily == gFamEnum.HGSS) {
+            if (RomInfo.gameFamily == GameFamilies.HGSS) {
                 if (DSUtils.CheckOverlayHasCompressionFlag(data.overlayNumber)) {
                     DialogResult d1 = MessageBox.Show("It is STRONGLY recommended to configure Overlay1 as uncompressed before proceeding.\n\n" +
                         "More details in the following dialog.\n\n" + "Do you want to know more?",
@@ -489,7 +489,7 @@ namespace DSPRE {
                             new ScriptCommand("Jump Function_#1")
                         };
 
-                        itemScriptFile.allScripts.Add(new CommandContainer((ushort)(i + 1), ScriptFile.containerTypes.Script, commandList: cmdList));
+                        itemScriptFile.allScripts.Add(new CommandContainer((ushort)(i + 1), ScriptFile.ContainerTypes.Script, commandList: cmdList));
                     }
                     
                     itemScriptFile.allScripts.Add(executeGive);
@@ -539,8 +539,8 @@ namespace DSPRE {
                     ROMToolboxDialog.flag_arm9Expanded = true;
 
                     switch (RomInfo.gameFamily) {
-                        case gFamEnum.Plat:
-                        case gFamEnum.HGSS:
+                        case GameFamilies.Plat:
+                        case GameFamilies.HGSS:
                             BDHCamPatchButton.Text = "Apply Patch";
                             BDHCamPatchButton.Enabled = true;
                             BDHCamPatchLBL.Enabled = true;
@@ -609,7 +609,7 @@ namespace DSPRE {
             DynamicHeadersPatchData data = new DynamicHeadersPatchData();
             var headersDir = RomInfo.gameDirs[DirNames.dynamicHeaders];
 
-            bool specialCase = RomInfo.gameFamily == gFamEnum.HGSS && RomInfo.gameLanguage != gLangEnum.Japanese && RomInfo.gameLanguage != gLangEnum.Spanish;
+            bool specialCase = RomInfo.gameFamily == GameFamilies.HGSS && RomInfo.gameLanguage != GameLanguages.Japanese && RomInfo.gameLanguage != GameLanguages.Spanish;
             string specialCaseChanges = "";
 
             if (specialCase) {

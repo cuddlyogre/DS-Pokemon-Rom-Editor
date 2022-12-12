@@ -8,7 +8,7 @@ using static DSPRE.ROMFiles.EventFile;
 
 namespace DSPRE {
     public partial class EventFileImport : Form { 
-        private static readonly int eventTypesCount = Enum.GetValues(typeof(serializationOrder)).Length;
+        private static readonly int eventTypesCount = Enum.GetValues(typeof(SerializationOrders)).Length;
 
         private readonly bool[] toImport = new bool[eventTypesCount];
         private readonly CheckedListBox[] listBoxes;
@@ -38,16 +38,16 @@ namespace DSPRE {
             };
 
             foreach (Spawnable s in ef.spawnables) {
-                listBoxes[(int)serializationOrder.Spawnables].Items.Add(s);
+                listBoxes[(int)SerializationOrders.Spawnables].Items.Add(s);
             }
             foreach (Overworld ow in ef.overworlds) {
-                listBoxes[(int)serializationOrder.Overworlds].Items.Add(ow);
+                listBoxes[(int)SerializationOrders.Overworlds].Items.Add(ow);
             }
             foreach (Warp w in ef.warps) {
-                listBoxes[(int)serializationOrder.Warps].Items.Add(w);
+                listBoxes[(int)SerializationOrders.Warps].Items.Add(w);
             }
             foreach (Trigger t in ef.triggers) {
-                listBoxes[(int)serializationOrder.Triggers].Items.Add(t);
+                listBoxes[(int)SerializationOrders.Triggers].Items.Add(t);
             }
 
             foreach (CheckedListBox clb in listBoxes) {

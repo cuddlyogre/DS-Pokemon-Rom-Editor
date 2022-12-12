@@ -66,15 +66,15 @@ namespace DSPRE.Editors {
       RomInfo.SetOWtable();
       RomInfo.Set3DOverworldsDict();
 
-      if (RomInfo.gameFamily == gFamEnum.HGSS) {
+      if (RomInfo.gameFamily == GameFamilies.HGSS) {
         DSUtils.TryUnpackNarcs(new List<DirNames> { DirNames.interiorBuildingModels });
       }
 
       Helpers.disableHandlers = true;
       if (File.Exists(RomInfo.OWtablePath)) {
         switch (RomInfo.gameFamily) {
-          case gFamEnum.DP:
-          case gFamEnum.Plat:
+          case GameFamilies.DP:
+          case GameFamilies.Plat:
             break;
           default:
             // HGSS Overlay 1 must be decompressed in order to read the overworld table
@@ -268,7 +268,7 @@ namespace DSPRE.Editors {
 
         int[] currentArray;
 
-        currentArray = efi.userSelected[(int)EventFile.serializationOrder.Spawnables];
+        currentArray = efi.userSelected[(int)EventFile.SerializationOrders.Spawnables];
         if (currentArray != null) {
           foreach (int index in currentArray) {
             currentEvFile.spawnables.Add(toImport.spawnables[index]);
@@ -279,7 +279,7 @@ namespace DSPRE.Editors {
           }
         }
 
-        currentArray = efi.userSelected[(int)EventFile.serializationOrder.Overworlds];
+        currentArray = efi.userSelected[(int)EventFile.SerializationOrders.Overworlds];
         if (currentArray != null) {
           foreach (int index in currentArray) {
             currentEvFile.overworlds.Add(toImport.overworlds[index]);
@@ -290,7 +290,7 @@ namespace DSPRE.Editors {
           }
         }
 
-        currentArray = efi.userSelected[(int)EventFile.serializationOrder.Warps];
+        currentArray = efi.userSelected[(int)EventFile.SerializationOrders.Warps];
         if (currentArray != null) {
           foreach (int index in currentArray) {
             currentEvFile.warps.Add(toImport.warps[index]);
@@ -301,7 +301,7 @@ namespace DSPRE.Editors {
           }
         }
 
-        currentArray = efi.userSelected[(int)EventFile.serializationOrder.Triggers];
+        currentArray = efi.userSelected[(int)EventFile.SerializationOrders.Triggers];
         if (currentArray != null) {
           foreach (int index in currentArray) {
             currentEvFile.triggers.Add(toImport.triggers[index]);
@@ -791,7 +791,7 @@ namespace DSPRE.Editors {
 
             Dictionary<ushort, ushort> dict = new Dictionary<ushort, ushort>();
 
-            if (gameFamily.Equals(gFamEnum.DP)) {
+            if (gameFamily.Equals(GameFamilies.DP)) {
               foreach (ushort headerID in result) {
                 HeaderDP hdp = (HeaderDP)MapHeader.LoadFromARM9(headerID);
 
@@ -1519,13 +1519,13 @@ namespace DSPRE.Editors {
 
       int locNum;
       switch (RomInfo.gameFamily) {
-        case gFamEnum.DP: {
+        case GameFamilies.DP: {
           HeaderDP h = (HeaderDP)destHeader;
 
           locNum = h.locationName;
           break;
         }
-        case gFamEnum.Plat: {
+        case GameFamilies.Plat: {
           HeaderPt h = (HeaderPt)destHeader;
 
           locNum = h.locationName;
@@ -1923,7 +1923,7 @@ namespace DSPRE.Editors {
         Helpers.MW_LoadModelTextures(eventMapFile.mapModel, RomInfo.gameDirs[DirNames.mapTextures].unpackedDir, areaData.mapTileset);
 
         bool isInteriorMap = false;
-        if ((RomInfo.gameVersion == gVerEnum.HeartGold || RomInfo.gameVersion == gVerEnum.SoulSilver) && areaData.areaType == 0x0)
+        if ((RomInfo.gameVersion == GameVersions.HeartGold || RomInfo.gameVersion == GameVersions.SoulSilver) && areaData.areaType == 0x0)
           isInteriorMap = true;
 
         for (int i = 0; i < eventMapFile.buildings.Count; i++) {

@@ -90,9 +90,9 @@ namespace DSPRE.Editors {
       secondaryKeyWords = String.Join(" ", ScriptComparisonOperatorsDict.Values) +
                           " " + String.Join(" ", ScriptDatabase.specialOverworlds.Values) +
                           " " + String.Join(" ", ScriptDatabase.overworldDirections.Values) +
-                          " " + ScriptFile.containerTypes.Script.ToString() +
-                          " " + ScriptFile.containerTypes.Function.ToString() +
-                          " " + ScriptFile.containerTypes.Action.ToString() +
+                          " " + ScriptFile.ContainerTypes.Script.ToString() +
+                          " " + ScriptFile.ContainerTypes.Function.ToString() +
+                          " " + ScriptFile.ContainerTypes.Action.ToString() +
                           " " + EventType.Overworld +
                           " " + Overworld.MovementCodeKW;
       secondaryKeyWords += " " + secondaryKeyWords.ToUpper() + " " + secondaryKeyWords.ToLower();
@@ -327,9 +327,9 @@ namespace DSPRE.Editors {
     private void ScriptEditorSetClean() {
       Helpers.disableHandlers = true;
 
-      scriptsTabPage.Text = ScriptFile.containerTypes.Script.ToString() + "s";
-      functionsTabPage.Text = ScriptFile.containerTypes.Function.ToString() + "s";
-      actionsTabPage.Text = ScriptFile.containerTypes.Action.ToString() + "s";
+      scriptsTabPage.Text = ScriptFile.ContainerTypes.Script.ToString() + "s";
+      functionsTabPage.Text = ScriptFile.ContainerTypes.Function.ToString() + "s";
+      actionsTabPage.Text = ScriptFile.ContainerTypes.Action.ToString() + "s";
       scriptsDirty = functionsDirty = actionsDirty = false;
 
       Helpers.disableHandlers = false;
@@ -338,7 +338,7 @@ namespace DSPRE.Editors {
     private void OnTextChangedScript(object sender, EventArgs e) {
       ScriptTextArea.Margins[NUMBER_MARGIN].Width = ScriptTextArea.Lines.Count.ToString().Length * 13;
       scriptsDirty = true;
-      scriptsTabPage.Text = ScriptFile.containerTypes.Script.ToString() + "s" + "*";
+      scriptsTabPage.Text = ScriptFile.ContainerTypes.Script.ToString() + "s" + "*";
     }
 
     private void MarginClick(Scintilla textArea, MarginClickEventArgs e) {
@@ -794,17 +794,17 @@ namespace DSPRE.Editors {
 
       ScriptEditorSearchResult searchResult = (ScriptEditorSearchResult)searchInScriptsResultListBox.SelectedItem;
       ScriptFile scriptFile = searchResult.scriptFile;
-      ScriptFile.containerTypes containerType = searchResult.containerType;
+      ScriptFile.ContainerTypes containerType = searchResult.containerType;
 
       selectScriptFileComboBox.SelectedIndex = scriptFile.fileID;
 
-      if (containerType == ScriptFile.containerTypes.Script) {
+      if (containerType == ScriptFile.ContainerTypes.Script) {
         displaySearchResult(scriptsTabPage, scriptSearchManager, searchResult);
       }
-      else if (containerType == ScriptFile.containerTypes.Function) {
+      else if (containerType == ScriptFile.ContainerTypes.Function) {
         displaySearchResult(functionsTabPage, functionSearchManager, searchResult);
       }
-      else if (containerType == ScriptFile.containerTypes.Action) {
+      else if (containerType == ScriptFile.ContainerTypes.Action) {
         displaySearchResult(actionsTabPage, actionSearchManager, searchResult);
       }
     }
@@ -843,15 +843,15 @@ namespace DSPRE.Editors {
     }
 
     private void scriptsNavListbox_SelectedIndexChanged(object sender, EventArgs e) {
-      NavigatorGoTo((ListBox)sender, 0, scriptSearchManager, ScriptFile.containerTypes.Script.ToString());
+      NavigatorGoTo((ListBox)sender, 0, scriptSearchManager, ScriptFile.ContainerTypes.Script.ToString());
     }
 
     private void functionsNavListbox_SelectedIndexChanged(object sender, EventArgs e) {
-      NavigatorGoTo((ListBox)sender, 1, functionSearchManager, ScriptFile.containerTypes.Function.ToString());
+      NavigatorGoTo((ListBox)sender, 1, functionSearchManager, ScriptFile.ContainerTypes.Function.ToString());
     }
 
     private void actionsNavListbox_SelectedIndexChanged(object sender, EventArgs e) {
-      NavigatorGoTo((ListBox)sender, 2, actionSearchManager, ScriptFile.containerTypes.Action.ToString());
+      NavigatorGoTo((ListBox)sender, 2, actionSearchManager, ScriptFile.ContainerTypes.Action.ToString());
     }
 
     private void openSearchScriptEditorButton_Click(object sender, EventArgs e) {

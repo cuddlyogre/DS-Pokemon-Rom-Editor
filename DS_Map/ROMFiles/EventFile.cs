@@ -11,7 +11,7 @@ namespace DSPRE.ROMFiles {
     /// Classes to store event data in Pokémon NDS games
     /// </summary>
     public class EventFile : RomFile {
-        public enum serializationOrder {
+        public enum SerializationOrders {
             Spawnables,
             Overworlds,
             Warps,

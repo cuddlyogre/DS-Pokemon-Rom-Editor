@@ -225,13 +225,13 @@ namespace DSPRE {
       byte[] iconPalTableBuf;
 
       switch (RomInfo.gameFamily) {
-        case gFamEnum.DP:
+        case GameFamilies.DP:
           iconPalTableBuf = DSUtils.ARM9.ReadBytes(0x6B838, 4);
           break;
-        case gFamEnum.Plat:
+        case GameFamilies.Plat:
           iconPalTableBuf = DSUtils.ARM9.ReadBytes(0x79F80, 4);
           break;
-        case gFamEnum.HGSS:
+        case GameFamilies.HGSS:
         default:
           iconPalTableBuf = DSUtils.ARM9.ReadBytes(0x74408, 4);
           break;

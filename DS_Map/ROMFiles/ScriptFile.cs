@@ -16,7 +16,7 @@ namespace DSPRE.ROMFiles {
     public class ScriptFile: RomFile {
         #region Constants
         //this enum doesn't really make much sense now but it will, once scripts can be called and jumped to
-        public enum containerTypes { Function, Action, Script };
+        public enum ContainerTypes { Function, Action, Script };
 
         public struct ContainerReference {
             public uint ID;
@@ -96,9 +96,9 @@ namespace DSPRE.ROMFiles {
                                 endScript = true;
                             }
                         }
-                        allScripts.Add(new CommandContainer(current+1, containerTypes.Script, commandList: cmdList));
+                        allScripts.Add(new CommandContainer(current+1, ContainerTypes.Script, commandList: cmdList));
                     } else {
-                        allScripts.Add(new CommandContainer(current+1, containerTypes.Script, useScript: index+1));
+                        allScripts.Add(new CommandContainer(current+1, ContainerTypes.Script, useScript: index+1));
                     }
                 }
 
@@ -122,9 +122,9 @@ namespace DSPRE.ROMFiles {
                                     endFunction = true;
                                 }
                             }
-                            allFunctions.Add(new CommandContainer(current + 1, containerTypes.Function, commandList: cmdList));
+                            allFunctions.Add(new CommandContainer(current + 1, ContainerTypes.Function, commandList: cmdList));
                         } else {
-                            allFunctions.Add(new CommandContainer(current + 1, containerTypes.Function, useScript: posInList + 1));
+                            allFunctions.Add(new CommandContainer(current + 1, ContainerTypes.Function, useScript: posInList + 1));
                         }
                     }
                 }
@@ -176,18 +176,18 @@ namespace DSPRE.ROMFiles {
             //a script and a function
             bool functionEndCondition(List<(int linenum, string text)> source, int x, ushort? id) {
                 return source[x].text.TrimEnd().IgnoreCaseEquals(RomInfo.ScriptCommandNamesDict[0x0002]) //End
-                                            || source[x].text.IndexOf(RomInfo.ScriptCommandNamesDict[0x0016] + ' ' + containerTypes.Function.ToString(), StringComparison.InvariantCultureIgnoreCase) >= 0 //Jump Function_#
+                                            || source[x].text.IndexOf(RomInfo.ScriptCommandNamesDict[0x0016] + ' ' + ContainerTypes.Function.ToString(), StringComparison.InvariantCultureIgnoreCase) >= 0 //Jump Function_#
                                             || source[x].text.TrimEnd().IgnoreCaseEquals(RomInfo.ScriptCommandNamesDict[0x001B])
                                             || ScriptDatabase.endCodes.Contains(id);
             }  //Return
 
             bool scriptEndCondition(List<(int linenum, string text)> source, int x, ushort? id) {
                 return source[x].text.TrimEnd().IgnoreCaseEquals(RomInfo.ScriptCommandNamesDict[0x0002])    //End
-                            || source[x].text.IndexOf(RomInfo.ScriptCommandNamesDict[0x0016] + ' ' + containerTypes.Function.ToString()) >= 0 //Jump Function_#
+                            || source[x].text.IndexOf(RomInfo.ScriptCommandNamesDict[0x0016] + ' ' + ContainerTypes.Function.ToString()) >= 0 //Jump Function_#
                             || ScriptDatabase.endCodes.Contains(id);
             }
 
-            allScripts = ReadCommandsFromLines(scriptLines.ToList(), containerTypes.Script, scriptEndCondition);  //Jump + whitespace
+            allScripts = ReadCommandsFromLines(scriptLines.ToList(), ContainerTypes.Script, scriptEndCondition);  //Jump + whitespace
             if (allScripts is null) {
                 return;
             }
@@ -198,7 +198,7 @@ namespace DSPRE.ROMFiles {
             }
 
             if (functionLines != null) {
-                allFunctions = ReadCommandsFromLines(functionLines.ToList(), containerTypes.Function, functionEndCondition);  //Jump + whitespace
+                allFunctions = ReadCommandsFromLines(functionLines.ToList(), ContainerTypes.Function, functionEndCondition);  //Jump + whitespace
                 if (allFunctions is null) {
                     return;
                 }
@@ -222,8 +222,8 @@ namespace DSPRE.ROMFiles {
 
             /* How to read parameters for different commands for DPPt*/
             switch (RomInfo.gameFamily) {
-                case gFamEnum.DP:
-                case gFamEnum.Plat:
+                case GameFamilies.DP:
+                case GameFamilies.Plat:
                     switch (id)  {
                         case 0x16: //Jump
                         case 0x1A: //Call 
@@ -335,7 +335,7 @@ namespace DSPRE.ROMFiles {
                             break;
                         case 0x2C5: 
                             {
-                                if (RomInfo.gameVersion == gVerEnum.Platinum) {
+                                if (RomInfo.gameVersion == GameVersions.Platinum) {
                                     parameterList.Add(dataReader.ReadBytes(2));
                                     parameterList.Add(dataReader.ReadBytes(2));
                                 } else {
@@ -347,13 +347,13 @@ namespace DSPRE.ROMFiles {
                         case 0x2C9:
                         case 0x2CA:
                         case 0x2CD:
-                            if (RomInfo.gameVersion == gVerEnum.Platinum) {
+                            if (RomInfo.gameVersion == GameVersions.Platinum) {
                                 break;
                             } else {
                                 goto default;
                             }
                         case 0x2CF:
-                            if (RomInfo.gameVersion == gVerEnum.Platinum) {
+                            if (RomInfo.gameVersion == GameVersions.Platinum) {
                                 parameterList.Add(dataReader.ReadBytes(2));
                                 parameterList.Add(dataReader.ReadBytes(2));
                             } else {
@@ -365,7 +365,7 @@ namespace DSPRE.ROMFiles {
                             break;
                     }
                     break;
-                case gFamEnum.HGSS:
+                case GameFamilies.HGSS:
                     switch (id) {
                         case 0x16: //Jump
                         case 0x1A: //Call 
@@ -495,13 +495,13 @@ namespace DSPRE.ROMFiles {
                 uint invokedID = BitConverter.ToUInt32(parameterList[parameterWithRelativeJump], 0);  // Jump, Call
 
                 if (commandID == 0x005E)
-                    references.Add(new ScriptReference(cont.containerType, cont.manualUserID, containerTypes.Action, invokedID, pos - 4));
+                    references.Add(new ScriptReference(cont.containerType, cont.manualUserID, ContainerTypes.Action, invokedID, pos - 4));
                 else {
-                    references.Add(new ScriptReference(cont.containerType, cont.manualUserID, containerTypes.Function, invokedID, pos - 4));
+                    references.Add(new ScriptReference(cont.containerType, cont.manualUserID, ContainerTypes.Function, invokedID, pos - 4));
                 }
             }
         }
-        private List<CommandContainer> ReadCommandsFromLines(List<string> linelist, containerTypes containerType, Func<List<(int linenum, string text)>, int, ushort?, bool> endConditions) {
+        private List<CommandContainer> ReadCommandsFromLines(List<string> linelist, ContainerTypes containerType, Func<List<(int linenum, string text)>, int, ushort?, bool> endConditions) {
             List<(int linenum, string text)> lineSource = new List<(int linenum, string text)>();
 
             for (int l = 0; l < linelist.Count; l++) {
@@ -588,7 +588,7 @@ namespace DSPRE.ROMFiles {
                 while (i < lineSource.Count) {
                     if (actionNumber == 0) {
                         int positionOfActionNumber;
-                        int positionOfActionKeyword = lineSource[i].text.IndexOf(containerTypes.Action.ToString(), StringComparison.InvariantCultureIgnoreCase);
+                        int positionOfActionKeyword = lineSource[i].text.IndexOf(ContainerTypes.Action.ToString(), StringComparison.InvariantCultureIgnoreCase);
 
                         if (positionOfActionKeyword > 0) {
                             MessageBox.Show("Unrecognized container keyword: \"" + lineSource[i] + '"', "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -763,7 +763,7 @@ namespace DSPRE.ROMFiles {
                         writer.BaseStream.Position = refList[i].invokedAt; //place seek head on parameter that is supposed to store the jump address
                         ContainerReference result;
 
-                        if (refList[i].typeOfInvoked is containerTypes.Action) { //isApplyMovement 
+                        if (refList[i].typeOfInvoked is ContainerTypes.Action) { //isApplyMovement 
                             result = actionOffsets.Find(entry => entry.ID == refList[i].invokedID);
 
                             if (result.Equals(default(ContainerReference))) {
@@ -872,12 +872,12 @@ namespace DSPRE.ROMFiles {
                 return false;
             }
 
-            if (sr.typeOfCaller is containerTypes.Script) {
+            if (sr.typeOfCaller is ContainerTypes.Script) {
                 Console.WriteLine("Function " + funcID + " is directly called by Script " + sr.callerID);
                 return true;
             }
 
-            if ( sr.typeOfCaller is containerTypes.Function ) {
+            if ( sr.typeOfCaller is ContainerTypes.Function ) {
                 if (FunctionIsInvoked(refList, uninvokedFuncsSet, sr.callerID, ++callCount, excludedCaller: sr.invokedID)) { //check if caller function is invoked as well
                     Console.WriteLine("Function " + funcID + " is called by Function " + sr.callerID);
                     return true;
@@ -922,13 +922,13 @@ namespace DSPRE.ROMFiles {
     }
 
     internal class ScriptReference {
-        public containerTypes typeOfCaller { get; private set; }
+        public ContainerTypes typeOfCaller { get; private set; }
         public uint callerID { get; private set; }
-        public containerTypes typeOfInvoked { get; private set; }
+        public ContainerTypes typeOfInvoked { get; private set; }
         public uint invokedID { get; private set; }
         public int invokedAt { get; private set; }
 
-        public ScriptReference(containerTypes typeOfCaller, uint callerID, containerTypes invokedType, uint invokedID, int invokedAt) {
+        public ScriptReference(ContainerTypes typeOfCaller, uint callerID, ContainerTypes invokedType, uint invokedID, int invokedAt) {
             this.typeOfCaller = typeOfCaller;
             this.callerID = callerID;
             this.typeOfInvoked = invokedType;

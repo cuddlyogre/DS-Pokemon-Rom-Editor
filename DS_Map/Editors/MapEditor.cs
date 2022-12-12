@@ -63,7 +63,7 @@ namespace DSPRE.Editors {
         DirNames.areaData,
       });
 
-      if (RomInfo.gameFamily == gFamEnum.HGSS) {
+      if (RomInfo.gameFamily == GameFamilies.HGSS) {
         DSUtils.TryUnpackNarcs(new List<DirNames> { DirNames.interiorBuildingModels });
       }
 
@@ -72,8 +72,8 @@ namespace DSPRE.Editors {
       collisionPainterPictureBox.Image = new Bitmap(100, 100);
       typePainterPictureBox.Image = new Bitmap(100, 100);
       switch (RomInfo.gameFamily) {
-        case gFamEnum.DP:
-        case gFamEnum.Plat:
+        case GameFamilies.DP:
+        case GameFamilies.Plat:
           mapPartsTabControl.TabPages.Remove(bgsTabPage);
           break;
         default:
@@ -89,8 +89,8 @@ namespace DSPRE.Editors {
       for (int i = 0; i < mapCount; i++) {
         using (DSUtils.EasyReader reader = new DSUtils.EasyReader(RomInfo.gameDirs[DirNames.maps].unpackedDir + "\\" + i.ToString("D4"))) {
           switch (RomInfo.gameFamily) {
-            case gFamEnum.DP:
-            case gFamEnum.Plat:
+            case GameFamilies.DP:
+            case GameFamilies.Plat:
               reader.BaseStream.Position = 0x10 + reader.ReadUInt32() + reader.ReadUInt32();
               break;
             default:
@@ -156,12 +156,12 @@ namespace DSPRE.Editors {
       selectMapComboBox.SelectedIndex = 0;
       exteriorbldRadioButton.Checked = true;
       switch (RomInfo.gameFamily) {
-        case gFamEnum.DP:
-        case gFamEnum.Plat:
+        case GameFamilies.DP:
+        case GameFamilies.Plat:
           mapTextureComboBox.SelectedIndex = 7;
           buildTextureComboBox.SelectedIndex = 1;
           break;
-        case gFamEnum.HGSS:
+        case GameFamilies.HGSS:
           mapTextureComboBox.SelectedIndex = 3;
           buildTextureComboBox.SelectedIndex = 1;
           break;
@@ -1220,7 +1220,7 @@ namespace DSPRE.Editors {
 
     private void bdhcImportButton_Click(object sender, EventArgs e) {
       OpenFileDialog it = new OpenFileDialog() {
-        Filter = RomInfo.gameFamily == gFamEnum.DP ? MapFile.BDHCFilter : MapFile.BDHCamFilter
+        Filter = RomInfo.gameFamily == GameFamilies.DP ? MapFile.BDHCFilter : MapFile.BDHCamFilter
       };
 
       if (it.ShowDialog(this) != DialogResult.OK) {
@@ -1235,7 +1235,7 @@ namespace DSPRE.Editors {
     private void bdhcExportButton_Click(object sender, EventArgs e) {
       SaveFileDialog sf = new SaveFileDialog {
         FileName = selectMapComboBox.SelectedItem.ToString(),
-        Filter = RomInfo.gameFamily == gFamEnum.DP ? MapFile.BDHCFilter : MapFile.BDHCamFilter
+        Filter = RomInfo.gameFamily == GameFamilies.DP ? MapFile.BDHCFilter : MapFile.BDHCamFilter
       };
 
       if (sf.ShowDialog(this) != DialogResult.OK) {
@@ -1387,7 +1387,7 @@ namespace DSPRE.Editors {
       modelSizeLBL.Text = currentMapFile.mapModelData.Length.ToString() + " B";
       terrainSizeLBL.Text = currentMapFile.bdhc.Length.ToString() + " B";
 
-      if (RomInfo.gameFamily == gFamEnum.HGSS) {
+      if (RomInfo.gameFamily == GameFamilies.HGSS) {
         BGSSizeLBL.Text = currentMapFile.bgs.Length.ToString() + " B";
       }
     }
@@ -1714,13 +1714,13 @@ namespace DSPRE.Editors {
         return;
       }
       else {
-        if (RomInfo.gameFamily == gFamEnum.HGSS) {
+        if (RomInfo.gameFamily == GameFamilies.HGSS) {
           //If HGSS didn't work try reading as Platinum Map
-          temp = new MapFile(of.FileName, gFamEnum.Plat, false);
+          temp = new MapFile(of.FileName, GameFamilies.Plat, false);
         }
         else {
           //If Plat didn't work try reading as HGSS Map
-          temp = new MapFile(of.FileName, gFamEnum.HGSS, false);
+          temp = new MapFile(of.FileName, GameFamilies.HGSS, false);
         }
 
         if (temp.correctnessFlag) {

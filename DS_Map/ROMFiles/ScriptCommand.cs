@@ -13,11 +13,11 @@ namespace DSPRE.ROMFiles {
         public List<ScriptCommand> commands;
         public uint manualUserID;
         public int usedScript; //useScript ID referenced by this Script/Function
-        public containerTypes containerType;
+        public ContainerTypes containerType;
         internal static readonly string functionStart;
 
         #region Constructors (2)
-        public CommandContainer(uint scriptNumber, containerTypes containerType, int useScript = -1, List<ScriptCommand> commandList = null) {
+        public CommandContainer(uint scriptNumber, ContainerTypes containerType, int useScript = -1, List<ScriptCommand> commandList = null) {
             manualUserID = scriptNumber;
             this.usedScript = useScript;
             this.containerType = containerType;
@@ -90,42 +90,42 @@ namespace DSPRE.ROMFiles {
                     break;
 
                 case 0x00B0:      // Warp [HGSS]
-                    if (RomInfo.gameFamily.Equals(RomInfo.gFamEnum.HGSS)) {
+                    if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.HGSS)) {
                         name += FormatCmd_Warp(parametersList);
                     } else {
                         goto default;
                     }
                     break;
                 case 0x0152:      // SetOverworldDefaultPosition [HGSS]
-                    if (RomInfo.gameFamily.Equals(RomInfo.gFamEnum.HGSS)) {
+                    if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.HGSS)) {
                         name += FormatCmd_Overworld_TwoParams(parametersList);
                     } else {
                         goto default;
                     }
                     break;
                 case 0x0153:      // SetOverworldPosition [HGSS]
-                    if (RomInfo.gameFamily.Equals(RomInfo.gFamEnum.HGSS)) {
+                    if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.HGSS)) {
                         name += FormatCmd_Overworld_3Coords_Dir(parametersList);
                     } else {
                         goto default;
                     }
                     break;
                 case 0x0154:      // SetOverworldDefaultMovement [HGSS]
-                    if (RomInfo.gameFamily.Equals(RomInfo.gFamEnum.HGSS)) {
+                    if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.HGSS)) {
                         name += FormatCmd_Overworld_Move(parametersList);
                     } else {
                         goto default;
                     }
                     break;
                 case 0x0155:      // SetOverworldDefaultDirection [DPPt]
-                    if (RomInfo.gameFamily.Equals(RomInfo.gFamEnum.HGSS)) {
+                    if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.HGSS)) {
                         name += FormatCmd_Overworld_Dir(parametersList);
                     } else {
                         goto default;
                     }
                     break;
                 case 0x0158:      // SetOverworldDirection [DPPt]
-                    if (RomInfo.gameFamily.Equals(RomInfo.gFamEnum.HGSS)) {
+                    if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.HGSS)) {
                         name += FormatCmd_Overworld_Dir(parametersList);
                     } else {
                         goto default;
@@ -133,42 +133,42 @@ namespace DSPRE.ROMFiles {
                     break;
 
                 case 0x00BE:      // Warp [DPPt]
-                    if (RomInfo.gameFamily.Equals(RomInfo.gFamEnum.DP) || RomInfo.gameFamily.Equals(RomInfo.gFamEnum.Plat)) {
+                    if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.DP) || RomInfo.gameFamily.Equals(RomInfo.GameFamilies.Plat)) {
                         name += FormatCmd_Warp(parametersList);
                     } else {
                         goto default;
                     }
                     break;
                 case 0x0186:      // SetOverworldDefaultPosition [DPPt]
-                    if (RomInfo.gameFamily.Equals(RomInfo.gFamEnum.DP) || RomInfo.gameFamily.Equals(RomInfo.gFamEnum.Plat)) {
+                    if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.DP) || RomInfo.gameFamily.Equals(RomInfo.GameFamilies.Plat)) {
                         name += FormatCmd_Overworld_TwoParams(parametersList);
                     } else {
                         goto default;
                     }
                     break;
                 case 0x0187:      // SetOverworldPosition [DPPt]
-                    if (RomInfo.gameFamily.Equals(RomInfo.gFamEnum.DP) || RomInfo.gameFamily.Equals(RomInfo.gFamEnum.Plat)) {
+                    if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.DP) || RomInfo.gameFamily.Equals(RomInfo.GameFamilies.Plat)) {
                         name += FormatCmd_Overworld_3Coords_Dir(parametersList);
                     } else {
                         goto default;
                     }
                     break;
                 case 0x0188:      // SetOverworldDefaultMovement [DPPt]
-                    if (RomInfo.gameFamily.Equals(RomInfo.gFamEnum.DP) || RomInfo.gameFamily.Equals(RomInfo.gFamEnum.Plat)) {
+                    if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.DP) || RomInfo.gameFamily.Equals(RomInfo.GameFamilies.Plat)) {
                         name += FormatCmd_Overworld_Move(parametersList);
                     } else {
                         goto default;
                     }
                     break;
                 case 0x0189:      // SetOverworldDefaultDirection [DPPt]
-                    if (RomInfo.gameFamily.Equals(RomInfo.gFamEnum.DP) || RomInfo.gameFamily.Equals(RomInfo.gFamEnum.Plat)) {
+                    if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.DP) || RomInfo.gameFamily.Equals(RomInfo.GameFamilies.Plat)) {
                         name += FormatCmd_Overworld_Dir(parametersList);
                     } else {
                         goto default;
                     }
                     break;
                 case 0x018C:      // SetOverworldDirection [DPPt]
-                    if (RomInfo.gameFamily.Equals(RomInfo.gFamEnum.DP) || RomInfo.gameFamily.Equals(RomInfo.gFamEnum.Plat)) {
+                    if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.DP) || RomInfo.gameFamily.Equals(RomInfo.GameFamilies.Plat)) {
                         name += FormatCmd_Overworld_Dir(parametersList);
                     } else {
                         goto default;
@@ -387,10 +387,10 @@ namespace DSPRE.ROMFiles {
                     return "CMD_" + prefix + num.ToString(formatOverride + '3');
 
                 case ParamTypeEnum.FUNCTION_ID:
-                    return containerTypes.Function.ToString() + "#" + num;
+                    return ContainerTypes.Function.ToString() + "#" + num;
 
                 case ParamTypeEnum.ACTION_ID:
-                    return containerTypes.Action.ToString() + "#" + num;
+                    return ContainerTypes.Action.ToString() + "#" + num;
 
                 case ParamTypeEnum.OW_MOVEMENT_TYPE:
                     if (num < 4000) {

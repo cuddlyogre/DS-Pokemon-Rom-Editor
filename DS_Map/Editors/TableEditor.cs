@@ -34,7 +34,7 @@ namespace DSPRE.Editors {
 
     public void SetupTableEditor() {
       switch (RomInfo.gameFamily) {
-        case gFamEnum.HGSS:
+        case GameFamilies.HGSS:
           RomInfo.SetConditionalMusicTableOffsetToRAMAddress();
           conditionalMusicTable = new List<(ushort, ushort, ushort)>();
 
@@ -64,7 +64,7 @@ namespace DSPRE.Editors {
 
           break;
 
-        case gFamEnum.Plat:
+        case GameFamilies.Plat:
           pbEffectsMonGroupBox.Enabled = false;
           pbEffectsTrainerGroupBox.Enabled = false;
           break;
@@ -81,7 +81,7 @@ namespace DSPRE.Editors {
     }
 
     public void SetupBattleEffectsTables() {
-      if (RomInfo.gameFamily == gFamEnum.HGSS || RomInfo.gameFamily == gFamEnum.Plat) {
+      if (RomInfo.gameFamily == GameFamilies.HGSS || RomInfo.gameFamily == GameFamilies.Plat) {
         DSUtils.TryUnpackNarcs(new List<DirNames> { DirNames.trainerGraphics, DirNames.textArchives });
         RomInfo.SetBattleEffectsData();
 
@@ -93,7 +93,7 @@ namespace DSPRE.Editors {
 
         byte comboTableEntriesCount;
 
-        if (RomInfo.gameFamily == gFamEnum.HGSS) {
+        if (RomInfo.gameFamily == GameFamilies.HGSS) {
           comboTableEntriesCount = DSUtils.ARM9.ReadByte(RomInfo.effectsComboTableOffsetToSizeLimiter);
 
           vsPokemonEffectsList = new List<(int pokemonID, int comboID)>();
@@ -126,7 +126,7 @@ namespace DSPRE.Editors {
 
         String expArmPath = RomInfo.gameDirs[DirNames.synthOverlay].unpackedDir + '\\' + ROMToolboxDialog.expandedARMfileID.ToString("D4");
 
-        if (RomInfo.gameFamily == gFamEnum.HGSS) {
+        if (RomInfo.gameFamily == GameFamilies.HGSS) {
           using (DSUtils.EasyReader ar = new DSUtils.EasyReader(ROMToolboxDialog.flag_TrainerClassBattleTableRepointed ? expArmPath : RomInfo.arm9Path, vsTrainerTableStartAddress)) {
             byte trainerTableEntriesCount = DSUtils.ARM9.ReadByte(RomInfo.vsTrainerEntryTableOffsetToSizeLimiter);
 
@@ -170,7 +170,7 @@ namespace DSPRE.Editors {
           }
         }
 
-        if (RomInfo.gameFamily == gFamEnum.HGSS) {
+        if (RomInfo.gameFamily == GameFamilies.HGSS) {
           var items = pbEffectsCombosListbox.Items.Cast<Object>().ToArray();
 
           pbEffectsPokemonChooseMainCombobox.Items.Clear();
@@ -245,13 +245,13 @@ namespace DSPRE.Editors {
 
       MapHeader selected = MapHeader.LoadFromARM9(newTuple.header);
       switch (RomInfo.gameFamily) {
-        case gFamEnum.DP:
+        case GameFamilies.DP:
           locationNameConditionalMusicLBL.Text = RomInfo.GetLocationNames()[(selected as HeaderDP).locationName];
           break;
-        case gFamEnum.Plat:
+        case GameFamilies.Plat:
           locationNameConditionalMusicLBL.Text = RomInfo.GetLocationNames()[(selected as HeaderPt).locationName];
           break;
-        case gFamEnum.HGSS:
+        case GameFamilies.HGSS:
           locationNameConditionalMusicLBL.Text = RomInfo.GetLocationNames()[(selected as HeaderHGSS).locationName];
           break;
       }
@@ -271,7 +271,7 @@ namespace DSPRE.Editors {
 
     private void HOWpbEffectsTableButton_Click(object sender, EventArgs e) {
       MessageBox.Show("An entry of this table is a combination of VS. Graphics + Battle Theme.\n\n" +
-                      (RomInfo.gameFamily.Equals(gFamEnum.HGSS) ? "Each entry can be \"inherited\" by one or more Pokémon or Trainer classes." : ""),
+                      (RomInfo.gameFamily.Equals(GameFamilies.HGSS) ? "Each entry can be \"inherited\" by one or more Pokémon or Trainer classes." : ""),
         "How this table works", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
 
