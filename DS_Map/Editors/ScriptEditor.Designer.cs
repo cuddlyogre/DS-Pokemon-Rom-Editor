@@ -60,7 +60,7 @@ namespace DSPRE.Editors
       this.groupBox8 = new System.Windows.Forms.GroupBox();
       this.searchInScriptsButton = new System.Windows.Forms.Button();
       this.searchOnlyCurrentScriptCheckBox = new System.Windows.Forms.CheckBox();
-      this.scrollToBlockStartcheckBox1 = new System.Windows.Forms.CheckBox();
+      this.scrollToBlockStartcheckBox = new System.Windows.Forms.CheckBox();
       this.scriptSearchCaseSensitiveCheckBox = new System.Windows.Forms.CheckBox();
       this.searchInScriptsTextBox = new System.Windows.Forms.TextBox();
       this.searchProgressBar = new System.Windows.Forms.ProgressBar();
@@ -473,7 +473,7 @@ namespace DSPRE.Editors
       // 
       this.groupBox8.Controls.Add(this.searchInScriptsButton);
       this.groupBox8.Controls.Add(this.searchOnlyCurrentScriptCheckBox);
-      this.groupBox8.Controls.Add(this.scrollToBlockStartcheckBox1);
+      this.groupBox8.Controls.Add(this.scrollToBlockStartcheckBox);
       this.groupBox8.Controls.Add(this.scriptSearchCaseSensitiveCheckBox);
       this.groupBox8.Controls.Add(this.searchInScriptsTextBox);
       this.groupBox8.Controls.Add(this.label31);
@@ -514,13 +514,13 @@ namespace DSPRE.Editors
       // 
       // scrollToBlockStartcheckBox1
       // 
-      this.scrollToBlockStartcheckBox1.AutoSize = true;
-      this.scrollToBlockStartcheckBox1.Location = new System.Drawing.Point(347, 61);
-      this.scrollToBlockStartcheckBox1.Name = "scrollToBlockStartcheckBox1";
-      this.scrollToBlockStartcheckBox1.Size = new System.Drawing.Size(116, 17);
-      this.scrollToBlockStartcheckBox1.TabIndex = 39;
-      this.scrollToBlockStartcheckBox1.Text = "Scroll to block start";
-      this.scrollToBlockStartcheckBox1.UseVisualStyleBackColor = true;
+      this.scrollToBlockStartcheckBox.AutoSize = true;
+      this.scrollToBlockStartcheckBox.Location = new System.Drawing.Point(347, 61);
+      this.scrollToBlockStartcheckBox.Name = "scrollToBlockStartcheckBox";
+      this.scrollToBlockStartcheckBox.Size = new System.Drawing.Size(116, 17);
+      this.scrollToBlockStartcheckBox.TabIndex = 39;
+      this.scrollToBlockStartcheckBox.Text = "Scroll to block start";
+      this.scrollToBlockStartcheckBox.UseVisualStyleBackColor = true;
       // 
       // scriptSearchCaseSensitiveCheckBox
       // 
@@ -868,7 +868,7 @@ namespace DSPRE.Editors
       this.PerformLayout();
     }
 
-    private System.Windows.Forms.CheckBox scrollToBlockStartcheckBox1;
+    private System.Windows.Forms.CheckBox scrollToBlockStartcheckBox;
 
     #endregion
 

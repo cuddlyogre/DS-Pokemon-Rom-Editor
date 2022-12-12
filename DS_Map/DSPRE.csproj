@@ -156,7 +156,6 @@
     <Compile Include="Editors\ScriptEditor.Designer.cs">
       <DependentUpon>ScriptEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Editors\ScriptEditorSearchResult.cs" />
     <Compile Include="Editors\TableEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>

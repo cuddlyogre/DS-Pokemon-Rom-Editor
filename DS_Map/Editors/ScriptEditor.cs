@@ -171,6 +171,12 @@ namespace DSPRE.Editors {
       }
     }
 
+    private void OnTextChangedAction(object sender, EventArgs e) {
+      ActionTextArea.Margins[NUMBER_MARGIN].Width = ActionTextArea.Lines.Count.ToString().Length * 13;
+      actionsDirty = true;
+      actionsTabPage.Text = ScriptFile.ContainerTypes.Action.ToString() + "s" + "*";
+    }
+
     private void InitialViewConfig(Scintilla textArea) {
       textArea.Dock = DockStyle.Fill;
       textArea.WrapMode = WrapMode.Word;
@@ -369,6 +375,16 @@ namespace DSPRE.Editors {
       MarginClick(ActionTextArea, e);
     }
 
+    private void OnTextChangedFunction(object sender, EventArgs e) {
+      FunctionTextArea.Margins[NUMBER_MARGIN].Width = FunctionTextArea.Lines.Count.ToString().Length * 13;
+      functionsDirty = true;
+      functionsTabPage.Text = ScriptFile.ContainerTypes.Function.ToString() + "s" + "*";
+    }
+
+    private void selectScriptFileComboBox_SelectedIndexChanged(object sender, EventArgs e) {
+      DisplayScript();
+    }
+
     private void UpdateScriptNumberCheckBox(NumberStyles toSet) {
       Helpers.disableHandlers = true;
       Properties.Settings.Default.scriptEditorFormatPreference = (int)toSet;
@@ -389,24 +405,32 @@ namespace DSPRE.Editors {
       Helpers.disableHandlers = false;
     }
 
-    private void OnTextChangedFunction(object sender, EventArgs e) {
-      FunctionTextArea.Margins[NUMBER_MARGIN].Width = FunctionTextArea.Lines.Count.ToString().Length * 13;
-      functionsDirty = true;
-      functionsTabPage.Text = ScriptFile.containerTypes.Function.ToString() + "s" + "*";
+    private void UpdateScriptNumberFormat(RadioButton radioButton, NumberStyles numberStyle) {
+      if (!Helpers.disableHandlers) {
+        NumberStyles old = (NumberStyles)Properties.Settings.Default.scriptEditorFormatPreference; //Local Backup
+        Properties.Settings.Default.scriptEditorFormatPreference = (int)numberStyle;
+
+        if (!DisplayScript()) {
+          UpdateScriptNumberCheckBox(old); //Restore old checkbox status! Script couldn't be redrawn
+        }
+      }
     }
 
-    private void selectScriptFileComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-      ReloadScript();
+    private void UpdateScriptNumberFormatNoPref(object sender, EventArgs e) {
+      UpdateScriptNumberFormat(scriptEditorNumberFormatNoPreference, NumberStyles.None);
     }
 
-    private void OnTextChangedAction(object sender, EventArgs e) {
-      ActionTextArea.Margins[NUMBER_MARGIN].Width = ActionTextArea.Lines.Count.ToString().Length * 13;
-      actionsDirty = true;
-      actionsTabPage.Text = ScriptFile.containerTypes.Action.ToString() + "s" + "*";
+    private void UpdateScriptNumberFormatDec(object sender, EventArgs e) {
+      UpdateScriptNumberFormat(scriptEditorNumberFormatDecimal, NumberStyles.Integer);
     }
 
-    private bool ReloadScript() {
+    private void UpdateScriptNumberFormatHex(object sender, EventArgs e) {
+      UpdateScriptNumberFormat(scriptEditorNumberFormatHex, NumberStyles.HexNumber);
+    }
+
+    private bool DisplayScript() {
       Console.WriteLine("Script Reload has been requested");
+
       /* clear controls */
       if (Helpers.disableHandlers || selectScriptFileComboBox.SelectedItem == null) {
         return false;
@@ -447,87 +471,80 @@ namespace DSPRE.Editors {
 
         clearCurrentLevelScriptButton.Visible = false;
 
-        string buffer = "";
-
-        /* Add scripts */
-        for (int i = 0; i < currentScriptFile.allScripts.Count; i++) {
-          CommandContainer currentScript = currentScriptFile.allScripts[i];
-
-          /* Write header */
-          string header = ScriptFile.containerTypes.Script.ToString() + " " + (i + 1);
-          buffer += header + ':' + Environment.NewLine;
-          scriptsNavListbox.Items.Add(header);
-
-          /* If current script is identical to another, print UseScript instead of commands */
-          if (currentScript.usedScript < 0) {
-            for (int j = 0; j < currentScript.commands.Count; j++) {
-              if (!ScriptDatabase.endCodes.Contains(currentScript.commands[j].id)) {
-                buffer += '\t';
-              }
-
-              buffer += currentScript.commands[j].name + Environment.NewLine;
-            }
-          }
-          else {
-            buffer += '\t' + "UseScript_#" + currentScript.usedScript + Environment.NewLine;
-          }
-
-          ScriptTextArea.AppendText(buffer + Environment.NewLine);
-          buffer = "";
-        }
-
-        /* Add functions */
-        for (int i = 0; i < currentScriptFile.allFunctions.Count; i++) {
-          CommandContainer currentFunction = currentScriptFile.allFunctions[i];
-
-          /* Write Header */
-          string header = ScriptFile.containerTypes.Function.ToString() + " " + (i + 1);
-          buffer += header + ':' + Environment.NewLine;
-          functionsNavListbox.Items.Add(header);
-
-          /* If current function is identical to a script, print UseScript instead of commands */
-          if (currentFunction.usedScript < 0) {
-            for (int j = 0; j < currentFunction.commands.Count; j++) {
-              if (!ScriptDatabase.endCodes.Contains(currentFunction.commands[j].id)) {
-                buffer += '\t';
-              }
-
-              buffer += currentFunction.commands[j].name + Environment.NewLine;
-            }
-          }
-          else {
-            buffer += '\t' + "UseScript_#" + currentFunction.usedScript + Environment.NewLine;
-          }
-
-          FunctionTextArea.AppendText(buffer + Environment.NewLine);
-          buffer = "";
-        }
-
-        /* Add movements */
-        for (int i = 0; i < currentScriptFile.allActions.Count; i++) {
-          ActionContainer currentAction = currentScriptFile.allActions[i];
-
-          string header = ScriptFile.containerTypes.Action.ToString() + " " + (i + 1);
-          buffer += header + ':' + Environment.NewLine;
-          actionsNavListbox.Items.Add(header);
-
-          for (int j = 0; j < currentAction.actionCommandsList.Count; j++) {
-            if (currentAction.actionCommandsList[j].id != 0x00FE) {
-              buffer += '\t';
-            }
-
-            buffer += currentAction.actionCommandsList[j].name + Environment.NewLine;
-          }
-
-          ActionTextArea.AppendText(buffer + Environment.NewLine);
-          buffer = "";
-        }
+        displayScriptFile(ScriptFile.ContainerTypes.Script, currentScriptFile.allScripts, scriptsNavListbox, ScriptTextArea);
+        displayScriptFile(ScriptFile.ContainerTypes.Function, currentScriptFile.allFunctions, functionsNavListbox, FunctionTextArea);
+        displayScriptFileActions(ScriptFile.ContainerTypes.Action, currentScriptFile.allActions, actionsNavListbox, ActionTextArea);
       }
 
       ScriptEditorSetClean();
       Helpers.statusLabelMessage();
       Helpers.disableHandlers = false;
       return true;
+    }
+
+    static void displayScriptFile(ScriptFile.ContainerTypes containerType, List<CommandContainer> commandList, ListBox navListBox, Scintilla textArea) {
+      string buffer = "";
+      /* Add commands */
+      for (int i = 0; i < commandList.Count; i++) {
+        CommandContainer currentCommand = commandList[i];
+
+        /* Write header */
+        string header = containerType + " " + (i + 1);
+        buffer += header + ':' + Environment.NewLine;
+        navListBox.Items.Add(header);
+
+        /* If current command is identical to another, print UseScript instead of commands */
+        if (currentCommand.usedScriptID < 0) {
+          for (int j = 0; j < currentCommand.commands.Count; j++) {
+            ScriptCommand command = currentCommand.commands[j];
+            if (!ScriptDatabase.endCodes.Contains(command.id)) {
+              buffer += '\t';
+            }
+
+            buffer += command.name + Environment.NewLine;
+          }
+        }
+        else {
+          buffer += '\t' + "UseScript_#" + currentCommand.usedScriptID + Environment.NewLine;
+        }
+
+        textArea.AppendText(buffer + Environment.NewLine);
+        buffer = "";
+      }
+    }
+
+    static void displayScriptFileActions(ScriptFile.ContainerTypes containerType, List<ActionContainer> commandList, ListBox navListBox, Scintilla textArea) {
+      /* Add movements */
+      string buffer = "";
+      for (int i = 0; i < commandList.Count; i++) {
+        ActionContainer currentCommand = commandList[i];
+
+        string header = containerType + " " + (i + 1);
+        buffer += header + ':' + Environment.NewLine;
+        navListBox.Items.Add(header);
+
+        for (int j = 0; j < currentCommand.commands.Count; j++) {
+          ScriptAction command = currentCommand.commands[j];
+          if (!ScriptDatabase.movementEndCodes.Contains(command.id)) {
+            buffer += '\t';
+          }
+
+          buffer += command.name + Environment.NewLine;
+        }
+
+        textArea.AppendText(buffer + Environment.NewLine);
+        buffer = "";
+      }
+    }
+
+    private void TxtSearchKeyDown(SearchManager searchManager, KeyEventArgs e) {
+      if (HotKeyManager.IsHotkey(e, Keys.Enter)) {
+        searchManager.Find(true, false);
+      }
+
+      if (HotKeyManager.IsHotkey(e, Keys.Enter, true) || HotKeyManager.IsHotkey(e, Keys.Enter, false, true)) {
+        searchManager.Find(false, false);
+      }
     }
 
     private void BtnNextSearchScript_Click(object sender, EventArgs e) {
@@ -538,10 +555,6 @@ namespace DSPRE.Editors {
       scriptSearchManager.Find(false, false);
     }
 
-    private void BtnCloseSearchScript_Click(object sender, EventArgs e) {
-      scriptSearchManager.CloseSearch();
-    }
-
     private void panelSearchScriptTextBox_TextChanged(object sender, EventArgs e) {
       scriptSearchManager.Find(true, true);
     }
@@ -550,14 +563,8 @@ namespace DSPRE.Editors {
       TxtSearchKeyDown(scriptSearchManager, e);
     }
 
-    private void TxtSearchKeyDown(SearchManager sm, KeyEventArgs e) {
-      if (HotKeyManager.IsHotkey(e, Keys.Enter)) {
-        sm.Find(true, false);
-      }
-
-      if (HotKeyManager.IsHotkey(e, Keys.Enter, true) || HotKeyManager.IsHotkey(e, Keys.Enter, false, true)) {
-        sm.Find(false, false);
-      }
+    private void BtnCloseSearchScript_Click(object sender, EventArgs e) {
+      scriptSearchManager.CloseSearch();
     }
 
     private void BtnNextSearchFunc_Click(object sender, EventArgs e) {
@@ -568,16 +575,16 @@ namespace DSPRE.Editors {
       functionSearchManager.Find(false, false);
     }
 
-    private void BtnCloseSearchFunc_Click(object sender, EventArgs e) {
-      functionSearchManager.CloseSearch();
-    }
-
     private void panelSearchFunctionTextBox_TextChanged(object sender, EventArgs e) {
       functionSearchManager.Find(true, true);
     }
 
     private void functionTxtSearch_KeyDown(object sender, KeyEventArgs e) {
       TxtSearchKeyDown(functionSearchManager, e);
+    }
+
+    private void BtnCloseSearchFunc_Click(object sender, EventArgs e) {
+      functionSearchManager.CloseSearch();
     }
 
     private void BtnNextSearchActions_Click(object sender, EventArgs e) {
@@ -588,16 +595,16 @@ namespace DSPRE.Editors {
       actionSearchManager.Find(false, false);
     }
 
-    private void BtnCloseSearchActions_Click(object sender, EventArgs e) {
-      actionSearchManager.CloseSearch();
-    }
-
     private void panelSearchActionTextBox_TextChanged(object sender, EventArgs e) {
       actionSearchManager.Find(true, true);
     }
 
     private void actiontTxtSearch_KeyDown(object sender, KeyEventArgs e) {
       TxtSearchKeyDown(actionSearchManager, e);
+    }
+
+    private void BtnCloseSearchActions_Click(object sender, EventArgs e) {
+      actionSearchManager.CloseSearch();
     }
 
     private void scriptEditorZoomInButton_Click(object sender, EventArgs e) {
@@ -822,7 +829,7 @@ namespace DSPRE.Editors {
       searchManager.Find(true, false, searchResult.scriptCommand.name);
       int resultStart = searchManager.textAreaScintilla.CurrentLine - padding;
 
-      if (scrollToBlockStartcheckBox1.Checked) {
+      if (scrollToBlockStartcheckBox.Checked) {
         searchManager.textAreaScintilla.FirstVisibleLine = blockStart;
       }
       else {
@@ -830,28 +837,27 @@ namespace DSPRE.Editors {
       }
     }
 
-    private void NavigatorGoTo(ListBox currentLB, int indexToSwitchTo, SearchManager entrusted, string keyword) {
-      if (currentLB.SelectedIndex < 0) {
+    private void NavigatorGoTo(ListBox listBox, TabPage tabPage, SearchManager searchManager, ScriptFile.ContainerTypes containerType) {
+      if (listBox.SelectedIndex < 0) {
         return;
       }
 
-      if (scriptEditorTabControl.SelectedIndex != indexToSwitchTo) {
-        scriptEditorTabControl.SelectedIndex = indexToSwitchTo;
-      }
-
-      entrusted.Find(true, false, keyword + ' ' + (currentLB.SelectedIndex + 1) + ':');
+      scriptEditorTabControl.SelectedTab = tabPage;
+      int commandNumber = listBox.SelectedIndex + 1;
+      string CommandBlockOpen = $"{containerType} {commandNumber}:";
+      searchManager.Find(true, false, CommandBlockOpen);
     }
 
     private void scriptsNavListbox_SelectedIndexChanged(object sender, EventArgs e) {
-      NavigatorGoTo((ListBox)sender, 0, scriptSearchManager, ScriptFile.ContainerTypes.Script.ToString());
+      NavigatorGoTo((ListBox)sender, scriptsTabPage, scriptSearchManager, ScriptFile.ContainerTypes.Script);
     }
 
     private void functionsNavListbox_SelectedIndexChanged(object sender, EventArgs e) {
-      NavigatorGoTo((ListBox)sender, 1, functionSearchManager, ScriptFile.ContainerTypes.Function.ToString());
+      NavigatorGoTo((ListBox)sender, functionsTabPage, functionSearchManager, ScriptFile.ContainerTypes.Function);
     }
 
     private void actionsNavListbox_SelectedIndexChanged(object sender, EventArgs e) {
-      NavigatorGoTo((ListBox)sender, 2, actionSearchManager, ScriptFile.ContainerTypes.Action.ToString());
+      NavigatorGoTo((ListBox)sender, actionsTabPage, actionSearchManager, ScriptFile.ContainerTypes.Action);
     }
 
     private void openSearchScriptEditorButton_Click(object sender, EventArgs e) {
@@ -878,39 +884,6 @@ namespace DSPRE.Editors {
       ActionTextArea.ViewWhitespace = scriptEditorWhitespacesCheckbox.Checked ? WhitespaceMode.VisibleAlways : WhitespaceMode.Invisible;
     }
 
-    private void UpdateScriptNumberFormatNoPref(object sender, EventArgs e) {
-      if (!Helpers.disableHandlers && scriptEditorNumberFormatNoPreference.Checked) {
-        NumberStyles old = (NumberStyles)Properties.Settings.Default.scriptEditorFormatPreference; //Local Backup
-        Properties.Settings.Default.scriptEditorFormatPreference = (int)NumberStyles.None;
-
-        if (!ReloadScript()) {
-          UpdateScriptNumberCheckBox(old); //Restore old checkbox status! Script couldn't be redrawn
-        }
-      }
-    }
-
-    private void UpdateScriptNumberFormatDec(object sender, EventArgs e) {
-      if (!Helpers.disableHandlers && scriptEditorNumberFormatDecimal.Checked) {
-        NumberStyles old = (NumberStyles)Properties.Settings.Default.scriptEditorFormatPreference; //Local Backup
-        Properties.Settings.Default.scriptEditorFormatPreference = (int)NumberStyles.Integer;
-
-        if (!ReloadScript()) {
-          UpdateScriptNumberCheckBox(old); //Restore old checkbox status! Script couldn't be redrawn
-        }
-      }
-    }
-
-    private void UpdateScriptNumberFormatHex(object sender, EventArgs e) {
-      if (!Helpers.disableHandlers && scriptEditorNumberFormatHex.Checked) {
-        NumberStyles old = (NumberStyles)Properties.Settings.Default.scriptEditorFormatPreference; //Local Backup
-        Properties.Settings.Default.scriptEditorFormatPreference = (int)NumberStyles.HexNumber;
-
-        if (!ReloadScript()) {
-          UpdateScriptNumberCheckBox(old); //Restore old checkbox status! Script couldn't be redrawn
-        }
-      }
-    }
-
     private void clearCurrentLevelScriptButton_Click(object sender, EventArgs e) {
       string path = Path.Combine(gameDirs[DirNames.scripts].unpackedDir, selectScriptFileComboBox.SelectedIndex.ToString("D4"));
       File.WriteAllBytes(path, new byte[4]);
@@ -920,6 +893,26 @@ namespace DSPRE.Editors {
     private void locateCurrentScriptFile_Click(object sender, EventArgs e) {
       string path = Path.Combine(gameDirs[DirNames.scripts].unpackedDir, selectScriptFileComboBox.SelectedIndex.ToString("D4"));
       Helpers.ExplorerSelect(path);
+    }
+  }
+
+  public class ScriptEditorSearchResult {
+    public readonly ScriptFile scriptFile;
+    public readonly ScriptFile.ContainerTypes containerType;
+    public readonly int commandNumber;
+    public readonly ScriptCommand scriptCommand;
+
+    public ScriptEditorSearchResult(ScriptFile scriptFile, ScriptFile.ContainerTypes containerType, int commandNumber, ScriptCommand scriptCommand) {
+      this.scriptFile = scriptFile;
+      this.containerType = containerType;
+      this.commandNumber = commandNumber;
+      this.scriptCommand = scriptCommand;
+    }
+
+    public string CommandBlockOpen { get { return $"{containerType} {commandNumber}:"; } }
+
+    public override string ToString() {
+      return $"File {scriptFile.fileID} - {CommandBlockOpen} {scriptCommand.name}";
     }
   }
 }

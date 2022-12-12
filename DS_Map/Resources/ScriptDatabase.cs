@@ -155,6 +155,11 @@ namespace DSPRE.Resources {
             [0x0068] = "WaitMoveForever",
             [0x00FE] = "End"
         };
+
+        public static HashSet<ushort?> movementEndCodes = new HashSet<ushort?>() {
+            0x00FE,
+        };
+
         public static Dictionary<ushort, string> customMovementsDictIDName = new Dictionary<ushort, string>() {
             [0x0071] = "Descend",
             [0x0072] = "Ascend",

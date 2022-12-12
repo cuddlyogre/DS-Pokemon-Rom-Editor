@@ -96,7 +96,7 @@ namespace DSPRE.ROMFiles {
                         }
                         allScripts.Add(new CommandContainer(current+1, ContainerTypes.Script, commandList: cmdList));
                     } else {
-                        allScripts.Add(new CommandContainer(current+1, ContainerTypes.Script, useScript: index+1));
+                        allScripts.Add(new CommandContainer(current+1, ContainerTypes.Script, usedScriptID: index+1));
                     }
                 }
 
@@ -122,7 +122,7 @@ namespace DSPRE.ROMFiles {
                             }
                             allFunctions.Add(new CommandContainer(current + 1, ContainerTypes.Function, commandList: cmdList));
                         } else {
-                            allFunctions.Add(new CommandContainer(current + 1, ContainerTypes.Function, useScript: posInList + 1));
+                            allFunctions.Add(new CommandContainer(current + 1, ContainerTypes.Function, usedScriptID: posInList + 1));
                         }
                     }
                 }
@@ -143,7 +143,7 @@ namespace DSPRE.ROMFiles {
                                 cmdList.Add(new ScriptAction(id, scrReader.ReadUInt16()));
                             }
                         }
-                        allActions.Add(new ActionContainer(current + 1, actionCommandsList: cmdList));
+                        allActions.Add(new ActionContainer(current + 1, commands: cmdList));
                     }
                 }
             }
@@ -616,7 +616,7 @@ namespace DSPRE.ROMFiles {
                         
                     } while (!lineSource[i++].text.IgnoreCaseEquals(RomInfo.ScriptActionNamesDict[0x00FE]));
 
-                    ls.Add( new ActionContainer(actionNumber, actionCommandsList: cmdList) );
+                    ls.Add( new ActionContainer(actionNumber, commands: cmdList) );
                     actionNumber = 0;
                 }
             } catch (ArgumentOutOfRangeException) {
@@ -647,7 +647,7 @@ namespace DSPRE.ROMFiles {
 
                     /* Write scripts */
                     foreach (CommandContainer currentScript in allScripts) {
-                        if (currentScript.usedScript == -1) {
+                        if (currentScript.usedScriptID == -1) {
                             scriptOffsets.Add(new ContainerReference() {
                                 ID = currentScript.manualUserID,
                                 offsetInFile = (uint)writer.BaseStream.Position
@@ -677,7 +677,7 @@ namespace DSPRE.ROMFiles {
                         for (int i = 0; i < scriptsCount; i++) {
                             ContainerReference scriptReference = scriptOffsets[i];
 
-                            if (scriptReference.ID == caller.usedScript) {
+                            if (scriptReference.ID == caller.usedScriptID) {
                                 scriptOffsets.Add(new ContainerReference() {
                                     ID = caller.manualUserID,
                                     offsetInFile = scriptReference.offsetInFile
@@ -688,7 +688,7 @@ namespace DSPRE.ROMFiles {
 
                     /* Write functions */
                     foreach (CommandContainer currentFunction in allFunctions) {
-                        if (currentFunction.usedScript == -1) {
+                        if (currentFunction.usedScriptID == -1) {
                             functionOffsets.Add(new ContainerReference() { 
                                 ID = currentFunction.manualUserID, 
                                 offsetInFile = (uint)writer.BaseStream.Position }
@@ -709,15 +709,15 @@ namespace DSPRE.ROMFiles {
                                 AddReference(ref refList, (ushort)currentCmd.id, parameterList, (int)writer.BaseStream.Position, currentFunction);
                             }
                         } else {
-                            int functionUsescript = currentFunction.usedScript - 1;
+                            int functionUsescript = currentFunction.usedScriptID - 1;
                             if (functionUsescript >= scriptOffsets.Count) {
-                                MessageBox.Show($"Function #{currentFunction.manualUserID} refers to Script {currentFunction.usedScript}, which does not exist.\n" +
+                                MessageBox.Show($"Function #{currentFunction.manualUserID} refers to Script {currentFunction.usedScriptID}, which does not exist.\n" +
                                     $"This Script File can't be saved.", "Can't resolve UseScript reference", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return null;
                             }
                             functionOffsets.Add(new ContainerReference() {
                                 ID = currentFunction.manualUserID,
-                                offsetInFile = scriptOffsets[currentFunction.usedScript - 1].offsetInFile
+                                offsetInFile = scriptOffsets[currentFunction.usedScriptID - 1].offsetInFile
                             });
                         }
                     }
@@ -734,7 +734,7 @@ namespace DSPRE.ROMFiles {
                             offsetInFile = (uint)writer.BaseStream.Position
                         });
 
-                        foreach (ScriptAction currentCmd in currentAction.actionCommandsList) {
+                        foreach (ScriptAction currentCmd in currentAction.commands) {
                             writer.Write((ushort)currentCmd.id);
                             writer.Write((ushort)currentCmd.repetitionCount);
                         }

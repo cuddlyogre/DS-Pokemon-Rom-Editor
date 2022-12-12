@@ -12,20 +12,20 @@ namespace DSPRE.ROMFiles {
     public class CommandContainer {
         public List<ScriptCommand> commands;
         public uint manualUserID;
-        public int usedScript; //useScript ID referenced by this Script/Function
+        public int usedScriptID; //useScript ID referenced by this Script/Function
         public ContainerTypes containerType;
         internal static readonly string functionStart;
 
         #region Constructors (2)
-        public CommandContainer(uint scriptNumber, ContainerTypes containerType, int useScript = -1, List<ScriptCommand> commandList = null) {
+        public CommandContainer(uint scriptNumber, ContainerTypes containerType, int usedScriptID = -1, List<ScriptCommand> commandList = null) {
             manualUserID = scriptNumber;
-            this.usedScript = useScript;
+            this.usedScriptID = usedScriptID;
             this.containerType = containerType;
             commands = commandList;
         }
         public CommandContainer(uint newID, CommandContainer toCopy) {
             manualUserID = newID;
-            usedScript = toCopy.usedScript;
+            usedScriptID = toCopy.usedScriptID;
             containerType = toCopy.containerType;
             commands = new List<ScriptCommand>(toCopy.commands); //command parameters need to be copied recursively
         }

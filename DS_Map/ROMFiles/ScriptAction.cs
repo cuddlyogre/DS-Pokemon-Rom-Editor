@@ -6,13 +6,13 @@ using System.Windows.Forms;
 
 namespace DSPRE.ROMFiles {
     public class ActionContainer {
-        public List<ScriptAction> actionCommandsList;
+        public List<ScriptAction> commands;
         public uint manualUserID;
 
         #region Constructors (2)
-        public ActionContainer(uint actionNumber, List<ScriptAction> actionCommandsList = null) {
+        public ActionContainer(uint actionNumber, List<ScriptAction> commands = null) {
             manualUserID = actionNumber;
-            this.actionCommandsList = actionCommandsList;
+            this.commands = commands;
         }
         #endregion
     }

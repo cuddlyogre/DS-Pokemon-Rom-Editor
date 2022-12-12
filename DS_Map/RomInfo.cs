@@ -124,7 +124,10 @@ namespace DSPRE {
             OWSprites,
 
             scripts,
+
             encounters,
+            headbutt,
+            safariZone,
 
             trainerProperties,
             trainerParty,
@@ -959,8 +962,18 @@ namespace DSPRE {
                         [DirNames.interiorBuildingModels] = @"data\a\1\4\8"
                     };
 
+                    packedDirsDict[DirNames.safariZone] = @"data\a\2\3\0";
+
                     //Encounter archive is different for SS 
-                    packedDirsDict[DirNames.encounters] = gameVersion == gVerEnum.HeartGold ? @"data\a\0\3\7" : @"data\a\1\3\6";
+                    if (gameVersion == GameVersions.HeartGold) {
+                        packedDirsDict[DirNames.encounters] = @"data\a\0\3\7";
+                        packedDirsDict[DirNames.headbutt] = @"data\a\2\5\3";
+                    }
+                    else {
+                        packedDirsDict[DirNames.encounters] = @"data\a\1\3\6";
+                        packedDirsDict[DirNames.headbutt] = @"data\a\2\5\2";
+                    }
+
                     break;
             }
 
