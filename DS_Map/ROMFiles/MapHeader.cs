@@ -15,7 +15,7 @@ namespace DSPRE.ROMFiles {
        0x8  //  ushort:     Text Archive number
        0xA  //  ushort:     Day music track number
        0xC  //  ushort:     Night music track number
-       0xE  //  ushort:     Wild Pokémon file number
+       0xE  //  ushort:     Wild PokÃ©mon file number
        0x10 //  ushort:     Event file number
 
        * D/P:
@@ -41,7 +41,7 @@ namespace DSPRE.ROMFiles {
 
     /* ---------------------- HEADER DATA STRUCTURE (HGSS):----------------------------
         
-       0x0  //  byte:       Wild Pokémon file number
+       0x0  //  byte:       Wild PokÃ©mon file number
        0x1  //  byte:       Area data value
        0x2  //  byte:       ?
        0x3  //  byte:       ?
@@ -56,7 +56,7 @@ namespace DSPRE.ROMFiles {
        0x13 //  byte:       Map name textbox type value
        0x14 //  byte:       Weather value
        0x15 //  byte:       Camera value
-       0x16 //  byte:       Follow mode (for the Pokémon following hero)
+       0x16 //  byte:       Follow mode (for the PokÃ©mon following hero)
        0x17 //  byte:       Bitwise permission flags:
 
         DPPT
@@ -82,7 +82,7 @@ namespace DSPRE.ROMFiles {
     ----------------------------------------------------------------------------------*/
 
     /// <summary>
-    /// General class to store common map header data across all Gen IV Pokémon NDS games
+    /// General class to store common map header data across all Gen IV PokÃ©mon NDS games
     /// </summary>
     public abstract class MapHeader : RomFile {
         /*System*/
@@ -162,7 +162,7 @@ namespace DSPRE.ROMFiles {
     }
 
     /// <summary>
-    /// Class to store map header data from Pokémon D and P
+    /// Class to store map header data from PokÃ©mon D and P
     /// </summary>
     public class HeaderDP : MapHeader {
         #region Fields (5)
@@ -224,7 +224,7 @@ namespace DSPRE.ROMFiles {
     }
 
     /// <summary>
-    /// Class to store map header data from Pokémon Plat
+    /// Class to store map header data from PokÃ©mon Plat
     /// </summary>
     public class HeaderPt : MapHeader {
         #region Fields (5)
@@ -293,7 +293,7 @@ namespace DSPRE.ROMFiles {
     }
 
     /// <summary>
-    /// Class to store map header data from Pokémon HG and SS
+    /// Class to store map header data from PokÃ©mon HG and SS
     /// </summary>
     public class HeaderHGSS : MapHeader {
         #region Fields (7)
