@@ -33,24 +33,24 @@ namespace DSPRE.Editors
       this.scriptEditorTabControl = new System.Windows.Forms.TabControl();
       this.scriptsTabPage = new System.Windows.Forms.TabPage();
       this.PanelSearchScripts = new System.Windows.Forms.Panel();
-      this.BtnNextSearchScript = new System.Windows.Forms.Button();
-      this.BtnPrevSearchScript = new System.Windows.Forms.Button();
-      this.BtnCloseSearchScript = new System.Windows.Forms.Button();
-      this.panelSearchScriptTextBox = new System.Windows.Forms.TextBox();
+      this.BtnNextFindScript = new System.Windows.Forms.Button();
+      this.BtnPrevFindScript = new System.Windows.Forms.Button();
+      this.BtnCloseFindScript = new System.Windows.Forms.Button();
+      this.panelFindScriptTextBox = new System.Windows.Forms.TextBox();
       this.scintillaScriptsPanel = new System.Windows.Forms.Panel();
       this.functionsTabPage = new System.Windows.Forms.TabPage();
       this.PanelSearchFunctions = new System.Windows.Forms.Panel();
-      this.BtnNextSearchFunc = new System.Windows.Forms.Button();
-      this.BtnPrevSearchFunc = new System.Windows.Forms.Button();
-      this.BtnCloseSearchFunc = new System.Windows.Forms.Button();
-      this.panelSearchFunctionTextBox = new System.Windows.Forms.TextBox();
+      this.BtnNextFindFunc = new System.Windows.Forms.Button();
+      this.BtnPrevFindFunc = new System.Windows.Forms.Button();
+      this.BtnCloseFindFunc = new System.Windows.Forms.Button();
+      this.panelFindFunctionTextBox = new System.Windows.Forms.TextBox();
       this.scintillaFunctionsPanel = new System.Windows.Forms.Panel();
       this.actionsTabPage = new System.Windows.Forms.TabPage();
       this.PanelSearchActions = new System.Windows.Forms.Panel();
-      this.BtnNextSearchActions = new System.Windows.Forms.Button();
-      this.BtnPrevSearchActions = new System.Windows.Forms.Button();
-      this.BtnCloseSearchActions = new System.Windows.Forms.Button();
-      this.panelSearchActionTextBox = new System.Windows.Forms.TextBox();
+      this.BtnNextFindActions = new System.Windows.Forms.Button();
+      this.BtnPrevFindActions = new System.Windows.Forms.Button();
+      this.BtnCloseFindActions = new System.Windows.Forms.Button();
+      this.panelFindActionTextBox = new System.Windows.Forms.TextBox();
       this.scintillaActionsPanel = new System.Windows.Forms.Panel();
       this.addScriptFileButton = new System.Windows.Forms.Button();
       this.removeScriptFileButton = new System.Windows.Forms.Button();
@@ -63,6 +63,7 @@ namespace DSPRE.Editors
       this.scrollToBlockStartcheckBox = new System.Windows.Forms.CheckBox();
       this.scriptSearchCaseSensitiveCheckBox = new System.Windows.Forms.CheckBox();
       this.searchInScriptsTextBox = new System.Windows.Forms.TextBox();
+      this.label31 = new System.Windows.Forms.Label();
       this.searchProgressBar = new System.Windows.Forms.ProgressBar();
       this.label30 = new System.Windows.Forms.Label();
       this.label29 = new System.Windows.Forms.Label();
@@ -76,7 +77,7 @@ namespace DSPRE.Editors
       this.functionsNavListbox = new System.Windows.Forms.ListBox();
       this.ActionsNavTab = new System.Windows.Forms.TabPage();
       this.actionsNavListbox = new System.Windows.Forms.ListBox();
-      this.openSearchScriptEditorButton = new System.Windows.Forms.Button();
+      this.openFindScriptEditorButton = new System.Windows.Forms.Button();
       this.expandScriptTextButton = new System.Windows.Forms.Button();
       this.compressScriptTextButton = new System.Windows.Forms.Button();
       this.scriptEditorWordWrapCheckbox = new System.Windows.Forms.CheckBox();
@@ -87,7 +88,6 @@ namespace DSPRE.Editors
       this.scriptEditorNumberFormatHex = new System.Windows.Forms.RadioButton();
       this.clearCurrentLevelScriptButton = new System.Windows.Forms.Button();
       this.locateCurrentScriptFile = new System.Windows.Forms.Button();
-      this.label31 = new System.Windows.Forms.Label();
       this.scriptEditorTabControl.SuspendLayout();
       this.scriptsTabPage.SuspendLayout();
       this.PanelSearchScripts.SuspendLayout();
@@ -152,69 +152,69 @@ namespace DSPRE.Editors
       // 
       this.PanelSearchScripts.BackColor = System.Drawing.Color.White;
       this.PanelSearchScripts.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-      this.PanelSearchScripts.Controls.Add(this.BtnNextSearchScript);
-      this.PanelSearchScripts.Controls.Add(this.BtnPrevSearchScript);
-      this.PanelSearchScripts.Controls.Add(this.BtnCloseSearchScript);
-      this.PanelSearchScripts.Controls.Add(this.panelSearchScriptTextBox);
+      this.PanelSearchScripts.Controls.Add(this.BtnNextFindScript);
+      this.PanelSearchScripts.Controls.Add(this.BtnPrevFindScript);
+      this.PanelSearchScripts.Controls.Add(this.BtnCloseFindScript);
+      this.PanelSearchScripts.Controls.Add(this.panelFindScriptTextBox);
       this.PanelSearchScripts.Location = new System.Drawing.Point(386, 3);
       this.PanelSearchScripts.Name = "PanelSearchScripts";
       this.PanelSearchScripts.Size = new System.Drawing.Size(292, 40);
       this.PanelSearchScripts.TabIndex = 14;
       this.PanelSearchScripts.Visible = false;
       // 
-      // BtnNextSearchScript
+      // BtnNextFindScript
       // 
-      this.BtnNextSearchScript.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-      this.BtnNextSearchScript.ForeColor = System.Drawing.Color.White;
-      this.BtnNextSearchScript.Image = global::DSPRE.Properties.Resources.arrowdown;
-      this.BtnNextSearchScript.Location = new System.Drawing.Point(233, 4);
-      this.BtnNextSearchScript.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-      this.BtnNextSearchScript.Name = "BtnNextSearchScript";
-      this.BtnNextSearchScript.Size = new System.Drawing.Size(25, 30);
-      this.BtnNextSearchScript.TabIndex = 9;
-      this.BtnNextSearchScript.Tag = "Find next (Enter)";
-      this.BtnNextSearchScript.UseVisualStyleBackColor = true;
-      this.BtnNextSearchScript.Click += new System.EventHandler(this.BtnNextSearchScript_Click);
+      this.BtnNextFindScript.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+      this.BtnNextFindScript.ForeColor = System.Drawing.Color.White;
+      this.BtnNextFindScript.Image = global::DSPRE.Properties.Resources.arrowdown;
+      this.BtnNextFindScript.Location = new System.Drawing.Point(233, 4);
+      this.BtnNextFindScript.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+      this.BtnNextFindScript.Name = "BtnNextFindScript";
+      this.BtnNextFindScript.Size = new System.Drawing.Size(25, 30);
+      this.BtnNextFindScript.TabIndex = 9;
+      this.BtnNextFindScript.Tag = "Find next (Enter)";
+      this.BtnNextFindScript.UseVisualStyleBackColor = true;
+      this.BtnNextFindScript.Click += new System.EventHandler(this.BtnNextFindScript_Click);
       // 
-      // BtnPrevSearchScript
+      // BtnPrevFindScript
       // 
-      this.BtnPrevSearchScript.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-      this.BtnPrevSearchScript.ForeColor = System.Drawing.Color.White;
-      this.BtnPrevSearchScript.Image = global::DSPRE.Properties.Resources.arrowup;
-      this.BtnPrevSearchScript.Location = new System.Drawing.Point(205, 4);
-      this.BtnPrevSearchScript.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-      this.BtnPrevSearchScript.Name = "BtnPrevSearchScript";
-      this.BtnPrevSearchScript.Size = new System.Drawing.Size(25, 30);
-      this.BtnPrevSearchScript.TabIndex = 8;
-      this.BtnPrevSearchScript.Tag = "Find previous (Shift+Enter)";
-      this.BtnPrevSearchScript.UseVisualStyleBackColor = true;
-      this.BtnPrevSearchScript.Click += new System.EventHandler(this.BtnPrevSearchScript_Click);
+      this.BtnPrevFindScript.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+      this.BtnPrevFindScript.ForeColor = System.Drawing.Color.White;
+      this.BtnPrevFindScript.Image = global::DSPRE.Properties.Resources.arrowup;
+      this.BtnPrevFindScript.Location = new System.Drawing.Point(205, 4);
+      this.BtnPrevFindScript.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+      this.BtnPrevFindScript.Name = "BtnPrevFindScript";
+      this.BtnPrevFindScript.Size = new System.Drawing.Size(25, 30);
+      this.BtnPrevFindScript.TabIndex = 8;
+      this.BtnPrevFindScript.Tag = "Find previous (Shift+Enter)";
+      this.BtnPrevFindScript.UseVisualStyleBackColor = true;
+      this.BtnPrevFindScript.Click += new System.EventHandler(this.BtnPrevFindScript_Click);
       // 
-      // BtnCloseSearchScript
+      // BtnCloseFindScript
       // 
-      this.BtnCloseSearchScript.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-      this.BtnCloseSearchScript.ForeColor = System.Drawing.Color.White;
-      this.BtnCloseSearchScript.Image = global::DSPRE.Properties.Resources.Cross;
-      this.BtnCloseSearchScript.Location = new System.Drawing.Point(261, 4);
-      this.BtnCloseSearchScript.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-      this.BtnCloseSearchScript.Name = "BtnCloseSearchScript";
-      this.BtnCloseSearchScript.Size = new System.Drawing.Size(25, 30);
-      this.BtnCloseSearchScript.TabIndex = 7;
-      this.BtnCloseSearchScript.Tag = "Close (Esc)";
-      this.BtnCloseSearchScript.UseVisualStyleBackColor = true;
-      this.BtnCloseSearchScript.Click += new System.EventHandler(this.BtnCloseSearchScript_Click);
+      this.BtnCloseFindScript.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+      this.BtnCloseFindScript.ForeColor = System.Drawing.Color.White;
+      this.BtnCloseFindScript.Image = global::DSPRE.Properties.Resources.Cross;
+      this.BtnCloseFindScript.Location = new System.Drawing.Point(261, 4);
+      this.BtnCloseFindScript.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+      this.BtnCloseFindScript.Name = "BtnCloseFindScript";
+      this.BtnCloseFindScript.Size = new System.Drawing.Size(25, 30);
+      this.BtnCloseFindScript.TabIndex = 7;
+      this.BtnCloseFindScript.Tag = "Close (Esc)";
+      this.BtnCloseFindScript.UseVisualStyleBackColor = true;
+      this.BtnCloseFindScript.Click += new System.EventHandler(this.BtnCloseFindScript_Click);
       // 
-      // panelSearchScriptTextBox
+      // panelFindScriptTextBox
       // 
-      this.panelSearchScriptTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-      this.panelSearchScriptTextBox.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.panelSearchScriptTextBox.Location = new System.Drawing.Point(10, 6);
-      this.panelSearchScriptTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-      this.panelSearchScriptTextBox.Name = "panelSearchScriptTextBox";
-      this.panelSearchScriptTextBox.Size = new System.Drawing.Size(189, 25);
-      this.panelSearchScriptTextBox.TabIndex = 6;
-      this.panelSearchScriptTextBox.TextChanged += new System.EventHandler(this.panelSearchScriptTextBox_TextChanged);
-      this.panelSearchScriptTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.scriptTxtSearch_KeyDown);
+      this.panelFindScriptTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+      this.panelFindScriptTextBox.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.panelFindScriptTextBox.Location = new System.Drawing.Point(10, 6);
+      this.panelFindScriptTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+      this.panelFindScriptTextBox.Name = "panelFindScriptTextBox";
+      this.panelFindScriptTextBox.Size = new System.Drawing.Size(189, 25);
+      this.panelFindScriptTextBox.TabIndex = 6;
+      this.panelFindScriptTextBox.TextChanged += new System.EventHandler(this.panelFindScriptTextBox_TextChanged);
+      this.panelFindScriptTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.scriptTxtFind_KeyDown);
       // 
       // scintillaScriptsPanel
       // 
@@ -242,69 +242,69 @@ namespace DSPRE.Editors
       // 
       this.PanelSearchFunctions.BackColor = System.Drawing.Color.White;
       this.PanelSearchFunctions.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-      this.PanelSearchFunctions.Controls.Add(this.BtnNextSearchFunc);
-      this.PanelSearchFunctions.Controls.Add(this.BtnPrevSearchFunc);
-      this.PanelSearchFunctions.Controls.Add(this.BtnCloseSearchFunc);
-      this.PanelSearchFunctions.Controls.Add(this.panelSearchFunctionTextBox);
+      this.PanelSearchFunctions.Controls.Add(this.BtnNextFindFunc);
+      this.PanelSearchFunctions.Controls.Add(this.BtnPrevFindFunc);
+      this.PanelSearchFunctions.Controls.Add(this.BtnCloseFindFunc);
+      this.PanelSearchFunctions.Controls.Add(this.panelFindFunctionTextBox);
       this.PanelSearchFunctions.Location = new System.Drawing.Point(386, 3);
       this.PanelSearchFunctions.Name = "PanelSearchFunctions";
       this.PanelSearchFunctions.Size = new System.Drawing.Size(292, 40);
       this.PanelSearchFunctions.TabIndex = 16;
       this.PanelSearchFunctions.Visible = false;
       // 
-      // BtnNextSearchFunc
+      // BtnNextFindFunc
       // 
-      this.BtnNextSearchFunc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-      this.BtnNextSearchFunc.ForeColor = System.Drawing.Color.White;
-      this.BtnNextSearchFunc.Image = global::DSPRE.Properties.Resources.arrowdown;
-      this.BtnNextSearchFunc.Location = new System.Drawing.Point(233, 4);
-      this.BtnNextSearchFunc.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-      this.BtnNextSearchFunc.Name = "BtnNextSearchFunc";
-      this.BtnNextSearchFunc.Size = new System.Drawing.Size(25, 30);
-      this.BtnNextSearchFunc.TabIndex = 9;
-      this.BtnNextSearchFunc.Tag = "Find next (Enter)";
-      this.BtnNextSearchFunc.UseVisualStyleBackColor = true;
-      this.BtnNextSearchFunc.Click += new System.EventHandler(this.BtnNextSearchFunc_Click);
+      this.BtnNextFindFunc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+      this.BtnNextFindFunc.ForeColor = System.Drawing.Color.White;
+      this.BtnNextFindFunc.Image = global::DSPRE.Properties.Resources.arrowdown;
+      this.BtnNextFindFunc.Location = new System.Drawing.Point(233, 4);
+      this.BtnNextFindFunc.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+      this.BtnNextFindFunc.Name = "BtnNextFindFunc";
+      this.BtnNextFindFunc.Size = new System.Drawing.Size(25, 30);
+      this.BtnNextFindFunc.TabIndex = 9;
+      this.BtnNextFindFunc.Tag = "Find next (Enter)";
+      this.BtnNextFindFunc.UseVisualStyleBackColor = true;
+      this.BtnNextFindFunc.Click += new System.EventHandler(this.BtnNextFindFunc_Click);
       // 
-      // BtnPrevSearchFunc
+      // BtnPrevFindFunc
       // 
-      this.BtnPrevSearchFunc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-      this.BtnPrevSearchFunc.ForeColor = System.Drawing.Color.White;
-      this.BtnPrevSearchFunc.Image = global::DSPRE.Properties.Resources.arrowup;
-      this.BtnPrevSearchFunc.Location = new System.Drawing.Point(205, 4);
-      this.BtnPrevSearchFunc.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-      this.BtnPrevSearchFunc.Name = "BtnPrevSearchFunc";
-      this.BtnPrevSearchFunc.Size = new System.Drawing.Size(25, 30);
-      this.BtnPrevSearchFunc.TabIndex = 8;
-      this.BtnPrevSearchFunc.Tag = "Find previous (Shift+Enter)";
-      this.BtnPrevSearchFunc.UseVisualStyleBackColor = true;
-      this.BtnPrevSearchFunc.Click += new System.EventHandler(this.BtnPrevSearchFunc_Click);
+      this.BtnPrevFindFunc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+      this.BtnPrevFindFunc.ForeColor = System.Drawing.Color.White;
+      this.BtnPrevFindFunc.Image = global::DSPRE.Properties.Resources.arrowup;
+      this.BtnPrevFindFunc.Location = new System.Drawing.Point(205, 4);
+      this.BtnPrevFindFunc.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+      this.BtnPrevFindFunc.Name = "BtnPrevFindFunc";
+      this.BtnPrevFindFunc.Size = new System.Drawing.Size(25, 30);
+      this.BtnPrevFindFunc.TabIndex = 8;
+      this.BtnPrevFindFunc.Tag = "Find previous (Shift+Enter)";
+      this.BtnPrevFindFunc.UseVisualStyleBackColor = true;
+      this.BtnPrevFindFunc.Click += new System.EventHandler(this.BtnPrevFindFunc_Click);
       // 
-      // BtnCloseSearchFunc
+      // BtnCloseFindFunc
       // 
-      this.BtnCloseSearchFunc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-      this.BtnCloseSearchFunc.ForeColor = System.Drawing.Color.White;
-      this.BtnCloseSearchFunc.Image = global::DSPRE.Properties.Resources.Cross;
-      this.BtnCloseSearchFunc.Location = new System.Drawing.Point(261, 4);
-      this.BtnCloseSearchFunc.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-      this.BtnCloseSearchFunc.Name = "BtnCloseSearchFunc";
-      this.BtnCloseSearchFunc.Size = new System.Drawing.Size(25, 30);
-      this.BtnCloseSearchFunc.TabIndex = 7;
-      this.BtnCloseSearchFunc.Tag = "Close (Esc)";
-      this.BtnCloseSearchFunc.UseVisualStyleBackColor = true;
-      this.BtnCloseSearchFunc.Click += new System.EventHandler(this.BtnCloseSearchFunc_Click);
+      this.BtnCloseFindFunc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+      this.BtnCloseFindFunc.ForeColor = System.Drawing.Color.White;
+      this.BtnCloseFindFunc.Image = global::DSPRE.Properties.Resources.Cross;
+      this.BtnCloseFindFunc.Location = new System.Drawing.Point(261, 4);
+      this.BtnCloseFindFunc.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+      this.BtnCloseFindFunc.Name = "BtnCloseFindFunc";
+      this.BtnCloseFindFunc.Size = new System.Drawing.Size(25, 30);
+      this.BtnCloseFindFunc.TabIndex = 7;
+      this.BtnCloseFindFunc.Tag = "Close (Esc)";
+      this.BtnCloseFindFunc.UseVisualStyleBackColor = true;
+      this.BtnCloseFindFunc.Click += new System.EventHandler(this.BtnCloseFindFunc_Click);
       // 
-      // panelSearchFunctionTextBox
+      // panelFindFunctionTextBox
       // 
-      this.panelSearchFunctionTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-      this.panelSearchFunctionTextBox.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.panelSearchFunctionTextBox.Location = new System.Drawing.Point(10, 6);
-      this.panelSearchFunctionTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-      this.panelSearchFunctionTextBox.Name = "panelSearchFunctionTextBox";
-      this.panelSearchFunctionTextBox.Size = new System.Drawing.Size(189, 25);
-      this.panelSearchFunctionTextBox.TabIndex = 6;
-      this.panelSearchFunctionTextBox.TextChanged += new System.EventHandler(this.panelSearchFunctionTextBox_TextChanged);
-      this.panelSearchFunctionTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.functionTxtSearch_KeyDown);
+      this.panelFindFunctionTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+      this.panelFindFunctionTextBox.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.panelFindFunctionTextBox.Location = new System.Drawing.Point(10, 6);
+      this.panelFindFunctionTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+      this.panelFindFunctionTextBox.Name = "panelFindFunctionTextBox";
+      this.panelFindFunctionTextBox.Size = new System.Drawing.Size(189, 25);
+      this.panelFindFunctionTextBox.TabIndex = 6;
+      this.panelFindFunctionTextBox.TextChanged += new System.EventHandler(this.panelFindFunctionTextBox_TextChanged);
+      this.panelFindFunctionTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.functionTxtFind_KeyDown);
       // 
       // scintillaFunctionsPanel
       // 
@@ -332,69 +332,69 @@ namespace DSPRE.Editors
       // 
       this.PanelSearchActions.BackColor = System.Drawing.Color.White;
       this.PanelSearchActions.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-      this.PanelSearchActions.Controls.Add(this.BtnNextSearchActions);
-      this.PanelSearchActions.Controls.Add(this.BtnPrevSearchActions);
-      this.PanelSearchActions.Controls.Add(this.BtnCloseSearchActions);
-      this.PanelSearchActions.Controls.Add(this.panelSearchActionTextBox);
+      this.PanelSearchActions.Controls.Add(this.BtnNextFindActions);
+      this.PanelSearchActions.Controls.Add(this.BtnPrevFindActions);
+      this.PanelSearchActions.Controls.Add(this.BtnCloseFindActions);
+      this.PanelSearchActions.Controls.Add(this.panelFindActionTextBox);
       this.PanelSearchActions.Location = new System.Drawing.Point(386, 3);
       this.PanelSearchActions.Name = "PanelSearchActions";
       this.PanelSearchActions.Size = new System.Drawing.Size(292, 40);
       this.PanelSearchActions.TabIndex = 16;
       this.PanelSearchActions.Visible = false;
       // 
-      // BtnNextSearchActions
+      // BtnNextFindActions
       // 
-      this.BtnNextSearchActions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-      this.BtnNextSearchActions.ForeColor = System.Drawing.Color.White;
-      this.BtnNextSearchActions.Image = global::DSPRE.Properties.Resources.arrowdown;
-      this.BtnNextSearchActions.Location = new System.Drawing.Point(233, 4);
-      this.BtnNextSearchActions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-      this.BtnNextSearchActions.Name = "BtnNextSearchActions";
-      this.BtnNextSearchActions.Size = new System.Drawing.Size(25, 30);
-      this.BtnNextSearchActions.TabIndex = 9;
-      this.BtnNextSearchActions.Tag = "Find next (Enter)";
-      this.BtnNextSearchActions.UseVisualStyleBackColor = true;
-      this.BtnNextSearchActions.Click += new System.EventHandler(this.BtnNextSearchActions_Click);
+      this.BtnNextFindActions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+      this.BtnNextFindActions.ForeColor = System.Drawing.Color.White;
+      this.BtnNextFindActions.Image = global::DSPRE.Properties.Resources.arrowdown;
+      this.BtnNextFindActions.Location = new System.Drawing.Point(233, 4);
+      this.BtnNextFindActions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+      this.BtnNextFindActions.Name = "BtnNextFindActions";
+      this.BtnNextFindActions.Size = new System.Drawing.Size(25, 30);
+      this.BtnNextFindActions.TabIndex = 9;
+      this.BtnNextFindActions.Tag = "Find next (Enter)";
+      this.BtnNextFindActions.UseVisualStyleBackColor = true;
+      this.BtnNextFindActions.Click += new System.EventHandler(this.BtnNextFindActions_Click);
       // 
-      // BtnPrevSearchActions
+      // BtnPrevFindActions
       // 
-      this.BtnPrevSearchActions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-      this.BtnPrevSearchActions.ForeColor = System.Drawing.Color.White;
-      this.BtnPrevSearchActions.Image = global::DSPRE.Properties.Resources.arrowup;
-      this.BtnPrevSearchActions.Location = new System.Drawing.Point(205, 4);
-      this.BtnPrevSearchActions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-      this.BtnPrevSearchActions.Name = "BtnPrevSearchActions";
-      this.BtnPrevSearchActions.Size = new System.Drawing.Size(25, 30);
-      this.BtnPrevSearchActions.TabIndex = 8;
-      this.BtnPrevSearchActions.Tag = "Find previous (Shift+Enter)";
-      this.BtnPrevSearchActions.UseVisualStyleBackColor = true;
-      this.BtnPrevSearchActions.Click += new System.EventHandler(this.BtnPrevSearchActions_Click);
+      this.BtnPrevFindActions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+      this.BtnPrevFindActions.ForeColor = System.Drawing.Color.White;
+      this.BtnPrevFindActions.Image = global::DSPRE.Properties.Resources.arrowup;
+      this.BtnPrevFindActions.Location = new System.Drawing.Point(205, 4);
+      this.BtnPrevFindActions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+      this.BtnPrevFindActions.Name = "BtnPrevFindActions";
+      this.BtnPrevFindActions.Size = new System.Drawing.Size(25, 30);
+      this.BtnPrevFindActions.TabIndex = 8;
+      this.BtnPrevFindActions.Tag = "Find previous (Shift+Enter)";
+      this.BtnPrevFindActions.UseVisualStyleBackColor = true;
+      this.BtnPrevFindActions.Click += new System.EventHandler(this.BtnPrevFindActions_Click);
       // 
-      // BtnCloseSearchActions
+      // BtnCloseFindActions
       // 
-      this.BtnCloseSearchActions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-      this.BtnCloseSearchActions.ForeColor = System.Drawing.Color.White;
-      this.BtnCloseSearchActions.Image = global::DSPRE.Properties.Resources.Cross;
-      this.BtnCloseSearchActions.Location = new System.Drawing.Point(261, 4);
-      this.BtnCloseSearchActions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-      this.BtnCloseSearchActions.Name = "BtnCloseSearchActions";
-      this.BtnCloseSearchActions.Size = new System.Drawing.Size(25, 30);
-      this.BtnCloseSearchActions.TabIndex = 7;
-      this.BtnCloseSearchActions.Tag = "Close (Esc)";
-      this.BtnCloseSearchActions.UseVisualStyleBackColor = true;
-      this.BtnCloseSearchActions.Click += new System.EventHandler(this.BtnCloseSearchActions_Click);
+      this.BtnCloseFindActions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+      this.BtnCloseFindActions.ForeColor = System.Drawing.Color.White;
+      this.BtnCloseFindActions.Image = global::DSPRE.Properties.Resources.Cross;
+      this.BtnCloseFindActions.Location = new System.Drawing.Point(261, 4);
+      this.BtnCloseFindActions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+      this.BtnCloseFindActions.Name = "BtnCloseFindActions";
+      this.BtnCloseFindActions.Size = new System.Drawing.Size(25, 30);
+      this.BtnCloseFindActions.TabIndex = 7;
+      this.BtnCloseFindActions.Tag = "Close (Esc)";
+      this.BtnCloseFindActions.UseVisualStyleBackColor = true;
+      this.BtnCloseFindActions.Click += new System.EventHandler(this.BtnCloseFindActions_Click);
       // 
-      // panelSearchActionTextBox
+      // panelFindActionTextBox
       // 
-      this.panelSearchActionTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-      this.panelSearchActionTextBox.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.panelSearchActionTextBox.Location = new System.Drawing.Point(10, 6);
-      this.panelSearchActionTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-      this.panelSearchActionTextBox.Name = "panelSearchActionTextBox";
-      this.panelSearchActionTextBox.Size = new System.Drawing.Size(189, 25);
-      this.panelSearchActionTextBox.TabIndex = 6;
-      this.panelSearchActionTextBox.TextChanged += new System.EventHandler(this.panelSearchActionTextBox_TextChanged);
-      this.panelSearchActionTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.actiontTxtSearch_KeyDown);
+      this.panelFindActionTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+      this.panelFindActionTextBox.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.panelFindActionTextBox.Location = new System.Drawing.Point(10, 6);
+      this.panelFindActionTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+      this.panelFindActionTextBox.Name = "panelFindActionTextBox";
+      this.panelFindActionTextBox.Size = new System.Drawing.Size(189, 25);
+      this.panelFindActionTextBox.TabIndex = 6;
+      this.panelFindActionTextBox.TextChanged += new System.EventHandler(this.panelFindActionTextBox_TextChanged);
+      this.panelFindActionTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.actionTxtFind_KeyDown);
       // 
       // scintillaActionsPanel
       // 
@@ -512,7 +512,7 @@ namespace DSPRE.Editors
       this.searchOnlyCurrentScriptCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
       this.searchOnlyCurrentScriptCheckBox.UseVisualStyleBackColor = true;
       // 
-      // scrollToBlockStartcheckBox1
+      // scrollToBlockStartcheckBox
       // 
       this.scrollToBlockStartcheckBox.AutoSize = true;
       this.scrollToBlockStartcheckBox.Location = new System.Drawing.Point(347, 61);
@@ -539,6 +539,15 @@ namespace DSPRE.Editors
       this.searchInScriptsTextBox.Size = new System.Drawing.Size(255, 20);
       this.searchInScriptsTextBox.TabIndex = 38;
       this.searchInScriptsTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.searchInScriptsTextBox_KeyDown);
+      // 
+      // label31
+      // 
+      this.label31.AutoSize = true;
+      this.label31.Location = new System.Drawing.Point(11, 261);
+      this.label31.Name = "label31";
+      this.label31.Size = new System.Drawing.Size(48, 13);
+      this.label31.TabIndex = 37;
+      this.label31.Text = "Progress";
       // 
       // searchProgressBar
       // 
@@ -675,17 +684,17 @@ namespace DSPRE.Editors
       this.actionsNavListbox.TabIndex = 19;
       this.actionsNavListbox.SelectedIndexChanged += new System.EventHandler(this.actionsNavListbox_SelectedIndexChanged);
       // 
-      // openSearchScriptEditorButton
+      // openFindScriptEditorButton
       // 
-      this.openSearchScriptEditorButton.Image = global::DSPRE.Properties.Resources.SearchMiniIcon;
-      this.openSearchScriptEditorButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-      this.openSearchScriptEditorButton.Location = new System.Drawing.Point(1079, 11);
-      this.openSearchScriptEditorButton.Name = "openSearchScriptEditorButton";
-      this.openSearchScriptEditorButton.Size = new System.Drawing.Size(24, 24);
-      this.openSearchScriptEditorButton.TabIndex = 47;
-      this.openSearchScriptEditorButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-      this.openSearchScriptEditorButton.UseVisualStyleBackColor = true;
-      this.openSearchScriptEditorButton.Click += new System.EventHandler(this.openSearchScriptEditorButton_Click);
+      this.openFindScriptEditorButton.Image = global::DSPRE.Properties.Resources.SearchMiniIcon;
+      this.openFindScriptEditorButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+      this.openFindScriptEditorButton.Location = new System.Drawing.Point(1079, 11);
+      this.openFindScriptEditorButton.Name = "openFindScriptEditorButton";
+      this.openFindScriptEditorButton.Size = new System.Drawing.Size(24, 24);
+      this.openFindScriptEditorButton.TabIndex = 47;
+      this.openFindScriptEditorButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+      this.openFindScriptEditorButton.UseVisualStyleBackColor = true;
+      this.openFindScriptEditorButton.Click += new System.EventHandler(this.openFindScriptEditorButton_Click);
       // 
       // expandScriptTextButton
       // 
@@ -811,15 +820,6 @@ namespace DSPRE.Editors
       this.locateCurrentScriptFile.UseVisualStyleBackColor = true;
       this.locateCurrentScriptFile.Click += new System.EventHandler(this.locateCurrentScriptFile_Click);
       // 
-      // label31
-      // 
-      this.label31.AutoSize = true;
-      this.label31.Location = new System.Drawing.Point(11, 261);
-      this.label31.Name = "label31";
-      this.label31.Size = new System.Drawing.Size(48, 13);
-      this.label31.TabIndex = 37;
-      this.label31.Text = "Progress";
-      // 
       // ScriptEditor
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -837,7 +837,7 @@ namespace DSPRE.Editors
       this.Controls.Add(this.removeScriptFileButton);
       this.Controls.Add(this.expandScriptTextButton);
       this.Controls.Add(this.saveScriptFileButton);
-      this.Controls.Add(this.openSearchScriptEditorButton);
+      this.Controls.Add(this.openFindScriptEditorButton);
       this.Controls.Add(this.exportScriptFileButton);
       this.Controls.Add(this.importScriptFileButton);
       this.Controls.Add(this.groupBox8);
@@ -877,24 +877,24 @@ namespace DSPRE.Editors
     public System.Windows.Forms.TabControl scriptEditorTabControl;
     private System.Windows.Forms.TabPage scriptsTabPage;
     private System.Windows.Forms.Panel PanelSearchScripts;
-    private System.Windows.Forms.Button BtnNextSearchScript;
-    private System.Windows.Forms.Button BtnPrevSearchScript;
-    private System.Windows.Forms.Button BtnCloseSearchScript;
-    private System.Windows.Forms.TextBox panelSearchScriptTextBox;
+    private System.Windows.Forms.Button BtnNextFindScript;
+    private System.Windows.Forms.Button BtnPrevFindScript;
+    private System.Windows.Forms.Button BtnCloseFindScript;
+    private System.Windows.Forms.TextBox panelFindScriptTextBox;
     private System.Windows.Forms.Panel scintillaScriptsPanel;
     private System.Windows.Forms.TabPage functionsTabPage;
     private System.Windows.Forms.Panel PanelSearchFunctions;
-    private System.Windows.Forms.Button BtnNextSearchFunc;
-    private System.Windows.Forms.Button BtnPrevSearchFunc;
-    private System.Windows.Forms.Button BtnCloseSearchFunc;
-    private System.Windows.Forms.TextBox panelSearchFunctionTextBox;
+    private System.Windows.Forms.Button BtnNextFindFunc;
+    private System.Windows.Forms.Button BtnPrevFindFunc;
+    private System.Windows.Forms.Button BtnCloseFindFunc;
+    private System.Windows.Forms.TextBox panelFindFunctionTextBox;
     private System.Windows.Forms.Panel scintillaFunctionsPanel;
     private System.Windows.Forms.TabPage actionsTabPage;
     private System.Windows.Forms.Panel PanelSearchActions;
-    private System.Windows.Forms.Button BtnNextSearchActions;
-    private System.Windows.Forms.Button BtnPrevSearchActions;
-    private System.Windows.Forms.Button BtnCloseSearchActions;
-    private System.Windows.Forms.TextBox panelSearchActionTextBox;
+    private System.Windows.Forms.Button BtnNextFindActions;
+    private System.Windows.Forms.Button BtnPrevFindActions;
+    private System.Windows.Forms.Button BtnCloseFindActions;
+    private System.Windows.Forms.TextBox panelFindActionTextBox;
     private System.Windows.Forms.Panel scintillaActionsPanel;
     private System.Windows.Forms.Button addScriptFileButton;
     private System.Windows.Forms.Button removeScriptFileButton;
@@ -920,7 +920,7 @@ namespace DSPRE.Editors
     private System.Windows.Forms.ListBox functionsNavListbox;
     private System.Windows.Forms.TabPage ActionsNavTab;
     private System.Windows.Forms.ListBox actionsNavListbox;
-    private System.Windows.Forms.Button openSearchScriptEditorButton;
+    private System.Windows.Forms.Button openFindScriptEditorButton;
     private System.Windows.Forms.Button expandScriptTextButton;
     private System.Windows.Forms.Button compressScriptTextButton;
     private System.Windows.Forms.CheckBox scriptEditorWordWrapCheckbox;

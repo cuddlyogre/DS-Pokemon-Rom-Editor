@@ -42,26 +42,28 @@ namespace DSPRE.ROMFiles {
             List<int> functionOffsets = new List<int>();
             List<int> movementOffsets = new List<int>();
 
-            using (BinaryReader scrReader = new BinaryReader(fs)) {
+            using (BinaryReader br = new BinaryReader(fs)) {
                 /* Read script offsets from the header */
                 isLevelScript = true; // Is Level Script as long as magic number FD13 doesn't exist
                 try {
                     while (true) {
-                        uint checker = scrReader.ReadUInt16();
-                        scrReader.BaseStream.Position -= 0x2;
-                        uint value = scrReader.ReadUInt32();
+                        uint checker = br.ReadUInt16();
+                        br.BaseStream.Position -= 0x2;
+                        uint value = br.ReadUInt32();
 
                         if (value == 0 && scriptOffsets.Count == 0) {
                             isLevelScript = true;
                             break;
-                        } else if (checker == 0xFD13) {
-                            scrReader.BaseStream.Position -= 0x4;
+                        } 
+
+                        if (checker == 0xFD13) {
+                            br.BaseStream.Position -= 0x4;
                             isLevelScript = false;
                             break;
-                        } else {
-                            int offsetFromStart = (int)(value + scrReader.BaseStream.Position);  // Don't change order of addition
-                            scriptOffsets.Add(offsetFromStart);
-                        }
+                        } 
+
+                        int offsetFromStart = (int)(value + br.BaseStream.Position);  // Don't change order of addition
+                        scriptOffsets.Add(offsetFromStart);
                     }
                 } catch (EndOfStreamException) {
                     if (!isLevelScript) {
@@ -78,12 +80,12 @@ namespace DSPRE.ROMFiles {
                     int index = scriptOffsets.FindIndex(x => x == scriptOffsets[(int)current]); // Check for UseScript
 
                     if (index == current) {
-                        scrReader.BaseStream.Position = scriptOffsets[(int)current];
+                        br.BaseStream.Position = scriptOffsets[(int)current];
 
                         List<ScriptCommand> cmdList = new List<ScriptCommand>();
                         bool endScript = new bool();
                         while (!endScript) {
-                            ScriptCommand cmd = ReadCommand(scrReader, ref functionOffsets, ref movementOffsets);
+                            ScriptCommand cmd = ReadCommand(br, ref functionOffsets, ref movementOffsets);
                             if (cmd.cmdParams is null) {
                                 return;
                             }
@@ -103,14 +105,14 @@ namespace DSPRE.ROMFiles {
                 /* Read functions */
                 if (readFunctions) {
                     for (uint current = 0; current < functionOffsets.Count; current++) {
-                        scrReader.BaseStream.Position = functionOffsets[(int)current];
+                        br.BaseStream.Position = functionOffsets[(int)current];
                         int posInList = scriptOffsets.IndexOf(functionOffsets[(int)current]); // Check for UseScript
 
                         if (posInList == -1) {
                             List<ScriptCommand> cmdList = new List<ScriptCommand>();
                             bool endFunction = new bool();
                             while (!endFunction) {
-                                ScriptCommand command = ReadCommand(scrReader, ref functionOffsets, ref movementOffsets);
+                                ScriptCommand command = ReadCommand(br, ref functionOffsets, ref movementOffsets);
                                 if (command.cmdParams is null) {
                                     return;
                                 }
@@ -130,17 +132,17 @@ namespace DSPRE.ROMFiles {
                 if (readActions) {
                     /* Read movements */
                     for (uint current = 0; current < movementOffsets.Count; current++) {
-                        scrReader.BaseStream.Position = movementOffsets[(int)current];
+                        br.BaseStream.Position = movementOffsets[(int)current];
 
                         List<ScriptAction> cmdList = new List<ScriptAction>();
                         bool endMovement = new bool();
                         while (!endMovement) {
-                            ushort id = scrReader.ReadUInt16();
+                            ushort id = br.ReadUInt16();
                             if (id == 0xFE) {
                                 endMovement = true;
                                 cmdList.Add(new ScriptAction(id, 0));
                             } else {
-                                cmdList.Add(new ScriptAction(id, scrReader.ReadUInt16()));
+                                cmdList.Add(new ScriptAction(id, br.ReadUInt16()));
                             }
                         }
                         allActions.Add(new ActionContainer(current + 1, commands: cmdList));

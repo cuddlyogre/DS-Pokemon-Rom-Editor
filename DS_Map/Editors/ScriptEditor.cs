@@ -9,6 +9,7 @@ using static DSPRE.RomInfo;
 using ScintillaNET;
 using ScintillaNET.Utils;
 using System.Globalization;
+using System.Windows.Documents;
 using static DSPRE.ROMFiles.Event;
 
 namespace DSPRE.Editors {
@@ -99,17 +100,17 @@ namespace DSPRE.Editors {
 
       // CREATE CONTROLS
       ScriptTextArea = new Scintilla();
-      scriptSearchManager = new SearchManager(Program.MainProgram, ScriptTextArea, panelSearchScriptTextBox, PanelSearchScripts);
+      scriptSearchManager = new SearchManager(Program.MainProgram, ScriptTextArea, panelFindScriptTextBox, PanelSearchScripts);
       scintillaScriptsPanel.Controls.Clear();
       scintillaScriptsPanel.Controls.Add(ScriptTextArea);
 
       FunctionTextArea = new Scintilla();
-      functionSearchManager = new SearchManager(Program.MainProgram, FunctionTextArea, panelSearchFunctionTextBox, PanelSearchFunctions);
+      functionSearchManager = new SearchManager(Program.MainProgram, FunctionTextArea, panelFindFunctionTextBox, PanelSearchFunctions);
       scintillaFunctionsPanel.Controls.Clear();
       scintillaFunctionsPanel.Controls.Add(FunctionTextArea);
 
       ActionTextArea = new Scintilla();
-      actionSearchManager = new SearchManager(Program.MainProgram, ActionTextArea, panelSearchActionTextBox, PanelSearchActions);
+      actionSearchManager = new SearchManager(Program.MainProgram, ActionTextArea, panelFindActionTextBox, PanelSearchActions);
       scintillaActionsPanel.Controls.Clear();
       scintillaActionsPanel.Controls.Add(ActionTextArea);
 
@@ -166,15 +167,10 @@ namespace DSPRE.Editors {
       selectScriptFileComboBox.Items.Clear();
       int scriptCount = Directory.GetFiles(gameDirs[DirNames.scripts].unpackedDir).Length;
       for (int i = 0; i < scriptCount; i++) {
-        ScriptFile currentScriptFile = new ScriptFile(i, true, true);
-        selectScriptFileComboBox.Items.Add(currentScriptFile);
+        // ScriptFile currentScriptFile = new ScriptFile(i, true, true);
+        // selectScriptFileComboBox.Items.Add(currentScriptFile);
+        selectScriptFileComboBox.Items.Add($"Script File {i}");
       }
-    }
-
-    private void OnTextChangedAction(object sender, EventArgs e) {
-      ActionTextArea.Margins[NUMBER_MARGIN].Width = ActionTextArea.Lines.Count.ToString().Length * 13;
-      actionsDirty = true;
-      actionsTabPage.Text = ScriptFile.ContainerTypes.Action.ToString() + "s" + "*";
     }
 
     private void InitialViewConfig(Scintilla textArea) {
@@ -347,20 +343,16 @@ namespace DSPRE.Editors {
       scriptsTabPage.Text = ScriptFile.ContainerTypes.Script.ToString() + "s" + "*";
     }
 
-    private void MarginClick(Scintilla textArea, MarginClickEventArgs e) {
-      if (e.Margin == BOOKMARK_MARGIN) {
-        // Do we have a marker for this line?
-        const uint mask = (1 << BOOKMARK_MARKER);
-        Line line = textArea.Lines[textArea.LineFromPosition(e.Position)];
-        if ((line.MarkerGet()&mask) > 0) {
-          // Remove existing bookmark
-          line.MarkerDelete(BOOKMARK_MARKER);
-        }
-        else {
-          // Add bookmark
-          line.MarkerAdd(BOOKMARK_MARKER);
-        }
-      }
+    private void OnTextChangedFunction(object sender, EventArgs e) {
+      FunctionTextArea.Margins[NUMBER_MARGIN].Width = FunctionTextArea.Lines.Count.ToString().Length * 13;
+      functionsDirty = true;
+      functionsTabPage.Text = ScriptFile.ContainerTypes.Function.ToString() + "s" + "*";
+    }
+
+    private void OnTextChangedAction(object sender, EventArgs e) {
+      ActionTextArea.Margins[NUMBER_MARGIN].Width = ActionTextArea.Lines.Count.ToString().Length * 13;
+      actionsDirty = true;
+      actionsTabPage.Text = ScriptFile.ContainerTypes.Action.ToString() + "s" + "*";
     }
 
     private void ScriptTextArea_MarginClick(object sender, MarginClickEventArgs e) {
@@ -375,10 +367,20 @@ namespace DSPRE.Editors {
       MarginClick(ActionTextArea, e);
     }
 
-    private void OnTextChangedFunction(object sender, EventArgs e) {
-      FunctionTextArea.Margins[NUMBER_MARGIN].Width = FunctionTextArea.Lines.Count.ToString().Length * 13;
-      functionsDirty = true;
-      functionsTabPage.Text = ScriptFile.ContainerTypes.Function.ToString() + "s" + "*";
+    private void MarginClick(Scintilla textArea, MarginClickEventArgs e) {
+      if (e.Margin == BOOKMARK_MARGIN) {
+        // Do we have a marker for this line?
+        const uint mask = (1 << BOOKMARK_MARKER);
+        Line line = textArea.Lines[textArea.LineFromPosition(e.Position)];
+        if ((line.MarkerGet()&mask) > 0) {
+          // Remove existing bookmark
+          line.MarkerDelete(BOOKMARK_MARKER);
+        }
+        else {
+          // Add bookmark
+          line.MarkerAdd(BOOKMARK_MARKER);
+        }
+      }
     }
 
     private void selectScriptFileComboBox_SelectedIndexChanged(object sender, EventArgs e) {
@@ -405,7 +407,7 @@ namespace DSPRE.Editors {
       Helpers.EnableHandlers();
     }
 
-    private void UpdateScriptNumberFormat(RadioButton radioButton, NumberStyles numberStyle) {
+    private void UpdateScriptNumberFormat(NumberStyles numberStyle) {
       if (Helpers.HandlersEnabled) {
         NumberStyles old = (NumberStyles)Properties.Settings.Default.scriptEditorFormatPreference; //Local Backup
         Properties.Settings.Default.scriptEditorFormatPreference = (int)numberStyle;
@@ -417,15 +419,15 @@ namespace DSPRE.Editors {
     }
 
     private void UpdateScriptNumberFormatNoPref(object sender, EventArgs e) {
-      UpdateScriptNumberFormat(scriptEditorNumberFormatNoPreference, NumberStyles.None);
+      UpdateScriptNumberFormat(NumberStyles.None);
     }
 
     private void UpdateScriptNumberFormatDec(object sender, EventArgs e) {
-      UpdateScriptNumberFormat(scriptEditorNumberFormatDecimal, NumberStyles.Integer);
+      UpdateScriptNumberFormat(NumberStyles.Integer);
     }
 
     private void UpdateScriptNumberFormatHex(object sender, EventArgs e) {
-      UpdateScriptNumberFormat(scriptEditorNumberFormatHex, NumberStyles.HexNumber);
+      UpdateScriptNumberFormat(NumberStyles.HexNumber);
     }
 
     private bool DisplayScript() {
@@ -441,7 +443,8 @@ namespace DSPRE.Editors {
 
         if (!d.Equals(DialogResult.Yes)) {
           Helpers.DisableHandlers();
-          selectScriptFileComboBox.SelectedItem = currentScriptFile;
+          // selectScriptFileComboBox.SelectedItem = currentScriptFile;
+          selectScriptFileComboBox.SelectedIndex = (int)currentScriptFile.fileID;
           Helpers.EnableHandlers();
           return false;
         }
@@ -449,7 +452,8 @@ namespace DSPRE.Editors {
 
       Helpers.DisableHandlers();
 
-      currentScriptFile = (ScriptFile)selectScriptFileComboBox.SelectedItem;
+      // currentScriptFile = (ScriptFile)selectScriptFileComboBox.SelectedItem;
+      currentScriptFile = new ScriptFile(selectScriptFileComboBox.SelectedIndex); // Load script file
 
       ScriptTextArea.ClearAll();
       FunctionTextArea.ClearAll();
@@ -656,10 +660,179 @@ namespace DSPRE.Editors {
       MessageBox.Show("Scripts imported successfully!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
 
+    private void clearCurrentLevelScriptButton_Click(object sender, EventArgs e) {
+      string path = Path.Combine(gameDirs[DirNames.scripts].unpackedDir, selectScriptFileComboBox.SelectedIndex.ToString("D4"));
+      File.WriteAllBytes(path, new byte[4]);
+      MessageBox.Show("Level script correctly cleared.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+    }
+
+    private void locateCurrentScriptFile_Click(object sender, EventArgs e) {
+      string path = Path.Combine(gameDirs[DirNames.scripts].unpackedDir, selectScriptFileComboBox.SelectedIndex.ToString("D4"));
+      Helpers.ExplorerSelect(path);
+    }
+
+    private void findNext(SearchManager searchManager) {
+      searchManager.Find(true, false);
+      scrollResultToTop(searchManager);
+    }
+
+    private void findPrev(SearchManager searchManager) {
+      searchManager.Find(false, false);
+      scrollResultToTop(searchManager);
+    }
+
+    private void findCurrent(SearchManager searchManager) {
+      searchManager.Find(true, true);
+      scrollResultToTop(searchManager);
+    }
+
+    private void TxtFindKeyDown(SearchManager searchManager, KeyEventArgs e) {
+      if (HotKeyManager.IsHotkey(e, Keys.Enter)) {
+        findNext(searchManager);
+      }
+
+      if (HotKeyManager.IsHotkey(e, Keys.Enter, true) || HotKeyManager.IsHotkey(e, Keys.Enter, false, true)) {
+        findPrev(searchManager);
+      }
+    }
+
+    private void BtnNextFindScript_Click(object sender, EventArgs e) {
+      findNext(scriptSearchManager);
+    }
+
+    private void BtnPrevFindScript_Click(object sender, EventArgs e) {
+      findPrev(scriptSearchManager);
+    }
+
+    private void panelFindScriptTextBox_TextChanged(object sender, EventArgs e) {
+      findCurrent(scriptSearchManager);
+    }
+
+    private void scriptTxtFind_KeyDown(object sender, KeyEventArgs e) {
+      TxtFindKeyDown(scriptSearchManager, e);
+    }
+
+    private void BtnCloseFindScript_Click(object sender, EventArgs e) {
+      scriptSearchManager.CloseSearch();
+    }
+
+    private void BtnNextFindFunc_Click(object sender, EventArgs e) {
+      findNext(functionSearchManager);
+    }
+
+    private void BtnPrevFindFunc_Click(object sender, EventArgs e) {
+      findNext(functionSearchManager);
+    }
+
+    private void panelFindFunctionTextBox_TextChanged(object sender, EventArgs e) {
+      findNext(functionSearchManager);
+    }
+
+    private void functionTxtFind_KeyDown(object sender, KeyEventArgs e) {
+      TxtFindKeyDown(functionSearchManager, e);
+    }
+
+    private void BtnCloseFindFunc_Click(object sender, EventArgs e) {
+      functionSearchManager.CloseSearch();
+    }
+
+    private void BtnNextFindActions_Click(object sender, EventArgs e) {
+      findNext(actionSearchManager);
+    }
+
+    private void BtnPrevFindActions_Click(object sender, EventArgs e) {
+      findNext(actionSearchManager);
+    }
+
+    private void panelFindActionTextBox_TextChanged(object sender, EventArgs e) {
+      findNext(actionSearchManager);
+    }
+
+    private void actionTxtFind_KeyDown(object sender, KeyEventArgs e) {
+      TxtFindKeyDown(actionSearchManager, e);
+    }
+
+    private void BtnCloseFindActions_Click(object sender, EventArgs e) {
+      actionSearchManager.CloseSearch();
+    }
+
+    void scrollResultToTop(SearchManager searchManager) {
+      int resultStart = searchManager.textAreaScintilla.CurrentLine - ScriptEditorSearchResult.ResultsPadding;
+      searchManager.textAreaScintilla.FirstVisibleLine = resultStart;
+    }
+
+    private void NavigatorGoTo(ListBox listBox, TabPage tabPage, SearchManager searchManager, ScriptFile.ContainerTypes containerType) {
+      if (listBox.SelectedIndex < 0) {
+        return;
+      }
+
+      scriptEditorTabControl.SelectedTab = tabPage;
+      int commandNumber = listBox.SelectedIndex + 1;
+      string CommandBlockOpen = $"{containerType} {commandNumber}:";
+      searchManager.Find(true, false, CommandBlockOpen);
+
+      scrollResultToTop(searchManager);
+    }
+
+    private void scriptsNavListbox_SelectedIndexChanged(object sender, EventArgs e) {
+      NavigatorGoTo((ListBox)sender, scriptsTabPage, scriptSearchManager, ScriptFile.ContainerTypes.Script);
+    }
+
+    private void functionsNavListbox_SelectedIndexChanged(object sender, EventArgs e) {
+      NavigatorGoTo((ListBox)sender, functionsTabPage, functionSearchManager, ScriptFile.ContainerTypes.Function);
+    }
+
+    private void actionsNavListbox_SelectedIndexChanged(object sender, EventArgs e) {
+      NavigatorGoTo((ListBox)sender, actionsTabPage, actionSearchManager, ScriptFile.ContainerTypes.Action);
+    }
+
+    private void openFindScriptEditorButton_Click(object sender, EventArgs e) {
+      currentSearchManager.OpenSearch();
+    }
+
+    private void ScriptEditorExpandButton_Click(object sender, EventArgs e) {
+      currentScintillaEditor.FoldAll(FoldAction.Expand);
+    }
+
+    private void ScriptEditorCollapseButton_Click(object sender, EventArgs e) {
+      currentScintillaEditor.FoldAll(FoldAction.Contract);
+    }
+
+    private void scriptEditorWordWrapCheckbox_CheckedChanged(object sender, EventArgs e) {
+      ScriptTextArea.WrapMode = scriptEditorWordWrapCheckbox.Checked ? WrapMode.Word : WrapMode.None;
+      FunctionTextArea.WrapMode = scriptEditorWordWrapCheckbox.Checked ? WrapMode.Word : WrapMode.None;
+      ActionTextArea.WrapMode = scriptEditorWordWrapCheckbox.Checked ? WrapMode.Word : WrapMode.None;
+    }
+
+    private void viewWhiteSpacesButton_Click(object sender, EventArgs e) {
+      ScriptTextArea.ViewWhitespace = scriptEditorWhitespacesCheckbox.Checked ? WhitespaceMode.VisibleAlways : WhitespaceMode.Invisible;
+      FunctionTextArea.ViewWhitespace = scriptEditorWhitespacesCheckbox.Checked ? WhitespaceMode.VisibleAlways : WhitespaceMode.Invisible;
+      ActionTextArea.ViewWhitespace = scriptEditorWhitespacesCheckbox.Checked ? WhitespaceMode.VisibleAlways : WhitespaceMode.Invisible;
+    }
+
     private void searchInScriptsTextBox_KeyDown(object sender, KeyEventArgs e) {
       if (e.KeyCode == Keys.Enter) {
         searchInScriptsButton_Click(null, null);
       }
+    }
+
+    public List<ScriptFile> getScriptsToSearch() {
+      List<ScriptFile> scriptsToSearch = new List<ScriptFile>();
+
+      if (searchOnlyCurrentScriptCheckBox.Checked) {
+        ScriptFile scriptFile = new ScriptFile(selectScriptFileComboBox.SelectedIndex);
+        Console.WriteLine("Attempting to load script " + scriptFile.fileID);
+        scriptsToSearch.Add(scriptFile);
+      }
+      else {
+        for (int i = 0; i < selectScriptFileComboBox.Items.Count; i++) {
+          ScriptFile scriptFile = new ScriptFile(i);
+          Console.WriteLine("Attempting to load script " + scriptFile.fileID);
+          scriptsToSearch.Add(scriptFile);
+        }
+      }
+
+      return scriptsToSearch;
     }
 
     private void searchInScriptsButton_Click(object sender, EventArgs e) {
@@ -667,10 +840,12 @@ namespace DSPRE.Editors {
         return;
       }
 
-      ComboBox.ObjectCollection scriptsToSearch = selectScriptFileComboBox.Items;
-      if (searchOnlyCurrentScriptCheckBox.Checked) {
-        scriptsToSearch = new ComboBox.ObjectCollection(new ComboBox()) { currentScriptFile };
-      }
+      // ComboBox.ObjectCollection scriptsToSearch = selectScriptFileComboBox.Items;
+      // if (searchOnlyCurrentScriptCheckBox.Checked) {
+      //   scriptsToSearch = new ComboBox.ObjectCollection(new ComboBox()) { currentScriptFile };
+      // }
+
+      List<ScriptFile> scriptsToSearch = getScriptsToSearch();
 
       searchInScriptsResultListBox.Items.Clear();
       string searchString = searchInScriptsTextBox.Text;
@@ -684,8 +859,6 @@ namespace DSPRE.Editors {
 
       List<ScriptEditorSearchResult> results = new List<ScriptEditorSearchResult>();
       foreach (ScriptFile scriptFile in scriptsToSearch) {
-        Console.WriteLine("Attempting to load script " + scriptFile.fileID);
-
         List<ScriptEditorSearchResult> scriptResults = SearchInScripts(scriptFile, scriptFile.allScripts, searchCriteria);
         List<ScriptEditorSearchResult> functionResults = SearchInScripts(scriptFile, scriptFile.allFunctions, searchCriteria);
         // List<string> actionResults = SearchInScripts(scriptFile, scriptFile.allActions, searchCriteria);
@@ -717,91 +890,6 @@ namespace DSPRE.Editors {
       }
 
       return results;
-    }
-
-    private void searchNext(SearchManager searchManager) {
-      searchManager.Find(true, false);
-      scrollResultToTop(searchManager);
-    }
-
-    private void searchPrev(SearchManager searchManager) {
-      searchManager.Find(false, false);
-      scrollResultToTop(searchManager);
-    }
-
-    private void searchCurrent(SearchManager searchManager) {
-      searchManager.Find(true, true);
-      scrollResultToTop(searchManager);
-    }
-
-    private void TxtSearchKeyDown(SearchManager searchManager, KeyEventArgs e) {
-      if (HotKeyManager.IsHotkey(e, Keys.Enter)) {
-        searchNext(searchManager);
-      }
-
-      if (HotKeyManager.IsHotkey(e, Keys.Enter, true) || HotKeyManager.IsHotkey(e, Keys.Enter, false, true)) {
-        searchPrev(searchManager);
-      }
-    }
-
-    private void BtnNextSearchScript_Click(object sender, EventArgs e) {
-      searchNext(scriptSearchManager);
-    }
-
-    private void BtnPrevSearchScript_Click(object sender, EventArgs e) {
-      searchPrev(scriptSearchManager);
-    }
-
-    private void panelSearchScriptTextBox_TextChanged(object sender, EventArgs e) {
-      searchCurrent(scriptSearchManager);
-    }
-
-    private void scriptTxtSearch_KeyDown(object sender, KeyEventArgs e) {
-      TxtSearchKeyDown(scriptSearchManager, e);
-    }
-
-    private void BtnCloseSearchScript_Click(object sender, EventArgs e) {
-      scriptSearchManager.CloseSearch();
-    }
-
-    private void BtnNextSearchFunc_Click(object sender, EventArgs e) {
-      searchNext(functionSearchManager);
-    }
-
-    private void BtnPrevSearchFunc_Click(object sender, EventArgs e) {
-      searchNext(functionSearchManager);
-    }
-
-    private void panelSearchFunctionTextBox_TextChanged(object sender, EventArgs e) {
-      searchNext(functionSearchManager);
-    }
-
-    private void functionTxtSearch_KeyDown(object sender, KeyEventArgs e) {
-      TxtSearchKeyDown(functionSearchManager, e);
-    }
-
-    private void BtnCloseSearchFunc_Click(object sender, EventArgs e) {
-      functionSearchManager.CloseSearch();
-    }
-
-    private void BtnNextSearchActions_Click(object sender, EventArgs e) {
-      searchNext(actionSearchManager);
-    }
-
-    private void BtnPrevSearchActions_Click(object sender, EventArgs e) {
-      searchNext(actionSearchManager);
-    }
-
-    private void panelSearchActionTextBox_TextChanged(object sender, EventArgs e) {
-      searchNext(actionSearchManager);
-    }
-
-    private void actiontTxtSearch_KeyDown(object sender, KeyEventArgs e) {
-      TxtSearchKeyDown(actionSearchManager, e);
-    }
-
-    private void BtnCloseSearchActions_Click(object sender, EventArgs e) {
-      actionSearchManager.CloseSearch();
     }
 
     private void searchInScriptsResultListBox_KeyDown(object sender, KeyEventArgs e) {
@@ -851,71 +939,6 @@ namespace DSPRE.Editors {
       else {
         searchManager.textAreaScintilla.FirstVisibleLine = resultStart;
       }
-    }
-
-    void scrollResultToTop(SearchManager searchManager) {
-      int resultStart = searchManager.textAreaScintilla.CurrentLine - ScriptEditorSearchResult.ResultsPadding;
-      searchManager.textAreaScintilla.FirstVisibleLine = resultStart;
-    }
-
-    private void NavigatorGoTo(ListBox listBox, TabPage tabPage, SearchManager searchManager, ScriptFile.ContainerTypes containerType) {
-      if (listBox.SelectedIndex < 0) {
-        return;
-      }
-
-      scriptEditorTabControl.SelectedTab = tabPage;
-      int commandNumber = listBox.SelectedIndex + 1;
-      string CommandBlockOpen = $"{containerType} {commandNumber}:";
-      searchManager.Find(true, false, CommandBlockOpen);
-
-      scrollResultToTop(searchManager);
-    }
-
-    private void scriptsNavListbox_SelectedIndexChanged(object sender, EventArgs e) {
-      NavigatorGoTo((ListBox)sender, scriptsTabPage, scriptSearchManager, ScriptFile.ContainerTypes.Script);
-    }
-
-    private void functionsNavListbox_SelectedIndexChanged(object sender, EventArgs e) {
-      NavigatorGoTo((ListBox)sender, functionsTabPage, functionSearchManager, ScriptFile.ContainerTypes.Function);
-    }
-
-    private void actionsNavListbox_SelectedIndexChanged(object sender, EventArgs e) {
-      NavigatorGoTo((ListBox)sender, actionsTabPage, actionSearchManager, ScriptFile.ContainerTypes.Action);
-    }
-
-    private void openSearchScriptEditorButton_Click(object sender, EventArgs e) {
-      currentSearchManager.OpenSearch();
-    }
-
-    private void ScriptEditorExpandButton_Click(object sender, EventArgs e) {
-      currentScintillaEditor.FoldAll(FoldAction.Expand);
-    }
-
-    private void ScriptEditorCollapseButton_Click(object sender, EventArgs e) {
-      currentScintillaEditor.FoldAll(FoldAction.Contract);
-    }
-
-    private void scriptEditorWordWrapCheckbox_CheckedChanged(object sender, EventArgs e) {
-      ScriptTextArea.WrapMode = scriptEditorWordWrapCheckbox.Checked ? WrapMode.Word : WrapMode.None;
-      FunctionTextArea.WrapMode = scriptEditorWordWrapCheckbox.Checked ? WrapMode.Word : WrapMode.None;
-      ActionTextArea.WrapMode = scriptEditorWordWrapCheckbox.Checked ? WrapMode.Word : WrapMode.None;
-    }
-
-    private void viewWhiteSpacesButton_Click(object sender, EventArgs e) {
-      ScriptTextArea.ViewWhitespace = scriptEditorWhitespacesCheckbox.Checked ? WhitespaceMode.VisibleAlways : WhitespaceMode.Invisible;
-      FunctionTextArea.ViewWhitespace = scriptEditorWhitespacesCheckbox.Checked ? WhitespaceMode.VisibleAlways : WhitespaceMode.Invisible;
-      ActionTextArea.ViewWhitespace = scriptEditorWhitespacesCheckbox.Checked ? WhitespaceMode.VisibleAlways : WhitespaceMode.Invisible;
-    }
-
-    private void clearCurrentLevelScriptButton_Click(object sender, EventArgs e) {
-      string path = Path.Combine(gameDirs[DirNames.scripts].unpackedDir, selectScriptFileComboBox.SelectedIndex.ToString("D4"));
-      File.WriteAllBytes(path, new byte[4]);
-      MessageBox.Show("Level script correctly cleared.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-    }
-
-    private void locateCurrentScriptFile_Click(object sender, EventArgs e) {
-      string path = Path.Combine(gameDirs[DirNames.scripts].unpackedDir, selectScriptFileComboBox.SelectedIndex.ToString("D4"));
-      Helpers.ExplorerSelect(path);
     }
   }
 
