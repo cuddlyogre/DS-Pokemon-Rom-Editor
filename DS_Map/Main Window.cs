@@ -641,6 +641,7 @@ namespace DSPRE {
                 nsbtxEditor.SetupNSBTXEditor();
                 eventEditor.SetupEventEditor();
                 scriptEditor.SetupScriptEditor();
+                levelScriptEditor.SetUpLevelScriptEditor();
                 textEditor.SetupTextEditor();
                 trainerEditor.SetupTrainerEditor();
 
@@ -709,6 +710,11 @@ namespace DSPRE {
                 if (!scriptEditor.scriptEditorIsReady) {
                     scriptEditor.SetupScriptEditor();
                     scriptEditor.scriptEditorIsReady = true;
+                }
+            } else if (mainTabControl.SelectedTab == levelScriptEditorTabPage) {
+                if (!levelScriptEditor.levelScriptEditorIsReady) {
+                  levelScriptEditor.SetUpLevelScriptEditor();
+                  levelScriptEditor.levelScriptEditorIsReady = true;
                 }
             } else if (mainTabControl.SelectedTab == textEditorTabPage) {
                 if (!textEditor.textEditorIsReady) {

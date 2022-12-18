@@ -15,6 +15,7 @@ namespace DSPRE {
     public static HeaderEditor headerEditor { get { return MainProgram.headerEditor; } }
     public static EventEditor eventEditor { get { return MainProgram.eventEditor; } }
     public static ScriptEditor scriptEditor { get { return MainProgram.scriptEditor; } }
+    public static LevelScriptEditor levelScriptEditor { get { return MainProgram.levelScriptEditor; } }
     public static TextEditor textEditor { get { return MainProgram.textEditor; } }
     public static CameraEditor cameraEditor { get { return MainProgram.cameraEditor; } }
     public static TrainerEditor trainerEditor { get { return MainProgram.trainerEditor; } }
@@ -26,6 +27,7 @@ namespace DSPRE {
     public static TabPage nsbtxEditorTabPage { get { return MainProgram.nsbtxEditorTabPage; } }
     public static TabPage eventEditorTabPage { get { return MainProgram.eventEditorTabPage; } }
     public static TabPage scriptEditorTabPage { get { return MainProgram.scriptEditorTabPage; } }
+    public static TabPage levelScriptEditorTabPage { get { return MainProgram.levelScriptEditorTabPage; } }
     public static TabPage textEditorTabPage { get { return MainProgram.textEditorTabPage; } }
     public static TabPage cameraEditorTabPage { get { return MainProgram.cameraEditorTabPage; } }
     public static TabPage trainerEditorTabPage { get { return MainProgram.trainerEditorTabPage; } }

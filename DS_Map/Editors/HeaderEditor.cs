@@ -552,16 +552,6 @@ namespace DSPRE.Editors {
       currentHeader.levelScriptID = (ushort)levelScriptUpDown.Value;
     }
 
-    private void openLevelScriptButton_Click(object sender, EventArgs e) {
-      if (!EditorPanels.scriptEditor.scriptEditorIsReady) {
-        EditorPanels.scriptEditor.SetupScriptEditor();
-        EditorPanels.scriptEditor.scriptEditorIsReady = true;
-      }
-
-      EditorPanels.scriptEditor.selectScriptFileComboBox.SelectedIndex = (int)levelScriptUpDown.Value;
-      EditorPanels.mainTabControl.SelectedTab = EditorPanels.scriptEditorTabPage;
-    }
-
     private void openScriptButton_Click(object sender, EventArgs e) {
       if (!EditorPanels.scriptEditor.scriptEditorIsReady) {
         EditorPanels.scriptEditor.SetupScriptEditor();
@@ -571,6 +561,16 @@ namespace DSPRE.Editors {
       EditorPanels.scriptEditor.scriptEditorTabControl.SelectedIndex = 0;
       EditorPanels.scriptEditor.selectScriptFileComboBox.SelectedIndex = (int)scriptFileUpDown.Value;
       EditorPanels.mainTabControl.SelectedTab = EditorPanels.scriptEditorTabPage;
+    }
+
+    private void openLevelScriptButton_Click(object sender, EventArgs e) {
+      if (!EditorPanels.levelScriptEditor.levelScriptEditorIsReady) {
+        EditorPanels.levelScriptEditor.SetUpLevelScriptEditor();
+        EditorPanels.levelScriptEditor.levelScriptEditorIsReady = true;
+      }
+
+      EditorPanels.levelScriptEditor.selectScriptFileComboBox.SelectedIndex = (int)levelScriptUpDown.Value;
+      EditorPanels.mainTabControl.SelectedTab = EditorPanels.levelScriptEditorTabPage;
     }
 
     private void scriptFileUpDown_ValueChanged(object sender, EventArgs e) {

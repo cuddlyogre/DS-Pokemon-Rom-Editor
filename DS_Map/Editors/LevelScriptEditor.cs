@@ -2,47 +2,44 @@
 using System.IO;
 using System.Windows.Forms;
 using DSPRE.ROMFiles;
+using static DSPRE.RomInfo;
 
-namespace DSPRE {
+namespace DSPRE.Editors {
   public partial class LevelScriptEditor : UserControl {
+    public bool levelScriptEditorIsReady { get; set; } = false;
     LevelScriptFile _levelScriptFile;
 
     public LevelScriptEditor() {
       InitializeComponent();
     }
 
-    private void buttonLoad_Click(object sender, System.EventArgs e) {
+    public void SetUpLevelScriptEditor() {
+      populate_selectScriptFileComboBox();
+    }
+
+    private void populate_selectScriptFileComboBox() {
+      selectScriptFileComboBox.Items.Clear();
+      int scriptCount = Directory.GetFiles(gameDirs[RomInfo.DirNames.scripts].unpackedDir).Length;
+      for (int i = 0; i < scriptCount; i++) {
+        // ScriptFile currentScriptFile = new ScriptFile(i, true, true);
+        // selectScriptFileComboBox.Items.Add(currentScriptFile);
+        selectScriptFileComboBox.Items.Add($"Script File {i}");
+      }
+    }
+
+    private void selectScriptFileComboBox_SelectedIndexChanged(object sender, EventArgs e) {
+      if (selectScriptFileComboBox.SelectedIndex == -1) return;
+      listBoxTriggers.DataSource = null;
+      radioButtonVariableValue.Checked = false;
+      radioButtonMapChange.Checked = false;
+      radioButtonScreenReset.Checked = false;
+      radioButtonLoadGame.Checked = false;
       try {
-        openFileDialog1.InitialDirectory = Path.GetDirectoryName(openFileDialog1.FileName);
-        openFileDialog1.FileName = Path.GetFileName(openFileDialog1.FileName);
+        _levelScriptFile = new LevelScriptFile(selectScriptFileComboBox.SelectedIndex);
+        listBoxTriggers.DataSource = _levelScriptFile.bufferSet;
       }
       catch (Exception ex) {
-        openFileDialog1.InitialDirectory = Path.GetDirectoryName(Environment.SpecialFolder.UserProfile.ToString());
-        openFileDialog1.FileName = Path.GetFileName(openFileDialog1.FileName);
-      }
-
-      if (openFileDialog1.ShowDialog() == DialogResult.OK) {
-        textBoxPath.Text = openFileDialog1.FileName;
-
-        //path = @"unpacked\scripts\0000"; //not a level script
-        //path = @"unpacked\scripts\0266"; //valid
-        //path = @"unpacked\scripts\0267"; //does nothing
-        //path = @"unpacked\scripts\0472"; //valid
-        //path = @"unpacked\scripts\0474"; //valid
-        //path = @"unpacked\scripts\0505"; //valid
-        string path = "";
-        path = openFileDialog1.FileName;
-
-        _levelScriptFile = new LevelScriptFile();
-        try {
-          _levelScriptFile.parse_file(path);
-          listBoxTriggers.DataSource = _levelScriptFile.bufferSet;
-          // listBoxTriggers.DisplayMember = "QWER";
-          // listBoxTriggers.ValueMember = "this";
-        }
-        catch (Exception ex) {
-          MessageBox.Show(ex.Message, ex.GetType().ToString());
-        }
+        Console.WriteLine(ex.Message);
       }
     }
 
@@ -66,20 +63,15 @@ namespace DSPRE {
         }
 
         if (saveFileDialog1.ShowDialog() == DialogResult.OK) {
-          saveFile();
+          saveFile(saveFileDialog1.FileName);
         }
       }
       else {
-        saveFile();
+        saveFile(saveFileDialog1.FileName);
       }
     }
 
-    void saveFile() {
-      textBoxPath.Text = saveFileDialog1.FileName;
-
-      string path = "";
-      path = saveFileDialog1.FileName;
-
+    void saveFile(string path) {
       try {
         long bytes_written = _levelScriptFile.write_file(path);
         if (bytes_written <= 4) {

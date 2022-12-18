@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace DSPRE {
+namespace DSPRE.Editors {
   partial class LevelScriptEditor {
     /// <summary> 
     /// Required designer variable.
@@ -26,10 +26,7 @@ namespace DSPRE {
     /// the contents of this method with the code editor.
     /// </summary>
     private void InitializeComponent() {
-      this.buttonLoad = new System.Windows.Forms.Button();
       this.buttonSave = new System.Windows.Forms.Button();
-      this.listBoxTriggers = new DSPRE.ListBox2();
-      this.textBoxPath = new System.Windows.Forms.TextBox();
       this.buttonSaveAs = new System.Windows.Forms.Button();
       this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
       this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
@@ -50,25 +47,17 @@ namespace DSPRE {
       this.radioButtonDecimal = new System.Windows.Forms.RadioButton();
       this.radioButtonHex = new System.Windows.Forms.RadioButton();
       this.radioButtonAuto = new System.Windows.Forms.RadioButton();
+      this.selectScriptFileComboBox = new System.Windows.Forms.ComboBox();
+      this.listBoxTriggers = new DSPRE.ListBox2();
       this.groupBox1.SuspendLayout();
       this.groupBox2.SuspendLayout();
       this.groupBoxVariable.SuspendLayout();
       this.groupBoxValue.SuspendLayout();
       this.SuspendLayout();
       // 
-      // buttonLoad
-      // 
-      this.buttonLoad.Location = new System.Drawing.Point(3, 3);
-      this.buttonLoad.Name = "buttonLoad";
-      this.buttonLoad.Size = new System.Drawing.Size(75, 23);
-      this.buttonLoad.TabIndex = 0;
-      this.buttonLoad.Text = "Load";
-      this.buttonLoad.UseVisualStyleBackColor = true;
-      this.buttonLoad.Click += new System.EventHandler(this.buttonLoad_Click);
-      // 
       // buttonSave
       // 
-      this.buttonSave.Location = new System.Drawing.Point(97, 3);
+      this.buttonSave.Location = new System.Drawing.Point(244, 3);
       this.buttonSave.Name = "buttonSave";
       this.buttonSave.Size = new System.Drawing.Size(75, 23);
       this.buttonSave.TabIndex = 3;
@@ -76,26 +65,9 @@ namespace DSPRE {
       this.buttonSave.UseVisualStyleBackColor = true;
       this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
       // 
-      // listBoxTriggers
-      // 
-      this.listBoxTriggers.FormattingEnabled = true;
-      this.listBoxTriggers.Location = new System.Drawing.Point(3, 81);
-      this.listBoxTriggers.Name = "listBoxTriggers";
-      this.listBoxTriggers.Size = new System.Drawing.Size(397, 134);
-      this.listBoxTriggers.TabIndex = 4;
-      this.listBoxTriggers.SelectedIndexChanged += new System.EventHandler(this.listBoxTriggers_SelectedIndexChanged);
-      // 
-      // textBoxPath
-      // 
-      this.textBoxPath.Location = new System.Drawing.Point(3, 32);
-      this.textBoxPath.Name = "textBoxPath";
-      this.textBoxPath.ReadOnly = true;
-      this.textBoxPath.Size = new System.Drawing.Size(397, 20);
-      this.textBoxPath.TabIndex = 7;
-      // 
       // buttonSaveAs
       // 
-      this.buttonSaveAs.Location = new System.Drawing.Point(178, 3);
+      this.buttonSaveAs.Location = new System.Drawing.Point(325, 3);
       this.buttonSaveAs.Name = "buttonSaveAs";
       this.buttonSaveAs.Size = new System.Drawing.Size(75, 23);
       this.buttonSaveAs.TabIndex = 3;
@@ -173,7 +145,7 @@ namespace DSPRE {
       this.groupBox1.Controls.Add(this.radioButtonMapChange);
       this.groupBox1.Controls.Add(this.radioButtonScreenReset);
       this.groupBox1.Controls.Add(this.radioButtonLoadGame);
-      this.groupBox1.Location = new System.Drawing.Point(3, 221);
+      this.groupBox1.Location = new System.Drawing.Point(3, 193);
       this.groupBox1.Name = "groupBox1";
       this.groupBox1.Size = new System.Drawing.Size(397, 48);
       this.groupBox1.TabIndex = 11;
@@ -183,7 +155,7 @@ namespace DSPRE {
       // groupBox2
       // 
       this.groupBox2.Controls.Add(this.textBoxScriptID);
-      this.groupBox2.Location = new System.Drawing.Point(3, 275);
+      this.groupBox2.Location = new System.Drawing.Point(3, 247);
       this.groupBox2.Name = "groupBox2";
       this.groupBox2.Size = new System.Drawing.Size(128, 48);
       this.groupBox2.TabIndex = 12;
@@ -193,7 +165,7 @@ namespace DSPRE {
       // groupBoxVariable
       // 
       this.groupBoxVariable.Controls.Add(this.textBoxVariableName);
-      this.groupBoxVariable.Location = new System.Drawing.Point(137, 275);
+      this.groupBoxVariable.Location = new System.Drawing.Point(137, 247);
       this.groupBoxVariable.Name = "groupBoxVariable";
       this.groupBoxVariable.Size = new System.Drawing.Size(128, 48);
       this.groupBoxVariable.TabIndex = 13;
@@ -203,7 +175,7 @@ namespace DSPRE {
       // groupBoxValue
       // 
       this.groupBoxValue.Controls.Add(this.textBoxVariableValue);
-      this.groupBoxValue.Location = new System.Drawing.Point(271, 275);
+      this.groupBoxValue.Location = new System.Drawing.Point(271, 247);
       this.groupBoxValue.Name = "groupBoxValue";
       this.groupBoxValue.Size = new System.Drawing.Size(129, 48);
       this.groupBoxValue.TabIndex = 13;
@@ -220,7 +192,7 @@ namespace DSPRE {
       // checkBox1
       // 
       this.checkBox1.AutoSize = true;
-      this.checkBox1.Location = new System.Drawing.Point(259, 7);
+      this.checkBox1.Location = new System.Drawing.Point(259, 30);
       this.checkBox1.Name = "checkBox1";
       this.checkBox1.Size = new System.Drawing.Size(141, 17);
       this.checkBox1.TabIndex = 14;
@@ -229,7 +201,7 @@ namespace DSPRE {
       // 
       // buttonAdd
       // 
-      this.buttonAdd.Location = new System.Drawing.Point(244, 329);
+      this.buttonAdd.Location = new System.Drawing.Point(244, 301);
       this.buttonAdd.Name = "buttonAdd";
       this.buttonAdd.Size = new System.Drawing.Size(75, 23);
       this.buttonAdd.TabIndex = 15;
@@ -240,7 +212,7 @@ namespace DSPRE {
       // buttonRemove
       // 
       this.buttonRemove.Enabled = false;
-      this.buttonRemove.Location = new System.Drawing.Point(325, 329);
+      this.buttonRemove.Location = new System.Drawing.Point(325, 301);
       this.buttonRemove.Name = "buttonRemove";
       this.buttonRemove.Size = new System.Drawing.Size(75, 23);
       this.buttonRemove.TabIndex = 15;
@@ -251,7 +223,7 @@ namespace DSPRE {
       // radioButtonDecimal
       // 
       this.radioButtonDecimal.AutoSize = true;
-      this.radioButtonDecimal.Location = new System.Drawing.Point(106, 58);
+      this.radioButtonDecimal.Location = new System.Drawing.Point(106, 30);
       this.radioButtonDecimal.Name = "radioButtonDecimal";
       this.radioButtonDecimal.Size = new System.Drawing.Size(63, 17);
       this.radioButtonDecimal.TabIndex = 8;
@@ -262,7 +234,7 @@ namespace DSPRE {
       // radioButtonHex
       // 
       this.radioButtonHex.AutoSize = true;
-      this.radioButtonHex.Location = new System.Drawing.Point(56, 58);
+      this.radioButtonHex.Location = new System.Drawing.Point(56, 30);
       this.radioButtonHex.Name = "radioButtonHex";
       this.radioButtonHex.Size = new System.Drawing.Size(44, 17);
       this.radioButtonHex.TabIndex = 8;
@@ -274,7 +246,7 @@ namespace DSPRE {
       // 
       this.radioButtonAuto.AutoSize = true;
       this.radioButtonAuto.Checked = true;
-      this.radioButtonAuto.Location = new System.Drawing.Point(3, 58);
+      this.radioButtonAuto.Location = new System.Drawing.Point(3, 30);
       this.radioButtonAuto.Name = "radioButtonAuto";
       this.radioButtonAuto.Size = new System.Drawing.Size(47, 17);
       this.radioButtonAuto.TabIndex = 8;
@@ -283,11 +255,31 @@ namespace DSPRE {
       this.radioButtonAuto.UseVisualStyleBackColor = true;
       this.radioButtonAuto.CheckedChanged += new System.EventHandler(this.radioButtonAuto_CheckedChanged);
       // 
+      // selectScriptFileComboBox
+      // 
+      this.selectScriptFileComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+      this.selectScriptFileComboBox.FormattingEnabled = true;
+      this.selectScriptFileComboBox.Location = new System.Drawing.Point(3, 3);
+      this.selectScriptFileComboBox.Name = "selectScriptFileComboBox";
+      this.selectScriptFileComboBox.Size = new System.Drawing.Size(152, 21);
+      this.selectScriptFileComboBox.TabIndex = 16;
+      this.selectScriptFileComboBox.SelectedIndexChanged += new System.EventHandler(this.selectScriptFileComboBox_SelectedIndexChanged);
+      // 
+      // listBoxTriggers
+      // 
+      this.listBoxTriggers.FormattingEnabled = true;
+      this.listBoxTriggers.Location = new System.Drawing.Point(3, 53);
+      this.listBoxTriggers.Name = "listBoxTriggers";
+      this.listBoxTriggers.Size = new System.Drawing.Size(397, 134);
+      this.listBoxTriggers.TabIndex = 4;
+      this.listBoxTriggers.SelectedIndexChanged += new System.EventHandler(this.listBoxTriggers_SelectedIndexChanged);
+      // 
       // LevelScriptEditor
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.BackColor = System.Drawing.SystemColors.Control;
+      this.Controls.Add(this.selectScriptFileComboBox);
       this.Controls.Add(this.radioButtonAuto);
       this.Controls.Add(this.radioButtonHex);
       this.Controls.Add(this.buttonRemove);
@@ -298,14 +290,12 @@ namespace DSPRE {
       this.Controls.Add(this.groupBoxVariable);
       this.Controls.Add(this.groupBox2);
       this.Controls.Add(this.groupBox1);
-      this.Controls.Add(this.textBoxPath);
-      this.Controls.Add(this.buttonLoad);
       this.Controls.Add(this.buttonSaveAs);
       this.Controls.Add(this.buttonSave);
       this.Controls.Add(this.listBoxTriggers);
       this.Location = new System.Drawing.Point(15, 15);
       this.Name = "LevelScriptEditor";
-      this.Size = new System.Drawing.Size(407, 359);
+      this.Size = new System.Drawing.Size(406, 331);
       this.groupBox1.ResumeLayout(false);
       this.groupBox1.PerformLayout();
       this.groupBox2.ResumeLayout(false);
@@ -318,12 +308,11 @@ namespace DSPRE {
       this.PerformLayout();
     }
 
-    #endregion
+    public System.Windows.Forms.ComboBox selectScriptFileComboBox;
 
-        private System.Windows.Forms.Button buttonLoad;
+    #endregion
         private System.Windows.Forms.Button buttonSave;
         private DSPRE.ListBox2 listBoxTriggers;
-        private System.Windows.Forms.TextBox textBoxPath;
         private System.Windows.Forms.Button buttonSaveAs;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;

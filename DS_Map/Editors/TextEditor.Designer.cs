@@ -1,5 +1,5 @@
 ﻿
-namespace DSPRE
+namespace DSPRE.Editors
 {
   partial class TextEditor
   {

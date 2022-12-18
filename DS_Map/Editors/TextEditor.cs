@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using DSPRE.ROMFiles;
 using static DSPRE.RomInfo;
 
-namespace DSPRE {
+namespace DSPRE.Editors {
   public partial class TextEditor : UserControl {
     public bool textEditorIsReady { get; set; } = false;
     public TextArchive currentTextArchive;
