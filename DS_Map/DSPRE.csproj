@@ -180,6 +180,7 @@
     <Compile Include="EventFileImport.designer.cs">
       <DependentUpon>EventFileImport.cs</DependentUpon>
     </Compile>
+    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="GameCamera.cs" />
     <Compile Include="Helpers.cs" />

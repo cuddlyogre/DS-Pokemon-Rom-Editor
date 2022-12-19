@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -820,15 +821,28 @@ namespace DSPRE.Editors {
       List<ScriptFile> scriptsToSearch = new List<ScriptFile>();
 
       if (searchOnlyCurrentScriptCheckBox.Checked) {
-        ScriptFile scriptFile = new ScriptFile(selectScriptFileComboBox.SelectedIndex);
+        this.UIThread(() => {
+          searchProgressBar.Maximum = 1;
+        });
+        int i = selectScriptFileComboBox.SelectedIndex;
+        ScriptFile scriptFile = new ScriptFile(i);
         Console.WriteLine("Attempting to load script " + scriptFile.fileID);
         scriptsToSearch.Add(scriptFile);
+        this.UIThread(() => {
+          searchProgressBar.IncrementNoAnimation();
+        });
       }
       else {
+        this.UIThread(() => {
+          searchProgressBar.Maximum = selectScriptFileComboBox.Items.Count;
+        });
         for (int i = 0; i < selectScriptFileComboBox.Items.Count; i++) {
           ScriptFile scriptFile = new ScriptFile(i);
           Console.WriteLine("Attempting to load script " + scriptFile.fileID);
           scriptsToSearch.Add(scriptFile);
+          this.UIThread(() => {
+            searchProgressBar.IncrementNoAnimation();
+          });
         }
       }
 
@@ -840,37 +854,37 @@ namespace DSPRE.Editors {
         return;
       }
 
-      // ComboBox.ObjectCollection scriptsToSearch = selectScriptFileComboBox.Items;
-      // if (searchOnlyCurrentScriptCheckBox.Checked) {
-      //   scriptsToSearch = new ComboBox.ObjectCollection(new ComboBox()) { currentScriptFile };
-      // }
+      BackgroundWorker bw = new BackgroundWorker();
+      bw.DoWork += (_sender, args) => {
+        this.UIThread(() => {
+          searchInScriptsResultListBox.Items.Clear();
+          searchProgressBar.Value = 0;
+        });
 
-      List<ScriptFile> scriptsToSearch = getScriptsToSearch();
+        List<ScriptFile> scriptsToSearch = getScriptsToSearch();
 
-      searchInScriptsResultListBox.Items.Clear();
-      string searchString = searchInScriptsTextBox.Text;
+        string searchString = searchInScriptsTextBox.Text;
+        Func<string, bool> searchCriteriaCS = (string s) => s.IndexOf(searchString, StringComparison.InvariantCulture) >= 0;
+        Func<string, bool> searchCriteriaCI = (string s) => s.IndexOf(searchString, StringComparison.InvariantCultureIgnoreCase) >= 0;
+        Func<string, bool> searchCriteria = scriptSearchCaseSensitiveCheckBox.Checked ? searchCriteriaCS : searchCriteriaCI;
 
-      searchProgressBar.Maximum = selectScriptFileComboBox.Items.Count;
-      searchProgressBar.Value = 0;
+        List<ScriptEditorSearchResult> results = new List<ScriptEditorSearchResult>();
+        foreach (ScriptFile scriptFile in scriptsToSearch) {
+          List<ScriptEditorSearchResult> scriptResults = SearchInScripts(scriptFile, scriptFile.allScripts, searchCriteria);
+          List<ScriptEditorSearchResult> functionResults = SearchInScripts(scriptFile, scriptFile.allFunctions, searchCriteria);
+          // List<ScriptEditorSearchResult> actionResults = SearchInScripts(scriptFile, scriptFile.allActions, searchCriteria);
+          results.AddRange(scriptResults);
+          results.AddRange(functionResults);
+          // results.AddRange(actionResults);
+        }
 
-      Func<string, bool> searchCriteriaCS = (string s) => s.IndexOf(searchString, StringComparison.InvariantCulture) >= 0;
-      Func<string, bool> searchCriteriaCI = (string s) => s.IndexOf(searchString, StringComparison.InvariantCultureIgnoreCase) >= 0;
-      Func<string, bool> searchCriteria = scriptSearchCaseSensitiveCheckBox.Checked ? searchCriteriaCS : searchCriteriaCI;
+        this.UIThread(() => {
+          searchInScriptsResultListBox.Items.AddRange(results.ToArray());
+          searchProgressBar.Value = 0;
+        });
+      };
 
-      List<ScriptEditorSearchResult> results = new List<ScriptEditorSearchResult>();
-      foreach (ScriptFile scriptFile in scriptsToSearch) {
-        List<ScriptEditorSearchResult> scriptResults = SearchInScripts(scriptFile, scriptFile.allScripts, searchCriteria);
-        List<ScriptEditorSearchResult> functionResults = SearchInScripts(scriptFile, scriptFile.allFunctions, searchCriteria);
-        // List<string> actionResults = SearchInScripts(scriptFile, scriptFile.allActions, searchCriteria);
-        results.AddRange(scriptResults);
-        results.AddRange(functionResults);
-        // results.AddRange(actionResults);
-
-        searchProgressBar.Value = scriptFile.fileID;
-      }
-
-      searchProgressBar.Value = 0;
-      searchInScriptsResultListBox.Items.AddRange(results.ToArray());
+      bw.RunWorkerAsync();
     }
 
     private List<ScriptEditorSearchResult> SearchInScripts(ScriptFile scriptFile, List<CommandContainer> commandContainers, Func<string, bool> criteria) {
