@@ -1636,7 +1636,7 @@ namespace DSPRE.Editors
     private System.Windows.Forms.Label levelScriptLabel;
     private System.Windows.Forms.Button openScriptButton;
     private System.Windows.Forms.Label scriptLabel;
-    private System.Windows.Forms.NumericUpDown scriptFileUpDown;
+    public System.Windows.Forms.NumericUpDown scriptFileUpDown;
     private System.Windows.Forms.GroupBox groupBox2;
     private System.Windows.Forms.NumericUpDown cameraUpDown;
     private System.Windows.Forms.NumericUpDown weatherUpDown;

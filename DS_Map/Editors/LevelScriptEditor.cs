@@ -92,6 +92,7 @@ namespace DSPRE.Editors {
       textBoxVariableValue.Clear();
 
       if (listBoxTriggers.SelectedItem == null) {
+        buttonOpenScript.Enabled = false;
         buttonRemove.Enabled = false;
         return;
       }
@@ -117,6 +118,7 @@ namespace DSPRE.Editors {
       handleHexFormat();
       handleDecimalFormat();
 
+      buttonOpenScript.Enabled = true;
       buttonRemove.Enabled = true;
     }
 
@@ -240,6 +242,17 @@ namespace DSPRE.Editors {
 
     private void buttonRemove_Click(object sender, EventArgs e) {
       _levelScriptFile.bufferSet.RemoveAt(listBoxTriggers.SelectedIndex);
+    }
+
+    private void buttonOpenScript_Click(object sender, EventArgs e) {
+      if (!EditorPanels.scriptEditor.scriptEditorIsReady) {
+        EditorPanels.scriptEditor.SetupScriptEditor();
+        EditorPanels.scriptEditor.scriptEditorIsReady = true;
+      }
+
+      EditorPanels.scriptEditor.scriptEditorTabControl.SelectedIndex = 0;
+      EditorPanels.scriptEditor.selectScriptFileComboBox.SelectedIndex = (int)EditorPanels.headerEditor.scriptFileUpDown.Value; //((LevelScriptTrigger)listBoxTriggers.SelectedItem).scriptTriggered;
+      EditorPanels.mainTabControl.SelectedTab = EditorPanels.scriptEditorTabPage;
     }
   }
 }

@@ -49,6 +49,7 @@ namespace DSPRE.Editors {
       this.radioButtonAuto = new System.Windows.Forms.RadioButton();
       this.selectScriptFileComboBox = new System.Windows.Forms.ComboBox();
       this.listBoxTriggers = new DSPRE.ListBox2();
+      this.buttonOpenScript = new System.Windows.Forms.Button();
       this.groupBox1.SuspendLayout();
       this.groupBox2.SuspendLayout();
       this.groupBoxVariable.SuspendLayout();
@@ -274,11 +275,22 @@ namespace DSPRE.Editors {
       this.listBoxTriggers.TabIndex = 4;
       this.listBoxTriggers.SelectedIndexChanged += new System.EventHandler(this.listBoxTriggers_SelectedIndexChanged);
       // 
+      // buttonOpenScript
+      // 
+      this.buttonOpenScript.Location = new System.Drawing.Point(9, 300);
+      this.buttonOpenScript.Name = "buttonOpenScript";
+      this.buttonOpenScript.Size = new System.Drawing.Size(75, 23);
+      this.buttonOpenScript.TabIndex = 17;
+      this.buttonOpenScript.Text = "Open Script";
+      this.buttonOpenScript.UseVisualStyleBackColor = true;
+      this.buttonOpenScript.Click += new System.EventHandler(this.buttonOpenScript_Click);
+      // 
       // LevelScriptEditor
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.BackColor = System.Drawing.SystemColors.Control;
+      this.Controls.Add(this.buttonOpenScript);
       this.Controls.Add(this.selectScriptFileComboBox);
       this.Controls.Add(this.radioButtonAuto);
       this.Controls.Add(this.radioButtonHex);
@@ -306,6 +318,7 @@ namespace DSPRE.Editors {
       this.groupBoxValue.PerformLayout();
       this.ResumeLayout(false);
       this.PerformLayout();
+
     }
 
     public System.Windows.Forms.ComboBox selectScriptFileComboBox;
@@ -333,6 +346,7 @@ namespace DSPRE.Editors {
     private System.Windows.Forms.RadioButton radioButtonDecimal;
     private System.Windows.Forms.RadioButton radioButtonHex;
     private System.Windows.Forms.RadioButton radioButtonAuto;
+    private System.Windows.Forms.Button buttonOpenScript;
   }
 }
 
