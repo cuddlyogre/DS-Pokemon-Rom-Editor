@@ -101,17 +101,17 @@ namespace DSPRE.Editors {
 
       // CREATE CONTROLS
       ScriptTextArea = new Scintilla();
-      scriptSearchManager = new SearchManager(Program.MainProgram, ScriptTextArea, panelFindScriptTextBox, PanelSearchScripts);
+      scriptSearchManager = new SearchManager(EditorPanels.MainProgram, ScriptTextArea, panelFindScriptTextBox, PanelSearchScripts);
       scintillaScriptsPanel.Controls.Clear();
       scintillaScriptsPanel.Controls.Add(ScriptTextArea);
 
       FunctionTextArea = new Scintilla();
-      functionSearchManager = new SearchManager(Program.MainProgram, FunctionTextArea, panelFindFunctionTextBox, PanelSearchFunctions);
+      functionSearchManager = new SearchManager(EditorPanels.MainProgram, FunctionTextArea, panelFindFunctionTextBox, PanelSearchFunctions);
       scintillaFunctionsPanel.Controls.Clear();
       scintillaFunctionsPanel.Controls.Add(FunctionTextArea);
 
       ActionTextArea = new Scintilla();
-      actionSearchManager = new SearchManager(Program.MainProgram, ActionTextArea, panelFindActionTextBox, PanelSearchActions);
+      actionSearchManager = new SearchManager(EditorPanels.MainProgram, ActionTextArea, panelFindActionTextBox, PanelSearchActions);
       scintillaActionsPanel.Controls.Clear();
       scintillaActionsPanel.Controls.Add(ActionTextArea);
 

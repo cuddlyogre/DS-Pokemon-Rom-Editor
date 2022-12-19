@@ -3,7 +3,7 @@ using DSPRE.Editors;
 
 namespace DSPRE {
   public static class EditorPanels {
-    static MainProgram MainProgram;
+    public static MainProgram MainProgram;
 
     public static void Initialize(MainProgram mainProgram) {
       MainProgram = mainProgram;
