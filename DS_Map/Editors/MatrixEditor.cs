@@ -184,17 +184,17 @@ namespace DSPRE.Editors {
 
       for (int i = 0; i < currentMatrix.width; i++) {
         headersGridView.Columns.Add("Column" + i, i.ToString("D"));
-        headersGridView.Columns[i].Width = 32; // Set column size
+        headersGridView.Columns[i].Width = MapFile.mapSize; // Set column size
         headersGridView.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
         headersGridView.Columns[i].Frozen = false;
 
         heightsGridView.Columns.Add("Column" + i, i.ToString("D"));
-        heightsGridView.Columns[i].Width = 21; // Set column size
+        heightsGridView.Columns[i].Width = MapFile.mapSize; // Set column size
         heightsGridView.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
         heightsGridView.Columns[i].Frozen = false;
 
         mapFilesGridView.Columns.Add("Column" + i, i.ToString("D"));
-        mapFilesGridView.Columns[i].Width = 32; // Set column size
+        mapFilesGridView.Columns[i].Width = MapFile.mapSize; // Set column size
         mapFilesGridView.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
         mapFilesGridView.Columns[i].Frozen = false;
       }
@@ -202,12 +202,15 @@ namespace DSPRE.Editors {
       /* Generate table rows */
       for (int i = 0; i < currentMatrix.height; i++) {
         mapFilesGridView.Rows.Add();
+        mapFilesGridView.Rows[i].Height = MapFile.mapSize;
         mapFilesGridView.Rows[i].HeaderCell.Value = i.ToString();
 
         headersGridView.Rows.Add();
+        headersGridView.Rows[i].Height = MapFile.mapSize;
         headersGridView.Rows[i].HeaderCell.Value = i.ToString();
 
         heightsGridView.Rows.Add();
+        heightsGridView.Rows[i].Height = MapFile.mapSize;
         heightsGridView.Rows[i].HeaderCell.Value = i.ToString();
       }
 

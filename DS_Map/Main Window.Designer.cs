@@ -45,9 +45,9 @@ namespace DSPRE
             this.scriptEditorTabPage = new System.Windows.Forms.TabPage();
             this.scriptEditor = new DSPRE.Editors.ScriptEditor();
             this.levelScriptEditorTabPage = new System.Windows.Forms.TabPage();
-            this.levelScriptEditor = new LevelScriptEditor();
+            this.levelScriptEditor = new DSPRE.Editors.LevelScriptEditor();
             this.textEditorTabPage = new System.Windows.Forms.TabPage();
-            this.textEditor = new TextEditor();
+            this.textEditor = new DSPRE.Editors.TextEditor();
             this.cameraEditorTabPage = new System.Windows.Forms.TabPage();
             this.cameraEditor = new DSPRE.Editors.CameraEditor();
             this.trainerEditorTabPage = new System.Windows.Forms.TabPage();
@@ -160,7 +160,7 @@ namespace DSPRE
             this.mainTabControl.Location = new System.Drawing.Point(11, 72);
             this.mainTabControl.Name = "mainTabControl";
             this.mainTabControl.SelectedIndex = 0;
-            this.mainTabControl.Size = new System.Drawing.Size(1193, 646);
+            this.mainTabControl.Size = new System.Drawing.Size(1193, 660);
             this.mainTabControl.TabIndex = 5;
             this.mainTabControl.Visible = false;
             this.mainTabControl.SelectedIndexChanged += new System.EventHandler(this.mainTabControl_SelectedIndexChanged);
@@ -192,16 +192,17 @@ namespace DSPRE
             this.matrixEditorTabPage.Location = new System.Drawing.Point(4, 23);
             this.matrixEditorTabPage.Name = "matrixEditorTabPage";
             this.matrixEditorTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.matrixEditorTabPage.Size = new System.Drawing.Size(1185, 619);
+            this.matrixEditorTabPage.Size = new System.Drawing.Size(1185, 633);
             this.matrixEditorTabPage.TabIndex = 1;
             this.matrixEditorTabPage.Text = "Matrix Editor";
             // 
             // matrixEditor
             // 
+            this.matrixEditor.BackColor = System.Drawing.SystemColors.Window;
             this.matrixEditor.Location = new System.Drawing.Point(6, 9);
             this.matrixEditor.matrixEditorIsReady = false;
             this.matrixEditor.Name = "matrixEditor";
-            this.matrixEditor.Size = new System.Drawing.Size(1174, 607);
+            this.matrixEditor.Size = new System.Drawing.Size(1174, 618);
             this.matrixEditor.TabIndex = 0;
             // 
             // mapEditorTabPage
@@ -682,7 +683,7 @@ namespace DSPRE
             // 
             this.statusStrip1.BackColor = System.Drawing.SystemColors.Control;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.statusLabel, this.toolStripProgressBar });
-            this.statusStrip1.Location = new System.Drawing.Point(0, 721);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 732);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1214, 22);
             this.statusStrip1.TabIndex = 13;
@@ -1023,7 +1024,7 @@ namespace DSPRE
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1214, 743);
+            this.ClientSize = new System.Drawing.Size(1214, 754);
             this.Controls.Add(this.versionLabel);
             this.Controls.Add(this.languageLabel);
             this.Controls.Add(this.gameIcon);
@@ -1153,7 +1154,7 @@ namespace DSPRE
     public Editors.TableEditor tableEditor;
     public Editors.CameraEditor cameraEditor;
     public Editors.NSBTXEditor nsbtxEditor;
-    public Editors.MatrixEditor matrixEditor;
+    public DSPRE.Editors.MatrixEditor matrixEditor;
     public DSPRE.Editors.HeaderEditor headerEditor;
     public System.Windows.Forms.TabPage levelScriptEditorTabPage;
     public LevelScriptEditor levelScriptEditor;

@@ -23,12 +23,11 @@ namespace DSPRE.Editors
 
     #region Component Designer generated code
 
-    /// <summary> 
-    /// Required method for Designer support - do not modify 
+    /// <summary>
+    /// Required method for Designer support - do not modify
     /// the contents of this method with the code editor.
     /// </summary>
-    private void InitializeComponent()
-    {
+    private void InitializeComponent() {
       this.components = new System.ComponentModel.Container();
       System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
       System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -121,47 +120,23 @@ namespace DSPRE.Editors
       // widthUpDown
       // 
       this.widthUpDown.Location = new System.Drawing.Point(35, 90);
-      this.widthUpDown.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-      this.widthUpDown.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+      this.widthUpDown.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
+      this.widthUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
       this.widthUpDown.Name = "widthUpDown";
       this.widthUpDown.Size = new System.Drawing.Size(37, 20);
       this.widthUpDown.TabIndex = 15;
-      this.widthUpDown.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+      this.widthUpDown.Value = new decimal(new int[] { 1, 0, 0, 0 });
       this.widthUpDown.ValueChanged += new System.EventHandler(this.widthUpDown_ValueChanged);
       // 
       // heightUpDown
       // 
       this.heightUpDown.Location = new System.Drawing.Point(78, 90);
-      this.heightUpDown.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-      this.heightUpDown.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+      this.heightUpDown.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
+      this.heightUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
       this.heightUpDown.Name = "heightUpDown";
       this.heightUpDown.Size = new System.Drawing.Size(37, 20);
       this.heightUpDown.TabIndex = 16;
-      this.heightUpDown.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+      this.heightUpDown.Value = new decimal(new int[] { 1, 0, 0, 0 });
       this.heightUpDown.ValueChanged += new System.EventHandler(this.heightUpDown_ValueChanged);
       // 
       // matrixNameTextBox
@@ -182,7 +157,7 @@ namespace DSPRE.Editors
       this.matrixTabControl.Multiline = true;
       this.matrixTabControl.Name = "matrixTabControl";
       this.matrixTabControl.SelectedIndex = 0;
-      this.matrixTabControl.Size = new System.Drawing.Size(1040, 602);
+      this.matrixTabControl.Size = new System.Drawing.Size(1040, 610);
       this.matrixTabControl.TabIndex = 18;
       // 
       // headersTabPage
@@ -191,7 +166,7 @@ namespace DSPRE.Editors
       this.headersTabPage.Location = new System.Drawing.Point(4, 22);
       this.headersTabPage.Name = "headersTabPage";
       this.headersTabPage.Padding = new System.Windows.Forms.Padding(3);
-      this.headersTabPage.Size = new System.Drawing.Size(1032, 576);
+      this.headersTabPage.Size = new System.Drawing.Size(1032, 584);
       this.headersTabPage.TabIndex = 1;
       this.headersTabPage.Text = "Map Headers";
       this.headersTabPage.UseVisualStyleBackColor = true;
@@ -242,7 +217,7 @@ namespace DSPRE.Editors
       this.headersGridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
       this.headersGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
       this.headersGridView.ShowCellErrors = false;
-      this.headersGridView.Size = new System.Drawing.Size(1032, 576);
+      this.headersGridView.Size = new System.Drawing.Size(1032, 584);
       this.headersGridView.TabIndex = 1;
       this.headersGridView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.headersGridView_CellFormatting);
       this.headersGridView.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.headersGridView_CellMouseDoubleClick);
@@ -254,7 +229,7 @@ namespace DSPRE.Editors
       this.heightsTabPage.Controls.Add(this.heightsGridView);
       this.heightsTabPage.Location = new System.Drawing.Point(4, 22);
       this.heightsTabPage.Name = "heightsTabPage";
-      this.heightsTabPage.Size = new System.Drawing.Size(1032, 576);
+      this.heightsTabPage.Size = new System.Drawing.Size(1032, 584);
       this.heightsTabPage.TabIndex = 2;
       this.heightsTabPage.Text = "Map Heights";
       this.heightsTabPage.UseVisualStyleBackColor = true;
@@ -306,7 +281,7 @@ namespace DSPRE.Editors
       this.heightsGridView.RowTemplate.Height = 18;
       this.heightsGridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
       this.heightsGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-      this.heightsGridView.Size = new System.Drawing.Size(1032, 576);
+      this.heightsGridView.Size = new System.Drawing.Size(1032, 584);
       this.heightsGridView.TabIndex = 2;
       this.heightsGridView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.heightsGridView_CellFormatting);
       this.heightsGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.heightsGridView_CellValueChanged);
@@ -317,7 +292,7 @@ namespace DSPRE.Editors
       this.mapFilesTabPage.Controls.Add(this.mapFilesGridView);
       this.mapFilesTabPage.Location = new System.Drawing.Point(4, 22);
       this.mapFilesTabPage.Name = "mapFilesTabPage";
-      this.mapFilesTabPage.Size = new System.Drawing.Size(1032, 576);
+      this.mapFilesTabPage.Size = new System.Drawing.Size(1032, 584);
       this.mapFilesTabPage.TabIndex = 3;
       this.mapFilesTabPage.Text = "Map Files";
       this.mapFilesTabPage.UseVisualStyleBackColor = true;
@@ -369,7 +344,7 @@ namespace DSPRE.Editors
       this.mapFilesGridView.RowTemplate.Height = 18;
       this.mapFilesGridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
       this.mapFilesGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-      this.mapFilesGridView.Size = new System.Drawing.Size(1032, 576);
+      this.mapFilesGridView.Size = new System.Drawing.Size(1032, 584);
       this.mapFilesGridView.TabIndex = 2;
       this.mapFilesGridView.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.mapFilesGridView_CellMouseDoubleClick);
       this.mapFilesGridView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.mapFilesGridView_CellFormatting);
@@ -556,6 +531,7 @@ namespace DSPRE.Editors
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+      this.BackColor = System.Drawing.SystemColors.Window;
       this.Controls.Add(this.locateCurrentMatrixFile);
       this.Controls.Add(this.matrixTabControl);
       this.Controls.Add(this.setSpawnPointButton);
@@ -578,7 +554,7 @@ namespace DSPRE.Editors
       this.Controls.Add(this.addHeadersButton);
       this.Controls.Add(this.addHeightsButton);
       this.Name = "MatrixEditor";
-      this.Size = new System.Drawing.Size(1174, 607);
+      this.Size = new System.Drawing.Size(1174, 615);
       ((System.ComponentModel.ISupportInitialize)(this.widthUpDown)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.heightUpDown)).EndInit();
       this.matrixTabControl.ResumeLayout(false);
@@ -590,7 +566,6 @@ namespace DSPRE.Editors
       ((System.ComponentModel.ISupportInitialize)(this.mapFilesGridView)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
-
     }
 
     #endregion
