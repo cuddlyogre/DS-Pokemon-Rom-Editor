@@ -518,7 +518,7 @@ namespace DSPRE {
             }
 
             /* Setup essential editors */
-            headerEditor.SetupHeaderEditor();
+            headerEditor.SetupHeaderEditor(true);
             eventEditor.eventOpenGlControl.InitializeContexts();
             mapEditor.mapOpenGlControl.InitializeContexts();
 
@@ -635,15 +635,17 @@ namespace DSPRE {
                 Helpers.toolStripProgressBar.Value = 0;
                 Helpers.toolStripProgressBar.Visible = false;
 
-                headerEditor.SetupHeaderEditor();
-                matrixEditor.SetupMatrixEditor();
-                mapEditor.SetupMapEditor();
-                nsbtxEditor.SetupNSBTXEditor();
-                eventEditor.SetupEventEditor();
-                scriptEditor.SetupScriptEditor();
-                levelScriptEditor.SetUpLevelScriptEditor();
-                textEditor.SetupTextEditor();
-                trainerEditor.SetupTrainerEditor();
+                headerEditor.SetupHeaderEditor(true);
+                matrixEditor.SetupMatrixEditor(true);
+                mapEditor.SetupMapEditor(true);
+                nsbtxEditor.SetupNSBTXEditor(true);
+                eventEditor.SetupEventEditor(true);
+                scriptEditor.SetupScriptEditor(true);
+                levelScriptEditor.SetUpLevelScriptEditor(true);
+                textEditor.SetupTextEditor(true);
+                // cameraEditor.SetupCameraEditor(true);
+                trainerEditor.SetupTrainerEditor(true);
+                // tableEditor.SetupTableEditor(true);
 
                 Helpers.statusLabelMessage();
                 Update();
@@ -685,65 +687,65 @@ namespace DSPRE {
 
         private void mainTabControl_SelectedIndexChanged(object sender, EventArgs e) {
             if (mainTabControl.SelectedTab == headerEditorTabPage) {
-                //
-            } else if (mainTabControl.SelectedTab == matrixEditorTabPage) {
-                if (!matrixEditor.matrixEditorIsReady) {
-                    matrixEditor.SetupMatrixEditor();
-                    matrixEditor.matrixEditorIsReady = true;
-                }
-            } else if (mainTabControl.SelectedTab == mapEditorTabPage) {
-                if (!mapEditor.mapEditorIsReady) {
-                    mapEditor.SetupMapEditor();
-                    mapEditor.mapEditorIsReady = true;
-                }
-            } else if (mainTabControl.SelectedTab == nsbtxEditorTabPage) {
-                if (!nsbtxEditor.nsbtxEditorIsReady) {
-                    nsbtxEditor.SetupNSBTXEditor();
-                    nsbtxEditor.nsbtxEditorIsReady = true;
-                }
-            } else if (mainTabControl.SelectedTab == eventEditorTabPage) {
-                if (!eventEditor.eventEditorIsReady) {
-                    eventEditor.SetupEventEditor();
-                    eventEditor.eventEditorIsReady = true;
-                }
-            } else if (mainTabControl.SelectedTab == scriptEditorTabPage) {
-                if (!scriptEditor.scriptEditorIsReady) {
-                    scriptEditor.SetupScriptEditor();
-                    scriptEditor.scriptEditorIsReady = true;
-                }
-            } else if (mainTabControl.SelectedTab == levelScriptEditorTabPage) {
-                if (!levelScriptEditor.levelScriptEditorIsReady) {
-                  levelScriptEditor.SetUpLevelScriptEditor();
-                  levelScriptEditor.levelScriptEditorIsReady = true;
-                }
-            } else if (mainTabControl.SelectedTab == textEditorTabPage) {
-                if (!textEditor.textEditorIsReady) {
-                    textEditor.SetupTextEditor();
-                    textEditor.textEditorIsReady = true;
-                }
-            } else if (mainTabControl.SelectedTab == cameraEditorTabPage) {
-                if (!cameraEditor.cameraEditorIsReady) {
-                    cameraEditor.SetupCameraEditor();
-                    cameraEditor.cameraEditorIsReady = true;
-                }
-            } else if (mainTabControl.SelectedTab == trainerEditorTabPage) {
-                if (!trainerEditor.trainerEditorIsReady) {
-                    trainerEditor.SetupTrainerEditor();
-                    trainerEditor.trainerEditorIsReady = true;
-                }
-            } else if (mainTabControl.SelectedTab == tableEditorTabPage) {
-                if (!tableEditor.tableEditorIsReady) {
-                    headerEditor.resetHeaderSearch();
-                    tableEditor.SetupTableEditor();
-                    tableEditor.tableEditorIsReady = true;
-                }
+                headerEditor.SetupHeaderEditor();
+                return;
+            }
+
+            if (mainTabControl.SelectedTab == matrixEditorTabPage) {
+                matrixEditor.SetupMatrixEditor();
+                return;
+            }
+
+            if (mainTabControl.SelectedTab == mapEditorTabPage) {
+                mapEditor.SetupMapEditor();
+                return;
+            }
+
+            if (mainTabControl.SelectedTab == nsbtxEditorTabPage) {
+                nsbtxEditor.SetupNSBTXEditor();
+                return;
+            }
+
+            if (mainTabControl.SelectedTab == eventEditorTabPage) {
+                eventEditor.SetupEventEditor();
+                return;
+            }
+
+            if (mainTabControl.SelectedTab == scriptEditorTabPage) {
+                scriptEditor.SetupScriptEditor();
+                return;
+            }
+
+            if (mainTabControl.SelectedTab == levelScriptEditorTabPage) {
+                levelScriptEditor.SetUpLevelScriptEditor();
+                return;
+            }
+
+            if (mainTabControl.SelectedTab == textEditorTabPage) {
+                textEditor.SetupTextEditor();
+                return;
+            }
+
+            if (mainTabControl.SelectedTab == cameraEditorTabPage) {
+                cameraEditor.SetupCameraEditor();
+                return;
+            }
+
+            if (mainTabControl.SelectedTab == trainerEditorTabPage) {
+                trainerEditor.SetupTrainerEditor();
+                return;
+            }
+
+            if (mainTabControl.SelectedTab == tableEditorTabPage) {
+                headerEditor.resetHeaderSearch();
+                tableEditor.SetupTableEditor();
+                return;
             }
         }
 
         private void spawnEditorToolStripButton_Click(object sender, EventArgs e) {
-            if (!matrixEditor.matrixEditorIsReady) {
-                matrixEditor.SetupMatrixEditor();
-            }
+            matrixEditor.SetupMatrixEditor();
+
             using (SpawnEditor ed = new SpawnEditor(headerEditor.headerListBoxNames)) {
                 ed.ShowDialog();
             }

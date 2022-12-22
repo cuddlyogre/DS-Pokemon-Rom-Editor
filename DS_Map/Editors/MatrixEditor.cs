@@ -16,7 +16,10 @@ namespace DSPRE.Editors {
       InitializeComponent();
     }
 
-    public void SetupMatrixEditor() {
+    public void SetupMatrixEditor(bool force = false) {
+      if (matrixEditorIsReady && !force) return;
+      matrixEditorIsReady = true;
+
       Helpers.statusLabelMessage("Setting up Matrix Editor...");
       Update();
 
@@ -43,22 +46,19 @@ namespace DSPRE.Editors {
     }
 
     public void OpenMatrixEditor(int matrixID, int headerID) {
-      if (!EditorPanels.matrixEditor.matrixEditorIsReady) {
-        EditorPanels.matrixEditor.SetupMatrixEditor();
-        EditorPanels.matrixEditor.matrixEditorIsReady = true;
-      }
+      SetupMatrixEditor();
 
-      EditorPanels.matrixEditor.selectMatrixComboBox.SelectedIndex = matrixID;
+      selectMatrixComboBox.SelectedIndex = matrixID;
       EditorPanels.mainTabControl.SelectedTab = EditorPanels.matrixEditorTabPage;
 
-      if (EditorPanels.matrixEditor.currentMatrix.hasHeadersSection) {
-        EditorPanels.matrixEditor.matrixTabControl.SelectedTab = EditorPanels.matrixEditor.headersTabPage;
+      if (currentMatrix.hasHeadersSection) {
+        matrixTabControl.SelectedTab = headersTabPage;
 
         //Autoselect cell containing current header, if such cell exists [and if current matrix has headers sections]
-        for (int i = 0; i < EditorPanels.matrixEditor.headersGridView.RowCount; i++) {
-          for (int j = 0; j < EditorPanels.matrixEditor.headersGridView.ColumnCount; j++) {
-            if (headerID.ToString() == EditorPanels.matrixEditor.headersGridView.Rows[i].Cells[j].Value.ToString()) {
-              EditorPanels.matrixEditor.headersGridView.CurrentCell = EditorPanels.matrixEditor.headersGridView.Rows[i].Cells[j];
+        for (int i = 0; i < headersGridView.RowCount; i++) {
+          for (int j = 0; j < headersGridView.ColumnCount; j++) {
+            if (headerID.ToString() == headersGridView.Rows[i].Cells[j].Value.ToString()) {
+              headersGridView.CurrentCell = headersGridView.Rows[i].Cells[j];
               return;
             }
           }

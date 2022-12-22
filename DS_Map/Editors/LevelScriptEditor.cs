@@ -13,17 +13,18 @@ namespace DSPRE.Editors {
       InitializeComponent();
     }
 
-    public void SetUpLevelScriptEditor() {
+    public void SetUpLevelScriptEditor(bool force = false) {
+      if (levelScriptEditorIsReady && !force) return;
+      levelScriptEditorIsReady = true;
+
+      DSUtils.TryUnpackNarcs(new List<DirNames> { DirNames.scripts }); //12 = scripts Narc Dir
       populate_selectScriptFileComboBox();
     }
 
     public void OpenLevelScriptEditor(int levelScriptID) {
-      if (!EditorPanels.levelScriptEditor.levelScriptEditorIsReady) {
-        EditorPanels.levelScriptEditor.SetUpLevelScriptEditor();
-        EditorPanels.levelScriptEditor.levelScriptEditorIsReady = true;
-      }
+      SetUpLevelScriptEditor();
 
-      EditorPanels.levelScriptEditor.selectScriptFileComboBox.SelectedIndex = levelScriptID;
+      selectScriptFileComboBox.SelectedIndex = levelScriptID;
       EditorPanels.mainTabControl.SelectedTab = EditorPanels.levelScriptEditorTabPage;
     }
 

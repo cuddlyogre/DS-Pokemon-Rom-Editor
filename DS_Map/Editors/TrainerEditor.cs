@@ -34,7 +34,10 @@ namespace DSPRE.Editors {
       InitializeComponent();
     }
 
-    public void SetupTrainerEditor() {
+    public void SetupTrainerEditor(bool force = false) {
+      if (trainerEditorIsReady && !force) return;
+      trainerEditorIsReady = true;
+
       Helpers.DisableHandlers();
       SetupTrainerClassEncounterMusicTable();
       /* Extract essential NARCs sub-archives*/

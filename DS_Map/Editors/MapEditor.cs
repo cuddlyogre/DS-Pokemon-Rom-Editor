@@ -46,7 +46,10 @@ namespace DSPRE.Editors {
       InitializeComponent();
     }
 
-    public void SetupMapEditor() {
+    public void SetupMapEditor(bool force = false) {
+      if (mapEditorIsReady && !force) return;
+      mapEditorIsReady = true;
+
       /* Extract essential NARCs sub-archives*/
       Helpers.toolStripProgressBar.Visible = true;
       Helpers.toolStripProgressBar.Maximum = 9;

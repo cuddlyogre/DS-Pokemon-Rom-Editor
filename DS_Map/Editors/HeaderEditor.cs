@@ -12,6 +12,8 @@ using static DSPRE.RomInfo;
 
 namespace DSPRE.Editors {
   public partial class HeaderEditor : UserControl {
+    public bool headerEditorIsReady { get; set; } = false;
+
     public MapHeader currentHeader;
     public List<string> internalNames;
     public List<string> headerListBoxNames;
@@ -46,7 +48,10 @@ namespace DSPRE.Editors {
       InitializeComponent();
     }
 
-    public void SetupHeaderEditor() {
+    public void SetupHeaderEditor(bool force = false) {
+      if (headerEditorIsReady && !force) return;
+      headerEditorIsReady = true;
+
       /* Extract essential NARCs sub-archives*/
 
       Helpers.statusLabelMessage("Attempting to unpack Header Editor NARCs... Please wait.");

@@ -18,7 +18,10 @@ namespace DSPRE.Editors {
       InitializeComponent();
     }
 
-    public void SetupNSBTXEditor() {
+    public void SetupNSBTXEditor(bool force = false) {
+      if (nsbtxEditorIsReady && !force) return;
+      nsbtxEditorIsReady = true;
+
       Helpers.statusLabelMessage("Attempting to unpack Tileset Editor NARCs... Please wait.");
       Update();
 
@@ -77,25 +80,22 @@ namespace DSPRE.Editors {
     }
 
     public void OpenNSBTXEditor(int areaDataID) {
-      if (!EditorPanels.nsbtxEditor.nsbtxEditorIsReady) {
-        EditorPanels.nsbtxEditor.SetupNSBTXEditor();
-        EditorPanels.nsbtxEditor.nsbtxEditorIsReady = true;
-      }
+      SetupNSBTXEditor();
 
-      EditorPanels.nsbtxEditor.selectAreaDataListBox.SelectedIndex = areaDataID;
-      if (EditorPanels.nsbtxEditor.mapTilesetRadioButton.Checked) {
-        EditorPanels.nsbtxEditor.texturePacksListBox.SelectedIndex = (int)EditorPanels.nsbtxEditor.areaDataMapTilesetUpDown.Value;
+      selectAreaDataListBox.SelectedIndex = areaDataID;
+      if (mapTilesetRadioButton.Checked) {
+        texturePacksListBox.SelectedIndex = (int)areaDataMapTilesetUpDown.Value;
       }
       else {
-        EditorPanels.nsbtxEditor.texturePacksListBox.SelectedIndex = (int)EditorPanels.nsbtxEditor.areaDataBuildingTilesetUpDown.Value;
+        texturePacksListBox.SelectedIndex = (int)areaDataBuildingTilesetUpDown.Value;
       }
 
       EditorPanels.mainTabControl.SelectedTab = EditorPanels.nsbtxEditorTabPage;
 
-      if (EditorPanels.nsbtxEditor.texturesListBox.Items.Count > 0)
-        EditorPanels.nsbtxEditor.texturesListBox.SelectedIndex = 0;
-      if (EditorPanels.nsbtxEditor.palettesListBox.Items.Count > 0)
-        EditorPanels.nsbtxEditor.palettesListBox.SelectedIndex = 0;
+      if (texturesListBox.Items.Count > 0)
+        texturesListBox.SelectedIndex = 0;
+      if (palettesListBox.Items.Count > 0)
+        palettesListBox.SelectedIndex = 0;
     }
 
     private void texturePacksListBox_SelectedIndexChanged(object sender, EventArgs e) {
@@ -187,7 +187,7 @@ namespace DSPRE.Editors {
       }
 
       Helpers.BackUpDisableHandler();
-      Helpers.DisableHandlers(); 
+      Helpers.DisableHandlers();
 
       texturesLabel.Text = $"Textures [{texturesListBox.SelectedIndex + 1}/{texturesListBox.Items.Count}]";
 

@@ -67,7 +67,10 @@ namespace DSPRE.Editors {
       InitializeComponent();
     }
 
-    public void SetupScriptEditor() {
+    public void SetupScriptEditor(bool force = false) {
+      if (scriptEditorIsReady && !force) return;
+      scriptEditorIsReady = true;
+
       SetupScriptEditorTextAreas();
 
       /* Extract essential NARCs sub-archives*/
@@ -84,13 +87,10 @@ namespace DSPRE.Editors {
     }
 
     public void OpenScriptEditor(int scriptFileID) {
-      if (!EditorPanels.scriptEditor.scriptEditorIsReady) {
-        EditorPanels.scriptEditor.SetupScriptEditor();
-        EditorPanels.scriptEditor.scriptEditorIsReady = true;
-      }
+      SetupScriptEditor();
 
-      EditorPanels.scriptEditor.scriptEditorTabControl.SelectedIndex = 0;
-      EditorPanels.scriptEditor.selectScriptFileComboBox.SelectedIndex = scriptFileID;
+      scriptEditorTabControl.SelectedIndex = 0;
+      selectScriptFileComboBox.SelectedIndex = scriptFileID;
       EditorPanels.mainTabControl.SelectedTab = EditorPanels.scriptEditorTabPage;
     }
 

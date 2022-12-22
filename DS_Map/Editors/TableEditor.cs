@@ -32,7 +32,10 @@ namespace DSPRE.Editors {
       InitializeComponent();
     }
 
-    public void SetupTableEditor() {
+    public void SetupTableEditor(bool force = false) {
+      if (tableEditorIsReady && !force) return;
+      tableEditorIsReady = true;
+
       switch (RomInfo.gameFamily) {
         case GameFamilies.HGSS:
           RomInfo.SetConditionalMusicTableOffsetToRAMAddress();

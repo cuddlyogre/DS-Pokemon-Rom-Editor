@@ -29,16 +29,10 @@ namespace DSPRE.Editors {
       InitializeComponent();
     }
 
-    private void FillTriggersBox() {
-      triggersListBox.Items.Clear();
-      int count = currentEvFile.triggers.Count;
+    public void SetupEventEditor(bool force = false) {
+      if (eventEditorIsReady && !force) return;
+      eventEditorIsReady = true;
 
-      for (int i = 0; i < count; i++) {
-        triggersListBox.Items.Add(i.ToString("D" + Math.Max(0, count - 1).ToString().Length) + ": " + currentEvFile.triggers[i].ToString());
-      }
-    }
-
-    public void SetupEventEditor() {
       /* Extract essential NARCs sub-archives*/
 
       Helpers.statusLabelMessage("Attempting to unpack Event Editor NARCs... Please wait. This might take a while");
@@ -182,17 +176,14 @@ namespace DSPRE.Editors {
     }
 
     public void OpenEventEditor(int eventID, int matrixID, int areaDataID) {
-      if (!EditorPanels.eventEditor.eventEditorIsReady) {
-        EditorPanels.eventEditor.SetupEventEditor();
-        EditorPanels.eventEditor.eventEditorIsReady = true;
-      }
+      SetupEventEditor();
 
-      EditorPanels.eventEditor.selectEventComboBox.SelectedIndex = eventID; // Select event file
-      if (matrixID != 0) EditorPanels.eventEditor.eventAreaDataUpDown.Value = areaDataID; // Use Area Data for textures if matrix is not 0
-      EditorPanels.eventEditor.eventMatrixUpDown.Value = matrixID; // Open the right matrix in event editor
+      selectEventComboBox.SelectedIndex = eventID; // Select event file
+      if (matrixID != 0) eventAreaDataUpDown.Value = areaDataID; // Use Area Data for textures if matrix is not 0
+      eventMatrixUpDown.Value = matrixID; // Open the right matrix in event editor
       EditorPanels.mainTabControl.SelectedTab = EditorPanels.eventEditorTabPage;
 
-      EditorPanels.eventEditor.eventMatrixUpDown_ValueChanged(null, null);
+      eventMatrixUpDown_ValueChanged(null, null);
     }
 
     public void UpdateItemComboBox(string[] itemNames) {
@@ -1772,6 +1763,15 @@ namespace DSPRE.Editors {
       triggersListBox.Items.Add("");
       triggersListBox.SelectedIndex = currentEvFile.triggers.Count - 1;
       updateSelectedTriggerName();
+    }
+
+    private void FillTriggersBox() {
+      triggersListBox.Items.Clear();
+      int count = currentEvFile.triggers.Count;
+
+      for (int i = 0; i < count; i++) {
+        triggersListBox.Items.Add(i.ToString("D" + Math.Max(0, count - 1).ToString().Length) + ": " + currentEvFile.triggers[i].ToString());
+      }
     }
 
     private void removeTriggerButton_Click(object sender, EventArgs e) {

@@ -15,7 +15,10 @@ namespace DSPRE.Editors {
       InitializeComponent();
     }
 
-    public void SetupTextEditor() {
+    public void SetupTextEditor(bool force = false) {
+      if (textEditorIsReady && !force) return;
+      textEditorIsReady = true;
+
       DSUtils.TryUnpackNarcs(new List<DirNames> { DirNames.textArchives });
 
       Helpers.statusLabelMessage("Setting up Text Editor...");
@@ -36,12 +39,9 @@ namespace DSPRE.Editors {
     }
 
     public void OpenTextEditor(int textFileID) {
-      if (!EditorPanels.textEditor.textEditorIsReady) {
-        EditorPanels.textEditor.SetupTextEditor();
-        EditorPanels.textEditor.textEditorIsReady = true;
-      }
+      SetupTextEditor();
 
-      EditorPanels.textEditor.selectTextFileComboBox.SelectedIndex = textFileID;
+      selectTextFileComboBox.SelectedIndex = textFileID;
       EditorPanels.mainTabControl.SelectedTab = EditorPanels.textEditorTabPage;
     }
 

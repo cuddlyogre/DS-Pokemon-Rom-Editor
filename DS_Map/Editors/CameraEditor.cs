@@ -13,7 +13,10 @@ namespace DSPRE.Editors {
       InitializeComponent();
     }
 
-    public void SetupCameraEditor() {
+    public void SetupCameraEditor(bool force = false) {
+      if (cameraEditorIsReady && !force) return;
+      cameraEditorIsReady = true;
+
       RomInfo.PrepareCameraData();
       cameraEditorDataGridView.Rows.Clear();
 
