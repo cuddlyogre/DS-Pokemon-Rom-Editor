@@ -63,8 +63,34 @@ namespace DSPRE.Editors {
     /// </summary>
     private const bool CODE_FOLDING_CIRCULAR = true;
 
+    readonly Point initial_importScriptFileButton_location;
+    readonly Point initial_exportScriptFileButton_location;
+    readonly Point initial_addScriptFileButton_location;
+    readonly Point initial_removeScriptFileButton_location;
+    readonly Point initial_viewLevelScript_location;
+
+    readonly Point new_importScriptFileButton_location;
+    readonly Point new_exportScriptFileButton_location;
+    readonly Point new_addScriptFileButton_location;
+    readonly Point new_removeScriptFileButton_location;
+    readonly Point new_viewLevelScript_location;
+
     public ScriptEditor() {
       InitializeComponent();
+
+      //initially, these buttons are off the canvas so they can be interacted with in the designer
+      //they are then moved as needed
+      initial_importScriptFileButton_location = importScriptFileButton.Location;
+      initial_exportScriptFileButton_location = exportScriptFileButton.Location;
+      initial_addScriptFileButton_location = addScriptFileButton.Location;
+      initial_removeScriptFileButton_location = removeScriptFileButton.Location;
+      initial_viewLevelScript_location = viewLevelScript.Location;
+
+      new_importScriptFileButton_location = new Point(164, 22);
+      new_exportScriptFileButton_location = new Point(239, 22);
+      new_addScriptFileButton_location = new Point(314, 22);
+      new_removeScriptFileButton_location = new Point(314, 49);
+      new_viewLevelScript_location = new Point(326, 37);
     }
 
     public void SetupScriptEditor(bool force = false) {
@@ -464,6 +490,7 @@ namespace DSPRE.Editors {
 
       Helpers.DisableHandlers();
 
+      ScriptFile lastScriptFile = currentScriptFile;
       // currentScriptFile = (ScriptFile)selectScriptFileComboBox.SelectedItem;
       currentScriptFile = new ScriptFile(selectScriptFileComboBox.SelectedIndex); // Load script file
 
@@ -475,19 +502,32 @@ namespace DSPRE.Editors {
       functionsNavListbox.Items.Clear();
       actionsNavListbox.Items.Clear();
 
-      if (currentScriptFile.isLevelScript) {
-        ScriptTextArea.Text += "LevelScript files are currently not supported.\nYou can use AdAstra's Level Scripts Editor.";
-        addScriptFileButton.Visible = false;
-        removeScriptFileButton.Visible = false;
-
-        clearCurrentLevelScriptButton.Visible = true;
+      //prevent buttons from flickering when the combobox selection changes
+      bool typeChanged = true;
+      if (lastScriptFile != null) {
+        typeChanged = lastScriptFile.isLevelScript != currentScriptFile.isLevelScript;
       }
-      else {
-        addScriptFileButton.Visible = true;
-        removeScriptFileButton.Visible = true;
 
-        clearCurrentLevelScriptButton.Visible = false;
+      if (typeChanged) {
+        if (currentScriptFile.isLevelScript) {
+          importScriptFileButton.Location = initial_importScriptFileButton_location;
+          exportScriptFileButton.Location = initial_exportScriptFileButton_location;
+          addScriptFileButton.Location = initial_addScriptFileButton_location;
+          removeScriptFileButton.Location = initial_removeScriptFileButton_location;
 
+          viewLevelScript.Location = new_viewLevelScript_location;
+        }
+        else {
+          importScriptFileButton.Location = new_importScriptFileButton_location;
+          exportScriptFileButton.Location = new_exportScriptFileButton_location;
+          addScriptFileButton.Location = new_addScriptFileButton_location;
+          removeScriptFileButton.Location = new_removeScriptFileButton_location;
+
+          viewLevelScript.Location = initial_viewLevelScript_location;
+        }
+      }
+
+      if (!currentScriptFile.isLevelScript) {
         displayScriptFile(ScriptFile.ContainerTypes.Script, currentScriptFile.allScripts, scriptsNavListbox, ScriptTextArea);
         displayScriptFile(ScriptFile.ContainerTypes.Function, currentScriptFile.allFunctions, functionsNavListbox, FunctionTextArea);
         displayScriptFileActions(ScriptFile.ContainerTypes.Action, currentScriptFile.allActions, actionsNavListbox, ActionTextArea);

@@ -69,7 +69,6 @@ namespace DSPRE.Editors
       this.label29 = new System.Windows.Forms.Label();
       this.searchInScriptsResultListBox = new System.Windows.Forms.ListBox();
       this.groupBox24 = new System.Windows.Forms.GroupBox();
-      this.SyncNavigatorCB = new System.Windows.Forms.CheckBox();
       this.ScriptNavigatorTabControl = new System.Windows.Forms.TabControl();
       this.ScriptsNavTab = new System.Windows.Forms.TabPage();
       this.scriptsNavListbox = new System.Windows.Forms.ListBox();
@@ -86,7 +85,7 @@ namespace DSPRE.Editors
       this.scriptEditorNumberFormatNoPreference = new System.Windows.Forms.RadioButton();
       this.scriptEditorNumberFormatDecimal = new System.Windows.Forms.RadioButton();
       this.scriptEditorNumberFormatHex = new System.Windows.Forms.RadioButton();
-      this.clearCurrentLevelScriptButton = new System.Windows.Forms.Button();
+      this.viewLevelScript = new System.Windows.Forms.Button();
       this.locateCurrentScriptFile = new System.Windows.Forms.Button();
       this.scriptEditorTabControl.SuspendLayout();
       this.scriptsTabPage.SuspendLayout();
@@ -409,7 +408,7 @@ namespace DSPRE.Editors
       // 
       this.addScriptFileButton.Image = global::DSPRE.Properties.Resources.addIcon;
       this.addScriptFileButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-      this.addScriptFileButton.Location = new System.Drawing.Point(314, 22);
+      this.addScriptFileButton.Location = new System.Drawing.Point(369, 667);
       this.addScriptFileButton.Name = "addScriptFileButton";
       this.addScriptFileButton.Size = new System.Drawing.Size(106, 25);
       this.addScriptFileButton.TabIndex = 10;
@@ -422,7 +421,7 @@ namespace DSPRE.Editors
       // 
       this.removeScriptFileButton.Image = global::DSPRE.Properties.Resources.deleteIcon;
       this.removeScriptFileButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-      this.removeScriptFileButton.Location = new System.Drawing.Point(314, 49);
+      this.removeScriptFileButton.Location = new System.Drawing.Point(369, 694);
       this.removeScriptFileButton.Name = "removeScriptFileButton";
       this.removeScriptFileButton.Size = new System.Drawing.Size(106, 25);
       this.removeScriptFileButton.TabIndex = 13;
@@ -447,7 +446,7 @@ namespace DSPRE.Editors
       // 
       this.exportScriptFileButton.Image = global::DSPRE.Properties.Resources.exportArrow;
       this.exportScriptFileButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-      this.exportScriptFileButton.Location = new System.Drawing.Point(239, 22);
+      this.exportScriptFileButton.Location = new System.Drawing.Point(294, 667);
       this.exportScriptFileButton.Name = "exportScriptFileButton";
       this.exportScriptFileButton.Size = new System.Drawing.Size(70, 52);
       this.exportScriptFileButton.TabIndex = 15;
@@ -460,7 +459,7 @@ namespace DSPRE.Editors
       // 
       this.importScriptFileButton.Image = global::DSPRE.Properties.Resources.importArrow;
       this.importScriptFileButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-      this.importScriptFileButton.Location = new System.Drawing.Point(164, 22);
+      this.importScriptFileButton.Location = new System.Drawing.Point(219, 667);
       this.importScriptFileButton.Name = "importScriptFileButton";
       this.importScriptFileButton.Size = new System.Drawing.Size(70, 52);
       this.importScriptFileButton.TabIndex = 16;
@@ -585,7 +584,6 @@ namespace DSPRE.Editors
       // 
       // groupBox24
       // 
-      this.groupBox24.Controls.Add(this.SyncNavigatorCB);
       this.groupBox24.Controls.Add(this.ScriptNavigatorTabControl);
       this.groupBox24.Location = new System.Drawing.Point(3, 75);
       this.groupBox24.Name = "groupBox24";
@@ -593,19 +591,6 @@ namespace DSPRE.Editors
       this.groupBox24.TabIndex = 42;
       this.groupBox24.TabStop = false;
       this.groupBox24.Text = "Navigator";
-      // 
-      // SyncNavigatorCB
-      // 
-      this.SyncNavigatorCB.Appearance = System.Windows.Forms.Appearance.Button;
-      this.SyncNavigatorCB.AutoSize = true;
-      this.SyncNavigatorCB.Checked = true;
-      this.SyncNavigatorCB.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.SyncNavigatorCB.Location = new System.Drawing.Point(417, 11);
-      this.SyncNavigatorCB.Name = "SyncNavigatorCB";
-      this.SyncNavigatorCB.Size = new System.Drawing.Size(41, 23);
-      this.SyncNavigatorCB.TabIndex = 43;
-      this.SyncNavigatorCB.Text = "Sync";
-      this.SyncNavigatorCB.UseVisualStyleBackColor = true;
       // 
       // ScriptNavigatorTabControl
       // 
@@ -795,19 +780,17 @@ namespace DSPRE.Editors
       this.scriptEditorNumberFormatHex.UseVisualStyleBackColor = true;
       this.scriptEditorNumberFormatHex.CheckedChanged += new System.EventHandler(this.UpdateScriptNumberFormatHex);
       // 
-      // clearCurrentLevelScriptButton
+      // viewLevelScript
       // 
-      this.clearCurrentLevelScriptButton.Image = global::DSPRE.Properties.Resources.destroyLevelScript;
-      this.clearCurrentLevelScriptButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-      this.clearCurrentLevelScriptButton.Location = new System.Drawing.Point(314, 22);
-      this.clearCurrentLevelScriptButton.Name = "clearCurrentLevelScriptButton";
-      this.clearCurrentLevelScriptButton.Size = new System.Drawing.Size(106, 52);
-      this.clearCurrentLevelScriptButton.TabIndex = 19;
-      this.clearCurrentLevelScriptButton.Text = "&Clear This\r\nLevel Script";
-      this.clearCurrentLevelScriptButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-      this.clearCurrentLevelScriptButton.UseVisualStyleBackColor = true;
-      this.clearCurrentLevelScriptButton.Visible = false;
-      this.clearCurrentLevelScriptButton.Click += new System.EventHandler(this.clearCurrentLevelScriptButton_Click);
+      this.viewLevelScript.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+      this.viewLevelScript.Location = new System.Drawing.Point(481, 681);
+      this.viewLevelScript.Name = "viewLevelScript";
+      this.viewLevelScript.Size = new System.Drawing.Size(91, 25);
+      this.viewLevelScript.TabIndex = 19;
+      this.viewLevelScript.Text = "View level script";
+      this.viewLevelScript.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+      this.viewLevelScript.UseVisualStyleBackColor = true;
+      this.viewLevelScript.Click += new System.EventHandler(this.viewLevelScriptButton_Click);
       // 
       // locateCurrentScriptFile
       // 
@@ -826,7 +809,7 @@ namespace DSPRE.Editors
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.Controls.Add(this.locateCurrentScriptFile);
       this.Controls.Add(this.groupBox24);
-      this.Controls.Add(this.clearCurrentLevelScriptButton);
+      this.Controls.Add(this.viewLevelScript);
       this.Controls.Add(this.selectScriptFileComboBox);
       this.Controls.Add(this.groupBox26);
       this.Controls.Add(this.label5);
@@ -843,7 +826,7 @@ namespace DSPRE.Editors
       this.Controls.Add(this.groupBox8);
       this.Controls.Add(this.scriptEditorTabControl);
       this.Name = "ScriptEditor";
-      this.Size = new System.Drawing.Size(1177, 616);
+      this.Size = new System.Drawing.Size(1177, 735);
       this.scriptEditorTabControl.ResumeLayout(false);
       this.scriptsTabPage.ResumeLayout(false);
       this.PanelSearchScripts.ResumeLayout(false);
@@ -857,7 +840,6 @@ namespace DSPRE.Editors
       this.groupBox8.ResumeLayout(false);
       this.groupBox8.PerformLayout();
       this.groupBox24.ResumeLayout(false);
-      this.groupBox24.PerformLayout();
       this.ScriptNavigatorTabControl.ResumeLayout(false);
       this.ScriptsNavTab.ResumeLayout(false);
       this.FunctionsNavTab.ResumeLayout(false);
@@ -912,7 +894,6 @@ namespace DSPRE.Editors
     private System.Windows.Forms.Button searchInScriptsButton;
     private System.Windows.Forms.ListBox searchInScriptsResultListBox;
     private System.Windows.Forms.GroupBox groupBox24;
-    private System.Windows.Forms.CheckBox SyncNavigatorCB;
     private System.Windows.Forms.TabControl ScriptNavigatorTabControl;
     private System.Windows.Forms.TabPage ScriptsNavTab;
     private System.Windows.Forms.ListBox scriptsNavListbox;
@@ -929,7 +910,7 @@ namespace DSPRE.Editors
     private System.Windows.Forms.RadioButton scriptEditorNumberFormatNoPreference;
     private System.Windows.Forms.RadioButton scriptEditorNumberFormatDecimal;
     private System.Windows.Forms.RadioButton scriptEditorNumberFormatHex;
-    private System.Windows.Forms.Button clearCurrentLevelScriptButton;
+    private System.Windows.Forms.Button viewLevelScript;
     private System.Windows.Forms.Button locateCurrentScriptFile;
   }
 }
