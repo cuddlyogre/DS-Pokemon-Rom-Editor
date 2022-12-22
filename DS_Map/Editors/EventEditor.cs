@@ -805,7 +805,7 @@ namespace DSPRE.Editors {
                 }
               }
             }
-            else {
+            else if (gameFamily.Equals(GameFamilies.Plat)) {
               foreach (ushort headerID in result) {
                 HeaderPt hpt;
 
@@ -818,6 +818,22 @@ namespace DSPRE.Editors {
 
                 if (hpt.matrixID != eventMatrixUpDown.Value && hpt.locationName != 0) {
                   dict.Add(hpt.ID, hpt.matrixID);
+                }
+              }
+            }
+            else {
+              foreach (ushort headerID in result) {
+                HeaderHGSS hgss;
+
+                if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
+                  hgss = (HeaderHGSS)MapHeader.LoadFromFile(RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir + "\\" + headerID.ToString("D4"), headerID, 0);
+                }
+                else {
+                  hgss = (HeaderHGSS)MapHeader.LoadFromARM9(headerID);
+                }
+
+                if (hgss.matrixID != eventMatrixUpDown.Value && hgss.locationName != 0) {
+                  dict.Add(hgss.ID, hgss.matrixID);
                 }
               }
             }
