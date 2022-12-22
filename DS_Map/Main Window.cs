@@ -666,9 +666,8 @@ namespace DSPRE {
                    MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Helpers.statusLabelMessage();
 
-                if (mapEditor.mapEditorIsReady) {
-                    mapEditor.updateBuildingListComboBox(mapEditor.interiorbldRadioButton.Checked);
-                }
+                mapEditor.updateBuildingListComboBox();
+
                 Update();
             }
         }

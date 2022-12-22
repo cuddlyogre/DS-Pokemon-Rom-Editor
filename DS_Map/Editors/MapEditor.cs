@@ -194,7 +194,12 @@ namespace DSPRE.Editors {
       Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, ang, dist, elev, perspective, mapOpenGlControl.Width, mapOpenGlControl.Height, mapTexturesOn, bldTexturesOn);
     }
 
+    public void updateBuildingListComboBox() {
+      updateBuildingListComboBox(interiorbldRadioButton.Checked);
+    }
+    
     public void updateBuildingListComboBox(bool interior) {
+      if (!mapEditorIsReady) return;
       string[] bldList = GetBuildingsList(interior);
 
       buildIndexComboBox.Items.Clear();
@@ -462,7 +467,7 @@ namespace DSPRE.Editors {
       buildIndexComboBox.Items.Clear();
 
       /* Fill building models list */
-      updateBuildingListComboBox(interiorbldRadioButton.Checked);
+      updateBuildingListComboBox();
       FillBuildingsBox();
 
       try {
