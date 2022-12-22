@@ -504,7 +504,7 @@ namespace DSPRE
             this.diamondAndPearlToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.diamondAndPearlToolStripMenuItem.Name = "diamondAndPearlToolStripMenuItem";
             this.diamondAndPearlToolStripMenuItem.Size = new System.Drawing.Size(201, 38);
-            this.diamondAndPearlToolStripMenuItem.Text = "Diamond & Pearl";
+            this.diamondAndPearlToolStripMenuItem.Text = "Diamond && Pearl";
             this.diamondAndPearlToolStripMenuItem.Click += new System.EventHandler(this.diamondAndPearlToolStripMenuItem_Click);
             // 
             // platinumToolStripMenuItem
@@ -522,7 +522,7 @@ namespace DSPRE
             this.heartGoldAndSoulSilverToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.heartGoldAndSoulSilverToolStripMenuItem.Name = "heartGoldAndSoulSilverToolStripMenuItem";
             this.heartGoldAndSoulSilverToolStripMenuItem.Size = new System.Drawing.Size(201, 38);
-            this.heartGoldAndSoulSilverToolStripMenuItem.Text = "HeartGold & SoulSilver";
+            this.heartGoldAndSoulSilverToolStripMenuItem.Text = "HeartGold && SoulSilver";
             this.heartGoldAndSoulSilverToolStripMenuItem.Click += new System.EventHandler(this.heartGoldAndSoulSilverToolStripMenuItem_Click);
             // 
             // spawnEditorToolStripMenuItem
