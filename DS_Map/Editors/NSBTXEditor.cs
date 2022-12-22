@@ -76,6 +76,28 @@ namespace DSPRE.Editors {
       Helpers.statusLabelMessage();
     }
 
+    public void OpenNSBTXEditor(int areaDataID) {
+      if (!EditorPanels.nsbtxEditor.nsbtxEditorIsReady) {
+        EditorPanels.nsbtxEditor.SetupNSBTXEditor();
+        EditorPanels.nsbtxEditor.nsbtxEditorIsReady = true;
+      }
+
+      EditorPanels.nsbtxEditor.selectAreaDataListBox.SelectedIndex = areaDataID;
+      if (EditorPanels.nsbtxEditor.mapTilesetRadioButton.Checked) {
+        EditorPanels.nsbtxEditor.texturePacksListBox.SelectedIndex = (int)EditorPanels.nsbtxEditor.areaDataMapTilesetUpDown.Value;
+      }
+      else {
+        EditorPanels.nsbtxEditor.texturePacksListBox.SelectedIndex = (int)EditorPanels.nsbtxEditor.areaDataBuildingTilesetUpDown.Value;
+      }
+
+      EditorPanels.mainTabControl.SelectedTab = EditorPanels.nsbtxEditorTabPage;
+
+      if (EditorPanels.nsbtxEditor.texturesListBox.Items.Count > 0)
+        EditorPanels.nsbtxEditor.texturesListBox.SelectedIndex = 0;
+      if (EditorPanels.nsbtxEditor.palettesListBox.Items.Count > 0)
+        EditorPanels.nsbtxEditor.palettesListBox.SelectedIndex = 0;
+    }
+
     private void texturePacksListBox_SelectedIndexChanged(object sender, EventArgs e) {
       if (Helpers.HandlersDisabled) {
         return;

@@ -17,6 +17,16 @@ namespace DSPRE.Editors {
       populate_selectScriptFileComboBox();
     }
 
+    public void OpenLevelScriptEditor(int levelScriptID) {
+      if (!EditorPanels.levelScriptEditor.levelScriptEditorIsReady) {
+        EditorPanels.levelScriptEditor.SetUpLevelScriptEditor();
+        EditorPanels.levelScriptEditor.levelScriptEditorIsReady = true;
+      }
+
+      EditorPanels.levelScriptEditor.selectScriptFileComboBox.SelectedIndex = levelScriptID;
+      EditorPanels.mainTabControl.SelectedTab = EditorPanels.levelScriptEditorTabPage;
+    }
+
     private void populate_selectScriptFileComboBox() {
       selectScriptFileComboBox.Items.Clear();
       int scriptCount = Directory.GetFiles(gameDirs[RomInfo.DirNames.scripts].unpackedDir).Length;

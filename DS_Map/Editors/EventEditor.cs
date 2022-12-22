@@ -181,6 +181,20 @@ namespace DSPRE.Editors {
       Helpers.statusLabelMessage();
     }
 
+    public void OpenEventEditor(int eventID, int matrixID, int areaDataID) {
+      if (!EditorPanels.eventEditor.eventEditorIsReady) {
+        EditorPanels.eventEditor.SetupEventEditor();
+        EditorPanels.eventEditor.eventEditorIsReady = true;
+      }
+
+      EditorPanels.eventEditor.selectEventComboBox.SelectedIndex = eventID; // Select event file
+      if (matrixID != 0) EditorPanels.eventEditor.eventAreaDataUpDown.Value = areaDataID; // Use Area Data for textures if matrix is not 0
+      EditorPanels.eventEditor.eventMatrixUpDown.Value = matrixID; // Open the right matrix in event editor
+      EditorPanels.mainTabControl.SelectedTab = EditorPanels.eventEditorTabPage;
+
+      EditorPanels.eventEditor.eventMatrixUpDown_ValueChanged(null, null);
+    }
+
     public void UpdateItemComboBox(string[] itemNames) {
       if (itemComboboxIsUpToDate) {
         return;

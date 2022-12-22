@@ -553,24 +553,11 @@ namespace DSPRE.Editors {
     }
 
     private void openScriptButton_Click(object sender, EventArgs e) {
-      if (!EditorPanels.scriptEditor.scriptEditorIsReady) {
-        EditorPanels.scriptEditor.SetupScriptEditor();
-        EditorPanels.scriptEditor.scriptEditorIsReady = true;
-      }
-
-      EditorPanels.scriptEditor.scriptEditorTabControl.SelectedIndex = 0;
-      EditorPanels.scriptEditor.selectScriptFileComboBox.SelectedIndex = (int)scriptFileUpDown.Value;
-      EditorPanels.mainTabControl.SelectedTab = EditorPanels.scriptEditorTabPage;
+      EditorPanels.scriptEditor.OpenScriptEditor((int)scriptFileUpDown.Value);
     }
 
     private void openLevelScriptButton_Click(object sender, EventArgs e) {
-      if (!EditorPanels.levelScriptEditor.levelScriptEditorIsReady) {
-        EditorPanels.levelScriptEditor.SetUpLevelScriptEditor();
-        EditorPanels.levelScriptEditor.levelScriptEditorIsReady = true;
-      }
-
-      EditorPanels.levelScriptEditor.selectScriptFileComboBox.SelectedIndex = (int)levelScriptUpDown.Value;
-      EditorPanels.mainTabControl.SelectedTab = EditorPanels.levelScriptEditorTabPage;
+      EditorPanels.levelScriptEditor.OpenLevelScriptEditor((int)levelScriptUpDown.Value);
     }
 
     private void scriptFileUpDown_ValueChanged(object sender, EventArgs e) {
@@ -1012,19 +999,7 @@ namespace DSPRE.Editors {
     }
 
     private void openAreaDataButton_Click(object sender, EventArgs e) {
-      if (!EditorPanels.nsbtxEditor.nsbtxEditorIsReady) {
-        EditorPanels.nsbtxEditor.SetupNSBTXEditor();
-        EditorPanels.nsbtxEditor.nsbtxEditorIsReady = true;
-      }
-
-      EditorPanels.nsbtxEditor.selectAreaDataListBox.SelectedIndex = (int)areaDataUpDown.Value;
-      EditorPanels.nsbtxEditor.texturePacksListBox.SelectedIndex = (EditorPanels.nsbtxEditor.mapTilesetRadioButton.Checked ? (int)EditorPanels.nsbtxEditor.areaDataMapTilesetUpDown.Value : (int)EditorPanels.nsbtxEditor.areaDataBuildingTilesetUpDown.Value);
-      EditorPanels.mainTabControl.SelectedTab = EditorPanels.nsbtxEditorTabPage;
-
-      if (EditorPanels.nsbtxEditor.texturesListBox.Items.Count > 0)
-        EditorPanels.nsbtxEditor.texturesListBox.SelectedIndex = 0;
-      if (EditorPanels.nsbtxEditor.palettesListBox.Items.Count > 0)
-        EditorPanels.nsbtxEditor.palettesListBox.SelectedIndex = 0;
+      EditorPanels.nsbtxEditor.OpenNSBTXEditor((int)areaDataUpDown.Value);
     }
 
     private void copyMatrixButton_Click(object sender, EventArgs e) {
@@ -1034,28 +1009,7 @@ namespace DSPRE.Editors {
     }
 
     private void openMatrixButton_Click(object sender, EventArgs e) {
-      if (!EditorPanels.matrixEditor.matrixEditorIsReady) {
-        EditorPanels.matrixEditor.SetupMatrixEditor();
-        EditorPanels.matrixEditor.matrixEditorIsReady = true;
-      }
-
-      EditorPanels.mainTabControl.SelectedTab = EditorPanels.matrixEditorTabPage;
-      int matrixNumber = (int)matrixUpDown.Value;
-      EditorPanels.matrixEditor.selectMatrixComboBox.SelectedIndex = matrixNumber;
-
-      if (EditorPanels.matrixEditor.currentMatrix.hasHeadersSection) {
-        EditorPanels.matrixEditor.matrixTabControl.SelectedTab = EditorPanels.matrixEditor.headersTabPage;
-
-        //Autoselect cell containing current header, if such cell exists [and if current matrix has headers sections]
-        for (int i = 0; i < EditorPanels.matrixEditor.headersGridView.RowCount; i++) {
-          for (int j = 0; j < EditorPanels.matrixEditor.headersGridView.ColumnCount; j++) {
-            if (currentHeader.ID.ToString() == EditorPanels.matrixEditor.headersGridView.Rows[i].Cells[j].Value.ToString()) {
-              EditorPanels.matrixEditor.headersGridView.CurrentCell = EditorPanels.matrixEditor.headersGridView.Rows[i].Cells[j];
-              return;
-            }
-          }
-        }
-      }
+      EditorPanels.matrixEditor.OpenMatrixEditor((int)matrixUpDown.Value, currentHeader.ID);
     }
 
     private void areaDataUpDown_ValueChanged(object sender, EventArgs e) {
@@ -1079,13 +1033,7 @@ namespace DSPRE.Editors {
     }
 
     private void openTextArchiveButton_Click(object sender, EventArgs e) {
-      if (!EditorPanels.textEditor.textEditorIsReady) {
-        EditorPanels.textEditor.SetupTextEditor();
-        EditorPanels.textEditor.textEditorIsReady = true;
-      }
-
-      EditorPanels.textEditor.selectTextFileComboBox.SelectedIndex = (int)textFileUpDown.Value;
-      EditorPanels.mainTabControl.SelectedTab = EditorPanels.textEditorTabPage;
+      EditorPanels.textEditor.OpenTextEditor((int)textFileUpDown.Value);
     }
 
     private void copyTextsButton_Click(object sender, EventArgs e) {
@@ -1113,20 +1061,7 @@ namespace DSPRE.Editors {
     }
 
     private void openEventsButton_Click(object sender, EventArgs e) {
-      if (!EditorPanels.eventEditor.eventEditorIsReady) {
-        EditorPanels.eventEditor.SetupEventEditor();
-        EditorPanels.eventEditor.eventEditorIsReady = true;
-      }
-
-      if (matrixUpDown.Value != 0) {
-        EditorPanels.eventEditor.eventAreaDataUpDown.Value = areaDataUpDown.Value; // Use Area Data for textures if matrix is not 0
-      }
-
-      EditorPanels.eventEditor.eventMatrixUpDown.Value = matrixUpDown.Value; // Open the right matrix in event editor
-      EditorPanels.eventEditor.selectEventComboBox.SelectedIndex = (int)eventFileUpDown.Value; // Select event file
-      EditorPanels.mainTabControl.SelectedTab = EditorPanels.eventEditorTabPage;
-
-      EditorPanels.eventEditor.eventMatrixUpDown_ValueChanged(null, null);
+      EditorPanels.eventEditor.OpenEventEditor((int)eventFileUpDown.Value, (int)matrixUpDown.Value, (int)areaDataUpDown.Value);
     }
 
     private void eventFileUpDown_ValueChanged(object sender, EventArgs e) {

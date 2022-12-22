@@ -35,6 +35,16 @@ namespace DSPRE.Editors {
       Helpers.statusLabelMessage();
     }
 
+    public void OpenTextEditor(int textFileID) {
+      if (!EditorPanels.textEditor.textEditorIsReady) {
+        EditorPanels.textEditor.SetupTextEditor();
+        EditorPanels.textEditor.textEditorIsReady = true;
+      }
+
+      EditorPanels.textEditor.selectTextFileComboBox.SelectedIndex = textFileID;
+      EditorPanels.mainTabControl.SelectedTab = EditorPanels.textEditorTabPage;
+    }
+
     private List<string> searchTexts(int firstArchive, int lastArchive, Func<string, bool> criteria) {
       List<string> results = new List<string>();
 

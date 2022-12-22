@@ -83,6 +83,17 @@ namespace DSPRE.Editors {
       Helpers.statusLabelMessage();
     }
 
+    public void OpenScriptEditor(int scriptFileID) {
+      if (!EditorPanels.scriptEditor.scriptEditorIsReady) {
+        EditorPanels.scriptEditor.SetupScriptEditor();
+        EditorPanels.scriptEditor.scriptEditorIsReady = true;
+      }
+
+      EditorPanels.scriptEditor.scriptEditorTabControl.SelectedIndex = 0;
+      EditorPanels.scriptEditor.selectScriptFileComboBox.SelectedIndex = scriptFileID;
+      EditorPanels.mainTabControl.SelectedTab = EditorPanels.scriptEditorTabPage;
+    }
+
     private void SetupScriptEditorTextAreas() {
       //PREPARE SCRIPT EDITOR KEYWORDS
       cmdKeyWords = String.Join(" ", ScriptCommandNamesDict.Values) +
