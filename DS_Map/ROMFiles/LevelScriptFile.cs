@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.IO;
 
 namespace DSPRE.ROMFiles {
@@ -9,9 +10,11 @@ namespace DSPRE.ROMFiles {
     public string path;
     public BindingList<LevelScriptTrigger> bufferSet = new BindingList<LevelScriptTrigger>();
 
+    public LevelScriptFile() { }
+
     public LevelScriptFile(int fileID) {
       this.fileID = fileID;
-      path = RomInfo.gameDirs[RomInfo.DirNames.scripts].unpackedDir + "\\" + fileID.ToString("D4");
+      path = Path.Combine(RomInfo.gameDirs[RomInfo.DirNames.scripts].unpackedDir, fileID.ToString("D4"));
       parse_file(path);
     }
 
@@ -55,6 +58,7 @@ namespace DSPRE.ROMFiles {
         //and next uint16 == 0
         //and the file stream length is shorter than the earliest position a trigger can be
         if (br.BaseStream.Position == 1 && br.ReadUInt16() == 0 && fs.Length < SMALLEST_TRIGGER_SIZE) {
+          return;
           throw new InvalidDataException("This level script does nothing."); // "Interesting..."
         }
 
@@ -92,8 +96,8 @@ namespace DSPRE.ROMFiles {
     public long write_file(string path, bool word_alignment_padding = false) {
       FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
       using (BinaryWriter bw = new BinaryWriter(fs)) {
-        List<MapScreenLoadTrigger> mapScreenLoadTriggers = new List<MapScreenLoadTrigger>();
-        List<VariableValueTrigger> variableValueTriggers = new List<VariableValueTrigger>();
+        HashSet<MapScreenLoadTrigger> mapScreenLoadTriggers = new HashSet<MapScreenLoadTrigger>();
+        HashSet<VariableValueTrigger> variableValueTriggers = new HashSet<VariableValueTrigger>();
 
         foreach (LevelScriptTrigger item in bufferSet) {
           if (item is VariableValueTrigger variableValueTrigger) {

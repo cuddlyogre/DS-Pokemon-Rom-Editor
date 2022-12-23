@@ -927,9 +927,9 @@ namespace DSPRE {
 
                 MessageBox.Show("The contents of folder \"" + d.FullName + "\" have been renamed according to " + "\"" + of.FileName + "\".", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 if (listLines.Length < files.Length) {
-                    dr = MessageBox.Show("Do you want to isolate the unnamed files by moving them to a dedicated folder?", "Waiting for user", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    DialogResult dr2 = MessageBox.Show("Do you want to isolate the unnamed files by moving them to a dedicated folder?", "Waiting for user", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                    if (dr.Equals(DialogResult.Yes)) {
+                    if (dr2.Equals(DialogResult.Yes)) {
                         string isolatedDir = d.FullName + "\\" + ISOLATED_FOLDERNAME;
                         if (Directory.Exists(isolatedDir)) {
                             Directory.Delete(isolatedDir);

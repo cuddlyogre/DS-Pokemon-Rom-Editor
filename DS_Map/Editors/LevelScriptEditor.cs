@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using DSPRE.ROMFiles;
@@ -28,7 +29,7 @@ namespace DSPRE.Editors {
       EditorPanels.mainTabControl.SelectedTab = EditorPanels.levelScriptEditorTabPage;
     }
 
-    private void populate_selectScriptFileComboBox() {
+    private void populate_selectScriptFileComboBox(int selectedIndex = 0) {
       selectScriptFileComboBox.Items.Clear();
       int scriptCount = Directory.GetFiles(gameDirs[RomInfo.DirNames.scripts].unpackedDir).Length;
       for (int i = 0; i < scriptCount; i++) {
@@ -36,74 +37,109 @@ namespace DSPRE.Editors {
         // selectScriptFileComboBox.Items.Add(currentScriptFile);
         selectScriptFileComboBox.Items.Add($"Script File {i}");
       }
+
+      selectScriptFileComboBox.SelectedIndex = selectedIndex;
     }
 
-    private void selectScriptFileComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-      if (selectScriptFileComboBox.SelectedIndex == -1) return;
+    void disableButtons() {
       listBoxTriggers.DataSource = null;
-      radioButtonVariableValue.Checked = false;
-      radioButtonMapChange.Checked = false;
-      radioButtonScreenReset.Checked = false;
-      radioButtonLoadGame.Checked = false;
-      try {
-        _levelScriptFile = new LevelScriptFile(selectScriptFileComboBox.SelectedIndex);
-        listBoxTriggers.DataSource = _levelScriptFile.bufferSet;
-      }
-      catch (Exception ex) {
-        Console.WriteLine(ex.Message);
-      }
-    }
 
-    private void buttonSave_Click(object sender, EventArgs e) {
-      doSave(String.IsNullOrWhiteSpace(saveFileDialog1.FileName));
-    }
-
-    private void buttonSaveAs_Click(object sender, EventArgs e) {
-      doSave(true);
-    }
-
-    void doSave(bool saveAs) {
-      if (saveAs) {
-        try {
-          saveFileDialog1.InitialDirectory = Path.GetDirectoryName(saveFileDialog1.FileName);
-          saveFileDialog1.FileName = Path.GetFileName(saveFileDialog1.FileName);
-        }
-        catch (Exception ex) {
-          saveFileDialog1.InitialDirectory = Path.GetDirectoryName(Environment.SpecialFolder.UserProfile.ToString());
-          saveFileDialog1.FileName = Path.GetFileName(saveFileDialog1.FileName);
-        }
-
-        if (saveFileDialog1.ShowDialog() == DialogResult.OK) {
-          saveFile(saveFileDialog1.FileName);
-        }
-      }
-      else {
-        saveFile(saveFileDialog1.FileName);
-      }
-    }
-
-    void saveFile(string path) {
-      try {
-        long bytes_written = _levelScriptFile.write_file(path);
-        if (bytes_written <= 4) {
-          MessageBox.Show("Empty level script file was correctly saved.", "Success!");
-        }
-        else {
-          MessageBox.Show("File was correctly saved.", "Success!");
-        }
-      }
-      catch (Exception ex) {
-        MessageBox.Show(ex.Message, ex.GetType().ToString());
-      }
-    }
-
-    private void listBoxTriggers_SelectedIndexChanged(object sender, EventArgs e) {
       textBoxScriptID.Clear();
       textBoxVariableName.Clear();
       textBoxVariableValue.Clear();
 
+      radioButtonVariableValue.Checked = false;
+      radioButtonMapChange.Checked = false;
+      radioButtonScreenReset.Checked = false;
+      radioButtonLoadGame.Checked = false;
+
+      textBoxScriptID.Enabled = false;
+      textBoxVariableName.Enabled = false;
+      textBoxVariableValue.Enabled = false;
+
+      radioButtonVariableValue.Enabled = false;
+      radioButtonMapChange.Enabled = false;
+      radioButtonScreenReset.Enabled = false;
+      radioButtonLoadGame.Enabled = false;
+
+      radioButtonAuto.Enabled = false;
+      radioButtonHex.Enabled = false;
+      radioButtonDecimal.Enabled = false;
+
+      buttonImport.Enabled = false;
+      buttonSave.Enabled = false;
+      buttonExport.Enabled = false;
+      checkBoxPadding.Enabled = false;
+
+      buttonAdd.Enabled = false;
+      buttonRemove.Enabled = false;
+    }
+
+    void enableButtons() {
+      textBoxScriptID.Enabled = true;
+      textBoxVariableName.Enabled = true;
+      textBoxVariableValue.Enabled = true;
+
+      radioButtonVariableValue.Enabled = true;
+      radioButtonMapChange.Enabled = true;
+      radioButtonScreenReset.Enabled = true;
+      radioButtonLoadGame.Enabled = true;
+
+      radioButtonAuto.Enabled = true;
+      radioButtonHex.Enabled = true;
+      radioButtonDecimal.Enabled = true;
+
+      buttonImport.Enabled = true;
+      buttonSave.Enabled = true;
+      buttonExport.Enabled = true;
+      checkBoxPadding.Enabled = true;
+    }
+
+    void buttonAdd_logic() {
+      buttonAdd.Enabled = false;
+
+      if (radioButtonVariableValue.Checked) {
+        if (!string.IsNullOrEmpty(textBoxScriptID.Text) && !string.IsNullOrEmpty(textBoxVariableName.Text) && !string.IsNullOrEmpty(textBoxVariableValue.Text)) {
+          buttonAdd.Enabled = true;
+        }
+      }
+      else if (radioButtonMapChange.Checked || radioButtonScreenReset.Checked || radioButtonLoadGame.Checked) {
+        if (!string.IsNullOrEmpty(textBoxScriptID.Text)) {
+          buttonAdd.Enabled = true;
+        }
+      }
+    }
+
+    private void selectScriptFileComboBox_SelectedIndexChanged(object sender, EventArgs e) {
+      if (selectScriptFileComboBox.SelectedIndex == -1) {
+        buttonOpenSelectedScript.Enabled = false;
+        buttonOpenHeaderScript.Enabled = false;
+        buttonLocate.Enabled = false;
+      }
+      else {
+        buttonOpenSelectedScript.Enabled = true;
+        buttonOpenHeaderScript.Enabled = true;
+        buttonLocate.Enabled = true;
+      }
+
+      disableButtons();
+
+      try {
+        _levelScriptFile = new LevelScriptFile(selectScriptFileComboBox.SelectedIndex);
+
+        listBoxTriggers.DataSource = _levelScriptFile.bufferSet;
+        if (listBoxTriggers.Items.Count > 0) listBoxTriggers.SelectedIndex = 0;
+
+        enableButtons();
+      }
+      catch (InvalidDataException ex) { //not a level script
+        disableButtons();
+        Console.WriteLine(ex.Message);
+      }
+    }
+
+    void listBoxTriggers_SelectedValueChanged(object sender, EventArgs e) {
       if (listBoxTriggers.SelectedItem == null) {
-        buttonOpenScript.Enabled = false;
         buttonRemove.Enabled = false;
         return;
       }
@@ -129,8 +165,107 @@ namespace DSPRE.Editors {
       handleHexFormat();
       handleDecimalFormat();
 
-      buttonOpenScript.Enabled = true;
       buttonRemove.Enabled = true;
+    }
+
+    private void buttonAdd_Click(object sender, EventArgs e) {
+      if (radioButtonHex.Checked) {
+      }
+
+      try {
+        if (_levelScriptFile == null) {
+          _levelScriptFile = new LevelScriptFile();
+        }
+
+        int convertBase = 10; //decimal
+        convertBase = 16; //hex
+        if (radioButtonVariableValue.Checked) {
+          int scriptID = Convert.ToInt16(textBoxScriptID.Text, convertBase);
+          int variableName = Convert.ToInt16(textBoxVariableName.Text, convertBase);
+          int variableValue = Convert.ToInt16(textBoxVariableValue.Text, convertBase);
+          VariableValueTrigger variableValueTrigger = new VariableValueTrigger(scriptID, variableName, variableValue);
+          _levelScriptFile.bufferSet.Add(variableValueTrigger);
+        }
+        else {
+          int scriptID = Convert.ToInt16(textBoxScriptID.Text, convertBase);
+          if (radioButtonMapChange.Checked) {
+            MapScreenLoadTrigger mapScreenLoadTrigger = new MapScreenLoadTrigger(LevelScriptTrigger.MAPCHANGE, scriptID);
+            _levelScriptFile.bufferSet.Add(mapScreenLoadTrigger);
+          }
+          else if (radioButtonScreenReset.Checked) {
+            MapScreenLoadTrigger mapScreenLoadTrigger = new MapScreenLoadTrigger(LevelScriptTrigger.SCREENRESET, scriptID);
+            _levelScriptFile.bufferSet.Add(mapScreenLoadTrigger);
+          }
+          else if (radioButtonLoadGame.Checked) {
+            MapScreenLoadTrigger mapScreenLoadTrigger = new MapScreenLoadTrigger(LevelScriptTrigger.LOADGAME, scriptID);
+            _levelScriptFile.bufferSet.Add(mapScreenLoadTrigger);
+          }
+        }
+
+        textBoxScriptID.Clear();
+        textBoxVariableName.Clear();
+        textBoxVariableValue.Clear();
+      }
+      catch (Exception exception) {
+        MessageBox.Show(exception.Message);
+      }
+    }
+
+    private void buttonRemove_Click(object sender, EventArgs e) {
+      _levelScriptFile.bufferSet.RemoveAt(listBoxTriggers.SelectedIndex);
+    }
+
+    private void buttonOpenHeaderScript_Click(object sender, EventArgs e) {
+      EditorPanels.scriptEditor.OpenScriptEditor((int)EditorPanels.headerEditor.scriptFileUpDown.Value);
+    }
+
+    private void buttonOpenSelectedScript_Click(object sender, EventArgs e) {
+      EditorPanels.scriptEditor.OpenScriptEditor((int)EditorPanels.levelScriptEditor.selectScriptFileComboBox.SelectedIndex);
+    }
+
+    void buttonLocate_Click(object sender, EventArgs e) {
+      if (_levelScriptFile == null) return;
+      Helpers.ExplorerSelect(_levelScriptFile.path);
+    }
+
+    void buttonImport_Click(object sender, EventArgs e) {
+      //if current index != -1
+      //replace triggers of current file with triggers of imported file
+    }
+
+    private void buttonSave_Click(object sender, EventArgs e) {
+      saveFile(_levelScriptFile.path);
+    }
+
+    private void buttonExport_Click(object sender, EventArgs e) {
+      SaveFileDialog sfd = new SaveFileDialog();
+      try {
+        sfd.InitialDirectory = Path.GetDirectoryName(sfd.FileName);
+        sfd.FileName = Path.GetFileName(sfd.FileName);
+      }
+      catch (Exception ex) {
+        sfd.InitialDirectory = Path.GetDirectoryName(Environment.SpecialFolder.UserProfile.ToString());
+        sfd.FileName = Path.GetFileName(sfd.FileName);
+      }
+
+      if (sfd.ShowDialog() == DialogResult.OK) {
+        saveFile(sfd.FileName);
+      }
+    }
+
+    void saveFile(string path) {
+      try {
+        long bytes_written = _levelScriptFile.write_file(path);
+        if (bytes_written <= 4) {
+          MessageBox.Show("Empty level script file was correctly saved.", "Success!");
+        }
+        else {
+          MessageBox.Show("File was correctly saved.", "Success!");
+        }
+      }
+      catch (Exception ex) {
+        MessageBox.Show(ex.Message, ex.GetType().ToString());
+      }
     }
 
     private void handleAutoFormat() {
@@ -199,71 +334,37 @@ namespace DSPRE.Editors {
     private void radioButtonVariableValue_CheckedChanged(object sender, EventArgs e) {
       textBoxVariableName.Enabled = true;
       textBoxVariableValue.Enabled = true;
+      buttonAdd_logic();
     }
 
     private void radioButtonMapChange_CheckedChanged(object sender, EventArgs e) {
       textBoxVariableName.Enabled = false;
       textBoxVariableValue.Enabled = false;
+      buttonAdd_logic();
     }
 
     private void radioButtonScreenReset_CheckedChanged(object sender, EventArgs e) {
       textBoxVariableName.Enabled = false;
       textBoxVariableValue.Enabled = false;
+      buttonAdd_logic();
     }
 
     private void radioButtonLoadGame_CheckedChanged(object sender, EventArgs e) {
       textBoxVariableName.Enabled = false;
       textBoxVariableValue.Enabled = false;
+      buttonAdd_logic();
     }
 
-    private void buttonAdd_Click(object sender, EventArgs e) {
-      int convertBase = 10; //decimal
-      if (radioButtonHex.Checked) {
-        convertBase = 16; //hex
-      }
-
-      try {
-        if (radioButtonVariableValue.Checked) {
-          int scriptID = Convert.ToInt16(textBoxScriptID.Text, convertBase);
-          int variableName = Convert.ToInt16(textBoxVariableName.Text, convertBase);
-          int variableValue = Convert.ToInt16(textBoxVariableValue.Text, convertBase);
-          VariableValueTrigger variableValueTrigger = new VariableValueTrigger(scriptID, variableName, variableValue);
-          _levelScriptFile.bufferSet.Add(variableValueTrigger);
-        }
-        else {
-          int scriptID = Convert.ToInt16(textBoxScriptID.Text, convertBase);
-          if (radioButtonMapChange.Checked) {
-            MapScreenLoadTrigger mapScreenLoadTrigger = new MapScreenLoadTrigger(LevelScriptTrigger.MAPCHANGE, scriptID);
-            _levelScriptFile.bufferSet.Add(mapScreenLoadTrigger);
-          }
-          else if (radioButtonScreenReset.Checked) {
-            MapScreenLoadTrigger mapScreenLoadTrigger = new MapScreenLoadTrigger(LevelScriptTrigger.SCREENRESET, scriptID);
-            _levelScriptFile.bufferSet.Add(mapScreenLoadTrigger);
-          }
-          else if (radioButtonLoadGame.Checked) {
-            MapScreenLoadTrigger mapScreenLoadTrigger = new MapScreenLoadTrigger(LevelScriptTrigger.LOADGAME, scriptID);
-            _levelScriptFile.bufferSet.Add(mapScreenLoadTrigger);
-          }
-        }
-      }
-      catch (Exception exception) {
-        MessageBox.Show(exception.Message);
-      }
+    void textBoxScriptID_TextChanged(object sender, EventArgs e) {
+      buttonAdd_logic();
     }
 
-    private void buttonRemove_Click(object sender, EventArgs e) {
-      _levelScriptFile.bufferSet.RemoveAt(listBoxTriggers.SelectedIndex);
+    void textBoxVariableName_TextChanged(object sender, EventArgs e) {
+      buttonAdd_logic();
     }
 
-    private void buttonOpenScript_Click(object sender, EventArgs e) {
-      if (!EditorPanels.scriptEditor.scriptEditorIsReady) {
-        EditorPanels.scriptEditor.SetupScriptEditor();
-        EditorPanels.scriptEditor.scriptEditorIsReady = true;
-      }
-
-      EditorPanels.scriptEditor.scriptEditorTabControl.SelectedIndex = 0;
-      EditorPanels.scriptEditor.selectScriptFileComboBox.SelectedIndex = (int)EditorPanels.headerEditor.scriptFileUpDown.Value; //((LevelScriptTrigger)listBoxTriggers.SelectedItem).scriptTriggered;
-      EditorPanels.mainTabControl.SelectedTab = EditorPanels.scriptEditorTabPage;
+    void textBoxVariableValue_TextChanged(object sender, EventArgs e) {
+      buttonAdd_logic();
     }
   }
 }

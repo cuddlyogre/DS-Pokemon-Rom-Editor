@@ -85,7 +85,7 @@ namespace DSPRE.Editors
       this.scriptEditorNumberFormatNoPreference = new System.Windows.Forms.RadioButton();
       this.scriptEditorNumberFormatDecimal = new System.Windows.Forms.RadioButton();
       this.scriptEditorNumberFormatHex = new System.Windows.Forms.RadioButton();
-      this.viewLevelScript = new System.Windows.Forms.Button();
+      this.viewLevelScriptButton = new System.Windows.Forms.Button();
       this.locateCurrentScriptFile = new System.Windows.Forms.Button();
       this.scriptEditorTabControl.SuspendLayout();
       this.scriptsTabPage.SuspendLayout();
@@ -131,7 +131,7 @@ namespace DSPRE.Editors
       this.scriptEditorTabControl.Name = "scriptEditorTabControl";
       this.scriptEditorTabControl.SelectedIndex = 0;
       this.scriptEditorTabControl.Size = new System.Drawing.Size(692, 591);
-      this.scriptEditorTabControl.TabIndex = 5;
+      this.scriptEditorTabControl.TabIndex = 18;
       this.scriptEditorTabControl.SelectedIndexChanged += new System.EventHandler(this.scriptEditorTabControl_TabIndexChanged);
       // 
       // scriptsTabPage
@@ -170,7 +170,7 @@ namespace DSPRE.Editors
       this.BtnNextFindScript.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
       this.BtnNextFindScript.Name = "BtnNextFindScript";
       this.BtnNextFindScript.Size = new System.Drawing.Size(25, 30);
-      this.BtnNextFindScript.TabIndex = 9;
+      this.BtnNextFindScript.TabIndex = 32;
       this.BtnNextFindScript.Tag = "Find next (Enter)";
       this.BtnNextFindScript.UseVisualStyleBackColor = true;
       this.BtnNextFindScript.Click += new System.EventHandler(this.BtnNextFindScript_Click);
@@ -184,7 +184,7 @@ namespace DSPRE.Editors
       this.BtnPrevFindScript.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
       this.BtnPrevFindScript.Name = "BtnPrevFindScript";
       this.BtnPrevFindScript.Size = new System.Drawing.Size(25, 30);
-      this.BtnPrevFindScript.TabIndex = 8;
+      this.BtnPrevFindScript.TabIndex = 31;
       this.BtnPrevFindScript.Tag = "Find previous (Shift+Enter)";
       this.BtnPrevFindScript.UseVisualStyleBackColor = true;
       this.BtnPrevFindScript.Click += new System.EventHandler(this.BtnPrevFindScript_Click);
@@ -198,7 +198,7 @@ namespace DSPRE.Editors
       this.BtnCloseFindScript.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
       this.BtnCloseFindScript.Name = "BtnCloseFindScript";
       this.BtnCloseFindScript.Size = new System.Drawing.Size(25, 30);
-      this.BtnCloseFindScript.TabIndex = 7;
+      this.BtnCloseFindScript.TabIndex = 33;
       this.BtnCloseFindScript.Tag = "Close (Esc)";
       this.BtnCloseFindScript.UseVisualStyleBackColor = true;
       this.BtnCloseFindScript.Click += new System.EventHandler(this.BtnCloseFindScript_Click);
@@ -211,7 +211,7 @@ namespace DSPRE.Editors
       this.panelFindScriptTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
       this.panelFindScriptTextBox.Name = "panelFindScriptTextBox";
       this.panelFindScriptTextBox.Size = new System.Drawing.Size(189, 25);
-      this.panelFindScriptTextBox.TabIndex = 6;
+      this.panelFindScriptTextBox.TabIndex = 30;
       this.panelFindScriptTextBox.TextChanged += new System.EventHandler(this.panelFindScriptTextBox_TextChanged);
       this.panelFindScriptTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.scriptTxtFind_KeyDown);
       // 
@@ -222,7 +222,7 @@ namespace DSPRE.Editors
       this.scintillaScriptsPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
       this.scintillaScriptsPanel.Name = "scintillaScriptsPanel";
       this.scintillaScriptsPanel.Size = new System.Drawing.Size(678, 559);
-      this.scintillaScriptsPanel.TabIndex = 13;
+      this.scintillaScriptsPanel.TabIndex = 19;
       // 
       // functionsTabPage
       // 
@@ -260,7 +260,7 @@ namespace DSPRE.Editors
       this.BtnNextFindFunc.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
       this.BtnNextFindFunc.Name = "BtnNextFindFunc";
       this.BtnNextFindFunc.Size = new System.Drawing.Size(25, 30);
-      this.BtnNextFindFunc.TabIndex = 9;
+      this.BtnNextFindFunc.TabIndex = 36;
       this.BtnNextFindFunc.Tag = "Find next (Enter)";
       this.BtnNextFindFunc.UseVisualStyleBackColor = true;
       this.BtnNextFindFunc.Click += new System.EventHandler(this.BtnNextFindFunc_Click);
@@ -274,7 +274,7 @@ namespace DSPRE.Editors
       this.BtnPrevFindFunc.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
       this.BtnPrevFindFunc.Name = "BtnPrevFindFunc";
       this.BtnPrevFindFunc.Size = new System.Drawing.Size(25, 30);
-      this.BtnPrevFindFunc.TabIndex = 8;
+      this.BtnPrevFindFunc.TabIndex = 35;
       this.BtnPrevFindFunc.Tag = "Find previous (Shift+Enter)";
       this.BtnPrevFindFunc.UseVisualStyleBackColor = true;
       this.BtnPrevFindFunc.Click += new System.EventHandler(this.BtnPrevFindFunc_Click);
@@ -288,7 +288,7 @@ namespace DSPRE.Editors
       this.BtnCloseFindFunc.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
       this.BtnCloseFindFunc.Name = "BtnCloseFindFunc";
       this.BtnCloseFindFunc.Size = new System.Drawing.Size(25, 30);
-      this.BtnCloseFindFunc.TabIndex = 7;
+      this.BtnCloseFindFunc.TabIndex = 37;
       this.BtnCloseFindFunc.Tag = "Close (Esc)";
       this.BtnCloseFindFunc.UseVisualStyleBackColor = true;
       this.BtnCloseFindFunc.Click += new System.EventHandler(this.BtnCloseFindFunc_Click);
@@ -301,7 +301,7 @@ namespace DSPRE.Editors
       this.panelFindFunctionTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
       this.panelFindFunctionTextBox.Name = "panelFindFunctionTextBox";
       this.panelFindFunctionTextBox.Size = new System.Drawing.Size(189, 25);
-      this.panelFindFunctionTextBox.TabIndex = 6;
+      this.panelFindFunctionTextBox.TabIndex = 34;
       this.panelFindFunctionTextBox.TextChanged += new System.EventHandler(this.panelFindFunctionTextBox_TextChanged);
       this.panelFindFunctionTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.functionTxtFind_KeyDown);
       // 
@@ -312,7 +312,7 @@ namespace DSPRE.Editors
       this.scintillaFunctionsPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
       this.scintillaFunctionsPanel.Name = "scintillaFunctionsPanel";
       this.scintillaFunctionsPanel.Size = new System.Drawing.Size(678, 559);
-      this.scintillaFunctionsPanel.TabIndex = 15;
+      this.scintillaFunctionsPanel.TabIndex = 20;
       // 
       // actionsTabPage
       // 
@@ -350,7 +350,7 @@ namespace DSPRE.Editors
       this.BtnNextFindActions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
       this.BtnNextFindActions.Name = "BtnNextFindActions";
       this.BtnNextFindActions.Size = new System.Drawing.Size(25, 30);
-      this.BtnNextFindActions.TabIndex = 9;
+      this.BtnNextFindActions.TabIndex = 40;
       this.BtnNextFindActions.Tag = "Find next (Enter)";
       this.BtnNextFindActions.UseVisualStyleBackColor = true;
       this.BtnNextFindActions.Click += new System.EventHandler(this.BtnNextFindActions_Click);
@@ -364,7 +364,7 @@ namespace DSPRE.Editors
       this.BtnPrevFindActions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
       this.BtnPrevFindActions.Name = "BtnPrevFindActions";
       this.BtnPrevFindActions.Size = new System.Drawing.Size(25, 30);
-      this.BtnPrevFindActions.TabIndex = 8;
+      this.BtnPrevFindActions.TabIndex = 39;
       this.BtnPrevFindActions.Tag = "Find previous (Shift+Enter)";
       this.BtnPrevFindActions.UseVisualStyleBackColor = true;
       this.BtnPrevFindActions.Click += new System.EventHandler(this.BtnPrevFindActions_Click);
@@ -378,7 +378,7 @@ namespace DSPRE.Editors
       this.BtnCloseFindActions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
       this.BtnCloseFindActions.Name = "BtnCloseFindActions";
       this.BtnCloseFindActions.Size = new System.Drawing.Size(25, 30);
-      this.BtnCloseFindActions.TabIndex = 7;
+      this.BtnCloseFindActions.TabIndex = 41;
       this.BtnCloseFindActions.Tag = "Close (Esc)";
       this.BtnCloseFindActions.UseVisualStyleBackColor = true;
       this.BtnCloseFindActions.Click += new System.EventHandler(this.BtnCloseFindActions_Click);
@@ -391,7 +391,7 @@ namespace DSPRE.Editors
       this.panelFindActionTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
       this.panelFindActionTextBox.Name = "panelFindActionTextBox";
       this.panelFindActionTextBox.Size = new System.Drawing.Size(189, 25);
-      this.panelFindActionTextBox.TabIndex = 6;
+      this.panelFindActionTextBox.TabIndex = 38;
       this.panelFindActionTextBox.TextChanged += new System.EventHandler(this.panelFindActionTextBox_TextChanged);
       this.panelFindActionTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.actionTxtFind_KeyDown);
       // 
@@ -402,7 +402,7 @@ namespace DSPRE.Editors
       this.scintillaActionsPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
       this.scintillaActionsPanel.Name = "scintillaActionsPanel";
       this.scintillaActionsPanel.Size = new System.Drawing.Size(678, 559);
-      this.scintillaActionsPanel.TabIndex = 15;
+      this.scintillaActionsPanel.TabIndex = 21;
       // 
       // addScriptFileButton
       // 
@@ -411,7 +411,7 @@ namespace DSPRE.Editors
       this.addScriptFileButton.Location = new System.Drawing.Point(369, 667);
       this.addScriptFileButton.Name = "addScriptFileButton";
       this.addScriptFileButton.Size = new System.Drawing.Size(106, 25);
-      this.addScriptFileButton.TabIndex = 10;
+      this.addScriptFileButton.TabIndex = 4;
       this.addScriptFileButton.Text = "Add Script File";
       this.addScriptFileButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       this.addScriptFileButton.UseVisualStyleBackColor = true;
@@ -424,7 +424,7 @@ namespace DSPRE.Editors
       this.removeScriptFileButton.Location = new System.Drawing.Point(369, 694);
       this.removeScriptFileButton.Name = "removeScriptFileButton";
       this.removeScriptFileButton.Size = new System.Drawing.Size(106, 25);
-      this.removeScriptFileButton.TabIndex = 13;
+      this.removeScriptFileButton.TabIndex = 5;
       this.removeScriptFileButton.Text = "Remove Last";
       this.removeScriptFileButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       this.removeScriptFileButton.UseVisualStyleBackColor = true;
@@ -437,7 +437,7 @@ namespace DSPRE.Editors
       this.saveScriptFileButton.Location = new System.Drawing.Point(6, 50);
       this.saveScriptFileButton.Name = "saveScriptFileButton";
       this.saveScriptFileButton.Size = new System.Drawing.Size(154, 23);
-      this.saveScriptFileButton.TabIndex = 14;
+      this.saveScriptFileButton.TabIndex = 1;
       this.saveScriptFileButton.Text = "&Save Current File";
       this.saveScriptFileButton.UseVisualStyleBackColor = true;
       this.saveScriptFileButton.Click += new System.EventHandler(this.saveScriptFileButton_Click);
@@ -449,7 +449,7 @@ namespace DSPRE.Editors
       this.exportScriptFileButton.Location = new System.Drawing.Point(294, 667);
       this.exportScriptFileButton.Name = "exportScriptFileButton";
       this.exportScriptFileButton.Size = new System.Drawing.Size(70, 52);
-      this.exportScriptFileButton.TabIndex = 15;
+      this.exportScriptFileButton.TabIndex = 3;
       this.exportScriptFileButton.Text = "&Export \r\nFile";
       this.exportScriptFileButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       this.exportScriptFileButton.UseVisualStyleBackColor = true;
@@ -462,7 +462,7 @@ namespace DSPRE.Editors
       this.importScriptFileButton.Location = new System.Drawing.Point(219, 667);
       this.importScriptFileButton.Name = "importScriptFileButton";
       this.importScriptFileButton.Size = new System.Drawing.Size(70, 52);
-      this.importScriptFileButton.TabIndex = 16;
+      this.importScriptFileButton.TabIndex = 2;
       this.importScriptFileButton.Text = "&Import\r\nFile";
       this.importScriptFileButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       this.importScriptFileButton.UseVisualStyleBackColor = true;
@@ -494,7 +494,7 @@ namespace DSPRE.Editors
       this.searchInScriptsButton.Location = new System.Drawing.Point(272, 27);
       this.searchInScriptsButton.Name = "searchInScriptsButton";
       this.searchInScriptsButton.Size = new System.Drawing.Size(69, 36);
-      this.searchInScriptsButton.TabIndex = 32;
+      this.searchInScriptsButton.TabIndex = 13;
       this.searchInScriptsButton.Text = "Search";
       this.searchInScriptsButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       this.searchInScriptsButton.UseVisualStyleBackColor = true;
@@ -506,7 +506,7 @@ namespace DSPRE.Editors
       this.searchOnlyCurrentScriptCheckBox.Location = new System.Drawing.Point(347, 15);
       this.searchOnlyCurrentScriptCheckBox.Name = "searchOnlyCurrentScriptCheckBox";
       this.searchOnlyCurrentScriptCheckBox.Size = new System.Drawing.Size(84, 17);
-      this.searchOnlyCurrentScriptCheckBox.TabIndex = 41;
+      this.searchOnlyCurrentScriptCheckBox.TabIndex = 14;
       this.searchOnlyCurrentScriptCheckBox.Text = "Only Current";
       this.searchOnlyCurrentScriptCheckBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
       this.searchOnlyCurrentScriptCheckBox.UseVisualStyleBackColor = true;
@@ -517,7 +517,7 @@ namespace DSPRE.Editors
       this.scrollToBlockStartcheckBox.Location = new System.Drawing.Point(347, 61);
       this.scrollToBlockStartcheckBox.Name = "scrollToBlockStartcheckBox";
       this.scrollToBlockStartcheckBox.Size = new System.Drawing.Size(116, 17);
-      this.scrollToBlockStartcheckBox.TabIndex = 39;
+      this.scrollToBlockStartcheckBox.TabIndex = 16;
       this.scrollToBlockStartcheckBox.Text = "Scroll to block start";
       this.scrollToBlockStartcheckBox.UseVisualStyleBackColor = true;
       // 
@@ -527,7 +527,7 @@ namespace DSPRE.Editors
       this.scriptSearchCaseSensitiveCheckBox.Location = new System.Drawing.Point(347, 38);
       this.scriptSearchCaseSensitiveCheckBox.Name = "scriptSearchCaseSensitiveCheckBox";
       this.scriptSearchCaseSensitiveCheckBox.Size = new System.Drawing.Size(83, 17);
-      this.scriptSearchCaseSensitiveCheckBox.TabIndex = 39;
+      this.scriptSearchCaseSensitiveCheckBox.TabIndex = 15;
       this.scriptSearchCaseSensitiveCheckBox.Text = "Match Case";
       this.scriptSearchCaseSensitiveCheckBox.UseVisualStyleBackColor = true;
       // 
@@ -536,7 +536,7 @@ namespace DSPRE.Editors
       this.searchInScriptsTextBox.Location = new System.Drawing.Point(11, 36);
       this.searchInScriptsTextBox.Name = "searchInScriptsTextBox";
       this.searchInScriptsTextBox.Size = new System.Drawing.Size(255, 20);
-      this.searchInScriptsTextBox.TabIndex = 38;
+      this.searchInScriptsTextBox.TabIndex = 12;
       this.searchInScriptsTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.searchInScriptsTextBox_KeyDown);
       // 
       // label31
@@ -601,7 +601,7 @@ namespace DSPRE.Editors
       this.ScriptNavigatorTabControl.Name = "ScriptNavigatorTabControl";
       this.ScriptNavigatorTabControl.SelectedIndex = 0;
       this.ScriptNavigatorTabControl.Size = new System.Drawing.Size(456, 209);
-      this.ScriptNavigatorTabControl.TabIndex = 18;
+      this.ScriptNavigatorTabControl.TabIndex = 8;
       // 
       // ScriptsNavTab
       // 
@@ -622,7 +622,7 @@ namespace DSPRE.Editors
       this.scriptsNavListbox.Location = new System.Drawing.Point(3, 3);
       this.scriptsNavListbox.Name = "scriptsNavListbox";
       this.scriptsNavListbox.Size = new System.Drawing.Size(442, 177);
-      this.scriptsNavListbox.TabIndex = 18;
+      this.scriptsNavListbox.TabIndex = 9;
       this.scriptsNavListbox.SelectedIndexChanged += new System.EventHandler(this.scriptsNavListbox_SelectedIndexChanged);
       // 
       // FunctionsNavTab
@@ -644,7 +644,7 @@ namespace DSPRE.Editors
       this.functionsNavListbox.Location = new System.Drawing.Point(3, 3);
       this.functionsNavListbox.Name = "functionsNavListbox";
       this.functionsNavListbox.Size = new System.Drawing.Size(442, 177);
-      this.functionsNavListbox.TabIndex = 19;
+      this.functionsNavListbox.TabIndex = 10;
       this.functionsNavListbox.SelectedIndexChanged += new System.EventHandler(this.functionsNavListbox_SelectedIndexChanged);
       // 
       // ActionsNavTab
@@ -666,7 +666,7 @@ namespace DSPRE.Editors
       this.actionsNavListbox.Location = new System.Drawing.Point(3, 3);
       this.actionsNavListbox.Name = "actionsNavListbox";
       this.actionsNavListbox.Size = new System.Drawing.Size(442, 177);
-      this.actionsNavListbox.TabIndex = 19;
+      this.actionsNavListbox.TabIndex = 11;
       this.actionsNavListbox.SelectedIndexChanged += new System.EventHandler(this.actionsNavListbox_SelectedIndexChanged);
       // 
       // openFindScriptEditorButton
@@ -676,7 +676,7 @@ namespace DSPRE.Editors
       this.openFindScriptEditorButton.Location = new System.Drawing.Point(1079, 11);
       this.openFindScriptEditorButton.Name = "openFindScriptEditorButton";
       this.openFindScriptEditorButton.Size = new System.Drawing.Size(24, 24);
-      this.openFindScriptEditorButton.TabIndex = 47;
+      this.openFindScriptEditorButton.TabIndex = 27;
       this.openFindScriptEditorButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       this.openFindScriptEditorButton.UseVisualStyleBackColor = true;
       this.openFindScriptEditorButton.Click += new System.EventHandler(this.openFindScriptEditorButton_Click);
@@ -688,7 +688,7 @@ namespace DSPRE.Editors
       this.expandScriptTextButton.Location = new System.Drawing.Point(1107, 11);
       this.expandScriptTextButton.Name = "expandScriptTextButton";
       this.expandScriptTextButton.Size = new System.Drawing.Size(24, 24);
-      this.expandScriptTextButton.TabIndex = 48;
+      this.expandScriptTextButton.TabIndex = 28;
       this.expandScriptTextButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       this.expandScriptTextButton.UseVisualStyleBackColor = true;
       this.expandScriptTextButton.Click += new System.EventHandler(this.ScriptEditorExpandButton_Click);
@@ -700,7 +700,7 @@ namespace DSPRE.Editors
       this.compressScriptTextButton.Location = new System.Drawing.Point(1135, 11);
       this.compressScriptTextButton.Name = "compressScriptTextButton";
       this.compressScriptTextButton.Size = new System.Drawing.Size(24, 24);
-      this.compressScriptTextButton.TabIndex = 49;
+      this.compressScriptTextButton.TabIndex = 29;
       this.compressScriptTextButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       this.compressScriptTextButton.UseVisualStyleBackColor = true;
       this.compressScriptTextButton.Click += new System.EventHandler(this.ScriptEditorCollapseButton_Click);
@@ -714,7 +714,7 @@ namespace DSPRE.Editors
       this.scriptEditorWordWrapCheckbox.Location = new System.Drawing.Point(907, 12);
       this.scriptEditorWordWrapCheckbox.Name = "scriptEditorWordWrapCheckbox";
       this.scriptEditorWordWrapCheckbox.Size = new System.Drawing.Size(72, 23);
-      this.scriptEditorWordWrapCheckbox.TabIndex = 43;
+      this.scriptEditorWordWrapCheckbox.TabIndex = 25;
       this.scriptEditorWordWrapCheckbox.Text = "Word Wrap";
       this.scriptEditorWordWrapCheckbox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
       this.scriptEditorWordWrapCheckbox.UseVisualStyleBackColor = true;
@@ -727,7 +727,7 @@ namespace DSPRE.Editors
       this.scriptEditorWhitespacesCheckbox.Location = new System.Drawing.Point(981, 12);
       this.scriptEditorWhitespacesCheckbox.Name = "scriptEditorWhitespacesCheckbox";
       this.scriptEditorWhitespacesCheckbox.Size = new System.Drawing.Size(79, 23);
-      this.scriptEditorWhitespacesCheckbox.TabIndex = 46;
+      this.scriptEditorWhitespacesCheckbox.TabIndex = 26;
       this.scriptEditorWhitespacesCheckbox.Text = "Whitespaces";
       this.scriptEditorWhitespacesCheckbox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
       this.scriptEditorWhitespacesCheckbox.UseVisualStyleBackColor = true;
@@ -752,7 +752,7 @@ namespace DSPRE.Editors
       this.scriptEditorNumberFormatNoPreference.Location = new System.Drawing.Point(11, 14);
       this.scriptEditorNumberFormatNoPreference.Name = "scriptEditorNumberFormatNoPreference";
       this.scriptEditorNumberFormatNoPreference.Size = new System.Drawing.Size(47, 17);
-      this.scriptEditorNumberFormatNoPreference.TabIndex = 36;
+      this.scriptEditorNumberFormatNoPreference.TabIndex = 22;
       this.scriptEditorNumberFormatNoPreference.TabStop = true;
       this.scriptEditorNumberFormatNoPreference.Text = "Auto";
       this.scriptEditorNumberFormatNoPreference.UseVisualStyleBackColor = true;
@@ -764,7 +764,7 @@ namespace DSPRE.Editors
       this.scriptEditorNumberFormatDecimal.Location = new System.Drawing.Point(121, 14);
       this.scriptEditorNumberFormatDecimal.Name = "scriptEditorNumberFormatDecimal";
       this.scriptEditorNumberFormatDecimal.Size = new System.Drawing.Size(63, 17);
-      this.scriptEditorNumberFormatDecimal.TabIndex = 35;
+      this.scriptEditorNumberFormatDecimal.TabIndex = 24;
       this.scriptEditorNumberFormatDecimal.Text = "Decimal";
       this.scriptEditorNumberFormatDecimal.UseVisualStyleBackColor = true;
       this.scriptEditorNumberFormatDecimal.CheckedChanged += new System.EventHandler(this.UpdateScriptNumberFormatDec);
@@ -775,22 +775,22 @@ namespace DSPRE.Editors
       this.scriptEditorNumberFormatHex.Location = new System.Drawing.Point(68, 14);
       this.scriptEditorNumberFormatHex.Name = "scriptEditorNumberFormatHex";
       this.scriptEditorNumberFormatHex.Size = new System.Drawing.Size(44, 17);
-      this.scriptEditorNumberFormatHex.TabIndex = 34;
+      this.scriptEditorNumberFormatHex.TabIndex = 23;
       this.scriptEditorNumberFormatHex.Text = "Hex";
       this.scriptEditorNumberFormatHex.UseVisualStyleBackColor = true;
       this.scriptEditorNumberFormatHex.CheckedChanged += new System.EventHandler(this.UpdateScriptNumberFormatHex);
       // 
-      // viewLevelScript
+      // viewLevelScriptButton
       // 
-      this.viewLevelScript.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-      this.viewLevelScript.Location = new System.Drawing.Point(481, 681);
-      this.viewLevelScript.Name = "viewLevelScript";
-      this.viewLevelScript.Size = new System.Drawing.Size(91, 25);
-      this.viewLevelScript.TabIndex = 19;
-      this.viewLevelScript.Text = "View level script";
-      this.viewLevelScript.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-      this.viewLevelScript.UseVisualStyleBackColor = true;
-      this.viewLevelScript.Click += new System.EventHandler(this.viewLevelScriptButton_Click);
+      this.viewLevelScriptButton.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+      this.viewLevelScriptButton.Location = new System.Drawing.Point(481, 681);
+      this.viewLevelScriptButton.Name = "viewLevelScriptButton";
+      this.viewLevelScriptButton.Size = new System.Drawing.Size(91, 25);
+      this.viewLevelScriptButton.TabIndex = 6;
+      this.viewLevelScriptButton.Text = "View level script";
+      this.viewLevelScriptButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+      this.viewLevelScriptButton.UseVisualStyleBackColor = true;
+      this.viewLevelScriptButton.Click += new System.EventHandler(this.viewLevelScriptButton_Click);
       // 
       // locateCurrentScriptFile
       // 
@@ -798,7 +798,7 @@ namespace DSPRE.Editors
       this.locateCurrentScriptFile.Location = new System.Drawing.Point(423, 29);
       this.locateCurrentScriptFile.Name = "locateCurrentScriptFile";
       this.locateCurrentScriptFile.Size = new System.Drawing.Size(42, 40);
-      this.locateCurrentScriptFile.TabIndex = 63;
+      this.locateCurrentScriptFile.TabIndex = 7;
       this.locateCurrentScriptFile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       this.locateCurrentScriptFile.UseVisualStyleBackColor = true;
       this.locateCurrentScriptFile.Click += new System.EventHandler(this.locateCurrentScriptFile_Click);
@@ -809,7 +809,7 @@ namespace DSPRE.Editors
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.Controls.Add(this.locateCurrentScriptFile);
       this.Controls.Add(this.groupBox24);
-      this.Controls.Add(this.viewLevelScript);
+      this.Controls.Add(this.viewLevelScriptButton);
       this.Controls.Add(this.selectScriptFileComboBox);
       this.Controls.Add(this.groupBox26);
       this.Controls.Add(this.label5);
@@ -848,6 +848,7 @@ namespace DSPRE.Editors
       this.groupBox26.PerformLayout();
       this.ResumeLayout(false);
       this.PerformLayout();
+
     }
 
     private System.Windows.Forms.CheckBox scrollToBlockStartcheckBox;
@@ -910,7 +911,7 @@ namespace DSPRE.Editors
     private System.Windows.Forms.RadioButton scriptEditorNumberFormatNoPreference;
     private System.Windows.Forms.RadioButton scriptEditorNumberFormatDecimal;
     private System.Windows.Forms.RadioButton scriptEditorNumberFormatHex;
-    private System.Windows.Forms.Button viewLevelScript;
+    private System.Windows.Forms.Button viewLevelScriptButton;
     private System.Windows.Forms.Button locateCurrentScriptFile;
   }
 }

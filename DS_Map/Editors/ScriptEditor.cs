@@ -84,13 +84,19 @@ namespace DSPRE.Editors {
       initial_exportScriptFileButton_location = exportScriptFileButton.Location;
       initial_addScriptFileButton_location = addScriptFileButton.Location;
       initial_removeScriptFileButton_location = removeScriptFileButton.Location;
-      initial_viewLevelScript_location = viewLevelScript.Location;
+      initial_viewLevelScript_location = viewLevelScriptButton.Location;
 
       new_importScriptFileButton_location = new Point(164, 22);
       new_exportScriptFileButton_location = new Point(239, 22);
       new_addScriptFileButton_location = new Point(314, 22);
       new_removeScriptFileButton_location = new Point(314, 49);
       new_viewLevelScript_location = new Point(326, 37);
+
+      importScriptFileButton.Enabled = false;
+      exportScriptFileButton.Enabled = false;
+      addScriptFileButton.Enabled = false;
+      removeScriptFileButton.Enabled = false;
+      viewLevelScriptButton.Enabled = false;
     }
 
     public void SetupScriptEditor(bool force = false) {
@@ -105,10 +111,9 @@ namespace DSPRE.Editors {
 
       DSUtils.TryUnpackNarcs(new List<DirNames> { DirNames.scripts }); //12 = scripts Narc Dir
 
-      populate_selectScriptFileComboBox();
+      populate_selectScriptFileComboBox(0);
 
       UpdateScriptNumberCheckBox((NumberStyles)Properties.Settings.Default.scriptEditorFormatPreference);
-      selectScriptFileComboBox.SelectedIndex = 0;
       Helpers.statusLabelMessage();
     }
 
@@ -201,7 +206,7 @@ namespace DSPRE.Editors {
       */
     }
 
-    private void populate_selectScriptFileComboBox() {
+    private void populate_selectScriptFileComboBox(int selectedIndex = 0) {
       selectScriptFileComboBox.Items.Clear();
       int scriptCount = Directory.GetFiles(gameDirs[DirNames.scripts].unpackedDir).Length;
       for (int i = 0; i < scriptCount; i++) {
@@ -209,6 +214,8 @@ namespace DSPRE.Editors {
         // selectScriptFileComboBox.Items.Add(currentScriptFile);
         selectScriptFileComboBox.Items.Add($"Script File {i}");
       }
+
+      selectScriptFileComboBox.SelectedIndex = selectedIndex;
     }
 
     private void InitialViewConfig(Scintilla textArea) {
@@ -514,8 +521,15 @@ namespace DSPRE.Editors {
           exportScriptFileButton.Location = initial_exportScriptFileButton_location;
           addScriptFileButton.Location = initial_addScriptFileButton_location;
           removeScriptFileButton.Location = initial_removeScriptFileButton_location;
+          
+          viewLevelScriptButton.Location = new_viewLevelScript_location;
 
-          viewLevelScript.Location = new_viewLevelScript_location;
+          importScriptFileButton.Enabled = false;
+          exportScriptFileButton.Enabled = false;
+          addScriptFileButton.Enabled = false;
+          removeScriptFileButton.Enabled = false;
+
+          viewLevelScriptButton.Enabled = true;
         }
         else {
           importScriptFileButton.Location = new_importScriptFileButton_location;
@@ -523,7 +537,14 @@ namespace DSPRE.Editors {
           addScriptFileButton.Location = new_addScriptFileButton_location;
           removeScriptFileButton.Location = new_removeScriptFileButton_location;
 
-          viewLevelScript.Location = initial_viewLevelScript_location;
+          viewLevelScriptButton.Location = initial_viewLevelScript_location;
+          
+          importScriptFileButton.Enabled = true;
+          exportScriptFileButton.Enabled = true;
+          addScriptFileButton.Enabled = true;
+          removeScriptFileButton.Enabled = true;
+
+          viewLevelScriptButton.Enabled = false;
         }
       }
 
@@ -702,8 +723,7 @@ namespace DSPRE.Editors {
       string path = Path.Combine(gameDirs[DirNames.scripts].unpackedDir, i.ToString("D4"));
       File.Copy(of.FileName, path, true);
 
-      populate_selectScriptFileComboBox();
-      selectScriptFileComboBox.SelectedIndex = i;
+      populate_selectScriptFileComboBox(i);
 
       /* Refresh controls */
       selectScriptFileComboBox_SelectedIndexChanged(null, null);
@@ -712,10 +732,8 @@ namespace DSPRE.Editors {
       MessageBox.Show("Scripts imported successfully!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
 
-    private void clearCurrentLevelScriptButton_Click(object sender, EventArgs e) {
-      string path = Path.Combine(gameDirs[DirNames.scripts].unpackedDir, selectScriptFileComboBox.SelectedIndex.ToString("D4"));
-      File.WriteAllBytes(path, new byte[4]);
-      MessageBox.Show("Level script correctly cleared.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+    private void viewLevelScriptButton_Click(object sender, EventArgs e) {
+      EditorPanels.levelScriptEditor.OpenLevelScriptEditor(selectScriptFileComboBox.SelectedIndex);
     }
 
     private void locateCurrentScriptFile_Click(object sender, EventArgs e) {

@@ -173,12 +173,13 @@ namespace DSPRE
             this.headerEditorTabPage.Location = new System.Drawing.Point(4, 23);
             this.headerEditorTabPage.Name = "headerEditorTabPage";
             this.headerEditorTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.headerEditorTabPage.Size = new System.Drawing.Size(1185, 619);
+            this.headerEditorTabPage.Size = new System.Drawing.Size(1185, 633);
             this.headerEditorTabPage.TabIndex = 0;
             this.headerEditorTabPage.Text = "Header Editor";
             // 
             // headerEditor
             // 
+            this.headerEditor.headerEditorIsReady = false;
             this.headerEditor.Location = new System.Drawing.Point(7, 7);
             this.headerEditor.Name = "headerEditor";
             this.headerEditor.Size = new System.Drawing.Size(1164, 599);
@@ -213,7 +214,7 @@ namespace DSPRE
             this.mapEditorTabPage.Location = new System.Drawing.Point(4, 23);
             this.mapEditorTabPage.Name = "mapEditorTabPage";
             this.mapEditorTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.mapEditorTabPage.Size = new System.Drawing.Size(1185, 619);
+            this.mapEditorTabPage.Size = new System.Drawing.Size(1185, 633);
             this.mapEditorTabPage.TabIndex = 2;
             this.mapEditorTabPage.Text = "Map Editor";
             this.mapEditorTabPage.Enter += new System.EventHandler(this.mapEditorTabPage_Enter);
@@ -233,7 +234,7 @@ namespace DSPRE
             this.nsbtxEditorTabPage.Location = new System.Drawing.Point(4, 23);
             this.nsbtxEditorTabPage.Name = "nsbtxEditorTabPage";
             this.nsbtxEditorTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.nsbtxEditorTabPage.Size = new System.Drawing.Size(1185, 619);
+            this.nsbtxEditorTabPage.Size = new System.Drawing.Size(1185, 633);
             this.nsbtxEditorTabPage.TabIndex = 6;
             this.nsbtxEditorTabPage.Text = "NSBTX Editor";
             this.nsbtxEditorTabPage.UseVisualStyleBackColor = true;
@@ -254,7 +255,7 @@ namespace DSPRE
             this.eventEditorTabPage.Location = new System.Drawing.Point(4, 23);
             this.eventEditorTabPage.Name = "eventEditorTabPage";
             this.eventEditorTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.eventEditorTabPage.Size = new System.Drawing.Size(1185, 619);
+            this.eventEditorTabPage.Size = new System.Drawing.Size(1185, 633);
             this.eventEditorTabPage.TabIndex = 3;
             this.eventEditorTabPage.Text = "Event Editor";
             this.eventEditorTabPage.Enter += new System.EventHandler(this.eventEditorTabPage_Enter);
@@ -274,7 +275,7 @@ namespace DSPRE
             this.scriptEditorTabPage.Location = new System.Drawing.Point(4, 23);
             this.scriptEditorTabPage.Name = "scriptEditorTabPage";
             this.scriptEditorTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.scriptEditorTabPage.Size = new System.Drawing.Size(1185, 619);
+            this.scriptEditorTabPage.Size = new System.Drawing.Size(1185, 633);
             this.scriptEditorTabPage.TabIndex = 4;
             this.scriptEditorTabPage.Text = "Script Editor";
             this.scriptEditorTabPage.UseVisualStyleBackColor = true;
@@ -293,7 +294,7 @@ namespace DSPRE
             this.levelScriptEditorTabPage.Location = new System.Drawing.Point(4, 23);
             this.levelScriptEditorTabPage.Name = "levelScriptEditorTabPage";
             this.levelScriptEditorTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.levelScriptEditorTabPage.Size = new System.Drawing.Size(1185, 619);
+            this.levelScriptEditorTabPage.Size = new System.Drawing.Size(1185, 633);
             this.levelScriptEditorTabPage.TabIndex = 10;
             this.levelScriptEditorTabPage.Text = "Level Scripts";
             this.levelScriptEditorTabPage.UseVisualStyleBackColor = true;
@@ -304,7 +305,7 @@ namespace DSPRE
             this.levelScriptEditor.levelScriptEditorIsReady = false;
             this.levelScriptEditor.Location = new System.Drawing.Point(6, 6);
             this.levelScriptEditor.Name = "levelScriptEditor";
-            this.levelScriptEditor.Size = new System.Drawing.Size(410, 349);
+            this.levelScriptEditor.Size = new System.Drawing.Size(408, 534);
             this.levelScriptEditor.TabIndex = 0;
             // 
             // textEditorTabPage
@@ -314,7 +315,7 @@ namespace DSPRE
             this.textEditorTabPage.Location = new System.Drawing.Point(4, 23);
             this.textEditorTabPage.Name = "textEditorTabPage";
             this.textEditorTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.textEditorTabPage.Size = new System.Drawing.Size(1185, 619);
+            this.textEditorTabPage.Size = new System.Drawing.Size(1185, 633);
             this.textEditorTabPage.TabIndex = 5;
             this.textEditorTabPage.Text = "Text Editor";
             this.textEditorTabPage.UseVisualStyleBackColor = true;
@@ -333,7 +334,7 @@ namespace DSPRE
             this.cameraEditorTabPage.ImageIndex = 7;
             this.cameraEditorTabPage.Location = new System.Drawing.Point(4, 23);
             this.cameraEditorTabPage.Name = "cameraEditorTabPage";
-            this.cameraEditorTabPage.Size = new System.Drawing.Size(1185, 619);
+            this.cameraEditorTabPage.Size = new System.Drawing.Size(1185, 633);
             this.cameraEditorTabPage.TabIndex = 7;
             this.cameraEditorTabPage.Text = "Camera Editor";
             this.cameraEditorTabPage.UseVisualStyleBackColor = true;
@@ -352,7 +353,7 @@ namespace DSPRE
             this.trainerEditorTabPage.ImageIndex = 8;
             this.trainerEditorTabPage.Location = new System.Drawing.Point(4, 23);
             this.trainerEditorTabPage.Name = "trainerEditorTabPage";
-            this.trainerEditorTabPage.Size = new System.Drawing.Size(1185, 619);
+            this.trainerEditorTabPage.Size = new System.Drawing.Size(1185, 633);
             this.trainerEditorTabPage.TabIndex = 8;
             this.trainerEditorTabPage.Text = "Trainer Editor";
             this.trainerEditorTabPage.UseVisualStyleBackColor = true;
@@ -372,7 +373,7 @@ namespace DSPRE
             this.tableEditorTabPage.Location = new System.Drawing.Point(4, 23);
             this.tableEditorTabPage.Name = "tableEditorTabPage";
             this.tableEditorTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.tableEditorTabPage.Size = new System.Drawing.Size(1185, 619);
+            this.tableEditorTabPage.Size = new System.Drawing.Size(1185, 633);
             this.tableEditorTabPage.TabIndex = 9;
             this.tableEditorTabPage.Text = "Table Editor";
             this.tableEditorTabPage.UseVisualStyleBackColor = true;
@@ -503,7 +504,7 @@ namespace DSPRE
             this.diamondAndPearlToolStripMenuItem.Image = global::DSPRE.Properties.Resources.scriptDBIconDP;
             this.diamondAndPearlToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.diamondAndPearlToolStripMenuItem.Name = "diamondAndPearlToolStripMenuItem";
-            this.diamondAndPearlToolStripMenuItem.Size = new System.Drawing.Size(201, 38);
+            this.diamondAndPearlToolStripMenuItem.Size = new System.Drawing.Size(211, 38);
             this.diamondAndPearlToolStripMenuItem.Text = "Diamond && Pearl";
             this.diamondAndPearlToolStripMenuItem.Click += new System.EventHandler(this.diamondAndPearlToolStripMenuItem_Click);
             // 
@@ -512,7 +513,7 @@ namespace DSPRE
             this.platinumToolStripMenuItem.Image = global::DSPRE.Properties.Resources.scriptDBIconPt;
             this.platinumToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.platinumToolStripMenuItem.Name = "platinumToolStripMenuItem";
-            this.platinumToolStripMenuItem.Size = new System.Drawing.Size(201, 38);
+            this.platinumToolStripMenuItem.Size = new System.Drawing.Size(211, 38);
             this.platinumToolStripMenuItem.Text = "Platinum";
             this.platinumToolStripMenuItem.Click += new System.EventHandler(this.platinumToolStripMenuItem_Click);
             // 
@@ -521,7 +522,7 @@ namespace DSPRE
             this.heartGoldAndSoulSilverToolStripMenuItem.Image = global::DSPRE.Properties.Resources.scriptDBIconHGSS;
             this.heartGoldAndSoulSilverToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.heartGoldAndSoulSilverToolStripMenuItem.Name = "heartGoldAndSoulSilverToolStripMenuItem";
-            this.heartGoldAndSoulSilverToolStripMenuItem.Size = new System.Drawing.Size(201, 38);
+            this.heartGoldAndSoulSilverToolStripMenuItem.Size = new System.Drawing.Size(211, 38);
             this.heartGoldAndSoulSilverToolStripMenuItem.Text = "HeartGold && SoulSilver";
             this.heartGoldAndSoulSilverToolStripMenuItem.Click += new System.EventHandler(this.heartGoldAndSoulSilverToolStripMenuItem_Click);
             // 
@@ -1157,7 +1158,7 @@ namespace DSPRE
     public DSPRE.Editors.MatrixEditor matrixEditor;
     public DSPRE.Editors.HeaderEditor headerEditor;
     public System.Windows.Forms.TabPage levelScriptEditorTabPage;
-    public LevelScriptEditor levelScriptEditor;
+    public DSPRE.Editors.LevelScriptEditor levelScriptEditor;
   }
 }
 
