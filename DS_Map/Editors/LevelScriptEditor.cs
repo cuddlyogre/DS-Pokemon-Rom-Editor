@@ -76,9 +76,9 @@ namespace DSPRE.Editors {
     }
 
     void enableButtons() {
-      textBoxScriptID.Enabled = true;
-      textBoxVariableName.Enabled = true;
-      textBoxVariableValue.Enabled = true;
+      // textBoxScriptID.Enabled = true;
+      // textBoxVariableName.Enabled = true;
+      // textBoxVariableValue.Enabled = true;
 
       radioButtonVariableValue.Enabled = true;
       radioButtonMapChange.Enabled = true;
@@ -165,50 +165,51 @@ namespace DSPRE.Editors {
       handleHexFormat();
       handleDecimalFormat();
 
+      textBoxScriptID.Enabled = true;
       buttonRemove.Enabled = true;
     }
 
     private void buttonAdd_Click(object sender, EventArgs e) {
+      // try {
+      if (_levelScriptFile == null) {
+        _levelScriptFile = new LevelScriptFile();
+      }
+
+      int convertBase = 10; //decimal
       if (radioButtonHex.Checked) {
-      }
-
-      try {
-        if (_levelScriptFile == null) {
-          _levelScriptFile = new LevelScriptFile();
-        }
-
-        int convertBase = 10; //decimal
         convertBase = 16; //hex
-        if (radioButtonVariableValue.Checked) {
-          int scriptID = Convert.ToInt16(textBoxScriptID.Text, convertBase);
-          int variableName = Convert.ToInt16(textBoxVariableName.Text, convertBase);
-          int variableValue = Convert.ToInt16(textBoxVariableValue.Text, convertBase);
-          VariableValueTrigger variableValueTrigger = new VariableValueTrigger(scriptID, variableName, variableValue);
-          _levelScriptFile.bufferSet.Add(variableValueTrigger);
-        }
-        else {
-          int scriptID = Convert.ToInt16(textBoxScriptID.Text, convertBase);
-          if (radioButtonMapChange.Checked) {
-            MapScreenLoadTrigger mapScreenLoadTrigger = new MapScreenLoadTrigger(LevelScriptTrigger.MAPCHANGE, scriptID);
-            _levelScriptFile.bufferSet.Add(mapScreenLoadTrigger);
-          }
-          else if (radioButtonScreenReset.Checked) {
-            MapScreenLoadTrigger mapScreenLoadTrigger = new MapScreenLoadTrigger(LevelScriptTrigger.SCREENRESET, scriptID);
-            _levelScriptFile.bufferSet.Add(mapScreenLoadTrigger);
-          }
-          else if (radioButtonLoadGame.Checked) {
-            MapScreenLoadTrigger mapScreenLoadTrigger = new MapScreenLoadTrigger(LevelScriptTrigger.LOADGAME, scriptID);
-            _levelScriptFile.bufferSet.Add(mapScreenLoadTrigger);
-          }
-        }
+      }
 
-        textBoxScriptID.Clear();
-        textBoxVariableName.Clear();
-        textBoxVariableValue.Clear();
+      if (radioButtonVariableValue.Checked) {
+        int scriptID = Convert.ToInt16(textBoxScriptID.Text, convertBase);
+        int variableName = Convert.ToInt16(textBoxVariableName.Text, convertBase);
+        int variableValue = Convert.ToInt16(textBoxVariableValue.Text, convertBase);
+        VariableValueTrigger variableValueTrigger = new VariableValueTrigger(scriptID, variableName, variableValue);
+        _levelScriptFile.bufferSet.Add(variableValueTrigger);
       }
-      catch (Exception exception) {
-        MessageBox.Show(exception.Message);
+      else {
+        int scriptID = Convert.ToInt16(textBoxScriptID.Text, convertBase);
+        if (radioButtonMapChange.Checked) {
+          MapScreenLoadTrigger mapScreenLoadTrigger = new MapScreenLoadTrigger(LevelScriptTrigger.MAPCHANGE, scriptID);
+          _levelScriptFile.bufferSet.Add(mapScreenLoadTrigger);
+        }
+        else if (radioButtonScreenReset.Checked) {
+          MapScreenLoadTrigger mapScreenLoadTrigger = new MapScreenLoadTrigger(LevelScriptTrigger.SCREENRESET, scriptID);
+          _levelScriptFile.bufferSet.Add(mapScreenLoadTrigger);
+        }
+        else if (radioButtonLoadGame.Checked) {
+          MapScreenLoadTrigger mapScreenLoadTrigger = new MapScreenLoadTrigger(LevelScriptTrigger.LOADGAME, scriptID);
+          _levelScriptFile.bufferSet.Add(mapScreenLoadTrigger);
+        }
       }
+
+      textBoxScriptID.Clear();
+      textBoxVariableName.Clear();
+      textBoxVariableValue.Clear();
+      // }
+      // catch (Exception exception) {
+      //   MessageBox.Show(exception.Message);
+      // }
     }
 
     private void buttonRemove_Click(object sender, EventArgs e) {
@@ -229,6 +230,20 @@ namespace DSPRE.Editors {
     }
 
     void buttonImport_Click(object sender, EventArgs e) {
+      OpenFileDialog ofd = new OpenFileDialog();
+      if (ofd.ShowDialog() == DialogResult.OK) {
+        try {
+          LevelScriptFile importedFile = new LevelScriptFile();
+          importedFile.parse_file(ofd.FileName);
+          _levelScriptFile.bufferSet.Clear();
+          foreach (LevelScriptTrigger trigger in importedFile.bufferSet) {
+            _levelScriptFile.bufferSet.Add(trigger);
+          }
+        }
+        catch (InvalidDataException ex) {
+          MessageBox.Show(ex.Message, ex.GetType().ToString());
+        }
+      }
       //if current index != -1
       //replace triggers of current file with triggers of imported file
     }
