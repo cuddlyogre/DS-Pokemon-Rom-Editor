@@ -66,30 +66,6 @@ namespace DSPRE.ROMFiles {
       return treeGroups;
     }
 
-    public void AddNormalTreeGroup() {
-      normalTreeGroups.Add(new HeadbuttTreeGroup(HeadbuttTree.Types.Normal));
-    }
-
-    public void RemoveNormalTreeGroup(int index) {
-      normalTreeGroups.RemoveAt(index);
-    }
-
-    public void DuplicateNormalTreeGroup(HeadbuttTreeGroup original) {
-      normalTreeGroups.Add(new HeadbuttTreeGroup(original));
-    }
-
-    public void AddSpecialTreeGroup() {
-      specialTreeGroups.Add(new HeadbuttTreeGroup(HeadbuttTree.Types.Special));
-    }
-
-    public void RemoveSpecialTreeGroup(int index) {
-      specialTreeGroups.RemoveAt(index);
-    }
-
-    public void DuplicateSpecialTreeGroup(HeadbuttTreeGroup original) {
-      specialTreeGroups.Add(new HeadbuttTreeGroup(original));
-    }
-
     public byte[] ToByteArray() {
       MemoryStream newData = new MemoryStream();
       using (BinaryWriter writer = new BinaryWriter(newData)) {
