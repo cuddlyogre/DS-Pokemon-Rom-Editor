@@ -244,8 +244,6 @@ namespace DSPRE.Editors {
           MessageBox.Show(ex.Message, ex.GetType().ToString());
         }
       }
-      //if current index != -1
-      //replace triggers of current file with triggers of imported file
     }
 
     private void buttonSave_Click(object sender, EventArgs e) {
