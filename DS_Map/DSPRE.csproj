@@ -132,6 +132,12 @@
     <Compile Include="Editors\HeaderEditor.Designer.cs">
       <DependentUpon>HeaderEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Editors\LevelScriptEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Editors\LevelScriptEditor.Designer.cs">
+      <DependentUpon>LevelScriptEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Editors\MapEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -208,6 +214,7 @@
     <Compile Include="OffsetPictureBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ROMFiles\LevelScriptFile.cs" />
     <Compile Include="ROMFiles\RomFile.cs" />
     <Compile Include="ROMFiles\ScriptAction.cs" />
     <Compile Include="ROMFiles\TrainerFile.cs" />
@@ -342,6 +349,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Editors\HeaderEditor.resx">
       <DependentUpon>HeaderEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editors\LevelScriptEditor.resx">
+      <DependentUpon>LevelScriptEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Editors\MapEditor.resx">
       <DependentUpon>MapEditor.cs</DependentUpon>

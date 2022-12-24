@@ -137,4 +137,10 @@ namespace DSPRE {
         }
         public static Bitmap Resize(this Bitmap source, float factor) => source.Resize((int)(source.Width * factor), (int)(source.Height * factor));
     }
+    
+    public class ListBox2 : ListBox {
+        public new void RefreshItem(int index) {
+            base.RefreshItem(index);
+        }
+    }
 }
