@@ -120,23 +120,47 @@ namespace DSPRE.Editors
       // widthUpDown
       // 
       this.widthUpDown.Location = new System.Drawing.Point(35, 90);
-      this.widthUpDown.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
-      this.widthUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+      this.widthUpDown.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+      this.widthUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
       this.widthUpDown.Name = "widthUpDown";
       this.widthUpDown.Size = new System.Drawing.Size(37, 20);
       this.widthUpDown.TabIndex = 15;
-      this.widthUpDown.Value = new decimal(new int[] { 1, 0, 0, 0 });
+      this.widthUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
       this.widthUpDown.ValueChanged += new System.EventHandler(this.widthUpDown_ValueChanged);
       // 
       // heightUpDown
       // 
       this.heightUpDown.Location = new System.Drawing.Point(78, 90);
-      this.heightUpDown.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
-      this.heightUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+      this.heightUpDown.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+      this.heightUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
       this.heightUpDown.Name = "heightUpDown";
       this.heightUpDown.Size = new System.Drawing.Size(37, 20);
       this.heightUpDown.TabIndex = 16;
-      this.heightUpDown.Value = new decimal(new int[] { 1, 0, 0, 0 });
+      this.heightUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
       this.heightUpDown.ValueChanged += new System.EventHandler(this.heightUpDown_ValueChanged);
       // 
       // matrixNameTextBox
@@ -150,6 +174,8 @@ namespace DSPRE.Editors
       // 
       // matrixTabControl
       // 
+      this.matrixTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
       this.matrixTabControl.Controls.Add(this.headersTabPage);
       this.matrixTabControl.Controls.Add(this.heightsTabPage);
       this.matrixTabControl.Controls.Add(this.mapFilesTabPage);
@@ -177,11 +203,13 @@ namespace DSPRE.Editors
       this.headersGridView.AllowUserToDeleteRows = false;
       this.headersGridView.AllowUserToResizeColumns = false;
       this.headersGridView.AllowUserToResizeRows = false;
+      this.headersGridView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
       this.headersGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-      dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-      dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-      dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Info;
+      dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+      dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+      dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F);
+      dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
       dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
       dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
       dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
@@ -189,7 +217,7 @@ namespace DSPRE.Editors
       this.headersGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
       dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
       dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-      dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 7F);
       dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
       dataGridViewCellStyle2.Format = "D4";
       dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
@@ -210,7 +238,7 @@ namespace DSPRE.Editors
       this.headersGridView.RowHeadersWidth = 50;
       this.headersGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
       dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      dataGridViewCellStyle4.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      dataGridViewCellStyle4.Font = new System.Drawing.Font("Tahoma", 7F);
       this.headersGridView.RowsDefaultCellStyle = dataGridViewCellStyle4;
       this.headersGridView.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
       this.headersGridView.RowTemplate.Height = 18;
@@ -242,6 +270,8 @@ namespace DSPRE.Editors
       this.heightsGridView.AllowUserToResizeRows = false;
       dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
       this.heightsGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+      this.heightsGridView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
       this.heightsGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
       dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
       dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
@@ -254,7 +284,7 @@ namespace DSPRE.Editors
       this.heightsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
       dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
       dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
-      dataGridViewCellStyle7.Font = new System.Drawing.Font("Tahoma", 8.25F);
+      dataGridViewCellStyle7.Font = new System.Drawing.Font("Tahoma", 7F);
       dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
       dataGridViewCellStyle7.Format = "D2";
       dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
@@ -275,7 +305,7 @@ namespace DSPRE.Editors
       this.heightsGridView.RowHeadersWidth = 50;
       this.heightsGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
       dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      dataGridViewCellStyle9.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      dataGridViewCellStyle9.Font = new System.Drawing.Font("Tahoma", 7F);
       this.heightsGridView.RowsDefaultCellStyle = dataGridViewCellStyle9;
       this.heightsGridView.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
       this.heightsGridView.RowTemplate.Height = 18;
@@ -305,6 +335,8 @@ namespace DSPRE.Editors
       this.mapFilesGridView.AllowUserToResizeRows = false;
       dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
       this.mapFilesGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle10;
+      this.mapFilesGridView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
       this.mapFilesGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
       dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
       dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
@@ -317,7 +349,7 @@ namespace DSPRE.Editors
       this.mapFilesGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
       dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
       dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Window;
-      dataGridViewCellStyle12.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      dataGridViewCellStyle12.Font = new System.Drawing.Font("Tahoma", 7F);
       dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.ControlText;
       dataGridViewCellStyle12.Format = "D4";
       dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
@@ -338,7 +370,7 @@ namespace DSPRE.Editors
       this.mapFilesGridView.RowHeadersWidth = 50;
       this.mapFilesGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
       dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-      dataGridViewCellStyle14.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      dataGridViewCellStyle14.Font = new System.Drawing.Font("Tahoma", 7F);
       this.mapFilesGridView.RowsDefaultCellStyle = dataGridViewCellStyle14;
       this.mapFilesGridView.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
       this.mapFilesGridView.RowTemplate.Height = 18;
@@ -566,6 +598,7 @@ namespace DSPRE.Editors
       ((System.ComponentModel.ISupportInitialize)(this.mapFilesGridView)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
+
     }
 
     #endregion

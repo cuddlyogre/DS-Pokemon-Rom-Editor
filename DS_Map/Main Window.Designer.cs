@@ -148,6 +148,8 @@ namespace DSPRE
       // mainTabControl
       // 
       this.mainTabControl.AllowDrop = true;
+      this.mainTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
       this.mainTabControl.Controls.Add(this.headerEditorTabPage);
       this.mainTabControl.Controls.Add(this.matrixEditorTabPage);
       this.mainTabControl.Controls.Add(this.mapEditorTabPage);
@@ -203,6 +205,8 @@ namespace DSPRE
       // 
       // matrixEditor
       // 
+      this.matrixEditor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
       this.matrixEditor.BackColor = System.Drawing.SystemColors.Window;
       this.matrixEditor.Location = new System.Drawing.Point(6, 9);
       this.matrixEditor.matrixEditorIsReady = false;
@@ -739,7 +743,7 @@ namespace DSPRE
       this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusLabel,
             this.toolStripProgressBar});
-      this.statusStrip1.Location = new System.Drawing.Point(0, 732);
+      this.statusStrip1.Location = new System.Drawing.Point(0, 719);
       this.statusStrip1.Name = "statusStrip1";
       this.statusStrip1.Size = new System.Drawing.Size(1214, 22);
       this.statusStrip1.TabIndex = 13;
@@ -1107,7 +1111,7 @@ namespace DSPRE
       this.AllowDrop = true;
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(1214, 754);
+      this.ClientSize = new System.Drawing.Size(1214, 741);
       this.Controls.Add(this.versionLabel);
       this.Controls.Add(this.languageLabel);
       this.Controls.Add(this.gameIcon);
@@ -1120,6 +1124,7 @@ namespace DSPRE
       this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.MainMenuStrip = this.menuStrip1;
       this.MaximizeBox = false;
+      this.MaximumSize = new System.Drawing.Size(1754, 780);
       this.Name = "MainProgram";
       this.Text = "DS Pokémon Rom Editor Reloaded 1.8 (Nømura, AdAstra/LD3005)";
       this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainProgram_FormClosing);
