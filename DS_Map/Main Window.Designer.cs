@@ -167,7 +167,6 @@ namespace DSPRE
       this.mainTabControl.Size = new System.Drawing.Size(1193, 660);
       this.mainTabControl.TabIndex = 5;
       this.mainTabControl.Visible = false;
-      this.mainTabControl.SelectedIndexChanged += new System.EventHandler(this.mainTabControl_SelectedIndexChanged);
       // 
       // tabPageHeaderEditor
       // 
@@ -180,6 +179,7 @@ namespace DSPRE
       this.tabPageHeaderEditor.Size = new System.Drawing.Size(1185, 633);
       this.tabPageHeaderEditor.TabIndex = 0;
       this.tabPageHeaderEditor.Text = "Header Editor";
+      this.tabPageHeaderEditor.Enter += new System.EventHandler(this.tabPageHeaderEditor_Enter);
       // 
       // headerEditor
       // 
@@ -200,6 +200,7 @@ namespace DSPRE
       this.tabPageMatrixEditor.Size = new System.Drawing.Size(1185, 633);
       this.tabPageMatrixEditor.TabIndex = 1;
       this.tabPageMatrixEditor.Text = "Matrix Editor";
+      this.tabPageMatrixEditor.Enter += new System.EventHandler(this.tabPageMatrixEditor_Enter);
       // 
       // matrixEditor
       // 
@@ -221,6 +222,7 @@ namespace DSPRE
       this.tabPageMapEditor.Size = new System.Drawing.Size(1185, 633);
       this.tabPageMapEditor.TabIndex = 2;
       this.tabPageMapEditor.Text = "Map Editor";
+      this.tabPageMapEditor.Enter += new System.EventHandler(this.tabPageMapEditor_Enter);
       // 
       // mapEditor
       // 
@@ -241,6 +243,7 @@ namespace DSPRE
       this.nsbtxEditorTabPage.TabIndex = 6;
       this.nsbtxEditorTabPage.Text = "NSBTX Editor";
       this.nsbtxEditorTabPage.UseVisualStyleBackColor = true;
+      this.nsbtxEditorTabPage.Enter += new System.EventHandler(this.nsbtxEditorTabPage_Enter);
       // 
       // nsbtxEditor
       // 
@@ -261,6 +264,7 @@ namespace DSPRE
       this.tabPageEventEditor.Size = new System.Drawing.Size(1185, 633);
       this.tabPageEventEditor.TabIndex = 3;
       this.tabPageEventEditor.Text = "Event Editor";
+      this.tabPageEventEditor.Enter += new System.EventHandler(this.tabPageEventEditor_Enter);
       // 
       // eventEditor
       // 
@@ -281,6 +285,7 @@ namespace DSPRE
       this.tabPageScriptEditor.TabIndex = 4;
       this.tabPageScriptEditor.Text = "Script Editor";
       this.tabPageScriptEditor.UseVisualStyleBackColor = true;
+      this.tabPageScriptEditor.Enter += new System.EventHandler(this.tabPageScriptEditor_Enter);
       // 
       // scriptEditor
       // 
@@ -300,6 +305,7 @@ namespace DSPRE
       this.tabPageLevelScriptEditor.TabIndex = 10;
       this.tabPageLevelScriptEditor.Text = "Level Scripts";
       this.tabPageLevelScriptEditor.UseVisualStyleBackColor = true;
+      this.tabPageLevelScriptEditor.Enter += new System.EventHandler(this.tabPageLevelScriptEditor_Enter);
       // 
       // levelScriptEditor
       // 
@@ -320,10 +326,12 @@ namespace DSPRE
       this.tabPageHeabuttEncounterEditor.TabIndex = 11;
       this.tabPageHeabuttEncounterEditor.Text = "Headbutt Encounters";
       this.tabPageHeabuttEncounterEditor.UseVisualStyleBackColor = true;
+      this.tabPageHeabuttEncounterEditor.Enter += new System.EventHandler(this.tabPageHeabuttEncounterEditor_Enter);
       // 
       // headbuttEncounterEditor
       // 
       this.headbuttEncounterEditor.BackColor = System.Drawing.SystemColors.Control;
+      this.headbuttEncounterEditor.headbuttEncounterEditorIsReady = false;
       this.headbuttEncounterEditor.Location = new System.Drawing.Point(6, 6);
       this.headbuttEncounterEditor.Name = "headbuttEncounterEditor";
       this.headbuttEncounterEditor.Size = new System.Drawing.Size(419, 608);
@@ -340,6 +348,7 @@ namespace DSPRE
       this.tabPageTextEditor.TabIndex = 5;
       this.tabPageTextEditor.Text = "Text Editor";
       this.tabPageTextEditor.UseVisualStyleBackColor = true;
+      this.tabPageTextEditor.Enter += new System.EventHandler(this.tabPageTextEditor_Enter);
       // 
       // textEditor
       // 
@@ -359,6 +368,7 @@ namespace DSPRE
       this.tabPageCameraEditor.TabIndex = 7;
       this.tabPageCameraEditor.Text = "Camera Editor";
       this.tabPageCameraEditor.UseVisualStyleBackColor = true;
+      this.tabPageCameraEditor.Enter += new System.EventHandler(this.tabPageCameraEditor_Enter);
       // 
       // cameraEditor
       // 
@@ -378,6 +388,7 @@ namespace DSPRE
       this.tabPageTrainerEditor.TabIndex = 8;
       this.tabPageTrainerEditor.Text = "Trainer Editor";
       this.tabPageTrainerEditor.UseVisualStyleBackColor = true;
+      this.tabPageTrainerEditor.Enter += new System.EventHandler(this.tabPageTrainerEditor_Enter);
       // 
       // trainerEditor
       // 
@@ -398,6 +409,7 @@ namespace DSPRE
       this.tabPageTableEditor.TabIndex = 9;
       this.tabPageTableEditor.Text = "Table Editor";
       this.tabPageTableEditor.UseVisualStyleBackColor = true;
+      this.tabPageTableEditor.Enter += new System.EventHandler(this.tabPageTableEditor_Enter);
       // 
       // tableEditor
       // 

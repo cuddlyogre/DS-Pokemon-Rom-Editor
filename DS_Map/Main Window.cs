@@ -683,69 +683,55 @@ namespace DSPRE {
                 RomInfo.BuildActionNamesDatabase(GameFamilies.HGSS), RomInfo.BuildComparisonOperatorsDatabase(GameFamilies.HGSS));
         }
 
-        private void mainTabControl_SelectedIndexChanged(object sender, EventArgs e) {
-            if (mainTabControl.SelectedTab == tabPageHeaderEditor) {
-                headerEditor.SetupHeaderEditor();
-                return;
-            }
+        private void tabPageHeaderEditor_Enter(object sender, EventArgs e) {
+            headerEditor.SetupHeaderEditor();
+        }
 
-            if (mainTabControl.SelectedTab == tabPageMatrixEditor) {
-                matrixEditor.SetupMatrixEditor();
-                mapEditor.makeCurrent();
-                return;
-            }
+        private void tabPageMatrixEditor_Enter(object sender, EventArgs e) {
+            matrixEditor.SetupMatrixEditor();
+        }
 
-            if (mainTabControl.SelectedTab == tabPageMapEditor) {
-                mapEditor.SetupMapEditor();
-                return;
-            }
+        private void tabPageMapEditor_Enter(object sender, EventArgs e) {
+            mapEditor.SetupMapEditor();
+            mapEditor.makeCurrent();
+        }
 
-            if (mainTabControl.SelectedTab == nsbtxEditorTabPage) {
-                nsbtxEditor.SetupNSBTXEditor();
-                return;
-            }
+        private void nsbtxEditorTabPage_Enter(object sender, EventArgs e) {
+            nsbtxEditor.SetupNSBTXEditor();
+        }
 
-            if (mainTabControl.SelectedTab == tabPageEventEditor) {
-                eventEditor.SetupEventEditor();
-                eventEditor.makeCurrent();
-                return;
-            }
+        private void tabPageEventEditor_Enter(object sender, EventArgs e) {
+            eventEditor.SetupEventEditor();
+            eventEditor.makeCurrent();
+        }
 
-            if (mainTabControl.SelectedTab == tabPageScriptEditor) {
-                scriptEditor.SetupScriptEditor();
-                return;
-            }
+        private void tabPageScriptEditor_Enter(object sender, EventArgs e) {
+            scriptEditor.SetupScriptEditor();
+        }
 
-            if (mainTabControl.SelectedTab == tabPageLevelScriptEditor) {
-                levelScriptEditor.SetUpLevelScriptEditor();
-                return;
-            }
+        private void tabPageLevelScriptEditor_Enter(object sender, EventArgs e) {
+            levelScriptEditor.SetUpLevelScriptEditor();
+        }
 
-            if (mainTabControl.SelectedTab == tabPageHeaderEditor) {
-              headbuttEncounterEditor.SetupHeadbuttEncounterEditor();
-              return;
-            }
-            
-            if (mainTabControl.SelectedTab == tabPageTextEditor) {
-                textEditor.SetupTextEditor();
-                return;
-            }
+        private void tabPageHeabuttEncounterEditor_Enter(object sender, EventArgs e) {
+            headbuttEncounterEditor.SetupHeadbuttEncounterEditor();
+        }
 
-            if (mainTabControl.SelectedTab == tabPageCameraEditor) {
-                cameraEditor.SetupCameraEditor();
-                return;
-            }
+        private void tabPageTextEditor_Enter(object sender, EventArgs e) {
+            textEditor.SetupTextEditor();
+        }
 
-            if (mainTabControl.SelectedTab == tabPageTrainerEditor) {
-                trainerEditor.SetupTrainerEditor();
-                return;
-            }
+        private void tabPageCameraEditor_Enter(object sender, EventArgs e) {
+            cameraEditor.SetupCameraEditor();
+        }
 
-            if (mainTabControl.SelectedTab == tabPageTableEditor) {
-                headerEditor.resetHeaderSearch();
-                tableEditor.SetupTableEditor();
-                return;
-            }
+        private void tabPageTrainerEditor_Enter(object sender, EventArgs e) {
+            trainerEditor.SetupTrainerEditor();
+        }
+
+        private void tabPageTableEditor_Enter(object sender, EventArgs e) {
+            headerEditor.resetHeaderSearch();
+            tableEditor.SetupTableEditor();
         }
 
         private void spawnEditorToolStripButton_Click(object sender, EventArgs e) {
@@ -1327,5 +1313,5 @@ namespace DSPRE {
                     break;
             }
         }
-    }
+  }
 }
