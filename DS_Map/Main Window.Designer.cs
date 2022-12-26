@@ -46,6 +46,8 @@ namespace DSPRE
       this.scriptEditor = new DSPRE.Editors.ScriptEditor();
       this.levelScriptEditorTabPage = new System.Windows.Forms.TabPage();
       this.levelScriptEditor = new DSPRE.Editors.LevelScriptEditor();
+      this.heabuttEncounterEditorTabPage = new System.Windows.Forms.TabPage();
+      this.headbuttEncounterEditor = new DSPRE.Editors.HeadbuttEncounterEditor();
       this.textEditorTabPage = new System.Windows.Forms.TabPage();
       this.textEditor = new DSPRE.Editors.TextEditor();
       this.cameraEditorTabPage = new System.Windows.Forms.TabPage();
@@ -54,8 +56,6 @@ namespace DSPRE
       this.trainerEditor = new DSPRE.Editors.TrainerEditor();
       this.tableEditorTabPage = new System.Windows.Forms.TabPage();
       this.tableEditor = new DSPRE.Editors.TableEditor();
-      this.heabuttEncounterEditorTabPage = new System.Windows.Forms.TabPage();
-      this.headbuttEncounterEditor = new DSPRE.Editors.HeadbuttEncounterEditor();
       this.mainTabImageList = new System.Windows.Forms.ImageList(this.components);
       this.gameIcon = new System.Windows.Forms.PictureBox();
       this.languageLabel = new System.Windows.Forms.Label();
@@ -134,11 +134,11 @@ namespace DSPRE
       this.eventEditorTabPage.SuspendLayout();
       this.scriptEditorTabPage.SuspendLayout();
       this.levelScriptEditorTabPage.SuspendLayout();
+      this.heabuttEncounterEditorTabPage.SuspendLayout();
       this.textEditorTabPage.SuspendLayout();
       this.cameraEditorTabPage.SuspendLayout();
       this.trainerEditorTabPage.SuspendLayout();
       this.tableEditorTabPage.SuspendLayout();
-      this.heabuttEncounterEditorTabPage.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.gameIcon)).BeginInit();
       this.menuStrip1.SuspendLayout();
       this.statusStrip1.SuspendLayout();
@@ -310,6 +310,25 @@ namespace DSPRE
       this.levelScriptEditor.Size = new System.Drawing.Size(408, 534);
       this.levelScriptEditor.TabIndex = 0;
       // 
+      // heabuttEncounterEditorTabPage
+      // 
+      this.heabuttEncounterEditorTabPage.Controls.Add(this.headbuttEncounterEditor);
+      this.heabuttEncounterEditorTabPage.Location = new System.Drawing.Point(4, 23);
+      this.heabuttEncounterEditorTabPage.Name = "heabuttEncounterEditorTabPage";
+      this.heabuttEncounterEditorTabPage.Padding = new System.Windows.Forms.Padding(3);
+      this.heabuttEncounterEditorTabPage.Size = new System.Drawing.Size(1185, 633);
+      this.heabuttEncounterEditorTabPage.TabIndex = 11;
+      this.heabuttEncounterEditorTabPage.Text = "Headbutt Encounters";
+      this.heabuttEncounterEditorTabPage.UseVisualStyleBackColor = true;
+      // 
+      // headbuttEncounterEditor
+      // 
+      this.headbuttEncounterEditor.BackColor = System.Drawing.SystemColors.Control;
+      this.headbuttEncounterEditor.Location = new System.Drawing.Point(6, 6);
+      this.headbuttEncounterEditor.Name = "headbuttEncounterEditor";
+      this.headbuttEncounterEditor.Size = new System.Drawing.Size(419, 608);
+      this.headbuttEncounterEditor.TabIndex = 0;
+      // 
       // textEditorTabPage
       // 
       this.textEditorTabPage.Controls.Add(this.textEditor);
@@ -387,25 +406,6 @@ namespace DSPRE
       this.tableEditor.Size = new System.Drawing.Size(1165, 619);
       this.tableEditor.TabIndex = 0;
       this.tableEditor.tableEditorIsReady = false;
-      // 
-      // heabuttEncounterEditorTabPage
-      // 
-      this.heabuttEncounterEditorTabPage.Controls.Add(this.headbuttEncounterEditor);
-      this.heabuttEncounterEditorTabPage.Location = new System.Drawing.Point(4, 23);
-      this.heabuttEncounterEditorTabPage.Name = "heabuttEncounterEditorTabPage";
-      this.heabuttEncounterEditorTabPage.Padding = new System.Windows.Forms.Padding(3);
-      this.heabuttEncounterEditorTabPage.Size = new System.Drawing.Size(1185, 633);
-      this.heabuttEncounterEditorTabPage.TabIndex = 11;
-      this.heabuttEncounterEditorTabPage.Text = "Headbutt Encounters";
-      this.heabuttEncounterEditorTabPage.UseVisualStyleBackColor = true;
-      // 
-      // headbuttEncounterEditor
-      // 
-      this.headbuttEncounterEditor.BackColor = System.Drawing.SystemColors.Control;
-      this.headbuttEncounterEditor.Location = new System.Drawing.Point(6, 6);
-      this.headbuttEncounterEditor.Name = "headbuttEncounterEditor";
-      this.headbuttEncounterEditor.Size = new System.Drawing.Size(419, 608);
-      this.headbuttEncounterEditor.TabIndex = 0;
       // 
       // mainTabImageList
       // 
@@ -1129,11 +1129,11 @@ namespace DSPRE
       this.eventEditorTabPage.ResumeLayout(false);
       this.scriptEditorTabPage.ResumeLayout(false);
       this.levelScriptEditorTabPage.ResumeLayout(false);
+      this.heabuttEncounterEditorTabPage.ResumeLayout(false);
       this.textEditorTabPage.ResumeLayout(false);
       this.cameraEditorTabPage.ResumeLayout(false);
       this.trainerEditorTabPage.ResumeLayout(false);
       this.tableEditorTabPage.ResumeLayout(false);
-      this.heabuttEncounterEditorTabPage.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.gameIcon)).EndInit();
       this.menuStrip1.ResumeLayout(false);
       this.menuStrip1.PerformLayout();
