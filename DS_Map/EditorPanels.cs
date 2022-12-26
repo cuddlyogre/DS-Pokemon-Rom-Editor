@@ -22,17 +22,17 @@ namespace DSPRE {
     public static TrainerEditor trainerEditor { get { return MainProgram.trainerEditor; } }
     public static TableEditor tableEditor { get { return MainProgram.tableEditor; } }
     public static TabControl mainTabControl { get { return MainProgram.mainTabControl; } }
-    public static TabPage headerEditorTabPage { get { return MainProgram.headerEditorTabPage; } }
-    public static TabPage matrixEditorTabPage { get { return MainProgram.matrixEditorTabPage; } }
-    public static TabPage mapEditorTabPage { get { return MainProgram.mapEditorTabPage; } }
+    public static TabPage headerEditorTabPage { get { return MainProgram.tabPageHeaderEditor; } }
+    public static TabPage matrixEditorTabPage { get { return MainProgram.tabPageMatrixEditor; } }
+    public static TabPage mapEditorTabPage { get { return MainProgram.tabPageMapEditor; } }
     public static TabPage nsbtxEditorTabPage { get { return MainProgram.nsbtxEditorTabPage; } }
-    public static TabPage eventEditorTabPage { get { return MainProgram.eventEditorTabPage; } }
-    public static TabPage scriptEditorTabPage { get { return MainProgram.scriptEditorTabPage; } }
-    public static TabPage levelScriptEditorTabPage { get { return MainProgram.levelScriptEditorTabPage; } }
-    public static TabPage headbuttEncounterEditorTabPage { get { return MainProgram.heabuttEncounterEditorTabPage; } }
-    public static TabPage textEditorTabPage { get { return MainProgram.textEditorTabPage; } }
-    public static TabPage cameraEditorTabPage { get { return MainProgram.cameraEditorTabPage; } }
-    public static TabPage trainerEditorTabPage { get { return MainProgram.trainerEditorTabPage; } }
-    public static TabPage tableEditorTabPage { get { return MainProgram.tableEditorTabPage; } }
+    public static TabPage eventEditorTabPage { get { return MainProgram.tabPageEventEditor; } }
+    public static TabPage scriptEditorTabPage { get { return MainProgram.tabPageScriptEditor; } }
+    public static TabPage levelScriptEditorTabPage { get { return MainProgram.tabPageLevelScriptEditor; } }
+    public static TabPage headbuttEncounterEditorTabPage { get { return MainProgram.tabPageHeabuttEncounterEditor; } }
+    public static TabPage textEditorTabPage { get { return MainProgram.tabPageTextEditor; } }
+    public static TabPage cameraEditorTabPage { get { return MainProgram.tabPageCameraEditor; } }
+    public static TabPage trainerEditorTabPage { get { return MainProgram.tabPageTrainerEditor; } }
+    public static TabPage tableEditorTabPage { get { return MainProgram.tabPageTableEditor; } }
   }
 }

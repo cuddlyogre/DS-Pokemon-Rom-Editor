@@ -640,6 +640,7 @@ namespace DSPRE {
                 eventEditor.SetupEventEditor(true);
                 scriptEditor.SetupScriptEditor(true);
                 levelScriptEditor.SetUpLevelScriptEditor(true);
+                headbuttEncounterEditor.SetupHeadbuttEncounterEditor(true);
                 textEditor.SetupTextEditor(true);
                 // cameraEditor.SetupCameraEditor(true);
                 trainerEditor.SetupTrainerEditor(true);
@@ -683,18 +684,18 @@ namespace DSPRE {
         }
 
         private void mainTabControl_SelectedIndexChanged(object sender, EventArgs e) {
-            if (mainTabControl.SelectedTab == headerEditorTabPage) {
+            if (mainTabControl.SelectedTab == tabPageHeaderEditor) {
                 headerEditor.SetupHeaderEditor();
                 return;
             }
 
-            if (mainTabControl.SelectedTab == matrixEditorTabPage) {
+            if (mainTabControl.SelectedTab == tabPageMatrixEditor) {
                 matrixEditor.SetupMatrixEditor();
                 mapEditor.makeCurrent();
                 return;
             }
 
-            if (mainTabControl.SelectedTab == mapEditorTabPage) {
+            if (mainTabControl.SelectedTab == tabPageMapEditor) {
                 mapEditor.SetupMapEditor();
                 return;
             }
@@ -704,38 +705,43 @@ namespace DSPRE {
                 return;
             }
 
-            if (mainTabControl.SelectedTab == eventEditorTabPage) {
+            if (mainTabControl.SelectedTab == tabPageEventEditor) {
                 eventEditor.SetupEventEditor();
                 eventEditor.makeCurrent();
                 return;
             }
 
-            if (mainTabControl.SelectedTab == scriptEditorTabPage) {
+            if (mainTabControl.SelectedTab == tabPageScriptEditor) {
                 scriptEditor.SetupScriptEditor();
                 return;
             }
 
-            if (mainTabControl.SelectedTab == levelScriptEditorTabPage) {
+            if (mainTabControl.SelectedTab == tabPageLevelScriptEditor) {
                 levelScriptEditor.SetUpLevelScriptEditor();
                 return;
             }
 
-            if (mainTabControl.SelectedTab == textEditorTabPage) {
+            if (mainTabControl.SelectedTab == tabPageHeaderEditor) {
+              headbuttEncounterEditor.SetupHeadbuttEncounterEditor();
+              return;
+            }
+            
+            if (mainTabControl.SelectedTab == tabPageTextEditor) {
                 textEditor.SetupTextEditor();
                 return;
             }
 
-            if (mainTabControl.SelectedTab == cameraEditorTabPage) {
+            if (mainTabControl.SelectedTab == tabPageCameraEditor) {
                 cameraEditor.SetupCameraEditor();
                 return;
             }
 
-            if (mainTabControl.SelectedTab == trainerEditorTabPage) {
+            if (mainTabControl.SelectedTab == tabPageTrainerEditor) {
                 trainerEditor.SetupTrainerEditor();
                 return;
             }
 
-            if (mainTabControl.SelectedTab == tableEditorTabPage) {
+            if (mainTabControl.SelectedTab == tabPageTableEditor) {
                 headerEditor.resetHeaderSearch();
                 tableEditor.SetupTableEditor();
                 return;

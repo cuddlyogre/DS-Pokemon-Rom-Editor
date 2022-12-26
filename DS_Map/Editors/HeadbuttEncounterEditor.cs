@@ -1,14 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using DSPRE.ROMFiles;
 
 namespace DSPRE.Editors {
   public partial class HeadbuttEncounterEditor : UserControl {
+    public bool headbuttEncounterEditorIsReady { get; set; } = false;
     HeadbuttEncounterFile currentHeadbuttEncounterFile;
 
     public HeadbuttEncounterEditor() {
       InitializeComponent();
+    }
+
+    public void SetupHeadbuttEncounterEditor(bool force=false) {
+      if (headbuttEncounterEditorIsReady && !force) return;
+      headbuttEncounterEditorIsReady = true;
+      DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames> { RomInfo.DirNames.headbutt });
     }
 
     void buttonLoad_Click(object sender, EventArgs e) {
