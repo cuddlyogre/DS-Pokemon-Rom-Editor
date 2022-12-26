@@ -122,7 +122,7 @@ namespace DSPRE.Editors
       this.buildTextureComboBox = new System.Windows.Forms.ComboBox();
       this.label26 = new System.Windows.Forms.Label();
       this.mapRenderPanel = new System.Windows.Forms.Panel();
-      this.mapOpenGlControl = new Tao.Platform.Windows.SimpleOpenGlControl();
+      this.openGlControl = new Tao.Platform.Windows.SimpleOpenGlControl();
       this.movPictureBox = new System.Windows.Forms.PictureBox();
       this.mapScreenshotButton = new System.Windows.Forms.Button();
       this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
@@ -1321,33 +1321,33 @@ namespace DSPRE.Editors
       // mapRenderPanel
       // 
       this.mapRenderPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-      this.mapRenderPanel.Controls.Add(this.mapOpenGlControl);
+      this.mapRenderPanel.Controls.Add(this.openGlControl);
       this.mapRenderPanel.Controls.Add(this.movPictureBox);
       this.mapRenderPanel.Location = new System.Drawing.Point(507, 3);
       this.mapRenderPanel.Name = "mapRenderPanel";
       this.mapRenderPanel.Size = new System.Drawing.Size(610, 610);
       this.mapRenderPanel.TabIndex = 23;
       // 
-      // mapOpenGlControl
+      // openGlControl
       // 
-      this.mapOpenGlControl.AccumBits = ((byte)(0));
-      this.mapOpenGlControl.AutoCheckErrors = false;
-      this.mapOpenGlControl.AutoFinish = false;
-      this.mapOpenGlControl.AutoMakeCurrent = true;
-      this.mapOpenGlControl.AutoSwapBuffers = true;
-      this.mapOpenGlControl.BackColor = System.Drawing.Color.Black;
-      this.mapOpenGlControl.ColorBits = ((byte)(32));
-      this.mapOpenGlControl.DepthBits = ((byte)(64));
-      this.mapOpenGlControl.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.mapOpenGlControl.ForeColor = System.Drawing.Color.Black;
-      this.mapOpenGlControl.Location = new System.Drawing.Point(0, 0);
-      this.mapOpenGlControl.Name = "mapOpenGlControl";
-      this.mapOpenGlControl.Size = new System.Drawing.Size(608, 608);
-      this.mapOpenGlControl.StencilBits = ((byte)(0));
-      this.mapOpenGlControl.TabIndex = 2;
-      this.mapOpenGlControl.Click += new System.EventHandler(this.mapOpenGlControl_Click);
-      this.mapOpenGlControl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.mapOpenGlControl_KeyUp);
-      this.mapOpenGlControl.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.mapOpenGlControl_PreviewKeyDown);
+      this.openGlControl.AccumBits = ((byte)(0));
+      this.openGlControl.AutoCheckErrors = false;
+      this.openGlControl.AutoFinish = false;
+      this.openGlControl.AutoMakeCurrent = true;
+      this.openGlControl.AutoSwapBuffers = true;
+      this.openGlControl.BackColor = System.Drawing.Color.Black;
+      this.openGlControl.ColorBits = ((byte)(32));
+      this.openGlControl.DepthBits = ((byte)(64));
+      this.openGlControl.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.openGlControl.ForeColor = System.Drawing.Color.Black;
+      this.openGlControl.Location = new System.Drawing.Point(0, 0);
+      this.openGlControl.Name = "openGlControl";
+      this.openGlControl.Size = new System.Drawing.Size(608, 608);
+      this.openGlControl.StencilBits = ((byte)(0));
+      this.openGlControl.TabIndex = 2;
+      this.openGlControl.Click += new System.EventHandler(this.mapOpenGlControl_Click);
+      this.openGlControl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.mapOpenGlControl_KeyUp);
+      this.openGlControl.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.mapOpenGlControl_PreviewKeyDown);
       // 
       // movPictureBox
       // 
@@ -1643,7 +1643,7 @@ namespace DSPRE.Editors
     public System.Windows.Forms.ComboBox buildTextureComboBox;
     private System.Windows.Forms.Label label26;
     private System.Windows.Forms.Panel mapRenderPanel;
-    public Tao.Platform.Windows.SimpleOpenGlControl mapOpenGlControl;
+    public Tao.Platform.Windows.SimpleOpenGlControl openGlControl;
     private System.Windows.Forms.PictureBox movPictureBox;
     private System.Windows.Forms.Button mapScreenshotButton;
     private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;

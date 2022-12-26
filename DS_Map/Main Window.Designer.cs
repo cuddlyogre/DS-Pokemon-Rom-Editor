@@ -221,7 +221,6 @@ namespace DSPRE
       this.mapEditorTabPage.Size = new System.Drawing.Size(1185, 633);
       this.mapEditorTabPage.TabIndex = 2;
       this.mapEditorTabPage.Text = "Map Editor";
-      this.mapEditorTabPage.Enter += new System.EventHandler(this.mapEditorTabPage_Enter);
       // 
       // mapEditor
       // 
@@ -262,7 +261,6 @@ namespace DSPRE
       this.eventEditorTabPage.Size = new System.Drawing.Size(1185, 633);
       this.eventEditorTabPage.TabIndex = 3;
       this.eventEditorTabPage.Text = "Event Editor";
-      this.eventEditorTabPage.Enter += new System.EventHandler(this.eventEditorTabPage_Enter);
       // 
       // eventEditor
       // 

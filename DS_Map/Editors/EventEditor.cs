@@ -19,14 +19,15 @@ namespace DSPRE.Editors {
     public Event selectedEvent;
     public const byte tileSize = 16;
     public Pen eventPen;
-    public static MapFile eventMapFile;
+    public static MapFile currentMapFile;
     public Rectangle eventMatrixRectangle;
     public Brush eventBrush;
-    public static NSBMDGlRenderer eventMapRenderer = new NSBMDGlRenderer();
-    public static NSBMDGlRenderer eventBuildingsRenderer = new NSBMDGlRenderer();
+    public static NSBMDGlRenderer mapRenderer = new NSBMDGlRenderer();
+    public static NSBMDGlRenderer buildingsRenderer = new NSBMDGlRenderer();
 
     public EventEditor() {
       InitializeComponent();
+      openGlControl.InitializeContexts();
     }
 
     public void SetupEventEditor(bool force = false) {
@@ -173,6 +174,10 @@ namespace DSPRE.Editors {
       Helpers.toolStripProgressBar.Visible = false;
 
       Helpers.statusLabelMessage();
+    }
+
+    public void makeCurrent() {
+      openGlControl.MakeCurrent();
     }
 
     public void OpenEventEditor(int eventID, int matrixID, int areaDataID) {
@@ -710,11 +715,11 @@ namespace DSPRE.Editors {
     }
 
     private void DrawWarpCollisions(Graphics g) {
-      if (eventMapFile != null) {
+      if (currentMapFile != null) {
         Bitmap icon = (Bitmap)Properties.Resources.ResourceManager.GetObject("warpCollision");
         for (int y = 0; y < MapFile.mapSize; y++) {
           for (int x = 0; x < MapFile.mapSize; x++) {
-            byte moveperm = eventMapFile.types[x, y];
+            byte moveperm = currentMapFile.types[x, y];
             if (PokeDatabase.System.MapCollisionTypePainters.TryGetValue(moveperm, out string val)) {
               if (val.IndexOf("Warp", StringComparison.InvariantCultureIgnoreCase) >= 0) {
                 //Console.WriteLine("Found warp at " + i + ", " + j);
@@ -1919,7 +1924,7 @@ namespace DSPRE.Editors {
           g.Clear(Color.Black);
         }
 
-        eventMapFile = null;
+        currentMapFile = null;
       }
       else {
         /* Determine area data */
@@ -1949,20 +1954,26 @@ namespace DSPRE.Editors {
         AreaData areaData = new AreaData(areaDataID);
 
         /* Read map and building models, match them with textures and render them*/
-        eventMapFile = new MapFile((int)mapIndex, RomInfo.gameFamily, discardMoveperms: false);
-        Helpers.MW_LoadModelTextures(eventMapFile.mapModel, RomInfo.gameDirs[DirNames.mapTextures].unpackedDir, areaData.mapTileset);
+        currentMapFile = new MapFile((int)mapIndex, RomInfo.gameFamily, discardMoveperms: false);
+        Helpers.MW_LoadModelTextures(currentMapFile.mapModel, RomInfo.gameDirs[DirNames.mapTextures].unpackedDir, areaData.mapTileset);
 
         bool isInteriorMap = false;
         if ((RomInfo.gameVersion == GameVersions.HeartGold || RomInfo.gameVersion == GameVersions.SoulSilver) && areaData.areaType == 0x0)
           isInteriorMap = true;
 
-        for (int i = 0; i < eventMapFile.buildings.Count; i++) {
-          eventMapFile.buildings[i].LoadModelData(Helpers.romInfo.GetBuildingModelsDirPath(isInteriorMap)); // Load building nsbmd
-          Helpers.MW_LoadModelTextures(eventMapFile.buildings[i].NSBMDFile, RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir, areaData.buildingsTileset); // Load building textures                
+        for (int i = 0; i < currentMapFile.buildings.Count; i++) {
+          currentMapFile.buildings[i].LoadModelData(Helpers.romInfo.GetBuildingModelsDirPath(isInteriorMap)); // Load building nsbmd
+          Helpers.MW_LoadModelTextures(currentMapFile.buildings[i].NSBMDFile, RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir, areaData.buildingsTileset); // Load building textures                
         }
 
-        Helpers.RenderMap(ref eventMapRenderer, ref eventBuildingsRenderer, ref eventMapFile, 0f, 115.0f, 90f, 4f, eventOpenGlControl.Width, eventOpenGlControl.Height, true, true);
-        eventPictureBox.BackgroundImage = Helpers.GrabMapScreenshot(eventOpenGlControl.Width, eventOpenGlControl.Height);
+        float ang = 0f;
+        float dist = 115.0f;
+        float elev = 90f;
+        float perspective = 4f;
+        bool mapTexturesOn = true;
+        bool bldTexturesOn = true;
+        Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
+        eventPictureBox.BackgroundImage = Helpers.GrabMapScreenshot(openGlControl.Width, openGlControl.Height);
       }
 
       eventPictureBox.Invalidate();

@@ -44,7 +44,7 @@ namespace DSPRE.Editors
       this.rightClickPicture = new System.Windows.Forms.PictureBox();
       this.eventPanel = new System.Windows.Forms.Panel();
       this.eventPictureBox = new System.Windows.Forms.PictureBox();
-      this.eventOpenGlControl = new Tao.Platform.Windows.SimpleOpenGlControl();
+      this.openGlControl = new Tao.Platform.Windows.SimpleOpenGlControl();
       this.eventsTabControl = new System.Windows.Forms.TabControl();
       this.signsTabPage = new System.Windows.Forms.TabPage();
       this.spawnableTypeComboBox = new System.Windows.Forms.ComboBox();
@@ -404,7 +404,7 @@ namespace DSPRE.Editors
       // 
       this.eventPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
       this.eventPanel.Controls.Add(this.eventPictureBox);
-      this.eventPanel.Controls.Add(this.eventOpenGlControl);
+      this.eventPanel.Controls.Add(this.openGlControl);
       this.eventPanel.Location = new System.Drawing.Point(597, 34);
       this.eventPanel.Name = "eventPanel";
       this.eventPanel.Size = new System.Drawing.Size(546, 546);
@@ -421,23 +421,23 @@ namespace DSPRE.Editors
       this.eventPictureBox.Click += new System.EventHandler(this.eventPictureBox_Click);
       this.eventPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.eventPictureBox_MouseMove);
       // 
-      // eventOpenGlControl
+      // openGlControl
       // 
-      this.eventOpenGlControl.AccumBits = ((byte)(0));
-      this.eventOpenGlControl.AutoCheckErrors = false;
-      this.eventOpenGlControl.AutoFinish = false;
-      this.eventOpenGlControl.AutoMakeCurrent = true;
-      this.eventOpenGlControl.AutoSwapBuffers = true;
-      this.eventOpenGlControl.BackColor = System.Drawing.Color.Black;
-      this.eventOpenGlControl.ColorBits = ((byte)(32));
-      this.eventOpenGlControl.DepthBits = ((byte)(64));
-      this.eventOpenGlControl.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.eventOpenGlControl.ForeColor = System.Drawing.Color.Black;
-      this.eventOpenGlControl.Location = new System.Drawing.Point(0, 0);
-      this.eventOpenGlControl.Name = "eventOpenGlControl";
-      this.eventOpenGlControl.Size = new System.Drawing.Size(544, 544);
-      this.eventOpenGlControl.StencilBits = ((byte)(0));
-      this.eventOpenGlControl.TabIndex = 2;
+      this.openGlControl.AccumBits = ((byte)(0));
+      this.openGlControl.AutoCheckErrors = false;
+      this.openGlControl.AutoFinish = false;
+      this.openGlControl.AutoMakeCurrent = true;
+      this.openGlControl.AutoSwapBuffers = true;
+      this.openGlControl.BackColor = System.Drawing.Color.Black;
+      this.openGlControl.ColorBits = ((byte)(32));
+      this.openGlControl.DepthBits = ((byte)(64));
+      this.openGlControl.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.openGlControl.ForeColor = System.Drawing.Color.Black;
+      this.openGlControl.Location = new System.Drawing.Point(0, 0);
+      this.openGlControl.Name = "openGlControl";
+      this.openGlControl.Size = new System.Drawing.Size(544, 544);
+      this.openGlControl.StencilBits = ((byte)(0));
+      this.openGlControl.TabIndex = 2;
       // 
       // eventsTabControl
       // 
@@ -2316,7 +2316,7 @@ namespace DSPRE.Editors
     private System.Windows.Forms.PictureBox rightClickPicture;
     private System.Windows.Forms.Panel eventPanel;
     private System.Windows.Forms.PictureBox eventPictureBox;
-    public Tao.Platform.Windows.SimpleOpenGlControl eventOpenGlControl;
+    public Tao.Platform.Windows.SimpleOpenGlControl openGlControl;
     private System.Windows.Forms.TabControl eventsTabControl;
     private System.Windows.Forms.TabPage signsTabPage;
     private System.Windows.Forms.ComboBox spawnableTypeComboBox;

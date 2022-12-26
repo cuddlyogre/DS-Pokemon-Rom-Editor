@@ -519,9 +519,7 @@ namespace DSPRE {
 
             /* Setup essential editors */
             headerEditor.SetupHeaderEditor(true);
-            eventEditor.eventOpenGlControl.InitializeContexts();
-            mapEditor.mapOpenGlControl.InitializeContexts();
-
+      
             mainTabControl.Show();
             loadRomButton.Enabled = false;
             readDataFromFolderButton.Enabled = false;
@@ -692,6 +690,7 @@ namespace DSPRE {
 
             if (mainTabControl.SelectedTab == matrixEditorTabPage) {
                 matrixEditor.SetupMatrixEditor();
+                mapEditor.makeCurrent();
                 return;
             }
 
@@ -707,6 +706,7 @@ namespace DSPRE {
 
             if (mainTabControl.SelectedTab == eventEditorTabPage) {
                 eventEditor.SetupEventEditor();
+                eventEditor.makeCurrent();
                 return;
             }
 
@@ -780,14 +780,6 @@ namespace DSPRE {
                     break;
             }
             Helpers.statusLabelMessage();
-        }
-
-        private void mapEditorTabPage_Enter(object sender, EventArgs e) {
-            mapEditor.makeCurrent();
-        }
-
-        private void eventEditorTabPage_Enter(object sender, EventArgs e) {
-            eventEditor.eventOpenGlControl.MakeCurrent();
         }
 
         private void unpackToFolderToolStripMenuItem_Click(object sender, EventArgs e) {
