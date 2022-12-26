@@ -123,7 +123,7 @@ namespace DSPRE.Editors
       this.label26 = new System.Windows.Forms.Label();
       this.mapRenderPanel = new System.Windows.Forms.Panel();
       this.openGlControl = new Tao.Platform.Windows.SimpleOpenGlControl();
-      this.movPictureBox = new System.Windows.Forms.PictureBox();
+      this.openGlPictureBox = new System.Windows.Forms.PictureBox();
       this.mapScreenshotButton = new System.Windows.Forms.Button();
       this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
       this.addMapFileButton = new System.Windows.Forms.Button();
@@ -167,7 +167,7 @@ namespace DSPRE.Editors
       this.terrainTabPage.SuspendLayout();
       this.bgsTabPage.SuspendLayout();
       this.mapRenderPanel.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.movPictureBox)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.openGlPictureBox)).BeginInit();
       this.tableLayoutPanel3.SuspendLayout();
       this.SuspendLayout();
       // 
@@ -1322,7 +1322,7 @@ namespace DSPRE.Editors
       // 
       this.mapRenderPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
       this.mapRenderPanel.Controls.Add(this.openGlControl);
-      this.mapRenderPanel.Controls.Add(this.movPictureBox);
+      this.mapRenderPanel.Controls.Add(this.openGlPictureBox);
       this.mapRenderPanel.Location = new System.Drawing.Point(507, 3);
       this.mapRenderPanel.Name = "mapRenderPanel";
       this.mapRenderPanel.Size = new System.Drawing.Size(610, 610);
@@ -1349,16 +1349,16 @@ namespace DSPRE.Editors
       this.openGlControl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.mapOpenGlControl_KeyUp);
       this.openGlControl.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.mapOpenGlControl_PreviewKeyDown);
       // 
-      // movPictureBox
+      // openGlPictureBox
       // 
-      this.movPictureBox.BackColor = System.Drawing.Color.White;
-      this.movPictureBox.Location = new System.Drawing.Point(0, 0);
-      this.movPictureBox.Name = "movPictureBox";
-      this.movPictureBox.Size = new System.Drawing.Size(608, 608);
-      this.movPictureBox.TabIndex = 3;
-      this.movPictureBox.TabStop = false;
-      this.movPictureBox.Click += new System.EventHandler(this.movPictureBox_Click);
-      this.movPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.movPictureBox_MouseMove);
+      this.openGlPictureBox.BackColor = System.Drawing.Color.White;
+      this.openGlPictureBox.Location = new System.Drawing.Point(0, 0);
+      this.openGlPictureBox.Name = "openGlPictureBox";
+      this.openGlPictureBox.Size = new System.Drawing.Size(608, 608);
+      this.openGlPictureBox.TabIndex = 3;
+      this.openGlPictureBox.TabStop = false;
+      this.openGlPictureBox.Click += new System.EventHandler(this.movPictureBox_Click);
+      this.openGlPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.movPictureBox_MouseMove);
       // 
       // mapScreenshotButton
       // 
@@ -1542,7 +1542,7 @@ namespace DSPRE.Editors
       this.bgsTabPage.ResumeLayout(false);
       this.bgsTabPage.PerformLayout();
       this.mapRenderPanel.ResumeLayout(false);
-      ((System.ComponentModel.ISupportInitialize)(this.movPictureBox)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.openGlPictureBox)).EndInit();
       this.tableLayoutPanel3.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
@@ -1644,7 +1644,7 @@ namespace DSPRE.Editors
     private System.Windows.Forms.Label label26;
     private System.Windows.Forms.Panel mapRenderPanel;
     public Tao.Platform.Windows.SimpleOpenGlControl openGlControl;
-    private System.Windows.Forms.PictureBox movPictureBox;
+    private System.Windows.Forms.PictureBox openGlPictureBox;
     private System.Windows.Forms.Button mapScreenshotButton;
     private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
     private System.Windows.Forms.Button addMapFileButton;

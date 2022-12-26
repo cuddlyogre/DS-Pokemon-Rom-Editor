@@ -397,7 +397,7 @@ namespace DSPRE.Editors {
     }
 
     private void eventPictureBox_Click(object sender, EventArgs e) {
-      Point coordinates = eventPictureBox.PointToClient(Cursor.Position);
+      Point coordinates = openGlPictureBox.PointToClient(Cursor.Position);
       Point mouseTilePos = new Point(coordinates.X / (tileSize + 1), coordinates.Y / (tileSize + 1));
       MouseEventArgs mea = (MouseEventArgs)e;
 
@@ -538,9 +538,9 @@ namespace DSPRE.Editors {
     }
 
     private void DisplayActiveEvents() {
-      eventPictureBox.Image = new Bitmap(eventPictureBox.Width, eventPictureBox.Height);
+      openGlPictureBox.Image = new Bitmap(openGlPictureBox.Width, openGlPictureBox.Height);
 
-      using (Graphics g = Graphics.FromImage(eventPictureBox.Image)) {
+      using (Graphics g = Graphics.FromImage(openGlPictureBox.Image)) {
         Bitmap icon;
 
         /* Draw spawnables */
@@ -620,7 +620,7 @@ namespace DSPRE.Editors {
         }
       }
 
-      eventPictureBox.Invalidate();
+      openGlPictureBox.Invalidate();
     }
 
     private Bitmap GetOverworldImage(ushort eventEntryID, ushort orientation) {
@@ -748,7 +748,7 @@ namespace DSPRE.Editors {
     }
 
     private void eventPictureBox_MouseMove(object sender, MouseEventArgs e) {
-      Point coordinates = eventPictureBox.PointToClient(Cursor.Position);
+      Point coordinates = openGlPictureBox.PointToClient(Cursor.Position);
       Point mouseTilePos = new Point(coordinates.X / (tileSize + 1), coordinates.Y / (tileSize + 1));
       Helpers.statusLabelMessage("Local: " + mouseTilePos.X + ", " + mouseTilePos.Y + "   |   " + "Global: " + (eventMatrixXUpDown.Value * MapFile.mapSize + mouseTilePos.X).ToString() + ", " + (eventMatrixYUpDown.Value * MapFile.mapSize + mouseTilePos.Y).ToString());
     }
@@ -1687,11 +1687,7 @@ namespace DSPRE.Editors {
 
       DisplayActiveEvents(); // Redraw events to show selection box
 
-      #region Re-enable events
-
       Helpers.EnableHandlers();
-
-      #endregion
     }
 
     private void expectedVarValueTriggerUpDown_ValueChanged(object sender, EventArgs e) {
@@ -1919,8 +1915,8 @@ namespace DSPRE.Editors {
       }
 
       if (mapIndex == GameMatrix.EMPTY) {
-        eventPictureBox.BackgroundImage = new Bitmap(eventPictureBox.Width, eventPictureBox.Height);
-        using (Graphics g = Graphics.FromImage(eventPictureBox.BackgroundImage)) {
+        openGlPictureBox.BackgroundImage = new Bitmap(openGlPictureBox.Width, openGlPictureBox.Height);
+        using (Graphics g = Graphics.FromImage(openGlPictureBox.BackgroundImage)) {
           g.Clear(Color.Black);
         }
 
@@ -1973,10 +1969,10 @@ namespace DSPRE.Editors {
         bool mapTexturesOn = true;
         bool bldTexturesOn = true;
         Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
-        eventPictureBox.BackgroundImage = Helpers.GrabMapScreenshot(openGlControl.Width, openGlControl.Height);
+        openGlPictureBox.BackgroundImage = Helpers.GrabMapScreenshot(openGlControl.Width, openGlControl.Height);
       }
 
-      eventPictureBox.Invalidate();
+      openGlPictureBox.Invalidate();
     }
 
     private void selectEventComboBox_SelectedIndexChanged(object sender, EventArgs e) {

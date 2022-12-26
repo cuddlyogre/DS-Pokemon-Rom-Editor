@@ -319,7 +319,7 @@ namespace DSPRE.Editors {
 
       Helpers.DisableHandlers();
 
-      yRotDegBldUpDown.Value = (decimal)Building.U16ToDeg(currentMapFile.buildings[selection].yRotation = (ushort)((int)yRotBuildUpDown.Value&ushort.MaxValue));
+      yRotDegBldUpDown.Value = (decimal)Building.U16ToDeg(currentMapFile.buildings[selection].yRotation = (ushort)((int)yRotBuildUpDown.Value & ushort.MaxValue));
       Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
 
       Helpers.EnableHandlers();
@@ -334,7 +334,7 @@ namespace DSPRE.Editors {
 
       Helpers.DisableHandlers();
 
-      xRotDegBldUpDown.Value = (decimal)Building.U16ToDeg(currentMapFile.buildings[selection].xRotation = (ushort)((int)xRotBuildUpDown.Value&ushort.MaxValue));
+      xRotDegBldUpDown.Value = (decimal)Building.U16ToDeg(currentMapFile.buildings[selection].xRotation = (ushort)((int)xRotBuildUpDown.Value & ushort.MaxValue));
       Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
 
       Helpers.EnableHandlers();
@@ -349,7 +349,7 @@ namespace DSPRE.Editors {
 
       Helpers.DisableHandlers();
 
-      zRotDegBldUpDown.Value = (decimal)Building.U16ToDeg(currentMapFile.buildings[selection].zRotation = (ushort)((int)zRotBuildUpDown.Value&ushort.MaxValue));
+      zRotDegBldUpDown.Value = (decimal)Building.U16ToDeg(currentMapFile.buildings[selection].zRotation = (ushort)((int)zRotBuildUpDown.Value & ushort.MaxValue));
       Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
 
       Helpers.EnableHandlers();
@@ -679,7 +679,7 @@ namespace DSPRE.Editors {
       PictureBox smallBox = selectCollisionPanel.BackColor == Color.MidnightBlue ? collisionPictureBox : typePictureBox;
 
       using (Graphics smallG = Graphics.FromImage(smallBox.Image)) {
-        using (Graphics mainG = Graphics.FromImage(movPictureBox.Image)) {
+        using (Graphics mainG = Graphics.FromImage(openGlPictureBox.Image)) {
           smallG.Clear(Color.Transparent);
           mainG.Clear(Color.Transparent);
           PrepareCollisionPainterGraphics(0x0);
@@ -701,7 +701,7 @@ namespace DSPRE.Editors {
         currentMapFile.types = new byte[32, 32]; // Set all type bytes to clear (0x0)
       }
 
-      movPictureBox.Invalidate(); // Refresh main image
+      openGlPictureBox.Invalidate(); // Refresh main image
       smallBox.Invalidate();
       RestorePainter();
     }
@@ -743,8 +743,8 @@ namespace DSPRE.Editors {
         }
       }
 
-      movPictureBox.Image = mainBm;
-      movPictureBox.Invalidate();
+      openGlPictureBox.Image = mainBm;
+      openGlPictureBox.Invalidate();
     }
 
     private void DrawSmallCollision() {
@@ -1019,8 +1019,8 @@ namespace DSPRE.Editors {
         }
       }
 
-      movPictureBox.Image = mainBm;
-      movPictureBox.Invalidate();
+      openGlPictureBox.Image = mainBm;
+      openGlPictureBox.Invalidate();
     }
 
     private void typesRadioButton_CheckedChanged(object sender, EventArgs e) {
@@ -1301,8 +1301,11 @@ namespace DSPRE.Editors {
         openGlControl.BringToFront();
 
         Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
+
+        return;
       }
-      else if (mapPartsTabControl.SelectedTab == permissionsTabPage) {
+
+      if (mapPartsTabControl.SelectedTab == permissionsTabPage) {
         radio2D.Checked = true;
 
         Helpers.hideBuildings = false;
@@ -1313,10 +1316,13 @@ namespace DSPRE.Editors {
         SetCam2D();
         Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
 
-        movPictureBox.BackgroundImage = Helpers.GrabMapScreenshot(movPictureBox.Width, movPictureBox.Height);
-        movPictureBox.BringToFront();
+        openGlPictureBox.BackgroundImage = Helpers.GrabMapScreenshot(openGlPictureBox.Width, openGlPictureBox.Height);
+        openGlPictureBox.BringToFront();
+
+        return;
       }
-      else if (mapPartsTabControl.SelectedTab == modelTabPage) {
+
+      if (mapPartsTabControl.SelectedTab == modelTabPage) {
         radio2D.Checked = false;
 
         Helpers.hideBuildings = true;
@@ -1327,8 +1333,11 @@ namespace DSPRE.Editors {
         openGlControl.BringToFront();
 
         Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
+
+        return;
       }
-      else {
+
+      if (mapPartsTabControl.SelectedTab == terrainTabPage || mapPartsTabControl.SelectedTab == bgsTabPage) {
         // Terrain and BGS
         radio2D.Checked = true;
 
@@ -1340,6 +1349,8 @@ namespace DSPRE.Editors {
         openGlControl.BringToFront();
 
         Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
+
+        return;
       }
     }
 
@@ -1380,7 +1391,7 @@ namespace DSPRE.Editors {
       }
 
       /* Set map screenshot as background picture in permissions editor PictureBox */
-      movPictureBox.BackgroundImage = Helpers.GrabMapScreenshot(movPictureBox.Width, movPictureBox.Height);
+      openGlPictureBox.BackgroundImage = Helpers.GrabMapScreenshot(openGlPictureBox.Width, openGlPictureBox.Height);
 
       RestorePainter();
 
@@ -1523,7 +1534,7 @@ namespace DSPRE.Editors {
           break;
       }
 
-      if (rRot^lRot) {
+      if (rRot ^ lRot) {
         if (rRot) {
           ang += 1 * multiplier;
         }
@@ -1532,7 +1543,7 @@ namespace DSPRE.Editors {
         }
       }
 
-      if (uRot^dRot) {
+      if (uRot ^ dRot) {
         if (uRot) {
           elev -= 1 * multiplier;
         }
@@ -1548,8 +1559,8 @@ namespace DSPRE.Editors {
     private void movPictureBox_Click(object sender, EventArgs e) {
       MouseEventArgs mea = (MouseEventArgs)e;
 
-      int xCoord = movPictureBox.PointToClient(MousePosition).X / mapEditorSquareSize;
-      int yCoord = movPictureBox.PointToClient(MousePosition).Y / mapEditorSquareSize;
+      int xCoord = openGlPictureBox.PointToClient(MousePosition).X / mapEditorSquareSize;
+      int yCoord = openGlPictureBox.PointToClient(MousePosition).Y / mapEditorSquareSize;
 
       if (mea.Button == MouseButtons.Middle) {
         FloodFillCell(xCoord, yCoord);
@@ -1575,7 +1586,7 @@ namespace DSPRE.Editors {
         mainCell = new Rectangle(xPosition * mapEditorSquareSize, yPosition * mapEditorSquareSize, mapEditorSquareSize, mapEditorSquareSize);
         smallCell = new Rectangle(xPosition * 3, yPosition * 3, 3, 3);
 
-        using (Graphics mainG = Graphics.FromImage(movPictureBox.Image)) {
+        using (Graphics mainG = Graphics.FromImage(openGlPictureBox.Image)) {
           /*  Draw new cell on main grid */
           mainG.SetClip(mainCell);
           mainG.Clear(Color.Transparent);
@@ -1616,7 +1627,7 @@ namespace DSPRE.Editors {
           typePictureBox.Invalidate();
         }
 
-        movPictureBox.Invalidate();
+        openGlPictureBox.Invalidate();
       }
       catch {
         return;
@@ -1650,7 +1661,7 @@ namespace DSPRE.Editors {
     }
 
     private void movPictureBox_MouseMove(object sender, MouseEventArgs e) {
-      if ((Control.MouseButtons&MouseButtons.Left) == MouseButtons.Left) {
+      if ((Control.MouseButtons & MouseButtons.Left) == MouseButtons.Left) {
         EditCell(e.Location.X / mapEditorSquareSize, e.Location.Y / mapEditorSquareSize);
       }
     }
