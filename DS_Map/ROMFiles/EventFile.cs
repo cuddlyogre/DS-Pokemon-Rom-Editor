@@ -25,6 +25,7 @@ namespace DSPRE.ROMFiles {
         public List<Overworld> overworlds = new List<Overworld>();
         public List<Warp> warps = new List<Warp>();
         public List<Trigger> triggers = new List<Trigger>();
+        public List<int[]> positions = new List<int[]>();
         #endregion
 
         #region Constructors (1)
@@ -33,25 +34,33 @@ namespace DSPRE.ROMFiles {
                 /* Read spawnables */
                 uint spawnablesCount = reader.ReadUInt32();
                 for (int i = 0; i < spawnablesCount; i++) {
-                    spawnables.Add(new Spawnable(new MemoryStream(reader.ReadBytes(0x14))));
+                    Spawnable spawnable = new Spawnable(new MemoryStream(reader.ReadBytes(0x14)));
+                    spawnables.Add(spawnable);
+                    positions.Add(new int[] { spawnable.xMatrixPosition, spawnable.yMatrixPosition });
                 }
 
                 /* Read overworlds */
                 uint overworldsCount = reader.ReadUInt32();
                 for (int i = 0; i < overworldsCount; i++) {
-                    overworlds.Add(new Overworld(new MemoryStream(reader.ReadBytes(0x20))));
+                    Overworld overworld = new Overworld(new MemoryStream(reader.ReadBytes(0x20)));
+                    overworlds.Add(overworld);
+                    positions.Add(new int[] { overworld.xMatrixPosition, overworld.yMatrixPosition });
                 }
 
                 /* Read warps */
                 uint warpsCount = reader.ReadUInt32();
                 for (int i = 0; i < warpsCount; i++) {
-                    warps.Add(new Warp(new MemoryStream(reader.ReadBytes(0xC))));
+                    Warp warp = new Warp(new MemoryStream(reader.ReadBytes(0xC)));
+                    warps.Add(warp);
+                    positions.Add(new int[] { warp.xMatrixPosition, warp.yMatrixPosition });
                 }
 
                 /* Read triggers */
                 uint triggersCount = reader.ReadUInt32();
                 for (int i = 0; i < triggersCount; i++) {
-                    triggers.Add(new Trigger(new MemoryStream(reader.ReadBytes(0x10))));
+                    Trigger trigger = new Trigger(new MemoryStream(reader.ReadBytes(0x10)));
+                    triggers.Add(trigger);
+                    positions.Add(new int[] { trigger.xMatrixPosition, trigger.yMatrixPosition });
                 }
             }
         }
@@ -119,7 +128,7 @@ namespace DSPRE.ROMFiles {
 
         public short xMapPosition;
         public short yMapPosition;
-        public short zPosition;
+        public short zMapPosition;
         public ushort xMatrixPosition;
         public ushort yMatrixPosition;
         #endregion
@@ -164,7 +173,7 @@ namespace DSPRE.ROMFiles {
                 yMatrixPosition = (ushort)(yPosition / MapFile.mapSize);
 
                 unknown3 = reader.ReadUInt16();
-                zPosition = reader.ReadInt16();
+                zMapPosition = reader.ReadInt16();
                 unknown4 = reader.ReadUInt16();
                 dir = reader.ReadUInt16();
                 unknown5 = reader.ReadUInt16();
@@ -183,7 +192,7 @@ namespace DSPRE.ROMFiles {
 
             xMapPosition = 0;
             yMapPosition = 0;
-            zPosition = 0;
+            zMapPosition = 0;
             this.xMatrixPosition = (ushort)xMatrixPosition;
             this.yMatrixPosition = (ushort)yMatrixPosition;
         }
@@ -200,7 +209,7 @@ namespace DSPRE.ROMFiles {
 
             xMapPosition = toCopy.xMapPosition;
             yMapPosition = toCopy.yMapPosition;
-            zPosition = toCopy.zPosition;
+            zMapPosition = toCopy.zMapPosition;
             this.xMatrixPosition = toCopy.xMatrixPosition;
             this.yMatrixPosition = toCopy.yMatrixPosition;
         }
@@ -217,7 +226,7 @@ namespace DSPRE.ROMFiles {
                 short yCoordinate = (short)(yMapPosition + MapFile.mapSize * yMatrixPosition);
                 writer.Write(yCoordinate);
                 writer.Write(unknown3);
-                writer.Write(zPosition);
+                writer.Write(zMapPosition);
                 writer.Write(unknown4);
                 writer.Write(dir);
                 writer.Write(unknown5);
@@ -292,7 +301,7 @@ namespace DSPRE.ROMFiles {
                 xMatrixPosition = (ushort)(xPosition / MapFile.mapSize);
                 yMatrixPosition = (ushort)(yPosition / MapFile.mapSize);
 
-                zPosition = reader.ReadInt16();
+                zMapPosition = reader.ReadInt16();
                 unknown3 = reader.ReadUInt16();
             }
         }
@@ -315,7 +324,7 @@ namespace DSPRE.ROMFiles {
 
             xMapPosition = 16;
             yMapPosition = 16;
-            zPosition = 0;
+            zMapPosition = 0;
             this.xMatrixPosition = (ushort)xMatrixPosition;
             this.yMatrixPosition = (ushort)yMatrixPosition;
         }
@@ -338,7 +347,7 @@ namespace DSPRE.ROMFiles {
 
             xMapPosition = toCopy.xMapPosition;
             yMapPosition = toCopy.yMapPosition;
-            zPosition = toCopy.zPosition;
+            zMapPosition = toCopy.zMapPosition;
             this.xMatrixPosition = toCopy.xMatrixPosition;
             this.yMatrixPosition = toCopy.yMatrixPosition;
         }
@@ -366,7 +375,7 @@ namespace DSPRE.ROMFiles {
                 short yCoordinate = (short)(yMapPosition + MapFile.mapSize * yMatrixPosition);
                 writer.Write(yCoordinate);
 
-                writer.Write(zPosition);
+                writer.Write(zMapPosition);
                 writer.Write(unknown3);
 
                 return ((MemoryStream)writer.BaseStream).ToArray();

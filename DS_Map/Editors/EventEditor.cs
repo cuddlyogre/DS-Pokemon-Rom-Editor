@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Windows.Documents;
 using System.Windows.Forms;
 using LibNDSFormats.NSBMD;
 using DSPRE.Resources;
@@ -18,10 +19,7 @@ namespace DSPRE.Editors {
     public GameMatrix eventMatrix;
     public Event selectedEvent;
     public const byte tileSize = 16;
-    public Pen eventPen;
     public static MapFile currentMapFile;
-    public Rectangle eventMatrixRectangle;
-    public Brush eventBrush;
     public static NSBMDGlRenderer mapRenderer = new NSBMDGlRenderer();
     public static NSBMDGlRenderer buildingsRenderer = new NSBMDGlRenderer();
 
@@ -145,8 +143,12 @@ namespace DSPRE.Editors {
       spawnableDirComboBox.Items.AddRange(PokeDatabase.EventEditor.Spawnables.orientationsArray);
       spawnableTypeComboBox.Items.AddRange(PokeDatabase.EventEditor.Spawnables.typesArray);
 
-      /* Draw matrix 0 in matrix navigator */
-      eventMatrix = new GameMatrix(0);
+      int defaultMatrix = 0;
+      eventMatrix = new GameMatrix(defaultMatrix);
+
+      matrixNavigator.CellMarked += (o, args) => {
+        setEventMatrixUpDown(args.X, args.Y);
+      };
 
       showSpawnablesCheckBox.Checked = Properties.Settings.Default.renderSpawnables;
       showOwsCheckBox.Checked = Properties.Settings.Default.renderOverworlds;
@@ -166,7 +168,9 @@ namespace DSPRE.Editors {
 
       Helpers.EnableHandlers();
 
-      selectEventComboBox.SelectedIndex = 0;
+      /* Draw matrix 0 in matrix navigator */
+      selectEventComboBox.SelectedIndex = defaultMatrix;
+
       owItemComboBox.SelectedIndex = 0;
       owTrainerComboBox.SelectedIndex = 0;
 
@@ -204,6 +208,19 @@ namespace DSPRE.Editors {
       itemComboboxIsUpToDate = true;
     }
 
+    private void MarkActiveCell(int x, int y) {
+      matrixNavigator.width = eventMatrix.width;
+      matrixNavigator.height = eventMatrix.height;
+      matrixNavigator.positions = currentEvFile.positions;
+      matrixNavigator.MarkActiveCell(x, y);
+      setEventMatrixUpDown(x, y);
+    }
+
+    private void setEventMatrixUpDown(int x, int y) {
+      eventMatrixXUpDown.Value = x;
+      eventMatrixYUpDown.Value = y;
+    }
+
     private void CenterEventViewOnEntities() {
       int destX = 0;
       int destY = 0;
@@ -227,12 +244,28 @@ namespace DSPRE.Editors {
       if (destX > eventMatrixXUpDown.Maximum || destY > eventMatrixYUpDown.Maximum) {
         //MessageBox.Show("One of the events tried to reference a bigger Matrix.\nMake sure the Header File associated to this Event File is using the correct Matrix.", "Error",
         //        MessageBoxButtons.OK, MessageBoxIcon.Error);
-        eventMatrixXUpDown.Value = eventMatrixYUpDown.Value = 0;
+        setEventMatrixUpDown(0, 0);
       }
       else {
-        eventMatrixXUpDown.Value = destX;
-        eventMatrixYUpDown.Value = destY;
+        setEventMatrixUpDown(destX, destY);
       }
+    }
+
+    private void selectEventComboBox_SelectedIndexChanged(object sender, EventArgs e) {
+      if (Helpers.HandlersDisabled) {
+        return;
+      }
+
+      /* Load events data into EventFile class instance */
+      currentEvFile = new EventFile(selectEventComboBox.SelectedIndex);
+
+      /* Update ListBoxes */
+      FillSpawnablesBox();
+      FillOverworldsBox();
+      FillTriggersBox();
+      FillWarpsBox();
+
+      eventEditorFullMapReload();
     }
 
     private void saveEventsButton_Click(object sender, EventArgs e) {
@@ -409,10 +442,10 @@ namespace DSPRE.Editors {
                 return;
               }
 
-              spawnablexMapUpDown.Value = (short)mouseTilePos.X;
-              spawnableYMapUpDown.Value = (short)mouseTilePos.Y;
-              spawnableXMatrixUpDown.Value = (short)eventMatrixXUpDown.Value;
-              spawnableYMatrixUpDown.Value = (short)eventMatrixYUpDown.Value;
+              spawnableMapXUpDown.Value = (short)mouseTilePos.X;
+              spawnableMapYUpDown.Value = (short)mouseTilePos.Y;
+              spawnableMatrixXUpDown.Value = (short)eventMatrixXUpDown.Value;
+              spawnableMatrixYUpDown.Value = (short)eventMatrixYUpDown.Value;
 
               break;
             case Event.EventType.Overworld:
@@ -420,10 +453,10 @@ namespace DSPRE.Editors {
                 return;
               }
 
-              owXMapUpDown.Value = (short)mouseTilePos.X;
-              owYMapUpDown.Value = (short)mouseTilePos.Y;
-              owXMatrixUpDown.Value = (short)eventMatrixXUpDown.Value;
-              owYMatrixUpDown.Value = (short)eventMatrixYUpDown.Value;
+              owMapXUpDown.Value = (short)mouseTilePos.X;
+              owMapYUpDown.Value = (short)mouseTilePos.Y;
+              owMatrixXUpDown.Value = (short)eventMatrixXUpDown.Value;
+              owMatrixYUpDown.Value = (short)eventMatrixYUpDown.Value;
 
               break;
             case Event.EventType.Warp:
@@ -431,10 +464,10 @@ namespace DSPRE.Editors {
                 return;
               }
 
-              warpXMapUpDown.Value = (short)mouseTilePos.X;
-              warpYMapUpDown.Value = (short)mouseTilePos.Y;
-              warpXMatrixUpDown.Value = (short)eventMatrixXUpDown.Value;
-              warpYMatrixUpDown.Value = (short)eventMatrixYUpDown.Value;
+              warpMapXUpDown.Value = (short)mouseTilePos.X;
+              warpMapYUpDown.Value = (short)mouseTilePos.Y;
+              warpMatrixXUpDown.Value = (short)eventMatrixXUpDown.Value;
+              warpMatrixYUpDown.Value = (short)eventMatrixYUpDown.Value;
 
               break;
             case Event.EventType.Trigger:
@@ -442,10 +475,10 @@ namespace DSPRE.Editors {
                 return;
               }
 
-              triggerXMapUpDown.Value = (short)mouseTilePos.X;
-              triggerYMapUpDown.Value = (short)mouseTilePos.Y;
-              triggerXMatrixUpDown.Value = (short)eventMatrixXUpDown.Value;
-              triggerYMatrixUpDown.Value = (short)eventMatrixYUpDown.Value;
+              triggerMapXUpDown.Value = (short)mouseTilePos.X;
+              triggerMapYUpDown.Value = (short)mouseTilePos.Y;
+              triggerMatrixXUpDown.Value = (short)eventMatrixXUpDown.Value;
+              triggerMatrixYUpDown.Value = (short)eventMatrixYUpDown.Value;
 
               break;
           }
@@ -524,6 +557,16 @@ namespace DSPRE.Editors {
       }
     }
 
+    private bool isEventOnCurrentMatrix(Event ev) {
+      if (ev.xMatrixPosition == eventMatrixXUpDown.Value) {
+        if (ev.yMatrixPosition == eventMatrixYUpDown.Value) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+
     private bool isEventUnderMouse(Event ev, Point mouseTilePos, int widthX = 0, int heightY = 0) {
       if (isEventOnCurrentMatrix(ev)) {
         Point evLocalCoords = new Point(ev.xMapPosition, ev.yMapPosition);
@@ -535,92 +578,6 @@ namespace DSPRE.Editors {
       }
 
       return false;
-    }
-
-    private void DisplayActiveEvents() {
-      openGlPictureBox.Image = new Bitmap(openGlPictureBox.Width, openGlPictureBox.Height);
-
-      using (Graphics g = Graphics.FromImage(openGlPictureBox.Image)) {
-        Bitmap icon;
-
-        /* Draw spawnables */
-        if (showSpawnablesCheckBox.Checked) {
-          icon = (Bitmap)Properties.Resources.ResourceManager.GetObject("sign");
-
-          for (int i = 0; i < currentEvFile.spawnables.Count; i++) {
-            Spawnable spawnable = currentEvFile.spawnables[i];
-
-            if (isEventOnCurrentMatrix(spawnable)) {
-              g.DrawImage(icon, spawnable.xMapPosition * (tileSize + 1), spawnable.yMapPosition * (tileSize + 1));
-              if (selectedEvent == spawnable) {
-                // Draw selection rectangle if event is the selected one
-                DrawSelectionRectangle(g, spawnable);
-              }
-            }
-          }
-        }
-
-        /* Draw overworlds */
-        if (showOwsCheckBox.Checked) {
-          for (int i = 0; i < currentEvFile.overworlds.Count; i++) {
-            Overworld overworld = currentEvFile.overworlds[i];
-
-            if (isEventOnCurrentMatrix(overworld)) {
-              // Draw image only if event is in current map
-              Bitmap sprite = GetOverworldImage(overworld.overlayTableEntry, overworld.orientation);
-              sprite.MakeTransparent();
-              g.DrawImage(sprite, (overworld.xMapPosition) * (tileSize + 1) - 7 + (32 - sprite.Width) / 2, (overworld.yMapPosition - 1) * (tileSize + 1) + (32 - sprite.Height));
-
-              if (selectedEvent == overworld) {
-                DrawSelectionRectangleOverworld(g, overworld);
-              }
-            }
-          }
-        }
-
-        /* Draw warps */
-        if (showWarpsCheckBox.Checked) {
-          DrawWarpCollisions(g);
-
-          icon = (Bitmap)Properties.Resources.ResourceManager.GetObject("warp");
-          for (int i = 0; i < currentEvFile.warps.Count; i++) {
-            Warp warp = currentEvFile.warps[i];
-
-            if (isEventOnCurrentMatrix(warp)) {
-              g.DrawImage(icon, warp.xMapPosition * (tileSize + 1), warp.yMapPosition * (tileSize + 1));
-
-              if (selectedEvent == warp) {
-                // Draw selection rectangle if event is the selected one
-                DrawSelectionRectangle(g, warp);
-              }
-            }
-          }
-        }
-
-        /* Draw triggers */
-        if (showTriggersCheckBox.Checked) {
-          icon = (Bitmap)Properties.Resources.ResourceManager.GetObject("trigger");
-
-          for (int i = 0; i < currentEvFile.triggers.Count; i++) {
-            Trigger trigger = currentEvFile.triggers[i];
-
-            if (isEventOnCurrentMatrix(trigger)) {
-              for (int y = 0; y < currentEvFile.triggers[i].heightY; y++) {
-                for (int x = 0; x < currentEvFile.triggers[i].widthX; x++) {
-                  g.DrawImage(icon, (trigger.xMapPosition + x) * (tileSize + 1), (trigger.yMapPosition + y) * (tileSize + 1));
-                }
-              }
-
-              if (selectedEvent == trigger) {
-                // Draw selection rectangle if event is the selected one
-                DrawSelectionRectangleTrigger(g, trigger);
-              }
-            }
-          }
-        }
-      }
-
-      openGlPictureBox.Invalidate();
     }
 
     private Bitmap GetOverworldImage(ushort eventEntryID, ushort orientation) {
@@ -702,51 +659,6 @@ namespace DSPRE.Editors {
       }
     }
 
-    private void DrawSelectionRectangleOverworld(Graphics g, Overworld ow) {
-      eventPen = Pens.Red;
-      g.DrawRectangle(eventPen, (ow.xMapPosition) * (tileSize + 1) - 8, (ow.yMapPosition - 1) * (tileSize + 1), 34, 34);
-      g.DrawRectangle(eventPen, (ow.xMapPosition) * (tileSize + 1) - 9, (ow.yMapPosition - 1) * (tileSize + 1) - 1, 36, 36);
-    }
-
-    private void DrawSelectionRectangle(Graphics g, Event ev) {
-      eventPen = Pens.Red;
-      g.DrawRectangle(eventPen, (ev.xMapPosition) * (tileSize + 1) - 1, (ev.yMapPosition) * (tileSize + 1) - 1, 18, 18);
-      g.DrawRectangle(eventPen, (ev.xMapPosition) * (tileSize + 1) - 2, (ev.yMapPosition) * (tileSize + 1) - 2, 20, 20);
-    }
-
-    private void DrawWarpCollisions(Graphics g) {
-      if (currentMapFile != null) {
-        Bitmap icon = (Bitmap)Properties.Resources.ResourceManager.GetObject("warpCollision");
-        for (int y = 0; y < MapFile.mapSize; y++) {
-          for (int x = 0; x < MapFile.mapSize; x++) {
-            byte moveperm = currentMapFile.types[x, y];
-            if (PokeDatabase.System.MapCollisionTypePainters.TryGetValue(moveperm, out string val)) {
-              if (val.IndexOf("Warp", StringComparison.InvariantCultureIgnoreCase) >= 0) {
-                //Console.WriteLine("Found warp at " + i + ", " + j);
-                g.DrawImage(icon, y * (tileSize + 1), x * (tileSize + 1));
-              }
-            }
-          }
-        }
-      }
-    }
-
-    private bool isEventOnCurrentMatrix(Event ev) {
-      if (ev.xMatrixPosition == eventMatrixXUpDown.Value) {
-        if (ev.yMatrixPosition == eventMatrixYUpDown.Value) {
-          return true;
-        }
-      }
-
-      return false;
-    }
-
-    private void DrawSelectionRectangleTrigger(Graphics g, Trigger t) {
-      eventPen = Pens.Red;
-      g.DrawRectangle(eventPen, (t.xMapPosition) * (tileSize + 1) - 1, (t.yMapPosition) * (tileSize + 1) - 1, 17 * t.widthX + 1, (tileSize + 1) * t.heightY + 1);
-      g.DrawRectangle(eventPen, (t.xMapPosition) * (tileSize + 1) - 2, (t.yMapPosition) * (tileSize + 1) - 2, 17 * t.widthX + 3, (tileSize + 1) * t.heightY + 3);
-    }
-
     private void eventPictureBox_MouseMove(object sender, MouseEventArgs e) {
       Point coordinates = openGlPictureBox.PointToClient(Cursor.Position);
       Point mouseTilePos = new Point(coordinates.X / (tileSize + 1), coordinates.Y / (tileSize + 1));
@@ -788,8 +700,7 @@ namespace DSPRE.Editors {
       }
       else {
         try {
-          eventMatrixXUpDown.Value = selectedEvent.xMatrixPosition;
-          eventMatrixYUpDown.Value = selectedEvent.yMatrixPosition;
+          setEventMatrixUpDown(selectedEvent.xMatrixPosition, selectedEvent.yMatrixPosition);
         }
         catch (ArgumentOutOfRangeException) {
           DialogResult main = MessageBox.Show("The selected event tried to reference a bigger Matrix than the one which is currently being displayed.\nDo you want to check for another potentially compatible matrix?", "Event is out of range", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -845,8 +756,7 @@ namespace DSPRE.Editors {
 
             if (dict.Count < 1) {
               MessageBox.Show("DSPRE could not find another Header referencing the same Event File and a different Matrix.", "Search failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-              eventMatrixXUpDown.Value = 0;
-              eventMatrixYUpDown.Value = 0;
+              setEventMatrixUpDown(0, 0);
             }
             else {
               if (dict.Count > 1) {
@@ -895,7 +805,7 @@ namespace DSPRE.Editors {
         return;
       }
 
-      currentEvFile.spawnables[selectedSpawnable].xMatrixPosition = (ushort)spawnableXMatrixUpDown.Value;
+      currentEvFile.spawnables[selectedSpawnable].xMatrixPosition = (ushort)spawnableMatrixXUpDown.Value;
       DisplayActiveEvents();
     }
 
@@ -905,7 +815,7 @@ namespace DSPRE.Editors {
         return;
       }
 
-      currentEvFile.spawnables[selectedSpawnable].yMatrixPosition = (ushort)spawnableYMatrixUpDown.Value;
+      currentEvFile.spawnables[selectedSpawnable].yMatrixPosition = (ushort)spawnableMatrixYUpDown.Value;
       DisplayActiveEvents();
     }
 
@@ -915,17 +825,7 @@ namespace DSPRE.Editors {
         return;
       }
 
-      currentEvFile.spawnables[selectedSpawnable].xMapPosition = (short)spawnablexMapUpDown.Value;
-      DisplayActiveEvents();
-    }
-
-    private void spawnableZUpDown_ValueChanged(object sender, EventArgs e) {
-      int selectedSpawnable = spawnablesListBox.SelectedIndex;
-      if (Helpers.HandlersDisabled || selectedSpawnable < 0) {
-        return;
-      }
-
-      currentEvFile.spawnables[selectedSpawnable].zPosition = (short)spawnableUpDown.Value;
+      currentEvFile.spawnables[selectedSpawnable].xMapPosition = (short)spawnableMapXUpDown.Value;
       DisplayActiveEvents();
     }
 
@@ -935,7 +835,17 @@ namespace DSPRE.Editors {
         return;
       }
 
-      currentEvFile.spawnables[selectedSpawnable].yMapPosition = (short)spawnableYMapUpDown.Value;
+      currentEvFile.spawnables[selectedSpawnable].yMapPosition = (short)spawnableMapYUpDown.Value;
+      DisplayActiveEvents();
+    }
+
+    private void spawnableMapZUpDown_ValueChanged(object sender, EventArgs e) {
+      int selectedSpawnable = spawnablesListBox.SelectedIndex;
+      if (Helpers.HandlersDisabled || selectedSpawnable < 0) {
+        return;
+      }
+
+      currentEvFile.spawnables[selectedSpawnable].zMapPosition = (short)spawnableMapZUpDown.Value;
       DisplayActiveEvents();
     }
 
@@ -1015,11 +925,11 @@ namespace DSPRE.Editors {
       spawnableTypeComboBox.SelectedIndex = currentEvFile.spawnables[spawnablesListBox.SelectedIndex].type;
 
       spawnableScriptUpDown.Value = currentEvFile.spawnables[spawnablesListBox.SelectedIndex].scriptNumber;
-      spawnablexMapUpDown.Value = currentEvFile.spawnables[spawnablesListBox.SelectedIndex].xMapPosition;
-      spawnableYMapUpDown.Value = currentEvFile.spawnables[spawnablesListBox.SelectedIndex].yMapPosition;
-      spawnableUpDown.Value = currentEvFile.spawnables[spawnablesListBox.SelectedIndex].zPosition;
-      spawnableXMatrixUpDown.Value = currentEvFile.spawnables[spawnablesListBox.SelectedIndex].xMatrixPosition;
-      spawnableYMatrixUpDown.Value = currentEvFile.spawnables[spawnablesListBox.SelectedIndex].yMatrixPosition;
+      spawnableMapXUpDown.Value = currentEvFile.spawnables[spawnablesListBox.SelectedIndex].xMapPosition;
+      spawnableMapYUpDown.Value = currentEvFile.spawnables[spawnablesListBox.SelectedIndex].yMapPosition;
+      spawnableMapZUpDown.Value = currentEvFile.spawnables[spawnablesListBox.SelectedIndex].zMapPosition;
+      spawnableMatrixXUpDown.Value = currentEvFile.spawnables[spawnablesListBox.SelectedIndex].xMatrixPosition;
+      spawnableMatrixYUpDown.Value = currentEvFile.spawnables[spawnablesListBox.SelectedIndex].yMatrixPosition;
 
       DisplayActiveEvents();
       Helpers.EnableHandlers();
@@ -1090,115 +1000,189 @@ namespace DSPRE.Editors {
       }
     }
 
-    private void owYMatrixUpDown_ValueChanged(object sender, EventArgs e) {
+    private void eventEditorFullMapReload() {
+      MarkActiveCell((int)eventMatrixXUpDown.Value, (int)eventMatrixYUpDown.Value);
+      DisplayActiveEvents();
+      DisplayEventMap();
+    }
+
+    public void eventMatrixUpDown_ValueChanged(object sender, EventArgs e) {
+      if (Helpers.HandlersDisabled) {
+        return;
+      }
+
+      Helpers.DisableHandlers();
+
+      eventMatrix = new GameMatrix((int)eventMatrixUpDown.Value);
+      eventMatrixXUpDown.Maximum = eventMatrix.width - 1;
+      eventMatrixYUpDown.Maximum = eventMatrix.height - 1;
+      eventEditorFullMapReload();
+
+      Helpers.EnableHandlers();
+
+      CenterEventViewOnEntities();
+    }
+
+    private void owMatrixXUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = overworldsListBox.SelectedIndex;
       if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
-      currentEvFile.overworlds[selection].yMatrixPosition = (ushort)owYMatrixUpDown.Value;
-      eventMatrixPictureBox.Image = new Bitmap(eventMatrixPictureBox.Width, eventMatrixPictureBox.Height);
+      currentEvFile.overworlds[selection].xMatrixPosition = (ushort)owMatrixXUpDown.Value;
+
       MarkActiveCell((int)eventMatrixXUpDown.Value, (int)eventMatrixYUpDown.Value);
       DisplayActiveEvents();
     }
 
-    private void owXMatrixUpDown_ValueChanged(object sender, EventArgs e) {
+    private void owMatrixYUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = overworldsListBox.SelectedIndex;
-
       if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
-      currentEvFile.overworlds[selection].xMatrixPosition = (ushort)owXMatrixUpDown.Value;
-      eventMatrixPictureBox.Image = new Bitmap(eventMatrixPictureBox.Width, eventMatrixPictureBox.Height);
+      currentEvFile.overworlds[selection].yMatrixPosition = (ushort)owMatrixYUpDown.Value;
+
       MarkActiveCell((int)eventMatrixXUpDown.Value, (int)eventMatrixYUpDown.Value);
       DisplayActiveEvents();
     }
 
-    private void MarkActiveCell(int xPosition, int yPosition) {
-      /*  Redraw the matrix to avoid multiple green cells  */
-      DrawEventMatrix();
-      MarkUsedCells();
+    private void DisplayActiveEvents() {
+      openGlPictureBox.Image = new Bitmap(openGlPictureBox.Width, openGlPictureBox.Height);
 
-      /* Set rectangle to paint and brush color */
-      eventMatrixRectangle = new Rectangle(2 + 16 * xPosition, 2 + 16 * yPosition, 13, 13);
-      eventBrush = Brushes.Lime;
+      using (Graphics g = Graphics.FromImage(openGlPictureBox.Image)) {
+        Bitmap icon;
 
-      /* Paint cell */
-      using (Graphics g = Graphics.FromImage(eventMatrixPictureBox.Image)) {
-        g.FillRectangle(eventBrush, eventMatrixRectangle);
-      }
+        /* Draw spawnables */
+        if (showSpawnablesCheckBox.Checked) {
+          icon = (Bitmap)Properties.Resources.ResourceManager.GetObject("sign");
 
-      /* Update PictureBox and current coordinates labels */
-      eventMatrixPictureBox.Invalidate();
-      eventMatrixXUpDown.Value = xPosition;
-      eventMatrixYUpDown.Value = yPosition;
-    }
+          for (int i = 0; i < currentEvFile.spawnables.Count; i++) {
+            Spawnable spawnable = currentEvFile.spawnables[i];
+            if (!isEventOnCurrentMatrix(spawnable)) {
+              continue;
+            }
 
-    private void DrawEventMatrix() {
-      eventMatrixPictureBox.Image = new Bitmap(1 + 16 * eventMatrix.width, 1 + 16 * eventMatrix.height);
+            g.DrawImage(icon, spawnable.xMapPosition * (tileSize + 1), spawnable.yMapPosition * (tileSize + 1));
 
-      using (Graphics g = Graphics.FromImage(eventMatrixPictureBox.Image)) {
-        /* First, fill the rectangle with black */
-        g.Clear(Color.Black);
+            if (selectedEvent == spawnable) {
+              // Draw selection rectangle if event is the selected one
+              DrawSelectionRectangle(g, spawnable);
+            }
+          }
+        }
 
-        /* Now, draw the white cell borders on the black rectangle */
-        eventPen = Pens.White;
-        for (int y = 0; y < eventMatrix.height; y++) {
-          for (int x = 0; x < eventMatrix.width; x++) {
-            eventMatrixRectangle = new Rectangle(1 + 16 * x, 1 + 16 * y, 14, 14);
-            g.DrawRectangle(eventPen, eventMatrixRectangle);
+        /* Draw overworlds */
+        if (showOwsCheckBox.Checked) {
+          for (int i = 0; i < currentEvFile.overworlds.Count; i++) {
+            Overworld overworld = currentEvFile.overworlds[i];
+            if (!isEventOnCurrentMatrix(overworld)) continue;
+
+            // Draw image only if event is in current map
+            Bitmap sprite = GetOverworldImage(overworld.overlayTableEntry, overworld.orientation);
+            sprite.MakeTransparent();
+            g.DrawImage(sprite, (overworld.xMapPosition) * (tileSize + 1) - 7 + (32 - sprite.Width) / 2, (overworld.yMapPosition - 1) * (tileSize + 1) + (32 - sprite.Height));
+
+            if (selectedEvent == overworld) {
+              DrawSelectionRectangleOverworld(g, overworld);
+            }
+          }
+        }
+
+        /* Draw warps */
+        if (showWarpsCheckBox.Checked) {
+          DrawWarpCollisions(g);
+
+          icon = (Bitmap)Properties.Resources.ResourceManager.GetObject("warp");
+          for (int i = 0; i < currentEvFile.warps.Count; i++) {
+            Warp warp = currentEvFile.warps[i];
+            if (!isEventOnCurrentMatrix(warp)) continue;
+
+            g.DrawImage(icon, warp.xMapPosition * (tileSize + 1), warp.yMapPosition * (tileSize + 1));
+
+            if (selectedEvent == warp) {
+              // Draw selection rectangle if event is the selected one
+              DrawSelectionRectangle(g, warp);
+            }
+          }
+        }
+
+        /* Draw triggers */
+        if (showTriggersCheckBox.Checked) {
+          icon = (Bitmap)Properties.Resources.ResourceManager.GetObject("trigger");
+
+          for (int i = 0; i < currentEvFile.triggers.Count; i++) {
+            Trigger trigger = currentEvFile.triggers[i];
+            if (!isEventOnCurrentMatrix(trigger)) continue;
+
+            for (int y = 0; y < currentEvFile.triggers[i].heightY; y++) {
+              for (int x = 0; x < currentEvFile.triggers[i].widthX; x++) {
+                g.DrawImage(icon, (trigger.xMapPosition + x) * (tileSize + 1), (trigger.yMapPosition + y) * (tileSize + 1));
+              }
+            }
+
+            if (selectedEvent == trigger) {
+              // Draw selection rectangle if event is the selected one
+              DrawSelectionRectangleTrigger(g, trigger);
+            }
           }
         }
       }
+
+      openGlPictureBox.Invalidate();
     }
 
-    private void MarkUsedCells() {
-      using (Graphics g = Graphics.FromImage(eventMatrixPictureBox.Image)) {
-        eventBrush = Brushes.Orange;
+    private void DrawSelectionRectangleOverworld(Graphics g, Overworld ow) {
+      Pen pen = Pens.Red;
+      g.DrawRectangle(pen, (ow.xMapPosition) * (tileSize + 1) - 8, (ow.yMapPosition - 1) * (tileSize + 1), 34, 34);
+      g.DrawRectangle(pen, (ow.xMapPosition) * (tileSize + 1) - 9, (ow.yMapPosition - 1) * (tileSize + 1) - 1, 36, 36);
+    }
 
-        for (int i = 0; i < currentEvFile.spawnables.Count; i++) {
-          eventMatrixRectangle = new Rectangle(2 + 16 * currentEvFile.spawnables[i].xMatrixPosition, 2 + 16 * currentEvFile.spawnables[i].yMatrixPosition, 13, 13);
-          g.FillRectangle(eventBrush, eventMatrixRectangle);
-        }
+    private void DrawWarpCollisions(Graphics g) {
+      if (currentMapFile == null) return;
 
-        for (int i = 0; i < currentEvFile.overworlds.Count; i++) {
-          eventMatrixRectangle = new Rectangle(2 + 16 * currentEvFile.overworlds[i].xMatrixPosition, 2 + 16 * currentEvFile.overworlds[i].yMatrixPosition, 13, 13);
-          g.FillRectangle(eventBrush, eventMatrixRectangle);
-        }
-
-        for (int i = 0; i < currentEvFile.warps.Count; i++) {
-          eventMatrixRectangle = new Rectangle(2 + 16 * currentEvFile.warps[i].xMatrixPosition, 2 + 16 * currentEvFile.warps[i].yMatrixPosition, 13, 13);
-          g.FillRectangle(eventBrush, eventMatrixRectangle);
-        }
-
-        for (int i = 0; i < currentEvFile.triggers.Count; i++) {
-          eventMatrixRectangle = new Rectangle(2 + 16 * currentEvFile.triggers[i].xMatrixPosition, 2 + 16 * currentEvFile.triggers[i].yMatrixPosition, 13, 13);
-          g.FillRectangle(eventBrush, eventMatrixRectangle);
+      Bitmap icon = (Bitmap)Properties.Resources.ResourceManager.GetObject("warpCollision");
+      for (int y = 0; y < MapFile.mapSize; y++) {
+        for (int x = 0; x < MapFile.mapSize; x++) {
+          byte moveperm = currentMapFile.types[x, y];
+          if (!PokeDatabase.System.MapCollisionTypePainters.TryGetValue(moveperm, out string val)) continue;
+          if (val.IndexOf("Warp", StringComparison.InvariantCultureIgnoreCase) < 0) continue;
+          //Console.WriteLine("Found warp at " + i + ", " + j);
+          g.DrawImage(icon, y * (tileSize + 1), x * (tileSize + 1));
         }
       }
-
-      eventMatrixPictureBox.Invalidate();
     }
 
-    private void owXRangeUpDown_ValueChanged(object sender, EventArgs e) {
+    private void DrawSelectionRectangleTrigger(Graphics g, Trigger t) {
+      Pen pen = Pens.Red;
+      g.DrawRectangle(pen, (t.xMapPosition) * (tileSize + 1) - 1, (t.yMapPosition) * (tileSize + 1) - 1, 17 * t.widthX + 1, (tileSize + 1) * t.heightY + 1);
+      g.DrawRectangle(pen, (t.xMapPosition) * (tileSize + 1) - 2, (t.yMapPosition) * (tileSize + 1) - 2, 17 * t.widthX + 3, (tileSize + 1) * t.heightY + 3);
+    }
+
+    private void DrawSelectionRectangle(Graphics g, Event ev) {
+      Pen pen = Pens.Red;
+      g.DrawRectangle(pen, (ev.xMapPosition) * (tileSize + 1) - 1, (ev.yMapPosition) * (tileSize + 1) - 1, 18, 18);
+      g.DrawRectangle(pen, (ev.xMapPosition) * (tileSize + 1) - 2, (ev.yMapPosition) * (tileSize + 1) - 2, 20, 20);
+    }
+
+    private void owRangeXUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = overworldsListBox.SelectedIndex;
 
       if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
-      currentEvFile.overworlds[overworldsListBox.SelectedIndex].xRange = (ushort)owXRangeUpDown.Value;
+      currentEvFile.overworlds[overworldsListBox.SelectedIndex].xRange = (ushort)owRangeXUpDown.Value;
     }
 
-    private void owYRangeUpDown_ValueChanged(object sender, EventArgs e) {
+    private void owRangeYUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = overworldsListBox.SelectedIndex;
 
       if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
-      currentEvFile.overworlds[overworldsListBox.SelectedIndex].yRange = (ushort)owYRangeUpDown.Value;
+      currentEvFile.overworlds[overworldsListBox.SelectedIndex].yRange = (ushort)owRangeYUpDown.Value;
     }
 
     private void owOrientationComboBox_SelectedIndexChanged(object sender, EventArgs e) {
@@ -1240,29 +1224,29 @@ namespace DSPRE.Editors {
         return;
       }
 
-      currentEvFile.overworlds[overworldsListBox.SelectedIndex].xMapPosition = (short)owXMapUpDown.Value;
+      currentEvFile.overworlds[overworldsListBox.SelectedIndex].xMapPosition = (short)owMapXUpDown.Value;
       DisplayActiveEvents();
     }
 
-    private void owZPositionUpDown_ValueChanged(object sender, EventArgs e) {
+    private void owMapYUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = overworldsListBox.SelectedIndex;
 
       if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
-      currentEvFile.overworlds[selection].zPosition = (short)owZPositionUpDown.Value;
+      currentEvFile.overworlds[overworldsListBox.SelectedIndex].yMapPosition = (short)owMapYUpDown.Value;
+      DisplayActiveEvents();
     }
 
-    private void owYMapUpDown_ValueChanged(object sender, EventArgs e) {
+    private void owMapZUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = overworldsListBox.SelectedIndex;
 
       if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
-      currentEvFile.overworlds[overworldsListBox.SelectedIndex].yMapPosition = (short)owYMapUpDown.Value;
-      DisplayActiveEvents();
+      currentEvFile.overworlds[selection].zMapPosition = (short)owMapZUpDown.Value;
     }
 
     private void itemsSelectorHelpBtn_Click(object sender, EventArgs e) {
@@ -1470,11 +1454,11 @@ namespace DSPRE.Editors {
         }
 
         /* Set coordinates controls */
-        owXMapUpDown.Value = selectedOw.xMapPosition;
-        owYMapUpDown.Value = selectedOw.yMapPosition;
-        owXMatrixUpDown.Value = selectedOw.xMatrixPosition;
-        owYMatrixUpDown.Value = selectedOw.yMatrixPosition;
-        owZPositionUpDown.Value = selectedOw.zPosition;
+        owMapXUpDown.Value = selectedOw.xMapPosition;
+        owMapYUpDown.Value = selectedOw.yMapPosition;
+        owMatrixXUpDown.Value = selectedOw.xMatrixPosition;
+        owMatrixYUpDown.Value = selectedOw.yMatrixPosition;
+        owMapZUpDown.Value = selectedOw.zMapPosition;
 
         /*ID, Flag and Script number controls */
         owIDNumericUpDown.Value = selectedOw.owID;
@@ -1485,8 +1469,8 @@ namespace DSPRE.Editors {
         owMovementComboBox.SelectedIndex = selectedOw.movement;
         owOrientationComboBox.SelectedIndex = selectedOw.orientation;
         owSightRangeUpDown.Value = selectedOw.sightRange;
-        owXRangeUpDown.Value = selectedOw.xRange;
-        owYRangeUpDown.Value = selectedOw.yRange;
+        owRangeXUpDown.Value = selectedOw.xRange;
+        owRangeYUpDown.Value = selectedOw.yRange;
 
         try {
           uint spriteID = RomInfo.OverworldTable[currentEvFile.overworlds[overworldsListBox.SelectedIndex].overlayTableEntry].spriteID;
@@ -1679,25 +1663,15 @@ namespace DSPRE.Editors {
       Helpers.DisableHandlers();
 
       warpAnchorUpDown.Value = currentEvFile.warps[warpsListBox.SelectedIndex].anchor;
-      warpXMapUpDown.Value = currentEvFile.warps[warpsListBox.SelectedIndex].xMapPosition;
-      warpYMapUpDown.Value = currentEvFile.warps[warpsListBox.SelectedIndex].yMapPosition;
-      warpZUpDown.Value = currentEvFile.warps[warpsListBox.SelectedIndex].zPosition;
-      warpXMatrixUpDown.Value = currentEvFile.warps[warpsListBox.SelectedIndex].xMatrixPosition;
-      warpYMatrixUpDown.Value = currentEvFile.warps[warpsListBox.SelectedIndex].yMatrixPosition;
+      warpMapXUpDown.Value = currentEvFile.warps[warpsListBox.SelectedIndex].xMapPosition;
+      warpMapYUpDown.Value = currentEvFile.warps[warpsListBox.SelectedIndex].yMapPosition;
+      warpMapZUpDown.Value = currentEvFile.warps[warpsListBox.SelectedIndex].zMapPosition;
+      warpMatrixXUpDown.Value = currentEvFile.warps[warpsListBox.SelectedIndex].xMatrixPosition;
+      warpMatrixYUpDown.Value = currentEvFile.warps[warpsListBox.SelectedIndex].yMatrixPosition;
 
       DisplayActiveEvents(); // Redraw events to show selection box
 
       Helpers.EnableHandlers();
-    }
-
-    private void expectedVarValueTriggerUpDown_ValueChanged(object sender, EventArgs e) {
-      int selection = triggersListBox.SelectedIndex;
-      if (Helpers.HandlersDisabled || selection < 0) {
-        return;
-      }
-
-      currentEvFile.triggers[selection].expectedVarValue = (ushort)expectedVarValueTriggerUpDown.Value;
-      updateSelectedTriggerName();
     }
 
     private void triggerVariableWatchedUpDown_ValueChanged(object sender, EventArgs e) {
@@ -1707,6 +1681,16 @@ namespace DSPRE.Editors {
       }
 
       currentEvFile.triggers[selection].variableWatched = (ushort)triggerVariableWatchedUpDown.Value;
+      updateSelectedTriggerName();
+    }
+
+    private void triggerExpectedValueUpDown_ValueChanged(object sender, EventArgs e) {
+      int selection = triggersListBox.SelectedIndex;
+      if (Helpers.HandlersDisabled || selection < 0) {
+        return;
+      }
+
+      currentEvFile.triggers[selection].expectedVarValue = (ushort)triggerExpectedValueUpDown.Value;
       updateSelectedTriggerName();
     }
 
@@ -1720,16 +1704,6 @@ namespace DSPRE.Editors {
       updateSelectedTriggerName();
     }
 
-    private void triggerLengthUpDown_ValueChanged(object sender, EventArgs e) {
-      int selection = triggersListBox.SelectedIndex;
-      if (Helpers.HandlersDisabled || selection < 0) {
-        return;
-      }
-
-      currentEvFile.triggers[selection].heightY = (ushort)triggerLengthUpDown.Value;
-      DisplayActiveEvents();
-    }
-
     private void triggerWidthUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = triggersListBox.SelectedIndex;
       if (Helpers.HandlersDisabled || selection < 0) {
@@ -1740,33 +1714,43 @@ namespace DSPRE.Editors {
       DisplayActiveEvents();
     }
 
-    private void triggerXMapUpDown_ValueChanged(object sender, EventArgs e) {
+    private void triggerLengthUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = triggersListBox.SelectedIndex;
       if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
-      currentEvFile.triggers[selection].xMapPosition = (short)triggerXMapUpDown.Value;
+      currentEvFile.triggers[selection].heightY = (ushort)triggerLengthUpDown.Value;
       DisplayActiveEvents();
     }
 
-    private void triggerZUpDown_ValueChanged(object sender, EventArgs e) {
+    private void triggerMapXUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = triggersListBox.SelectedIndex;
       if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
-      currentEvFile.triggers[selection].zPosition = (ushort)triggerZUpDown.Value;
+      currentEvFile.triggers[selection].xMapPosition = (short)triggerMapXUpDown.Value;
       DisplayActiveEvents();
     }
 
-    private void triggerYMapUpDown_ValueChanged(object sender, EventArgs e) {
+    private void triggerMapYUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = triggersListBox.SelectedIndex;
       if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
-      currentEvFile.triggers[selection].yMapPosition = (short)triggerYMapUpDown.Value;
+      currentEvFile.triggers[selection].yMapPosition = (short)triggerMapYUpDown.Value;
+      DisplayActiveEvents();
+    }
+
+    private void triggerMapZUpDown_ValueChanged(object sender, EventArgs e) {
+      int selection = triggersListBox.SelectedIndex;
+      if (Helpers.HandlersDisabled || selection < 0) {
+        return;
+      }
+
+      currentEvFile.triggers[selection].zPosition = (ushort)triggerMapZUpDown.Value;
       DisplayActiveEvents();
     }
 
@@ -1837,16 +1821,16 @@ namespace DSPRE.Editors {
 
       triggerScriptUpDown.Value = t.scriptNumber;
       triggerVariableWatchedUpDown.Value = t.variableWatched;
-      expectedVarValueTriggerUpDown.Value = t.expectedVarValue;
+      triggerExpectedValueUpDown.Value = t.expectedVarValue;
 
       triggerWidthUpDown.Value = t.widthX;
       triggerLengthUpDown.Value = t.heightY;
 
-      triggerXMapUpDown.Value = t.xMapPosition;
-      triggerYMapUpDown.Value = t.yMapPosition;
-      triggerZUpDown.Value = t.zPosition;
-      triggerXMatrixUpDown.Value = t.xMatrixPosition;
-      triggerYMatrixUpDown.Value = t.yMatrixPosition;
+      triggerMapXUpDown.Value = t.xMapPosition;
+      triggerMapYUpDown.Value = t.yMapPosition;
+      triggerMapZUpDown.Value = t.zPosition;
+      triggerMatrixXUpDown.Value = t.xMatrixPosition;
+      triggerMatrixYUpDown.Value = t.yMatrixPosition;
 
       DisplayActiveEvents();
 
@@ -1874,32 +1858,6 @@ namespace DSPRE.Editors {
           triggersListBox.SelectedIndex = 0;
         }
       }
-    }
-
-    public void eventMatrixUpDown_ValueChanged(object sender, EventArgs e) {
-      if (Helpers.HandlersDisabled) {
-        return;
-      }
-
-      Helpers.DisableHandlers();
-
-      eventMatrix = new GameMatrix((int)eventMatrixUpDown.Value);
-      eventMatrixXUpDown.Maximum = eventMatrix.width - 1;
-      eventMatrixYUpDown.Maximum = eventMatrix.height - 1;
-      eventEditorFullMapReload((int)eventMatrixXUpDown.Value, (int)eventMatrixYUpDown.Value);
-
-      Helpers.EnableHandlers();
-
-      CenterEventViewOnEntities();
-    }
-
-    private void eventEditorFullMapReload(int coordX, int coordY) {
-      /* Draw matrix image in the navigator */
-      MarkActiveCell(coordX, coordY);
-      /* Render events on map */
-      DisplayEventMap();
-      DisplayActiveEvents();
-      eventMatrixPictureBox.Invalidate();
     }
 
     private void DisplayEventMap(bool readGraphicsFromHeader = true) {
@@ -1953,9 +1911,7 @@ namespace DSPRE.Editors {
         currentMapFile = new MapFile((int)mapIndex, RomInfo.gameFamily, discardMoveperms: false);
         Helpers.MW_LoadModelTextures(currentMapFile.mapModel, RomInfo.gameDirs[DirNames.mapTextures].unpackedDir, areaData.mapTileset);
 
-        bool isInteriorMap = false;
-        if ((RomInfo.gameVersion == GameVersions.HeartGold || RomInfo.gameVersion == GameVersions.SoulSilver) && areaData.areaType == 0x0)
-          isInteriorMap = true;
+        bool isInteriorMap = gameFamily == GameFamilies.HGSS && areaData.areaType == 0x0;
 
         for (int i = 0; i < currentMapFile.buildings.Count; i++) {
           currentMapFile.buildings[i].LoadModelData(Helpers.romInfo.GetBuildingModelsDirPath(isInteriorMap)); // Load building nsbmd
@@ -1975,39 +1931,12 @@ namespace DSPRE.Editors {
       openGlPictureBox.Invalidate();
     }
 
-    private void selectEventComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-      if (Helpers.HandlersDisabled) {
-        return;
-      }
-
-      /* Load events data into EventFile class instance */
-      currentEvFile = new EventFile(selectEventComboBox.SelectedIndex);
-
-      /* Update ListBoxes */
-      FillSpawnablesBox();
-      FillOverworldsBox();
-      FillTriggersBox();
-      FillWarpsBox();
-
-      eventEditorFullMapReload((int)eventMatrixXUpDown.Value, (int)eventMatrixYUpDown.Value);
-    }
-
-    private void eventMatrixPictureBox_Click(object sender, EventArgs e) {
-      const int squareSize = 16;
-      Point coordinates = eventMatrixPictureBox.PointToClient(Cursor.Position);
-      Point mouseTilePos = new Point(coordinates.X / squareSize, coordinates.Y / squareSize);
-
-      MarkActiveCell(mouseTilePos.X, mouseTilePos.Y);
-      eventMatrixXUpDown.Value = mouseTilePos.X;
-      eventMatrixYUpDown.Value = mouseTilePos.Y;
-    }
-
     private void eventMatrixCoordsUpDown_ValueChanged(object sender, EventArgs e) {
       if (Helpers.HandlersDisabled) {
         return;
       }
 
-      eventEditorFullMapReload((int)eventMatrixXUpDown.Value, (int)eventMatrixYUpDown.Value);
+      eventEditorFullMapReload();
     }
 
     private void showEventsCheckBoxes_CheckedChanged(object sender, EventArgs e) {
@@ -2035,7 +1964,7 @@ namespace DSPRE.Editors {
         return;
       }
 
-      currentEvFile.warps[warpsListBox.SelectedIndex].xMatrixPosition = (ushort)warpXMatrixUpDown.Value;
+      currentEvFile.warps[warpsListBox.SelectedIndex].xMatrixPosition = (ushort)warpMatrixXUpDown.Value;
       DisplayActiveEvents();
     }
 
@@ -2044,54 +1973,54 @@ namespace DSPRE.Editors {
         return;
       }
 
-      currentEvFile.warps[warpsListBox.SelectedIndex].yMatrixPosition = (ushort)warpYMatrixUpDown.Value;
+      currentEvFile.warps[warpsListBox.SelectedIndex].yMatrixPosition = (ushort)warpMatrixYUpDown.Value;
       DisplayActiveEvents();
     }
 
-    private void warpXMapUpDown_ValueChanged(object sender, EventArgs e) {
+    private void warpMapXUpDown_ValueChanged(object sender, EventArgs e) {
       if (Helpers.HandlersDisabled || warpsListBox.SelectedIndex < 0) {
         return;
       }
 
-      currentEvFile.warps[warpsListBox.SelectedIndex].xMapPosition = (short)warpXMapUpDown.Value;
+      currentEvFile.warps[warpsListBox.SelectedIndex].xMapPosition = (short)warpMapXUpDown.Value;
       DisplayActiveEvents();
     }
 
-    private void warpYMapUpDown_ValueChanged(object sender, EventArgs e) {
+    private void warpMapYUpDown_ValueChanged(object sender, EventArgs e) {
       if (Helpers.HandlersDisabled || warpsListBox.SelectedIndex < 0) {
         return;
       }
 
-      currentEvFile.warps[warpsListBox.SelectedIndex].yMapPosition = (short)warpYMapUpDown.Value;
+      currentEvFile.warps[warpsListBox.SelectedIndex].yMapPosition = (short)warpMapYUpDown.Value;
       DisplayActiveEvents();
     }
 
-    private void warpZUpDown_ValueChanged(object sender, EventArgs e) {
+    private void warpMapZUpDown_ValueChanged(object sender, EventArgs e) {
       if (Helpers.HandlersDisabled || warpsListBox.SelectedIndex < 0) {
         return;
       }
 
-      currentEvFile.warps[warpsListBox.SelectedIndex].zPosition = (short)warpZUpDown.Value;
+      currentEvFile.warps[warpsListBox.SelectedIndex].zMapPosition = (short)warpMapZUpDown.Value;
       DisplayActiveEvents();
     }
 
-    private void triggerXMatrixUpDown_ValueChanged(object sender, EventArgs e) {
+    private void triggerMatrixXUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = triggersListBox.SelectedIndex;
       if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
-      currentEvFile.triggers[selection].xMatrixPosition = (ushort)triggerXMatrixUpDown.Value;
+      currentEvFile.triggers[selection].xMatrixPosition = (ushort)triggerMatrixXUpDown.Value;
       DisplayActiveEvents();
     }
 
-    private void triggerYMatrixUpDown_ValueChanged(object sender, EventArgs e) {
+    private void triggerMatrixYUpDown_ValueChanged(object sender, EventArgs e) {
       int selection = triggersListBox.SelectedIndex;
       if (Helpers.HandlersDisabled || selection < 0) {
         return;
       }
 
-      currentEvFile.triggers[selection].yMatrixPosition = (ushort)triggerYMatrixUpDown.Value;
+      currentEvFile.triggers[selection].yMatrixPosition = (ushort)triggerMatrixYUpDown.Value;
       DisplayActiveEvents();
     }
   }
