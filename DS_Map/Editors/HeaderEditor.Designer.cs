@@ -1391,7 +1391,7 @@ namespace DSPRE.Editors
       this.openWildEditorWithIdButton.TabIndex = 24;
       this.openWildEditorWithIdButton.Text = "Open Editor";
       this.openWildEditorWithIdButton.UseVisualStyleBackColor = true;
-      this.openWildEditorWithIdButton.Click += new System.EventHandler(this.openWildEditorWithIdButtonClick);
+      this.openWildEditorWithIdButton.Click += new System.EventHandler(this.openWildEditorWithIdButton_Click);
       // 
       // pasteWildEncountersButton
       // 
