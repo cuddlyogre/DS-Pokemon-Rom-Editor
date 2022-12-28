@@ -112,7 +112,7 @@ namespace DSPRE {
       catch {
       }
     }
-    
+
     private static void SetupRenderer(float ang, float dist, float elev, float perspective, int width, int height) {
       //TODO: improve this
       Gl.glEnable(Gl.GL_RESCALE_NORMAL);
@@ -202,7 +202,7 @@ namespace DSPRE {
         }
       }
     }
-    
+
     public static Bitmap GrabMapScreenshot(int width, int height) {
       Bitmap bmp = new Bitmap(width, height);
       System.Drawing.Imaging.BitmapData data = bmp.LockBits(new Rectangle(0, 0, width, height), System.Drawing.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
@@ -322,6 +322,30 @@ namespace DSPRE {
           ControlPaint.DrawImageDisabled(e.Graphics, img, 0, 0, pict.BackColor);
         }
       }
+    }
+
+    public static void OpenWildEditor(bool loadCurrent) {
+      Helpers.statusLabelMessage("Attempting to extract Wild Encounters NARC...");
+
+      DSUtils.TryUnpackNarcs(new List<DirNames>() { DirNames.encounters, DirNames.monIcons });
+
+      Helpers.statusLabelMessage("Passing control to Wild Pokémon Editor...");
+
+      int encToOpen = loadCurrent ? (int)EditorPanels.headerEditor.wildPokeUpDown.Value : 0;
+      string wildPokeUnpackedPath = gameDirs[DirNames.encounters].unpackedDir;
+      switch (RomInfo.gameFamily) {
+        case GameFamilies.DP:
+        case GameFamilies.Plat:
+          using (WildEditorDPPt editor = new WildEditorDPPt(wildPokeUnpackedPath, RomInfo.GetPokemonNames(), encToOpen))
+            editor.ShowDialog();
+          break;
+        default:
+          using (WildEditorHGSS editor = new WildEditorHGSS(wildPokeUnpackedPath, RomInfo.GetPokemonNames(), encToOpen))
+            editor.ShowDialog();
+          break;
+      }
+
+      Helpers.statusLabelMessage();
     }
   }
 }
