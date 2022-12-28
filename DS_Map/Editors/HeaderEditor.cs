@@ -1180,7 +1180,7 @@ namespace DSPRE.Editors {
     }
 
     private void openWildEditorWithIdButton_Click(object sender, EventArgs e) {
-      Helpers.OpenWildEditor(loadCurrent: true);
+      Helpers.OpenWildEditor((int)EditorPanels.headerEditor.wildPokeUpDown.Value);
     }
 
     private void pasteWildEncountersButton_Click(object sender, EventArgs e) {

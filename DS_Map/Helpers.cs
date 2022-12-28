@@ -324,14 +324,13 @@ namespace DSPRE {
       }
     }
 
-    public static void OpenWildEditor(bool loadCurrent) {
+    public static void OpenWildEditor(int encToOpen = 0) {
       Helpers.statusLabelMessage("Attempting to extract Wild Encounters NARC...");
 
       DSUtils.TryUnpackNarcs(new List<DirNames>() { DirNames.encounters, DirNames.monIcons });
 
       Helpers.statusLabelMessage("Passing control to Wild Pokémon Editor...");
 
-      int encToOpen = loadCurrent ? (int)EditorPanels.headerEditor.wildPokeUpDown.Value : 0;
       string wildPokeUnpackedPath = gameDirs[DirNames.encounters].unpackedDir;
       switch (RomInfo.gameFamily) {
         case GameFamilies.DP:

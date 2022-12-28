@@ -748,7 +748,7 @@ namespace DSPRE {
             spawnEditorToolStripButton_Click(null, null);
         }
         private void wildEditorButton_Click(object sender, EventArgs e) {
-            Helpers.OpenWildEditor(loadCurrent: false);
+            Helpers.OpenWildEditor();
         }
 
         private void unpackToFolderToolStripMenuItem_Click(object sender, EventArgs e) {
