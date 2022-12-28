@@ -1179,35 +1179,8 @@ namespace DSPRE.Editors {
       RefreshHeaderEditorFields();
     }
 
-    private void openWildEditorWithIdButtonClick(object sender, EventArgs e) {
-      openWildEditor(loadCurrent: true);
-    }
-
-    private void openWildEditor(bool loadCurrent) {
-      Helpers.statusLabelMessage("Attempting to extract Wild Encounters NARC...");
-      Update();
-
-      DSUtils.TryUnpackNarcs(new List<DirNames>() { DirNames.encounters, DirNames.monIcons });
-
-      Helpers.statusLabelMessage("Passing control to Wild Pokémon Editor...");
-      Update();
-
-      int encToOpen = loadCurrent ? (int)wildPokeUpDown.Value : 0;
-
-      string wildPokeUnpackedPath = gameDirs[DirNames.encounters].unpackedDir;
-      switch (RomInfo.gameFamily) {
-        case GameFamilies.DP:
-        case GameFamilies.Plat:
-          using (WildEditorDPPt editor = new WildEditorDPPt(wildPokeUnpackedPath, RomInfo.GetPokemonNames(), encToOpen))
-            editor.ShowDialog();
-          break;
-        default:
-          using (WildEditorHGSS editor = new WildEditorHGSS(wildPokeUnpackedPath, RomInfo.GetPokemonNames(), encToOpen))
-            editor.ShowDialog();
-          break;
-      }
-
-      Helpers.statusLabelMessage();
+    private void openWildEditorWithIdButton_Click(object sender, EventArgs e) {
+      Helpers.OpenWildEditor(loadCurrent: true);
     }
 
     private void pasteWildEncountersButton_Click(object sender, EventArgs e) {
