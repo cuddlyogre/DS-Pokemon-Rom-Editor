@@ -168,6 +168,12 @@
     <Compile Include="Editors\MatrixEditor.Designer.cs">
       <DependentUpon>MatrixEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Editors\MatrixNavigator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Editors\MatrixNavigator.Designer.cs">
+      <DependentUpon>MatrixNavigator.cs</DependentUpon>
+    </Compile>
     <Compile Include="Editors\NSBTXEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -388,6 +394,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Editors\MatrixEditor.resx">
       <DependentUpon>MatrixEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editors\MatrixNavigator.resx">
+      <DependentUpon>MatrixNavigator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Editors\NSBTXEditor.resx">
       <DependentUpon>NSBTXEditor.cs</DependentUpon>
