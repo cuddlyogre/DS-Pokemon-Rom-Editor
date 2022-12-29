@@ -532,7 +532,7 @@ namespace DSPRE {
             updateMapNarcsButton.Enabled = true;
 
             buildingEditorButton.Enabled = true;
-            wildEditorButton.Enabled = true;
+            openWildEditorButton.Enabled = true;
 
             romToolboxToolStripButton.Enabled = true;
             romToolboxToolStripMenuItem.Enabled = true;
@@ -747,7 +747,7 @@ namespace DSPRE {
         private void spawnEditorToolStripMenuItem_Click(object sender, EventArgs e) {
             spawnEditorToolStripButton_Click(null, null);
         }
-        private void wildEditorButton_Click(object sender, EventArgs e) {
+        private void openWildEditorButton_Click(object sender, EventArgs e) {
             Helpers.OpenWildEditor();
         }
 
@@ -1258,7 +1258,7 @@ namespace DSPRE {
                     nsbmdExportTexButton.Visible = false;
                     separator_afterNsbmdUtils.Visible = false;
 
-                    wildEditorButton.Visible = false;
+                    openWildEditorButton.Visible = false;
                     romToolboxToolStripButton.Visible = false;
                     break;
                 case 1:
@@ -1279,7 +1279,7 @@ namespace DSPRE {
                     nsbmdExportTexButton.Visible = true;
                     separator_afterNsbmdUtils.Visible = true;
 
-                    wildEditorButton.Visible = true;
+                    openWildEditorButton.Visible = true;
                     romToolboxToolStripButton.Visible = true;
                     break;
                 case 2:

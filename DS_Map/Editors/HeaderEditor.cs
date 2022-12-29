@@ -236,7 +236,7 @@ namespace DSPRE.Editors {
         areaSettingsComboBox.SelectedIndex = ((HeaderHGSS)currentHeader).locationType;
       }
 
-      openWildEditorWithIdButton.Enabled = currentHeader.wildPokemon != RomInfo.nullEncounterID;
+      openWildEditorButton.Enabled = currentHeader.wildPokemon != RomInfo.nullEncounterID;
 
       /* Setup controls for fields with version-specific differences */
       try {
@@ -1179,7 +1179,7 @@ namespace DSPRE.Editors {
       RefreshHeaderEditorFields();
     }
 
-    private void openWildEditorWithIdButton_Click(object sender, EventArgs e) {
+    private void openWildEditorButton_Click(object sender, EventArgs e) {
       Helpers.OpenWildEditor((int)EditorPanels.headerEditor.wildPokeUpDown.Value);
     }
 
@@ -1201,9 +1201,9 @@ namespace DSPRE.Editors {
       }
 
       if (currentHeader.wildPokemon == RomInfo.nullEncounterID)
-        openWildEditorWithIdButton.Enabled = false;
+        openWildEditorButton.Enabled = false;
       else
-        openWildEditorWithIdButton.Enabled = true;
+        openWildEditorButton.Enabled = true;
     }
 
     private void copyWildEncountersButton_Click(object sender, EventArgs e) {

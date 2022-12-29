@@ -115,7 +115,7 @@ namespace DSPRE
       this.nsbmdExportTexButton = new System.Windows.Forms.ToolStripButton();
       this.separator_afterNsbmdUtils = new System.Windows.Forms.ToolStripSeparator();
       this.buildingEditorButton = new System.Windows.Forms.ToolStripButton();
-      this.wildEditorButton = new System.Windows.Forms.ToolStripButton();
+      this.openWildEditorButton = new System.Windows.Forms.ToolStripButton();
       this.scriptCommandsButton = new System.Windows.Forms.ToolStripButton();
       this.romToolboxToolStripButton = new System.Windows.Forms.ToolStripButton();
       this.headerSearchToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -794,7 +794,7 @@ namespace DSPRE
             this.nsbmdExportTexButton,
             this.separator_afterNsbmdUtils,
             this.buildingEditorButton,
-            this.wildEditorButton,
+            this.openWildEditorButton,
             this.scriptCommandsButton,
             this.romToolboxToolStripButton,
             this.headerSearchToolStripButton,
@@ -1025,19 +1025,19 @@ namespace DSPRE
       this.buildingEditorButton.ToolTipText = "Building Editor";
       this.buildingEditorButton.Click += new System.EventHandler(this.buildingEditorButton_Click);
       // 
-      // wildEditorButton
+      // openWildEditorButton
       // 
-      this.wildEditorButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-      this.wildEditorButton.Enabled = false;
-      this.wildEditorButton.Image = global::DSPRE.Properties.Resources.wildEditorButton;
-      this.wildEditorButton.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-      this.wildEditorButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-      this.wildEditorButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-      this.wildEditorButton.Margin = new System.Windows.Forms.Padding(4, 6, 0, 2);
-      this.wildEditorButton.Name = "wildEditorButton";
-      this.wildEditorButton.Size = new System.Drawing.Size(36, 36);
-      this.wildEditorButton.Text = "Wild Pokémon Editor";
-      this.wildEditorButton.Click += new System.EventHandler(this.wildEditorButton_Click);
+      this.openWildEditorButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+      this.openWildEditorButton.Enabled = false;
+      this.openWildEditorButton.Image = global::DSPRE.Properties.Resources.wildEditorButton;
+      this.openWildEditorButton.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+      this.openWildEditorButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+      this.openWildEditorButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.openWildEditorButton.Margin = new System.Windows.Forms.Padding(4, 6, 0, 2);
+      this.openWildEditorButton.Name = "openWildEditorButton";
+      this.openWildEditorButton.Size = new System.Drawing.Size(36, 36);
+      this.openWildEditorButton.Text = "Wild Pokémon Editor";
+      this.openWildEditorButton.Click += new System.EventHandler(this.openWildEditorButton_Click);
       // 
       // scriptCommandsButton
       // 
@@ -1187,7 +1187,7 @@ namespace DSPRE
         private System.Windows.Forms.ToolStripMenuItem romToolboxToolStripMenuItem;
         public System.Windows.Forms.TabPage tabPageScriptEditor;
         public System.Windows.Forms.TabPage tabPageTextEditor;
-        private System.Windows.Forms.ToolStripButton wildEditorButton;
+        private System.Windows.Forms.ToolStripButton openWildEditorButton;
         public System.Windows.Forms.TabPage nsbtxEditorTabPage;
         private System.Windows.Forms.ToolStripButton romToolboxToolStripButton;
         public System.Windows.Forms.TabPage tabPageHeaderEditor;

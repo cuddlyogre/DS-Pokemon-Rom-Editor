@@ -136,7 +136,7 @@ namespace DSPRE.Editors
       this.exportHeaderToFileButton = new System.Windows.Forms.Button();
       this.importHeaderFromFileButton = new System.Windows.Forms.Button();
       this.groupBox18 = new System.Windows.Forms.GroupBox();
-      this.openWildEditorWithIdButton = new System.Windows.Forms.Button();
+      this.openWildEditorButton = new System.Windows.Forms.Button();
       this.pasteWildEncountersButton = new System.Windows.Forms.Button();
       this.wildPokeUpDown = new System.Windows.Forms.NumericUpDown();
       this.copyWildEncountersButton = new System.Windows.Forms.Button();
@@ -1372,7 +1372,7 @@ namespace DSPRE.Editors
       // 
       // groupBox18
       // 
-      this.groupBox18.Controls.Add(this.openWildEditorWithIdButton);
+      this.groupBox18.Controls.Add(this.openWildEditorButton);
       this.groupBox18.Controls.Add(this.pasteWildEncountersButton);
       this.groupBox18.Controls.Add(this.wildPokeUpDown);
       this.groupBox18.Controls.Add(this.copyWildEncountersButton);
@@ -1383,15 +1383,15 @@ namespace DSPRE.Editors
       this.groupBox18.TabStop = false;
       this.groupBox18.Text = "Wild Pokémon";
       // 
-      // openWildEditorWithIdButton
+      // openWildEditorButton
       // 
-      this.openWildEditorWithIdButton.Location = new System.Drawing.Point(10, 46);
-      this.openWildEditorWithIdButton.Name = "openWildEditorWithIdButton";
-      this.openWildEditorWithIdButton.Size = new System.Drawing.Size(73, 41);
-      this.openWildEditorWithIdButton.TabIndex = 24;
-      this.openWildEditorWithIdButton.Text = "Open Editor";
-      this.openWildEditorWithIdButton.UseVisualStyleBackColor = true;
-      this.openWildEditorWithIdButton.Click += new System.EventHandler(this.openWildEditorWithIdButton_Click);
+      this.openWildEditorButton.Location = new System.Drawing.Point(10, 46);
+      this.openWildEditorButton.Name = "openWildEditorButton";
+      this.openWildEditorButton.Size = new System.Drawing.Size(73, 41);
+      this.openWildEditorButton.TabIndex = 24;
+      this.openWildEditorButton.Text = "Open Editor";
+      this.openWildEditorButton.UseVisualStyleBackColor = true;
+      this.openWildEditorButton.Click += new System.EventHandler(this.openWildEditorButton_Click);
       // 
       // pasteWildEncountersButton
       // 
