@@ -171,7 +171,11 @@ namespace DSPRE.Editors
       // numericUpDownTreeGlobalX
       // 
       this.numericUpDownTreeGlobalX.Location = new System.Drawing.Point(6, 19);
-      this.numericUpDownTreeGlobalX.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+      this.numericUpDownTreeGlobalX.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
       this.numericUpDownTreeGlobalX.Name = "numericUpDownTreeGlobalX";
       this.numericUpDownTreeGlobalX.Size = new System.Drawing.Size(58, 20);
       this.numericUpDownTreeGlobalX.TabIndex = 15;
@@ -180,7 +184,11 @@ namespace DSPRE.Editors
       // numericUpDownTreeGlobalY
       // 
       this.numericUpDownTreeGlobalY.Location = new System.Drawing.Point(70, 19);
-      this.numericUpDownTreeGlobalY.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+      this.numericUpDownTreeGlobalY.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
       this.numericUpDownTreeGlobalY.Name = "numericUpDownTreeGlobalY";
       this.numericUpDownTreeGlobalY.Size = new System.Drawing.Size(58, 20);
       this.numericUpDownTreeGlobalY.TabIndex = 15;
@@ -209,7 +217,11 @@ namespace DSPRE.Editors
       // numericUpDownTreeMatrixX
       // 
       this.numericUpDownTreeMatrixX.Location = new System.Drawing.Point(6, 19);
-      this.numericUpDownTreeMatrixX.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+      this.numericUpDownTreeMatrixX.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
       this.numericUpDownTreeMatrixX.Name = "numericUpDownTreeMatrixX";
       this.numericUpDownTreeMatrixX.Size = new System.Drawing.Size(58, 20);
       this.numericUpDownTreeMatrixX.TabIndex = 15;
@@ -218,7 +230,11 @@ namespace DSPRE.Editors
       // numericUpDownTreeMatrixY
       // 
       this.numericUpDownTreeMatrixY.Location = new System.Drawing.Point(70, 19);
-      this.numericUpDownTreeMatrixY.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+      this.numericUpDownTreeMatrixY.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
       this.numericUpDownTreeMatrixY.Name = "numericUpDownTreeMatrixY";
       this.numericUpDownTreeMatrixY.Size = new System.Drawing.Size(58, 20);
       this.numericUpDownTreeMatrixY.TabIndex = 15;
@@ -247,7 +263,11 @@ namespace DSPRE.Editors
       // numericUpDownTreeMapX
       // 
       this.numericUpDownTreeMapX.Location = new System.Drawing.Point(6, 19);
-      this.numericUpDownTreeMapX.Maximum = new decimal(new int[] { 31, 0, 0, 0 });
+      this.numericUpDownTreeMapX.Maximum = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
       this.numericUpDownTreeMapX.Name = "numericUpDownTreeMapX";
       this.numericUpDownTreeMapX.Size = new System.Drawing.Size(58, 20);
       this.numericUpDownTreeMapX.TabIndex = 15;
@@ -256,7 +276,11 @@ namespace DSPRE.Editors
       // numericUpDownTreeMapY
       // 
       this.numericUpDownTreeMapY.Location = new System.Drawing.Point(70, 19);
-      this.numericUpDownTreeMapY.Maximum = new decimal(new int[] { 31, 0, 0, 0 });
+      this.numericUpDownTreeMapY.Maximum = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
       this.numericUpDownTreeMapY.Name = "numericUpDownTreeMapY";
       this.numericUpDownTreeMapY.Size = new System.Drawing.Size(58, 20);
       this.numericUpDownTreeMapY.TabIndex = 15;
@@ -326,6 +350,7 @@ namespace DSPRE.Editors
       ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTreeMapY)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
+
     }
 
     #endregion

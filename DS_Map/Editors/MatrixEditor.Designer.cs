@@ -121,23 +121,47 @@ namespace DSPRE.Editors
       // widthUpDown
       // 
       this.widthUpDown.Location = new System.Drawing.Point(35, 90);
-      this.widthUpDown.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
-      this.widthUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+      this.widthUpDown.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+      this.widthUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
       this.widthUpDown.Name = "widthUpDown";
       this.widthUpDown.Size = new System.Drawing.Size(37, 20);
       this.widthUpDown.TabIndex = 15;
-      this.widthUpDown.Value = new decimal(new int[] { 1, 0, 0, 0 });
+      this.widthUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
       this.widthUpDown.ValueChanged += new System.EventHandler(this.widthUpDown_ValueChanged);
       // 
       // heightUpDown
       // 
       this.heightUpDown.Location = new System.Drawing.Point(78, 90);
-      this.heightUpDown.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
-      this.heightUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+      this.heightUpDown.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+      this.heightUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
       this.heightUpDown.Name = "heightUpDown";
       this.heightUpDown.Size = new System.Drawing.Size(37, 20);
       this.heightUpDown.TabIndex = 16;
-      this.heightUpDown.Value = new decimal(new int[] { 1, 0, 0, 0 });
+      this.heightUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
       this.heightUpDown.ValueChanged += new System.EventHandler(this.heightUpDown_ValueChanged);
       // 
       // matrixNameTextBox
@@ -151,7 +175,6 @@ namespace DSPRE.Editors
       // 
       // matrixTabControl
       // 
-      this.matrixTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Left)|System.Windows.Forms.AnchorStyles.Right)));
       this.matrixTabControl.Controls.Add(this.headersTabPage);
       this.matrixTabControl.Controls.Add(this.heightsTabPage);
       this.matrixTabControl.Controls.Add(this.mapFilesTabPage);
@@ -181,7 +204,6 @@ namespace DSPRE.Editors
       this.headersGridView.AllowUserToResizeRows = false;
       dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
       this.headersGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-      this.headersGridView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Left)|System.Windows.Forms.AnchorStyles.Right)));
       this.headersGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
       dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
       dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -247,7 +269,6 @@ namespace DSPRE.Editors
       this.heightsGridView.AllowUserToResizeRows = false;
       dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
       this.heightsGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
-      this.heightsGridView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Left)|System.Windows.Forms.AnchorStyles.Right)));
       this.heightsGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
       dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
       dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
@@ -311,7 +332,6 @@ namespace DSPRE.Editors
       this.mapFilesGridView.AllowUserToResizeRows = false;
       dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
       this.mapFilesGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle11;
-      this.mapFilesGridView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Left)|System.Windows.Forms.AnchorStyles.Right)));
       this.mapFilesGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
       dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
       dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
@@ -573,6 +593,7 @@ namespace DSPRE.Editors
       ((System.ComponentModel.ISupportInitialize)(this.mapFilesGridView)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
+
     }
 
     #endregion

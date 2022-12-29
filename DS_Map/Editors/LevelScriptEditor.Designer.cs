@@ -416,6 +416,7 @@ namespace DSPRE.Editors {
       this.groupBox6.PerformLayout();
       this.groupBox7.ResumeLayout(false);
       this.ResumeLayout(false);
+
     }
 
     private System.Windows.Forms.Button buttonImport;
