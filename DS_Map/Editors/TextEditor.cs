@@ -86,13 +86,6 @@ namespace DSPRE.Editors {
       textEditorDataGridView_CurrentCellChanged(textEditorDataGridView, null);
     }
 
-    public void ReloadHeaderEditorLocationsList(IEnumerable<string> contents) {
-      int selection = EditorPanels.headerEditor.locationNameComboBox.SelectedIndex;
-      EditorPanels.headerEditor.locationNameComboBox.Items.Clear();
-      EditorPanels.headerEditor.locationNameComboBox.Items.AddRange(contents.ToArray());
-      EditorPanels.headerEditor.locationNameComboBox.SelectedIndex = selection;
-    }
-
     private void updateTextEditorLineNumbers() {
       Helpers.DisableHandlers();
       if (hexRadiobutton.Checked) {
@@ -373,7 +366,7 @@ namespace DSPRE.Editors {
     private void exportTextFileButton_Click(object sender, EventArgs e) {
       currentTextArchive.SaveToFileExplorePath("Text Archive " + selectTextFileComboBox.SelectedIndex);
       if (selectTextFileComboBox.SelectedIndex == RomInfo.locationNamesTextNumber) {
-        ReloadHeaderEditorLocationsList(currentTextArchive.messages);
+        EditorPanels.headerEditor.ReloadHeaderEditorLocationsList(currentTextArchive.messages);
       }
     }
 
@@ -428,7 +421,7 @@ namespace DSPRE.Editors {
     private void saveTextArchiveButton_Click(object sender, EventArgs e) {
       currentTextArchive.SaveToFileDefaultDir(selectTextFileComboBox.SelectedIndex);
       if (selectTextFileComboBox.SelectedIndex == RomInfo.locationNamesTextNumber) {
-        ReloadHeaderEditorLocationsList(currentTextArchive.messages);
+        EditorPanels.headerEditor.ReloadHeaderEditorLocationsList(currentTextArchive.messages);
       }
     }
   }

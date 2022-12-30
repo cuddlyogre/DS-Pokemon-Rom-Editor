@@ -95,8 +95,8 @@ namespace DSPRE.Editors {
       }
 
       /*Add list of options to each control */
-      EditorPanels.textEditor.currentTextArchive = new TextArchive(RomInfo.locationNamesTextNumber);
-      EditorPanels.textEditor.ReloadHeaderEditorLocationsList(EditorPanels.textEditor.currentTextArchive.messages);
+      TextArchive currentTextArchive = new TextArchive(RomInfo.locationNamesTextNumber);
+      ReloadHeaderEditorLocationsList(currentTextArchive.messages);
 
       switch (RomInfo.gameFamily) {
         case GameFamilies.DP:
@@ -173,6 +173,11 @@ namespace DSPRE.Editors {
       }
 
       Helpers.statusLabelMessage();
+    }
+
+    public void ReloadHeaderEditorLocationsList(IEnumerable<string> contents) {
+      locationNameComboBox.Items.Clear();
+      locationNameComboBox.Items.AddRange(contents.ToArray());
     }
 
     private void followModeComboBox_SelectedIndexChanged(object sender, EventArgs e) {
