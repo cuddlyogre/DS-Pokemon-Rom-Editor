@@ -565,6 +565,26 @@ namespace DSPRE.Editors {
       EditorPanels.levelScriptEditor.OpenLevelScriptEditor((int)levelScriptUpDown.Value);
     }
 
+    private void openAreaDataButton_Click(object sender, EventArgs e) {
+      EditorPanels.nsbtxEditor.OpenNSBTXEditor((int)areaDataUpDown.Value);
+    }
+
+    private void openMatrixButton_Click(object sender, EventArgs e) {
+      EditorPanels.matrixEditor.OpenMatrixEditor((int)matrixUpDown.Value, currentHeader.ID);
+    }
+
+    private void openTextArchiveButton_Click(object sender, EventArgs e) {
+      EditorPanels.textEditor.OpenTextEditor((int)textFileUpDown.Value);
+    }
+
+    private void openEventsButton_Click(object sender, EventArgs e) {
+      EditorPanels.eventEditor.OpenEventEditor((int)eventFileUpDown.Value, (int)matrixUpDown.Value, (int)areaDataUpDown.Value);
+    }
+
+    private void openWildEditorButton_Click(object sender, EventArgs e) {
+      Helpers.OpenWildEditor((int)EditorPanels.headerEditor.wildPokeUpDown.Value);
+    }
+
     private void scriptFileUpDown_ValueChanged(object sender, EventArgs e) {
       if (Helpers.HandlersDisabled) {
         return;
@@ -1003,18 +1023,10 @@ namespace DSPRE.Editors {
       matrixUpDown.Value = matrixCopy;
     }
 
-    private void openAreaDataButton_Click(object sender, EventArgs e) {
-      EditorPanels.nsbtxEditor.OpenNSBTXEditor((int)areaDataUpDown.Value);
-    }
-
     private void copyMatrixButton_Click(object sender, EventArgs e) {
       matrixCopy = matrixUpDown.Value;
       Clipboard.SetData(DataFormats.Text, matrixCopy);
       pasteMatrixButton.Enabled = true;
-    }
-
-    private void openMatrixButton_Click(object sender, EventArgs e) {
-      EditorPanels.matrixEditor.OpenMatrixEditor((int)matrixUpDown.Value, currentHeader.ID);
     }
 
     private void areaDataUpDown_ValueChanged(object sender, EventArgs e) {
@@ -1035,10 +1047,6 @@ namespace DSPRE.Editors {
 
     private void pasteTextsButton_Click(object sender, EventArgs e) {
       textFileUpDown.Value = textsCopy;
-    }
-
-    private void openTextArchiveButton_Click(object sender, EventArgs e) {
-      EditorPanels.textEditor.OpenTextEditor((int)textFileUpDown.Value);
     }
 
     private void copyTextsButton_Click(object sender, EventArgs e) {
@@ -1063,10 +1071,6 @@ namespace DSPRE.Editors {
       eventsCopy = eventFileUpDown.Value;
       Clipboard.SetData(DataFormats.Text, eventsCopy);
       pasteEventsButton.Enabled = true;
-    }
-
-    private void openEventsButton_Click(object sender, EventArgs e) {
-      EditorPanels.eventEditor.OpenEventEditor((int)eventFileUpDown.Value, (int)matrixUpDown.Value, (int)areaDataUpDown.Value);
     }
 
     private void eventFileUpDown_ValueChanged(object sender, EventArgs e) {
@@ -1177,10 +1181,6 @@ namespace DSPRE.Editors {
       }
 
       RefreshHeaderEditorFields();
-    }
-
-    private void openWildEditorButton_Click(object sender, EventArgs e) {
-      Helpers.OpenWildEditor((int)EditorPanels.headerEditor.wildPokeUpDown.Value);
     }
 
     private void pasteWildEncountersButton_Click(object sender, EventArgs e) {
