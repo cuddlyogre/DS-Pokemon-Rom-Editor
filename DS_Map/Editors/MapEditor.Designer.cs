@@ -122,8 +122,8 @@ namespace DSPRE.Editors
       this.buildTextureComboBox = new System.Windows.Forms.ComboBox();
       this.label26 = new System.Windows.Forms.Label();
       this.mapRenderPanel = new System.Windows.Forms.Panel();
-      this.openGlControl = new Tao.Platform.Windows.SimpleOpenGlControl();
       this.openGlPictureBox = new System.Windows.Forms.PictureBox();
+      this.openGlControl = new Tao.Platform.Windows.SimpleOpenGlControl();
       this.mapScreenshotButton = new System.Windows.Forms.Button();
       this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
       this.addMapFileButton = new System.Windows.Forms.Button();
@@ -1328,6 +1328,17 @@ namespace DSPRE.Editors
       this.mapRenderPanel.Size = new System.Drawing.Size(610, 610);
       this.mapRenderPanel.TabIndex = 23;
       // 
+      // openGlPictureBox
+      // 
+      this.openGlPictureBox.BackColor = System.Drawing.Color.White;
+      this.openGlPictureBox.Location = new System.Drawing.Point(0, 0);
+      this.openGlPictureBox.Name = "openGlPictureBox";
+      this.openGlPictureBox.Size = new System.Drawing.Size(608, 608);
+      this.openGlPictureBox.TabIndex = 3;
+      this.openGlPictureBox.TabStop = false;
+      this.openGlPictureBox.Click += new System.EventHandler(this.movPictureBox_Click);
+      this.openGlPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.movPictureBox_MouseMove);
+      // 
       // openGlControl
       // 
       this.openGlControl.AccumBits = ((byte)(0));
@@ -1348,17 +1359,6 @@ namespace DSPRE.Editors
       this.openGlControl.Click += new System.EventHandler(this.mapOpenGlControl_Click);
       this.openGlControl.KeyUp += new System.Windows.Forms.KeyEventHandler(this.mapOpenGlControl_KeyUp);
       this.openGlControl.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.mapOpenGlControl_PreviewKeyDown);
-      // 
-      // openGlPictureBox
-      // 
-      this.openGlPictureBox.BackColor = System.Drawing.Color.White;
-      this.openGlPictureBox.Location = new System.Drawing.Point(0, 0);
-      this.openGlPictureBox.Name = "openGlPictureBox";
-      this.openGlPictureBox.Size = new System.Drawing.Size(608, 608);
-      this.openGlPictureBox.TabIndex = 3;
-      this.openGlPictureBox.TabStop = false;
-      this.openGlPictureBox.Click += new System.EventHandler(this.movPictureBox_Click);
-      this.openGlPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.movPictureBox_MouseMove);
       // 
       // mapScreenshotButton
       // 
