@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing.Drawing2D;
 using System.Drawing;
 using System.Globalization;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Tao.Platform.Windows;
 
 namespace DSPRE {
     public static class Extensions {
@@ -142,5 +144,28 @@ namespace DSPRE {
         public new void RefreshItem(int index) {
             base.RefreshItem(index);
         }
+    }
+
+    public class SimpleOpenGlControl2 : SimpleOpenGlControl {
+      private bool designMode;
+
+      public SimpleOpenGlControl2() : base() {
+        designMode = LicenseManager.UsageMode == LicenseUsageMode.Designtime;
+      }
+
+      public new bool DesignMode { get { return designMode; } }
+
+      protected override void OnPaint(PaintEventArgs e) {
+        //if the control is allowed to paint in design mode, a message box prevents working with it
+        //"No device or rendering context available!"
+        if (DesignMode) {
+          e.Graphics.Clear(this.BackColor);
+          if (this.BackgroundImage != null)
+            e.Graphics.DrawImage(this.BackgroundImage, this.ClientRectangle, 0, 0, this.BackgroundImage.Width, this.BackgroundImage.Height, GraphicsUnit.Pixel);
+          e.Graphics.Flush();
+          return;
+        };
+        base.OnPaint(e);
+      }
     }
 }
