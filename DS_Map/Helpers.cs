@@ -331,15 +331,14 @@ namespace DSPRE {
 
       Helpers.statusLabelMessage("Passing control to Wild Pokémon Editor...");
 
-      string wildPokeUnpackedPath = gameDirs[DirNames.encounters].unpackedDir;
       switch (RomInfo.gameFamily) {
         case GameFamilies.DP:
         case GameFamilies.Plat:
-          using (WildEditorDPPt editor = new WildEditorDPPt(wildPokeUnpackedPath, RomInfo.GetPokemonNames(), encToOpen))
+          using (WildEditorDPPt editor = new WildEditorDPPt(encToOpen))
             editor.ShowDialog();
           break;
         default:
-          using (WildEditorHGSS editor = new WildEditorHGSS(wildPokeUnpackedPath, RomInfo.GetPokemonNames(), encToOpen))
+          using (WildEditorHGSS editor = new WildEditorHGSS(encToOpen))
             editor.ShowDialog();
           break;
       }

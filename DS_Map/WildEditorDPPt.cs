@@ -9,9 +9,9 @@ namespace DSPRE {
         EncounterFileDPPt currentFile;
         bool disableHandlers = false;
 
-        public WildEditorDPPt(string dirPath, string[] names, int encToOpen) {
+        public WildEditorDPPt(int encToOpen = 0) {
             InitializeComponent();
-            encounterFileFolder = dirPath;
+            encounterFileFolder = RomInfo.gameDirs[RomInfo.DirNames.encounters].unpackedDir;
 
             disableHandlers = true; //
 
@@ -29,6 +29,7 @@ namespace DSPRE {
 
             currentFile = new EncounterFileDPPt(selectEncounterComboBox.SelectedIndex);
 
+            string[] names = RomInfo.GetPokemonNames();
             foreach (TabPage page in mainTabControl.TabPages) {
                 foreach (Control g in page.Controls) {
                     if (g != null && g is GroupBox) {
@@ -45,6 +46,7 @@ namespace DSPRE {
 
             SetupControls();
         }
+
         private void SetupControls() {
             disableHandlers = true;
 
