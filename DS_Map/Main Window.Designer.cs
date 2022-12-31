@@ -126,6 +126,7 @@ namespace DSPRE
       this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
       this.directoryEntry1 = new System.DirectoryServices.DirectoryEntry();
       this.directoryEntry2 = new System.DirectoryServices.DirectoryEntry();
+      this.encounterReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.mainTabControl.SuspendLayout();
       this.tabPageHeaderEditor.SuspendLayout();
       this.tabPageMatrixEditor.SuspendLayout();
@@ -519,7 +520,8 @@ namespace DSPRE
             this.NarcUtilityToolStripMenuItem,
             this.listBasedBatchRenameToolStripMenuItem,
             this.listBuilderToolStripMenuItem,
-            this.nSBMDUtilityToolStripMenuItem});
+            this.nSBMDUtilityToolStripMenuItem,
+            this.encounterReportToolStripMenuItem});
       this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
       this.aboutToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
       this.aboutToolStripMenuItem.Text = "Tools";
@@ -1112,6 +1114,13 @@ namespace DSPRE
       // 
       this.openFileDialog1.FileName = "openFileDialog1";
       // 
+      // encounterReportToolStripMenuItem
+      // 
+      this.encounterReportToolStripMenuItem.Name = "encounterReportToolStripMenuItem";
+      this.encounterReportToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+      this.encounterReportToolStripMenuItem.Text = "Encounter Report";
+      this.encounterReportToolStripMenuItem.Click += new System.EventHandler(this.encounterReportToolStripMenuItem_Click);
+      // 
       // MainProgram
       // 
       this.AllowDrop = true;
@@ -1257,6 +1266,7 @@ namespace DSPRE
     public DSPRE.Editors.HeaderEditor headerEditor;
     public System.Windows.Forms.TabPage tabPageLevelScriptEditor;
     public DSPRE.Editors.LevelScriptEditor levelScriptEditor;
+    private System.Windows.Forms.ToolStripMenuItem encounterReportToolStripMenuItem;
   }
 }
 

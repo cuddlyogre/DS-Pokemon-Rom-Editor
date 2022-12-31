@@ -1290,5 +1290,15 @@ namespace DSPRE {
                     break;
             }
         }
-  }
+
+        private void encounterReportToolStripMenuItem_Click(object sender, EventArgs e) {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+
+            if (fbd.ShowDialog() != DialogResult.OK) {
+                return;
+            }
+
+            WildEditorHGSSReport.WriteReports(headerEditor.headerListBox.Items, fbd.SelectedPath);
+        }
+    }
 }
