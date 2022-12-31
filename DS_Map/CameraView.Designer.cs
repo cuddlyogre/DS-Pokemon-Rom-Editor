@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.cameraOpenGLControl = new Tao.Platform.Windows.SimpleOpenGlControl();
+            this.cameraOpenGLControl = new DSPRE.SimpleOpenGlControl2();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -74,6 +74,6 @@
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private Tao.Platform.Windows.SimpleOpenGlControl cameraOpenGLControl;
+        private DSPRE.SimpleOpenGlControl2 cameraOpenGLControl;
     }
 }

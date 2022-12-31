@@ -123,7 +123,7 @@ namespace DSPRE.Editors
       this.label26 = new System.Windows.Forms.Label();
       this.mapRenderPanel = new System.Windows.Forms.Panel();
       this.openGlPictureBox = new System.Windows.Forms.PictureBox();
-      this.openGlControl = new Tao.Platform.Windows.SimpleOpenGlControl();
+      this.openGlControl = new DSPRE.SimpleOpenGlControl2();
       this.mapScreenshotButton = new System.Windows.Forms.Button();
       this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
       this.addMapFileButton = new System.Windows.Forms.Button();
@@ -1643,7 +1643,7 @@ namespace DSPRE.Editors
     public System.Windows.Forms.ComboBox buildTextureComboBox;
     private System.Windows.Forms.Label label26;
     private System.Windows.Forms.Panel mapRenderPanel;
-    public Tao.Platform.Windows.SimpleOpenGlControl openGlControl;
+    public DSPRE.SimpleOpenGlControl2 openGlControl;
     private System.Windows.Forms.PictureBox openGlPictureBox;
     private System.Windows.Forms.Button mapScreenshotButton;
     private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
