@@ -15,8 +15,10 @@ namespace DSPRE.Editors {
     public bool headerEditorIsReady { get; set; } = false;
 
     public MapHeader currentHeader;
-    public List<string> internalNames;
+
     public List<string> headerListBoxNames;
+    public List<string> internalNames;
+
     int locationNameCopy;
     string internalNameCopy;
     decimal encountersIDCopy;
@@ -62,29 +64,16 @@ namespace DSPRE.Editors {
       Helpers.statusLabelMessage("Reading internal names... Please wait.");
       Update();
 
-      internalNames = new List<string>();
-      headerListBoxNames = new List<string>();
-      int headerCount;
       if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
         addHeaderBTN.Enabled = true;
         removeLastHeaderBTN.Enabled = true;
-        headerCount = Directory.GetFiles(RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir).Length;
-      }
-      else {
-        headerCount = RomInfo.GetHeaderCount();
       }
 
       /* Read Header internal names */
       try {
-        using (DSUtils.EasyReader reader = new DSUtils.EasyReader(RomInfo.internalNamesLocation)) {
-          for (int i = 0; i < headerCount; i++) {
-            byte[] row = reader.ReadBytes(RomInfo.internalNameLength);
-
-            string internalName = Encoding.ASCII.GetString(row); //.TrimEnd();
-            headerListBoxNames.Add(i.ToString("D3") + MapHeader.nameSeparator + internalName);
-            internalNames.Add(internalName.TrimEnd('\0'));
-          }
-        }
+        Tuple<List<string>, List<string>> names = Helpers.BuildHeaderNames();
+        headerListBoxNames = names.Item1;
+        internalNames = names.Item2;
 
         headerListBox.Items.Clear();
         headerListBox.Items.AddRange(headerListBoxNames.ToArray());

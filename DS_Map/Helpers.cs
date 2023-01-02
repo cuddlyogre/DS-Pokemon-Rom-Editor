@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 using Tao.OpenGl;
 using LibNDSFormats.NSBMD;
@@ -148,7 +149,7 @@ namespace DSPRE {
       Gl.glBindTexture(Gl.GL_TEXTURE_2D, 0);
       Gl.glColor3f(1.0f, 1.0f, 1.0f);
       Gl.glDepthMask(Gl.GL_TRUE);
-      Gl.glClear(Gl.GL_COLOR_BUFFER_BIT|Gl.GL_DEPTH_BUFFER_BIT);
+      Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
     }
 
     public static void RenderMap(ref NSBMDGlRenderer mapRenderer, ref NSBMDGlRenderer buildingsRenderer, ref MapFile mapFile, SimpleOpenGlControl openGlControl, float ang, float dist, float elev, float perspective, bool mapTexturesON = true, bool buildingTexturesON = true) {
@@ -257,7 +258,7 @@ namespace DSPRE {
           break;
       }
 
-      int iconPalTableAddress = (iconPalTableBuf[3]&0xFF) << 24|(iconPalTableBuf[2]&0xFF) << 16|(iconPalTableBuf[1]&0xFF) << 8|(iconPalTableBuf[0]&0xFF) /* << 0 */;
+      int iconPalTableAddress = (iconPalTableBuf[3] & 0xFF) << 24 | (iconPalTableBuf[2] & 0xFF) << 16 | (iconPalTableBuf[1] & 0xFF) << 8 | (iconPalTableBuf[0] & 0xFF) /* << 0 */;
       string iconTablePath;
 
       int iconPalTableOffsetFromFileStart;
@@ -322,6 +323,50 @@ namespace DSPRE {
           ControlPaint.DrawImageDisabled(e.Graphics, img, 0, 0, pict.BackColor);
         }
       }
+    }
+
+    public static MapHeader GetMapHeader(ushort headerNumber) {
+      MapHeader currentHeader;
+      /* Check if dynamic headers patch has been applied, and load header from arm9 or a/0/5/0 accordingly */
+      if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
+        currentHeader = MapHeader.LoadFromFile(RomInfo.gameDirs[RomInfo.DirNames.dynamicHeaders].unpackedDir + "\\" + headerNumber.ToString("D4"), headerNumber, 0);
+      }
+      else {
+        currentHeader = MapHeader.LoadFromARM9(headerNumber);
+      }
+
+      return currentHeader;
+    }
+
+    public static int GetHeaderCount() {
+      int headerCount;
+      if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
+        headerCount = Directory.GetFiles(RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir).Length;
+      }
+      else {
+        headerCount = RomInfo.GetHeaderCount();
+      }
+
+      return headerCount;
+    }
+
+    public static Tuple<List<string>, List<string>> BuildHeaderNames() {
+      List<string> headerListBoxNames = new List<string>();
+      List<string> internalNames = new List<string>();
+
+      int headerCount = GetHeaderCount();
+
+      using (DSUtils.EasyReader reader = new DSUtils.EasyReader(RomInfo.internalNamesLocation)) {
+        for (int i = 0; i < headerCount; i++) {
+          byte[] row = reader.ReadBytes(RomInfo.internalNameLength);
+
+          string internalName = Encoding.ASCII.GetString(row); //.TrimEnd();
+          headerListBoxNames.Add(i.ToString("D3") + MapHeader.nameSeparator + internalName);
+          internalNames.Add(internalName.TrimEnd('\0'));
+        }
+      }
+
+      return Tuple.Create(headerListBoxNames, internalNames);
     }
 
     public static void OpenWildEditor(int encToOpen = 0) {
