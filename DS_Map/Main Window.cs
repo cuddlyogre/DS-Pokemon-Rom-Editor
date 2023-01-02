@@ -1292,13 +1292,14 @@ namespace DSPRE {
         }
 
         private void encounterReportToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (gameFamily != GameFamilies.HGSS) return;
             FolderBrowserDialog fbd = new FolderBrowserDialog();
 
             if (fbd.ShowDialog() != DialogResult.OK) {
                 return;
             }
 
-            WildEditorHGSSReport.WriteReports(headerEditor.headerListBox.Items, fbd.SelectedPath);
+            FullEncounterReport.WriteReports(fbd.SelectedPath);
         }
     }
 }
