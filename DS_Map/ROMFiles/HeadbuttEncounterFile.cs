@@ -6,6 +6,8 @@ using System.IO;
 namespace DSPRE.ROMFiles {
   //https://hirotdk.neocities.org/FileSpecs.html#Headbutt
   public class HeadbuttEncounterFile {
+    public int ID;
+
     //get encounter tables, 12 normal pokemon definitions, 6 special pokemon definitions, 4 bytes per definition
     const int normalEncountersCount = 12;
     const int specialEncountersCount = 6;
@@ -17,6 +19,16 @@ namespace DSPRE.ROMFiles {
     public List<HeadbuttEncounter> specialEncounters;
     public BindingList<HeadbuttTreeGroup> normalTreeGroups;
     public BindingList<HeadbuttTreeGroup> specialTreeGroups;
+
+    public HeadbuttEncounterFile(int id) {
+      this.ID = id;
+      string path = RomInfo.gameDirs[RomInfo.DirNames.headbutt].unpackedDir + "\\" + id.ToString("D4");
+      parse_file(path);
+    }
+
+    public HeadbuttEncounterFile(string path) {
+      parse_file(path);
+    }
 
     public void parse_file(string path) {
       FileStream fs = new FileStream(path, FileMode.Open);
@@ -103,14 +115,14 @@ namespace DSPRE.ROMFiles {
 
       return newData.ToArray();
     }
-    
+
     public bool SaveToFile(string path, bool showSuccessMessage = true) {
       byte[] romFileToByteArray = ToByteArray();
       File.WriteAllBytes(path, romFileToByteArray);
       return true;
     }
   }
-  
+
   public class HeadbuttEncounter {
     public ushort pokemonID;
     public byte minLevel;
@@ -123,10 +135,12 @@ namespace DSPRE.ROMFiles {
     }
 
     public override string ToString() {
-      return $"{pokemonID}: {minLevel} - {maxLevel}";
+      string[] pokemonNames = RomInfo.GetPokemonNames();
+      string pokemon = pokemonNames[pokemonID];
+      return $"{pokemonID,3} {pokemon,10}: {minLevel} - {maxLevel}";
     }
   }
-  
+
   public class HeadbuttTreeGroup {
     const int treeCount = 6; //number of trees in each tree group
 
@@ -154,8 +168,8 @@ namespace DSPRE.ROMFiles {
       return $"{nameof(HeadbuttTreeGroup)}";
     }
   }
-  
-    public class HeadbuttTree {
+
+  public class HeadbuttTree {
     public HeadbuttTree.Types headbuttTreeType;
 
     private ushort _globalX;
@@ -165,8 +179,10 @@ namespace DSPRE.ROMFiles {
     private ushort _mapX;
     private ushort _mapY;
 
+    public bool unused { get { return globalX == ushort.MaxValue && globalY == ushort.MaxValue; } }
+
     public enum Types {
-            Normal,
+      Normal,
       Special,
     }
 
@@ -251,7 +267,6 @@ namespace DSPRE.ROMFiles {
     }
 
     public override string ToString() {
-      bool unused = globalX == ushort.MaxValue && globalY == ushort.MaxValue;
       string suffix = unused ? "unused" : $"globalX: {globalX}, globalY: {globalY}";
       return $"{nameof(HeadbuttTree)} - {suffix}";
     }

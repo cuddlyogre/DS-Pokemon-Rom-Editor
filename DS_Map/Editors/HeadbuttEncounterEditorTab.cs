@@ -11,15 +11,16 @@ namespace DSPRE.Editors {
     private void listBoxEncounters_SelectedIndexChanged(object sender, EventArgs e) {
       HeadbuttEncounter headbuttEncounter = (HeadbuttEncounter)listBoxEncounters.SelectedItem;
       if (headbuttEncounter == null) return;
-      textBoxPokemonID.Text = headbuttEncounter.pokemonID.ToString();
+      comboBoxPokemon.SelectedIndex = headbuttEncounter.pokemonID;
       numericUpDownMinLevel.Value = headbuttEncounter.minLevel;
       numericUpDownMaxLevel.Value = headbuttEncounter.maxLevel;
     }
-
-    private void textBoxPokemonID_TextChanged(object sender, EventArgs e) {
+    
+    private void comboBoxPokemon_SelectedIndexChanged(object sender, EventArgs e)
+    {
       HeadbuttEncounter headbuttEncounter = (HeadbuttEncounter)listBoxEncounters.SelectedItem;
       if (headbuttEncounter == null) return;
-      headbuttEncounter.pokemonID = ushort.Parse(textBoxPokemonID.Text);
+      headbuttEncounter.pokemonID = (ushort)comboBoxPokemon.SelectedIndex;
       listBoxEncounters.RefreshItem(listBoxEncounters.SelectedIndex);
     }
 

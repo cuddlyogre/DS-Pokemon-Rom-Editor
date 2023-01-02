@@ -17,6 +17,13 @@ namespace DSPRE.Editors {
       if (headbuttEncounterEditorIsReady && !force) return;
       headbuttEncounterEditorIsReady = true;
       DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames> { RomInfo.DirNames.headbutt });
+
+      string[] pokemonNames = RomInfo.GetPokemonNames();
+      headbuttEncounterEditorTabNormal.comboBoxPokemon.Items.AddRange(pokemonNames);
+      headbuttEncounterEditorTabSpecial.comboBoxPokemon.Items.AddRange(pokemonNames);
+
+      headbuttEncounterEditorTabNormal.comboBoxPokemon.SelectedIndex = 0;
+      headbuttEncounterEditorTabSpecial.comboBoxPokemon.SelectedIndex = 0;
     }
 
     void buttonLoad_Click(object sender, EventArgs e) {
@@ -43,8 +50,7 @@ namespace DSPRE.Editors {
     }
 
     public void LoadFile(string path) {
-      currentHeadbuttEncounterFile = new HeadbuttEncounterFile();
-      currentHeadbuttEncounterFile.parse_file(path);
+      currentHeadbuttEncounterFile = new HeadbuttEncounterFile(path);
 
       headbuttEncounterEditorTabNormal.listBoxEncounters.DataSource = currentHeadbuttEncounterFile.normalEncounters;
       headbuttEncounterEditorTabNormal.listBoxTreeGroups.DataSource = currentHeadbuttEncounterFile.normalTreeGroups;

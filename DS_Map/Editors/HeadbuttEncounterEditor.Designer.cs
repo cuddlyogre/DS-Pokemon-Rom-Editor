@@ -91,7 +91,7 @@ namespace DSPRE.Editors {
       this.tabControl2.Location = new System.Drawing.Point(3, 58);
       this.tabControl2.Name = "tabControl2";
       this.tabControl2.SelectedIndex = 0;
-      this.tabControl2.Size = new System.Drawing.Size(413, 548);
+      this.tabControl2.Size = new System.Drawing.Size(413, 544);
       this.tabControl2.TabIndex = 21;
       // 
       // tabPageNormal
@@ -100,14 +100,14 @@ namespace DSPRE.Editors {
       this.tabPageNormal.Location = new System.Drawing.Point(4, 22);
       this.tabPageNormal.Name = "tabPageNormal";
       this.tabPageNormal.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPageNormal.Size = new System.Drawing.Size(405, 522);
+      this.tabPageNormal.Size = new System.Drawing.Size(405, 518);
       this.tabPageNormal.TabIndex = 0;
       this.tabPageNormal.Text = "Normal";
       this.tabPageNormal.UseVisualStyleBackColor = true;
       // 
       // headbuttEncounterEditorTabNormal
       // 
-      this.headbuttEncounterEditorTabNormal.Location = new System.Drawing.Point(0, 0);
+      this.headbuttEncounterEditorTabNormal.Location = new System.Drawing.Point(2, 2);
       this.headbuttEncounterEditorTabNormal.Name = "headbuttEncounterEditorTabNormal";
       this.headbuttEncounterEditorTabNormal.Size = new System.Drawing.Size(402, 519);
       this.headbuttEncounterEditorTabNormal.TabIndex = 0;
@@ -118,16 +118,16 @@ namespace DSPRE.Editors {
       this.tabPageSpecial.Location = new System.Drawing.Point(4, 22);
       this.tabPageSpecial.Name = "tabPageSpecial";
       this.tabPageSpecial.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPageSpecial.Size = new System.Drawing.Size(405, 522);
+      this.tabPageSpecial.Size = new System.Drawing.Size(405, 518);
       this.tabPageSpecial.TabIndex = 1;
       this.tabPageSpecial.Text = "Special";
       this.tabPageSpecial.UseVisualStyleBackColor = true;
       // 
       // headbuttEncounterEditorTabSpecial
       // 
-      this.headbuttEncounterEditorTabSpecial.Location = new System.Drawing.Point(0, 0);
+      this.headbuttEncounterEditorTabSpecial.Location = new System.Drawing.Point(2, 2);
       this.headbuttEncounterEditorTabSpecial.Name = "headbuttEncounterEditorTabSpecial";
-      this.headbuttEncounterEditorTabSpecial.Size = new System.Drawing.Size(402, 519);
+      this.headbuttEncounterEditorTabSpecial.Size = new System.Drawing.Size(402, 518);
       this.headbuttEncounterEditorTabSpecial.TabIndex = 0;
       // 
       // HeadbuttEncounterEditor
@@ -142,7 +142,7 @@ namespace DSPRE.Editors {
       this.Controls.Add(this.buttonSave);
       this.Location = new System.Drawing.Point(15, 15);
       this.Name = "HeadbuttEncounterEditor";
-      this.Size = new System.Drawing.Size(420, 611);
+      this.Size = new System.Drawing.Size(420, 605);
       this.tabControl2.ResumeLayout(false);
       this.tabPageNormal.ResumeLayout(false);
       this.tabPageSpecial.ResumeLayout(false);

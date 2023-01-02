@@ -959,19 +959,18 @@ namespace DSPRE {
 
                         [DirNames.monIcons] = @"data\a\0\2\0",
 
-                        [DirNames.interiorBuildingModels] = @"data\a\1\4\8"
-                    };
+                        [DirNames.interiorBuildingModels] = @"data\a\1\4\8",
 
-                    packedDirsDict[DirNames.safariZone] = @"data\a\2\3\0";
+                        [DirNames.safariZone] = @"data\a\2\3\0",
+                        [DirNames.headbutt] = @"data\a\2\5\2", //both versions use the same folder with different data
+                    };
 
                     //Encounter archive is different for SS 
                     if (gameVersion == GameVersions.HeartGold) {
                         packedDirsDict[DirNames.encounters] = @"data\a\0\3\7";
-                        packedDirsDict[DirNames.headbutt] = @"data\a\2\5\3";
                     }
                     else {
                         packedDirsDict[DirNames.encounters] = @"data\a\1\3\6";
-                        packedDirsDict[DirNames.headbutt] = @"data\a\2\5\2";
                     }
 
                     break;
