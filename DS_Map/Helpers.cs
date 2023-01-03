@@ -265,7 +265,7 @@ namespace DSPRE {
       if (iconPalTableAddress >= RomInfo.synthOverlayLoadAddress) {
         // if the pointer shows the table was moved to the synthetic overlay
         iconPalTableOffsetFromFileStart = iconPalTableAddress - (int)RomInfo.synthOverlayLoadAddress;
-        iconTablePath = gameDirs[DirNames.synthOverlay].unpackedDir + "\\" + ROMToolboxDialog.expandedARMfileID.ToString("D4");
+        iconTablePath = RomInfo.expArmPath;
       }
       else {
         iconPalTableOffsetFromFileStart = iconPalTableAddress - 0x02000000;

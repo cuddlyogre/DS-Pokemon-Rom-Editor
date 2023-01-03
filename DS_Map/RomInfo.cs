@@ -83,6 +83,12 @@ namespace DSPRE {
         public static Dictionary<ushort, string> ScriptComparisonOperatorsDict { get; private set; }
         public static Dictionary<string, ushort> ScriptComparisonOperatorsReverseDict { get; private set; }
 
+        public static string expArmPath {
+            get {
+                return RomInfo.gameDirs[DirNames.synthOverlay].unpackedDir + "\\" + ROMToolboxDialog.expandedARMfileID.ToString("D4");
+            }
+        } 
+
         public enum GameVersions : byte {
             Diamond, Pearl, Platinum,
             HeartGold, SoulSilver,
@@ -534,7 +540,7 @@ namespace DSPRE {
                         }
                         if (ramAddressOfTable >= RomInfo.synthOverlayLoadAddress) { // if the pointer shows the table was moved to the synthetic overlay
                             OWTableOffset = ramAddressOfTable - RomInfo.synthOverlayLoadAddress;
-                            OWtablePath = gameDirs[DirNames.synthOverlay].unpackedDir + "\\" + ROMToolboxDialog.expandedARMfileID.ToString("D4");
+                            OWtablePath = RomInfo.expArmPath;
                         } else {
                             OWTableOffset = ramAddressOfTable - ov1Address;
                             OWtablePath = ov1Path;

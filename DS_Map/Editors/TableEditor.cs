@@ -127,7 +127,7 @@ namespace DSPRE.Editors {
 
         pbEffectsCombosListbox.Items.Clear();
 
-        String expArmPath = RomInfo.gameDirs[DirNames.synthOverlay].unpackedDir + '\\' + ROMToolboxDialog.expandedARMfileID.ToString("D4");
+        String expArmPath = RomInfo.expArmPath;
 
         if (RomInfo.gameFamily == GameFamilies.HGSS) {
           using (DSUtils.EasyReader ar = new DSUtils.EasyReader(ROMToolboxDialog.flag_TrainerClassBattleTableRepointed ? expArmPath : RomInfo.arm9Path, vsTrainerTableStartAddress)) {
@@ -285,7 +285,7 @@ namespace DSPRE.Editors {
 
       effectsComboTable[index] = (battleIntroEffect, battleMusic);
 
-      String expArmPath = RomInfo.gameDirs[DirNames.synthOverlay].unpackedDir + '\\' + ROMToolboxDialog.expandedARMfileID.ToString("D4");
+      String expArmPath = RomInfo.expArmPath;
       using (DSUtils.EasyWriter wr = new DSUtils.EasyWriter(ROMToolboxDialog.flag_MainComboTableRepointed ? expArmPath : RomInfo.arm9Path, effectsComboMainTableStartAddress + 4 * index)) {
         wr.Write(battleIntroEffect);
         wr.Write(battleMusic);
@@ -323,7 +323,7 @@ namespace DSPRE.Editors {
       ushort comboID = (ushort)pbEffectsTrainerChooseMainCombobox.SelectedIndex;
 
       vsTrainerEffectsList[index] = (trainerClass, comboID);
-      String expArmPath = RomInfo.gameDirs[DirNames.synthOverlay].unpackedDir + '\\' + ROMToolboxDialog.expandedARMfileID.ToString("D4");
+      String expArmPath = RomInfo.expArmPath;
       using (DSUtils.EasyWriter wr = new DSUtils.EasyWriter(ROMToolboxDialog.flag_TrainerClassBattleTableRepointed ? expArmPath : RomInfo.arm9Path, vsTrainerTableStartAddress + 2 * index)) {
         wr.Write((ushort)((trainerClass&1023) + (comboID << 10)));
       }
@@ -367,7 +367,7 @@ namespace DSPRE.Editors {
 
       vsPokemonEffectsList[index] = (pokemonID, comboID);
 
-      String expArmPath = RomInfo.gameDirs[DirNames.synthOverlay].unpackedDir + '\\' + ROMToolboxDialog.expandedARMfileID.ToString("D4");
+      String expArmPath = RomInfo.expArmPath;
       using (DSUtils.EasyWriter wr = new DSUtils.EasyWriter(ROMToolboxDialog.flag_PokemonBattleTableRepointed ? expArmPath : RomInfo.arm9Path, vsPokemonTableStartAddress + 2 * index)) {
         wr.Write((ushort)((pokemonID&1023) + (comboID << 10))); //PokemonID
       }
