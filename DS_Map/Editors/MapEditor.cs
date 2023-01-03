@@ -91,7 +91,8 @@ namespace DSPRE.Editors {
       int mapCount = Helpers.romInfo.GetMapCount();
 
       for (int i = 0; i < mapCount; i++) {
-        using (DSUtils.EasyReader reader = new DSUtils.EasyReader(RomInfo.gameDirs[DirNames.maps].unpackedDir + "\\" + i.ToString("D4"))) {
+        string path = RomInfo.gameDirs[DirNames.maps].unpackedDir + "\\" + i.ToString("D4");
+        using (DSUtils.EasyReader reader = new DSUtils.EasyReader(path)) {
           switch (RomInfo.gameFamily) {
             case GameFamilies.DP:
             case GameFamilies.Plat:
@@ -1152,10 +1153,11 @@ namespace DSPRE.Editors {
     }
 
     private void daeExportButton_Click(object sender, EventArgs e) {
+      string path = RomInfo.gameDirs[DirNames.mapTextures].unpackedDir + "\\" + (mapTextureComboBox.SelectedIndex - 1).ToString("D4");
       DSUtils.ModelToDAE(
         modelName: selectMapComboBox.SelectedItem.ToString().TrimEnd('\0'),
         modelData: currentMapFile.mapModelData,
-        textureData: mapTextureComboBox.SelectedIndex < 0 ? null : File.ReadAllBytes(RomInfo.gameDirs[DirNames.mapTextures].unpackedDir + "\\" + (mapTextureComboBox.SelectedIndex - 1).ToString("D4"))
+        textureData: mapTextureComboBox.SelectedIndex < 0 ? null : File.ReadAllBytes(path)
       );
     }
 
@@ -1703,7 +1705,8 @@ namespace DSPRE.Editors {
       DialogResult d = MessageBox.Show("Are you sure you want to delete the last Map BIN File?", "Confirm deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
       if (d.Equals(DialogResult.Yes)) {
         /* Delete last map file */
-        File.Delete(RomInfo.gameDirs[DirNames.maps].unpackedDir + "\\" + (selectMapComboBox.Items.Count - 1).ToString("D4"));
+        string path = RomInfo.gameDirs[DirNames.maps].unpackedDir + "\\" + (selectMapComboBox.Items.Count - 1).ToString("D4");
+        File.Delete(path);
 
         /* Check if currently selected file is the last one, and in that case select the one before it */
         int lastIndex = selectMapComboBox.Items.Count - 1;

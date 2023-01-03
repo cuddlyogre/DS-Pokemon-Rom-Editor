@@ -92,7 +92,8 @@ namespace DSPRE {
         private void LoadModelTextures(int fileID) {
             string path;
             if (fileID > -1) {
-                path = folder + RomInfo.gameDirs[RomInfo.DirNames.buildingTextures].unpackedDir + "\\" + fileID.ToString("D4");
+                string path1 = RomInfo.gameDirs[RomInfo.DirNames.buildingTextures].unpackedDir + "\\" + fileID.ToString("D4");
+                path = folder + path1;
             } else {
                 path = Path.GetTempPath() + temp_btxname; // Load Embedded textures if the argument passed to this function is -1
             }
@@ -275,10 +276,11 @@ namespace DSPRE {
         }
 
         private void bldExportDAEbutton_Click(object sender, EventArgs e) {
+            string path = RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir + "\\" + (textureComboBox.SelectedIndex - 1).ToString("D4");
             DSUtils.ModelToDAE(
                 modelName: buildingEditorBldListBox.SelectedItem.ToString().TrimEnd('\0'), 
                 modelData: currentModelData, 
-                textureData: textureComboBox.SelectedIndex < 1 ? null : File.ReadAllBytes(RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir + "\\" + (textureComboBox.SelectedIndex - 1).ToString("D4"))
+                textureData: textureComboBox.SelectedIndex < 1 ? null : File.ReadAllBytes(path)
             );
         }
 

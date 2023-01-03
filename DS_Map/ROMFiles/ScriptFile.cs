@@ -156,7 +156,8 @@ namespace DSPRE.ROMFiles {
         }
 
         static FileStream getFileStream(int fileID) {
-            return new FileStream(RomInfo.gameDirs[DirNames.scripts].unpackedDir + "\\" + fileID.ToString("D4"), FileMode.OpenOrCreate);
+            string path = RomInfo.gameDirs[DirNames.scripts].unpackedDir + "\\" + fileID.ToString("D4");
+            return new FileStream(path, FileMode.OpenOrCreate);
         }
 
         public override string ToString() {
@@ -905,7 +906,8 @@ namespace DSPRE.ROMFiles {
             }
 
             if (blindmode) {
-                File.Copy(RomInfo.gameDirs[DirNames.scripts].unpackedDir + "\\" + ((int)fileID).ToString("D4"), sf.FileName, overwrite: true);
+                string path = RomInfo.gameDirs[DirNames.scripts].unpackedDir + "\\" + ((int)fileID).ToString("D4");
+                File.Copy(path, sf.FileName, overwrite: true);
 
                 string msg = "";
                 if (!isLevelScript) {

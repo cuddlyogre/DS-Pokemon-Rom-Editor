@@ -151,7 +151,22 @@ namespace DSPRE.ROMFiles {
         #endregion
 
         #region Constructors (1)
+        
+        public EncounterFileDPPt() {
+            swarmPokemon = new ushort[2];
+        }
+
+        public EncounterFileDPPt(int ID) {
+            string path = RomInfo.gameDirs[DirNames.encounters].unpackedDir + "\\" + ID.ToString("D4");
+            Stream data = new FileStream(path, FileMode.Open);
+            LoadFile(data);
+        }
+
         public EncounterFileDPPt(Stream data) {
+            LoadFile(data);
+        }
+
+        void LoadFile(Stream data) {
             using (BinaryReader reader = new BinaryReader(data)) {
                 List<string> fieldsWithErrors = new List<string>();
 
@@ -316,11 +331,6 @@ namespace DSPRE.ROMFiles {
                 }
             }
         }
-
-        public EncounterFileDPPt(int ID) : this(new FileStream(RomInfo.gameDirs[DirNames.encounters].unpackedDir + "\\" + ID.ToString("D4"), FileMode.Open)) { }
-        public EncounterFileDPPt() {
-            swarmPokemon = new ushort[2];
-        }
         #endregion Constructors
 
         #region Methods (1)
@@ -440,7 +450,21 @@ namespace DSPRE.ROMFiles {
         #endregion
 
         #region Constructors
+        public EncounterFileHGSS() {
+            swarmPokemon = new ushort[4];
+        }
+
+        public EncounterFileHGSS(int ID) {
+            string path = RomInfo.gameDirs[DirNames.encounters].unpackedDir + "\\" + ID.ToString("D4");
+            Stream data = new FileStream(path, FileMode.Open);
+            LoadFile(data);
+        }
+
         public EncounterFileHGSS(Stream data) {
+            LoadFile(data);
+        }
+
+        void LoadFile(Stream data) {
             using (BinaryReader reader = new BinaryReader(data)) {
                 List<string> fieldsWithErrors = new List<string>();
 
@@ -684,13 +708,9 @@ namespace DSPRE.ROMFiles {
                 }
             }
         }
-        public EncounterFileHGSS(int ID) : this(new FileStream(RomInfo.gameDirs[DirNames.encounters].unpackedDir + "\\" + ID.ToString("D4"), FileMode.Open)) { }
-        public EncounterFileHGSS() {
-            swarmPokemon = new ushort[4];
-        }
         #endregion
 
-        #region Methods(1)
+        #region Methods (1)
         public override byte[] ToByteArray() {
             MemoryStream newData = new MemoryStream();
             using (BinaryWriter writer = new BinaryWriter(newData)) {

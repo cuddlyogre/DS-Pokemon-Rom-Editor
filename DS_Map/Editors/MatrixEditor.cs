@@ -710,7 +710,8 @@ namespace DSPRE.Editors {
       GameMatrix blankMatrix = new GameMatrix();
 
       /* Add new matrix file to matrix folder */
-      blankMatrix.SaveToFile(RomInfo.gameDirs[DirNames.matrices].unpackedDir + "\\" + Helpers.romInfo.GetMatrixCount().ToString("D4"), false);
+      string path = RomInfo.gameDirs[DirNames.matrices].unpackedDir + "\\" + Helpers.romInfo.GetMatrixCount().ToString("D4");
+      blankMatrix.SaveToFile(path, false);
 
       /* Update ComboBox*/
       selectMatrixComboBox.Items.Add(selectMatrixComboBox.Items.Count.ToString() + blankMatrix);

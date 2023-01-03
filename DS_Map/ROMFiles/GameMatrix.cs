@@ -42,7 +42,43 @@ namespace DSPRE.ROMFiles {
         #endregion Fields
 
         #region Constructors(1)
+        
+        public GameMatrix() {
+            this.name = "newMatrix";
+            this.hasHeadersSection = false;
+            this.hasHeightsSection = false;
+
+            this.width = 1;
+            this.height = 1;
+            this.maps = new ushort[1, 1] { { 0 } };
+        }
+
+        public GameMatrix(GameMatrix copy, int newID) { 
+            this.id = newID;
+            this.name = copy.name;
+            this.width = copy.width;
+            this.height = copy.height;
+
+            this.hasHeadersSection = copy.hasHeadersSection;
+            this.hasHeightsSection = copy.hasHeightsSection;
+
+            this.maps = (ushort[,])copy.maps.Clone();
+            this.altitudes = (byte[,])copy.altitudes.Clone();
+            this.headers = (ushort[,])copy.headers.Clone();
+        }
+
+        public GameMatrix(int ID) {
+            this.id = ID;
+            string path = RomInfo.gameDirs[DirNames.matrices].unpackedDir + "\\" + ID.ToString("D4");
+            Stream data = new FileStream(path, FileMode.Open);
+            LoadFile(data);
+        }
+
         public GameMatrix(Stream data) {
+            LoadFile(data);
+        }
+
+        void LoadFile(Stream data) {
             using (BinaryReader reader = new BinaryReader(data)) {
                 /* Read matrix size and sections included */
                 width = reader.ReadByte();
@@ -89,33 +125,7 @@ namespace DSPRE.ROMFiles {
                 }
             }
         }
-        public GameMatrix(int ID) : this (new FileStream(RomInfo.gameDirs[DirNames.matrices].unpackedDir + "\\" + ID.ToString("D4"), FileMode.Open)) {
-            this.id = ID;
-        }
 
-        public GameMatrix(GameMatrix copy, int newID) { 
-            this.id = newID;
-            this.name = copy.name;
-            this.width = copy.width;
-            this.height = copy.height;
-
-            this.hasHeadersSection = copy.hasHeadersSection;
-            this.hasHeightsSection = copy.hasHeightsSection;
-
-            this.maps = (ushort[,])copy.maps.Clone();
-            this.altitudes = (byte[,])copy.altitudes.Clone();
-            this.headers = (ushort[,])copy.headers.Clone();
-        }
-
-        public GameMatrix() {
-            this.name = "newMatrix";
-            this.hasHeadersSection = false;
-            this.hasHeightsSection = false;
-
-            this.width = 1;
-            this.height = 1;
-            this.maps = new ushort[1, 1] { { 0 } };
-        }
         #endregion
 
         #region Methods (6)

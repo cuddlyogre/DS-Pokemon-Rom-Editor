@@ -394,11 +394,13 @@ namespace DSPRE.Editors {
     public int LoadTrainerClassPic(int trClassID) {
       int paletteFileID = (trClassID * 5 + 1);
       string paletteFilename = paletteFileID.ToString("D4");
-      trainerPal = new NCLR(gameDirs[DirNames.trainerGraphics].unpackedDir + "\\" + paletteFilename, paletteFileID, paletteFilename);
+      string path = gameDirs[DirNames.trainerGraphics].unpackedDir + "\\" + paletteFilename;
+      trainerPal = new NCLR(path, paletteFileID, paletteFilename);
 
       int tilesFileID = trClassID * 5;
       string tilesFilename = tilesFileID.ToString("D4");
-      trainerTile = new NCGR(gameDirs[DirNames.trainerGraphics].unpackedDir + "\\" + tilesFilename, tilesFileID, tilesFilename);
+      string path2 = gameDirs[DirNames.trainerGraphics].unpackedDir + "\\" + tilesFilename;
+      trainerTile = new NCGR(path2, tilesFileID, tilesFilename);
 
       if (gameFamily == GameFamilies.DP) {
         return 0;
@@ -406,7 +408,8 @@ namespace DSPRE.Editors {
 
       int spriteFileID = (trClassID * 5 + 2);
       string spriteFilename = spriteFileID.ToString("D4");
-      trainerSprite = new NCER(gameDirs[DirNames.trainerGraphics].unpackedDir + "\\" + spriteFilename, spriteFileID, spriteFilename);
+      string path3 = gameDirs[DirNames.trainerGraphics].unpackedDir + "\\" + spriteFilename;
+      trainerSprite = new NCER(path3, spriteFileID, spriteFilename);
 
       return trainerSprite.Banks.Length - 1;
     }

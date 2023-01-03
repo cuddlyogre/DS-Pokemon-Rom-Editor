@@ -256,7 +256,8 @@ namespace DSPRE.Editors {
         }
 
         /* Update event object on disk */
-        File.Copy(of.FileName, RomInfo.gameDirs[DirNames.eventFiles].unpackedDir + "\\" + selectEventComboBox.SelectedIndex.ToString("D4"), true);
+        string path = RomInfo.gameDirs[DirNames.eventFiles].unpackedDir + "\\" + selectEventComboBox.SelectedIndex.ToString("D4");
+        File.Copy(of.FileName, path, true);
 
         /* Refresh controls */
         selectEventComboBox_SelectedIndexChanged(null, null);
@@ -383,7 +384,8 @@ namespace DSPRE.Editors {
       DialogResult d = MessageBox.Show("Are you sure you want to delete the last Event File?", "Confirm deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
       if (d.Equals(DialogResult.Yes)) {
         /* Delete event file */
-        File.Delete(RomInfo.gameDirs[DirNames.eventFiles].unpackedDir + "\\" + (selectEventComboBox.Items.Count - 1).ToString("D4"));
+        string path = RomInfo.gameDirs[DirNames.eventFiles].unpackedDir + "\\" + (selectEventComboBox.Items.Count - 1).ToString("D4");
+        File.Delete(path);
 
         /* Check if currently selected file is the last one, and in that case select the one before it */
         int lastIndex = selectEventComboBox.Items.Count - 1;
@@ -636,7 +638,8 @@ namespace DSPRE.Editors {
       }
 
       try {
-        FileStream stream = new FileStream(RomInfo.gameDirs[DirNames.OWSprites].unpackedDir + "\\" + result.spriteID.ToString("D4"), FileMode.Open);
+        string path = RomInfo.gameDirs[DirNames.OWSprites].unpackedDir + "\\" + result.spriteID.ToString("D4");
+        FileStream stream = new FileStream(path, FileMode.Open);
         NSBTX_File nsbtx = new NSBTX_File(stream);
 
         if (nsbtx.texInfo.num_objs <= 1) {

@@ -79,12 +79,12 @@ namespace DSPRE {
       /* Store all trainer names and classes */
       TextArchive trainerClasses = new TextArchive(RomInfo.trainerClassMessageNumber);
       TextArchive trainerNames = new TextArchive(RomInfo.trainerNamesMessageNumber);
-      string trainerPropertiesUnpackedDir = RomInfo.gameDirs[DirNames.trainerProperties].unpackedDir;
 
-      int trainerCount = Directory.GetFiles(trainerPropertiesUnpackedDir).Length;
+      int trainerCount = Directory.GetFiles(RomInfo.gameDirs[DirNames.trainerProperties].unpackedDir).Length;
 
       for (int i = 0; i < trainerCount; i++) {
-        int classMessageID = BitConverter.ToUInt16(DSUtils.ReadFromFile(trainerPropertiesUnpackedDir + "\\" + i.ToString("D4"), startOffset: 1, 2), 0);
+        string path = RomInfo.gameDirs[DirNames.trainerProperties].unpackedDir + "\\" + i.ToString("D4");
+        int classMessageID = BitConverter.ToUInt16(DSUtils.ReadFromFile(path, startOffset: 1, 2), 0);
         string currentTrainerName;
 
         if (i < trainerNames.messages.Count) {
@@ -233,11 +233,13 @@ namespace DSPRE {
       string filename = "0000";
 
       try {
-        paletteBase = new NCLR(gameDirs[DirNames.monIcons].unpackedDir + "\\" + filename, 0, filename);
+        string path = gameDirs[DirNames.monIcons].unpackedDir + "\\" + filename;
+        paletteBase = new NCLR(path, 0, filename);
       }
       catch (FileNotFoundException) {
         filename += '0';
-        paletteBase = new NCLR(gameDirs[DirNames.monIcons].unpackedDir + "\\" + filename, 0, filename);
+        string path = gameDirs[DirNames.monIcons].unpackedDir + "\\" + filename;
+        paletteBase = new NCLR(path, 0, filename);
         fiveDigits = true;
       }
 
@@ -283,12 +285,14 @@ namespace DSPRE {
       // grab tiles
       int spriteFileID = species + 7;
       string spriteFilename = spriteFileID.ToString("D" + (fiveDigits ? "5" : "4"));
-      imageBase = new NCGR(gameDirs[DirNames.monIcons].unpackedDir + "\\" + spriteFilename, spriteFileID, spriteFilename);
+      string path1 = gameDirs[DirNames.monIcons].unpackedDir + "\\" + spriteFilename;
+      imageBase = new NCGR(path1, spriteFileID, spriteFilename);
 
       // grab sprite
       int ncerFileId = 2;
       string ncerFileName = ncerFileId.ToString("D" + (fiveDigits ? "5" : "4"));
-      spriteBase = new NCER(gameDirs[DirNames.monIcons].unpackedDir + "\\" + ncerFileName, 2, ncerFileName);
+      string path2 = gameDirs[DirNames.monIcons].unpackedDir + "\\" + ncerFileName;
+      spriteBase = new NCER(path2, 2, ncerFileName);
 
       // copy this from the trainer
       int bank0OAMcount = spriteBase.Banks[0].oams.Length;

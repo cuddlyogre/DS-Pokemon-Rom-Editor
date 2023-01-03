@@ -28,7 +28,19 @@ namespace DSPRE.ROMFiles {
         #endregion
 
         #region Constructors (1)
+        public EventFile() { }
+
+        public EventFile(int ID) {
+            string path = RomInfo.gameDirs[DirNames.eventFiles].unpackedDir + "\\" + ID.ToString("D4");
+            Stream data = new FileStream(path, FileMode.Open);
+            LoadFile(data);
+        }
+
         public EventFile(Stream data) {
+            LoadFile(data);
+        }
+
+        void LoadFile(Stream data) {
             using (BinaryReader reader = new BinaryReader(data)) {
                 /* Read spawnables */
                 uint spawnablesCount = reader.ReadUInt32();
@@ -55,8 +67,6 @@ namespace DSPRE.ROMFiles {
                 }
             }
         }
-        public EventFile(int ID) : this(new FileStream(RomInfo.gameDirs[DirNames.eventFiles].unpackedDir + "\\" + ID.ToString("D4"), FileMode.Open)) { }
-        public EventFile() { }
         #endregion
 
         #region Methods (1)

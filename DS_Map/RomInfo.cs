@@ -984,7 +984,7 @@ namespace DSPRE {
 
             gameDirs = new Dictionary<DirNames, (string packedDir, string unpackedDir)>();
             foreach (KeyValuePair<DirNames, string> kvp in packedDirsDict) {
-                gameDirs.Add(kvp.Key, (workDir + kvp.Value, workDir + @"unpacked" + '\\' + kvp.Key.ToString()));
+                gameDirs.Add(kvp.Key, (workDir + kvp.Value, workDir + @"unpacked" + "\\" + kvp.Key.ToString()));
             }
         }
         public void ResetMapCellsColorDictionary() {

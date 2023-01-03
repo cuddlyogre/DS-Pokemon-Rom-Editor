@@ -76,9 +76,19 @@ namespace DSPRE.ROMFiles {
         #endregion
 
         #region Constructors (1)
-        public MapFile(string path, GameFamilies gFamily, bool discardMoveperms = false, bool showMessages = true) : this (new FileStream(path, FileMode.Open), gFamily, discardMoveperms, showMessages) {}
-        public MapFile(int mapNumber, GameFamilies gFamily, bool discardMoveperms = false, bool showMessages = true) : this(RomInfo.gameDirs[DirNames.maps].unpackedDir + "\\" + mapNumber.ToString("D4"), gFamily, discardMoveperms, showMessages) { }
-        public MapFile(Stream data, GameFamilies gFamily, bool discardMoveperms = false, bool showMessages = true) {
+
+        public MapFile(int ID, GameFamilies gFamily, bool discardMoveperms = false, bool showMessages = true) {
+            string path = RomInfo.gameDirs[DirNames.maps].unpackedDir + "\\" + ID.ToString("D4");
+            Stream data = new FileStream(path, FileMode.Open);
+            LoadFile(data, gFamily, discardMoveperms, showMessages);
+        }
+
+        public MapFile(string path, GameFamilies gFamily, bool discardMoveperms = false, bool showMessages = true) {
+            Stream data = new FileStream(path, FileMode.Open);
+            LoadFile(data, gFamily, discardMoveperms, showMessages);
+        }
+
+        void LoadFile(Stream data, GameFamilies gFamily, bool discardMoveperms, bool showMessages) {
             using (BinaryReader reader = new BinaryReader(data)) {
                 /* Read sections lengths */
                 int permissionsSectionLength = reader.ReadInt32();

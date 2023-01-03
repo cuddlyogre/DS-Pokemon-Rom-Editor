@@ -724,7 +724,8 @@ namespace DSPRE {
                     int headerCount = RomInfo.GetHeaderCount();
                     for (int i = 0; i < headerCount; i++) {
                         byte[] headerData = MapHeader.LoadFromARM9((ushort)i).ToByteArray();
-                        DSUtils.WriteToFile(headersDir.unpackedDir + "\\" + i.ToString("D4"), headerData);
+                        string path = RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir + "\\" + i.ToString("D4");
+                        DSUtils.WriteToFile(path, headerData);
                     }
 
                     DisableDynamicHeadersPatch("Already applied");

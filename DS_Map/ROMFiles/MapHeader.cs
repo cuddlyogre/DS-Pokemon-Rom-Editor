@@ -165,7 +165,8 @@ namespace DSPRE.ROMFiles {
             MapHeader currentHeader;
             /* Check if dynamic headers patch has been applied, and load header from arm9 or a/0/5/0 accordingly */
             if (ROMToolboxDialog.DynamicHeadersPatchApplied) {
-                currentHeader = MapHeader.LoadFromFile(RomInfo.gameDirs[RomInfo.DirNames.dynamicHeaders].unpackedDir + "\\" + headerNumber.ToString("D4"), headerNumber, 0);
+                string path = RomInfo.gameDirs[RomInfo.DirNames.dynamicHeaders].unpackedDir + "\\" + headerNumber.ToString("D4");
+                currentHeader = MapHeader.LoadFromFile(path, headerNumber, 0);
             }
             else {
                 currentHeader = MapHeader.LoadFromARM9(headerNumber);
@@ -189,7 +190,8 @@ namespace DSPRE.ROMFiles {
         public void SaveFile() {
             /* Check if dynamic headers patch has been applied, and save header to arm9 or a/0/5/0 accordingly */
             if (ROMToolboxDialog.DynamicHeadersPatchApplied) {
-                DSUtils.WriteToFile(RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir + "\\" + this.ID.ToString("D4"), this.ToByteArray(), 0, 0, fmode: FileMode.Create);
+                string path = RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir + "\\" + this.ID.ToString("D4");
+                DSUtils.WriteToFile(path, this.ToByteArray(), 0, 0, fmode: FileMode.Create);
             }
             else {
                 uint headerOffset = (uint)(RomInfo.headerTableOffset + MapHeader.length * this.ID);

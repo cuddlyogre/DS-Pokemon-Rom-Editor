@@ -1227,7 +1227,8 @@ namespace DSPRE.Editors {
         }
 
         /* Physically delete last header file */
-        File.Delete(RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir + "\\" + lastIndex.ToString("D4"));
+        string path = RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir + "\\" + lastIndex.ToString("D4");
+        File.Delete(path);
         using (DSUtils.EasyWriter ew = new DSUtils.EasyWriter(RomInfo.internalNamesLocation)) {
           ew.EditSize(-internalNameLength); //Delete internalNameLength amount of bytes from file end
         }
