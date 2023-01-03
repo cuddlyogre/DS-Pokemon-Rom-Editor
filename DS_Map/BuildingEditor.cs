@@ -14,7 +14,6 @@ namespace DSPRE {
         public static string temp_btxname = "BLDtexture.nsbtx";
         private readonly string folder;
         bool disableHandlers = new bool();
-        readonly RomInfo rom;
 
         NSBMD currentNSBMD;
         byte[] currentModelData;
@@ -36,10 +35,8 @@ namespace DSPRE {
         public bool dRot;
         #endregion
 
-        public BuildingEditor(RomInfo romInfo) {
+        public BuildingEditor() {
             InitializeComponent();
-            rom = romInfo;
-
             buildingOpenGLControl.InitializeContexts();
             buildingOpenGLControl.MakeCurrent();
             buildingOpenGLControl.MouseWheel += new MouseEventHandler(buildingOpenGLControl_MouseWheel);
@@ -59,7 +56,7 @@ namespace DSPRE {
 
         #region Subroutines
         private void CreateEmbeddedTexturesFile(int modelID, bool interior) {
-            string readingPath = folder + rom.GetBuildingModelsDirPath(interior) + "\\" + modelID.ToString("D4");
+            string readingPath = folder + RomInfo.GetBuildingModelsDirPath(interior) + "\\" + modelID.ToString("D4");
 
             byte[] txFile = File.ReadAllBytes(readingPath);
             byte[] texData = DSUtils.GetTexturesFromTexturedNSBMD(txFile);
@@ -71,9 +68,9 @@ namespace DSPRE {
             DSUtils.WriteToFile(Path.GetTempPath() + temp_btxname, texData, fmode: FileMode.Create);
         }
         private void FillListBox(bool interior) {
-            int modelCount = Directory.GetFiles(folder + rom.GetBuildingModelsDirPath(interior)).Length;
+            int modelCount = Directory.GetFiles(folder + RomInfo.GetBuildingModelsDirPath(interior)).Length;
             for (int currentIndex = 0; currentIndex < modelCount; currentIndex++) {
-                string filePath = folder + rom.GetBuildingModelsDirPath(interior) + "\\" + currentIndex.ToString("D4");
+                string filePath = folder + RomInfo.GetBuildingModelsDirPath(interior) + "\\" + currentIndex.ToString("D4");
 
                 using (DSUtils.EasyReader reader = new DSUtils.EasyReader(filePath, 0x14)) {
                     string nsbmdName = DSUtils.ReadNSBMDname(reader);
@@ -172,7 +169,7 @@ namespace DSPRE {
                 return;
             }
 
-            string path = folder + rom.GetBuildingModelsDirPath(interiorCheckBox.Checked) + "\\" + buildingEditorBldListBox.SelectedIndex.ToString("D4");
+            string path = folder + RomInfo.GetBuildingModelsDirPath(interiorCheckBox.Checked) + "\\" + buildingEditorBldListBox.SelectedIndex.ToString("D4");
 
             currentModelData = File.ReadAllBytes(path);
             currentNSBMD = NSBMDLoader.LoadNSBMD(new MemoryStream(currentModelData));
@@ -190,7 +187,7 @@ namespace DSPRE {
                 return;
             }
 
-            File.Copy(folder + rom.GetBuildingModelsDirPath(interiorCheckBox.Checked) + "\\" + buildingEditorBldListBox.SelectedIndex.ToString("D4"), em.FileName, true);
+            File.Copy(folder + RomInfo.GetBuildingModelsDirPath(interiorCheckBox.Checked) + "\\" + buildingEditorBldListBox.SelectedIndex.ToString("D4"), em.FileName, true);
         }
         private void importButton_Click(object sender, EventArgs e) {
             OpenFileDialog im = new OpenFileDialog {
@@ -207,7 +204,7 @@ namespace DSPRE {
                 } else {
                     int currentIndex = buildingEditorBldListBox.SelectedIndex;
 
-                    File.Copy(im.FileName, folder + rom.GetBuildingModelsDirPath(interiorCheckBox.Checked) + "\\" + currentIndex.ToString("D4"), true);
+                    File.Copy(im.FileName, folder + RomInfo.GetBuildingModelsDirPath(interiorCheckBox.Checked) + "\\" + currentIndex.ToString("D4"), true);
                     buildingEditorBldListBox.Items[currentIndex] = "[" + currentIndex.ToString("D3") + "] " + DSUtils.ReadNSBMDname(reader, 0x14);
                     buildingEditorListBox_SelectedIndexChanged(null, null);
                 }

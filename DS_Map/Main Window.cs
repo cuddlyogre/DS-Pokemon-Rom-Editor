@@ -338,7 +338,7 @@ namespace DSPRE {
         private void buildingEditorButton_Click(object sender, EventArgs e) {
             unpackBuildingEditorNARCs();
 
-            using (BuildingEditor editor = new BuildingEditor(Helpers.romInfo))
+            using (BuildingEditor editor = new BuildingEditor())
                 editor.ShowDialog();
         }
         private void unpackBuildingEditorNARCs(bool forceUnpack = false) {
@@ -394,6 +394,7 @@ namespace DSPRE {
             }
 
             SetupROMLanguage(openRom.FileName);
+
             /* Set ROM gameVersion and language */
             Helpers.romInfo = new RomInfo(gameCode, openRom.FileName, useSuffix: true);
 
@@ -482,6 +483,7 @@ namespace DSPRE {
                 MessageBox.Show("This folder does not seem to contain any data from a NDS Pokémon ROM.", "No ROM Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
             /* Set ROM gameVersion and language */
             Helpers.romInfo = new RomInfo(gameCode, romFolder.FileName, useSuffix: false);
 

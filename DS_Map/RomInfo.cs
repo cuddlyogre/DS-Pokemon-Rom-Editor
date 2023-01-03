@@ -784,7 +784,7 @@ namespace DSPRE {
             }
         }
 
-        public string GetBuildingModelsDirPath(bool interior) => interior ? gameDirs[DirNames.interiorBuildingModels].unpackedDir : gameDirs[DirNames.exteriorBuildingModels].unpackedDir;
+        public static string GetBuildingModelsDirPath(bool interior) => interior ? gameDirs[DirNames.interiorBuildingModels].unpackedDir : gameDirs[DirNames.exteriorBuildingModels].unpackedDir;
         public string GetRomNameFromWorkdir() => workDir.Substring(0, workDir.Length - folderSuffix.Length - 1);
         public static int GetHeaderCount() => (int)new FileInfo(internalNamesLocation).Length / internalNameLength;
         public static List<string> GetLocationNames() => new TextArchive(locationNamesTextNumber).messages;

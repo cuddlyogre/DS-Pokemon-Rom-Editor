@@ -214,7 +214,7 @@ namespace DSPRE.Editors {
 
     private string[] GetBuildingsList(bool interior) {
       List<string> names = new List<string>();
-      string path = Helpers.romInfo.GetBuildingModelsDirPath(interior);
+      string path = RomInfo.GetBuildingModelsDirPath(interior);
       int buildModelsCount = Directory.GetFiles(path).Length;
 
       for (int i = 0; i < buildModelsCount; i++) {
@@ -427,7 +427,7 @@ namespace DSPRE.Editors {
       if (buildingsListBox.Items.Count > 0) buildingsListBox.SelectedIndex = 0;
 
       for (int i = 0; i < currentMapFile.buildings.Count; i++) {
-        currentMapFile.buildings[i].LoadModelData(Helpers.romInfo.GetBuildingModelsDirPath(interiorbldRadioButton.Checked)); // Load building nsbmd
+        currentMapFile.buildings[i].LoadModelData(RomInfo.GetBuildingModelsDirPath(interiorbldRadioButton.Checked)); // Load building nsbmd
         Helpers.MW_LoadModelTextures(currentMapFile.buildings[i].NSBMDFile, RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir, buildTextureComboBox.SelectedIndex - 1); // Load building textures                
       }
 
@@ -479,7 +479,7 @@ namespace DSPRE.Editors {
 
       /* Load buildings nsbmd and textures for renderer into MapFile's building objects */
       for (int i = 0; i < currentMapFile.buildings.Count; i++) {
-        currentMapFile.buildings[i].LoadModelData(Helpers.romInfo.GetBuildingModelsDirPath(interiorbldRadioButton.Checked)); // Load building nsbmd
+        currentMapFile.buildings[i].LoadModelData(RomInfo.GetBuildingModelsDirPath(interiorbldRadioButton.Checked)); // Load building nsbmd
         Helpers.MW_LoadModelTextures(currentMapFile.buildings[i].NSBMDFile, RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir, buildTextureComboBox.SelectedIndex - 1); // Load building textures                
       }
 
@@ -498,7 +498,7 @@ namespace DSPRE.Editors {
       Helpers.EnableHandlers();
 
       currentMapFile.buildings[buildingsListBox.SelectedIndex].modelID = (uint)buildIndexComboBox.SelectedIndex;
-      currentMapFile.buildings[buildingsListBox.SelectedIndex].LoadModelData(Helpers.romInfo.GetBuildingModelsDirPath(interiorbldRadioButton.Checked));
+      currentMapFile.buildings[buildingsListBox.SelectedIndex].LoadModelData(RomInfo.GetBuildingModelsDirPath(interiorbldRadioButton.Checked));
       Helpers.MW_LoadModelTextures(currentMapFile.buildings[buildingsListBox.SelectedIndex].NSBMDFile, RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir, buildTextureComboBox.SelectedIndex - 1);
 
       Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
@@ -535,7 +535,7 @@ namespace DSPRE.Editors {
       currentMapFile.buildings.Add(b);
 
       /* Load new building's model and textures for the renderer */
-      b.LoadModelData(Helpers.romInfo.GetBuildingModelsDirPath(interiorbldRadioButton.Checked));
+      b.LoadModelData(RomInfo.GetBuildingModelsDirPath(interiorbldRadioButton.Checked));
       Helpers.MW_LoadModelTextures(b.NSBMDFile, RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir, buildTextureComboBox.SelectedIndex - 1);
       currentMapFile.buildings[currentMapFile.buildings.Count - 1] = b;
 
@@ -1371,7 +1371,7 @@ namespace DSPRE.Editors {
 
       /* Load buildings nsbmd and textures for renderer into MapFile's building objects */
       for (int i = 0; i < currentMapFile.buildings.Count; i++) {
-        currentMapFile.buildings[i].LoadModelData(Helpers.romInfo.GetBuildingModelsDirPath(interiorbldRadioButton.Checked)); // Load building nsbmd
+        currentMapFile.buildings[i].LoadModelData(RomInfo.GetBuildingModelsDirPath(interiorbldRadioButton.Checked)); // Load building nsbmd
         if (buildTextureComboBox.SelectedIndex > 0) {
           Helpers.MW_LoadModelTextures(currentMapFile.buildings[i].NSBMDFile, RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir, buildTextureComboBox.SelectedIndex - 1); // Load building textures                
         }
