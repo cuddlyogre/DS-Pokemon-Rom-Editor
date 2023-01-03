@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Resources;
-using static DSPRE.RomInfo;
 
 namespace DSPRE.Resources.ROMToolboxDB {
     public class ToolboxDB {
@@ -43,7 +42,7 @@ namespace DSPRE.Resources.ROMToolboxDB {
                 initOffset = arm9ExpansionOffsetsDB[nameof(initOffset) + "_" + RomInfo.gameFamily + "_" + RomInfo.gameLanguage] - 0x02000000;
                 branchString = arm9ExpansionCodeDB[nameof(branchString) + "_" + RomInfo.gameFamily + "_" + RomInfo.gameLanguage];
 
-                if (RomInfo.gameFamily == GameFamilies.Plat) {
+                if (RomInfo.gameFamily == RomInfo.GameFamilies.Plat) {
                     initString = arm9ExpansionCodeDB[nameof(initString) + "_" + RomInfo.gameFamily + "_" + RomInfo.gameLanguage];
                 } else {
                     initString = arm9ExpansionCodeDB[nameof(initString) + "_" + RomInfo.gameFamily];
@@ -90,7 +89,7 @@ namespace DSPRE.Resources.ROMToolboxDB {
 
             internal BDHCAMPatchData() {
                 switch (RomInfo.gameFamily) {
-                    case GameFamilies.Plat:
+                    case RomInfo.GameFamilies.Plat:
                         overlayNumber = 5;
                         branchString = BDHCamCodeDB[nameof(branchString) + "_" + RomInfo.gameFamily + "_" + RomInfo.gameLanguage];
 
@@ -98,7 +97,7 @@ namespace DSPRE.Resources.ROMToolboxDB {
                         overlayOffset1 = BDHCamOffsetsDB[nameof(overlayOffset1) + "_" + RomInfo.gameFamily + "_" + RomInfo.gameLanguage];
                         overlayOffset2 = BDHCamOffsetsDB[nameof(overlayOffset2) + "_" + RomInfo.gameFamily + "_" + RomInfo.gameLanguage];
                         break;
-                    case GameFamilies.HGSS:
+                    case RomInfo.GameFamilies.HGSS:
                         overlayNumber = 1;
                         branchString = BDHCamCodeDB[nameof(branchString) + "_" + RomInfo.gameFamily];
 
@@ -167,9 +166,9 @@ namespace DSPRE.Resources.ROMToolboxDB {
                         return "00 B5 01 1C 32 20 00 22 CC F7 58 F9 03 1C DF F7 49 FC 00 BD";
                 }
             }
-            public static Dictionary<GameFamilies, Tuple<uint, uint>[]> dynamicHeadersPointersDB = new Dictionary<GameFamilies, Tuple<uint, uint>[]>() {
+            public static Dictionary<RomInfo.GameFamilies, Tuple<uint, uint>[]> dynamicHeadersPointersDB = new Dictionary<RomInfo.GameFamilies, Tuple<uint, uint>[]>() {
                 // format: headerID*18 offset, (ARM9_HEADER_TABLE_OFFSET + n) offset
-                [GameFamilies.Plat] = new Tuple<uint, uint>[] {
+                [RomInfo.GameFamilies.Plat] = new Tuple<uint, uint>[] {
                     new Tuple<uint, uint>(0x3A03E, 0x3A048),
                     new Tuple<uint, uint>(0x3A052, 0x3A05C),
                     new Tuple<uint, uint>(0x3A066, 0x3A080),
@@ -191,7 +190,7 @@ namespace DSPRE.Resources.ROMToolboxDB {
                     new Tuple<uint, uint>(0x3A1F6, 0x3A208),
                     new Tuple<uint, uint>(0x3A212, 0x3A224),
                 },
-                [GameFamilies.HGSS] = new Tuple<uint, uint>[] {
+                [RomInfo.GameFamilies.HGSS] = new Tuple<uint, uint>[] {
                     new Tuple<uint, uint>(0x3B282, 0x3B28C),
                     new Tuple<uint, uint>(0x3B296, 0x3B2A8),
                     new Tuple<uint, uint>(0x3B2B2, 0x3B2BC),
@@ -225,7 +224,7 @@ namespace DSPRE.Resources.ROMToolboxDB {
                 initOffset = getDynamicHeadersInitOffset(RomInfo.romID);
                 initString = getDynamicHeadersInitString(RomInfo.romID);
 
-                if (RomInfo.gameFamily == GameFamilies.HGSS) {
+                if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
                     pointerDiff = (int)(initOffset - getDynamicHeadersInitOffset("IPKE"));
                 } else {
                     pointerDiff = (int)(initOffset - getDynamicHeadersInitOffset("CPUE"));
@@ -233,10 +232,10 @@ namespace DSPRE.Resources.ROMToolboxDB {
             }
         }
 
-        public static Dictionary<GameFamilies, uint> syntheticOverlayFileNumbersDB = new Dictionary<GameFamilies, uint>() {
-            [GameFamilies.DP] = 9,
-            [GameFamilies.Plat] = 9,
-            [GameFamilies.HGSS] = 0,
+        public static Dictionary<RomInfo.GameFamilies, uint> syntheticOverlayFileNumbersDB = new Dictionary<RomInfo.GameFamilies, uint>() {
+            [RomInfo.GameFamilies.DP] = 9,
+            [RomInfo.GameFamilies.Plat] = 9,
+            [RomInfo.GameFamilies.HGSS] = 0,
         };
 
         public static Dictionary<uint[], string> matrixExpansionDB = new Dictionary<uint[], string>() {

@@ -10,7 +10,6 @@ using LibNDSFormats.NSBMD;
 using LibNDSFormats.NSBTX;
 using DSPRE.Resources;
 using DSPRE.ROMFiles;
-using static DSPRE.RomInfo;
 
 namespace DSPRE.Editors {
   public partial class MapEditor : UserControl {
@@ -58,17 +57,17 @@ namespace DSPRE.Editors {
       Helpers.statusLabelMessage("Attempting to unpack Map Editor NARCs... Please wait.");
       Update();
 
-      DSUtils.TryUnpackNarcs(new List<DirNames> {
-        DirNames.maps,
-        DirNames.exteriorBuildingModels,
-        DirNames.buildingConfigFiles,
-        DirNames.buildingTextures,
-        DirNames.mapTextures,
-        DirNames.areaData,
+      DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames> {
+        RomInfo.DirNames.maps,
+        RomInfo.DirNames.exteriorBuildingModels,
+        RomInfo.DirNames.buildingConfigFiles,
+        RomInfo.DirNames.buildingTextures,
+        RomInfo.DirNames.mapTextures,
+        RomInfo.DirNames.areaData,
       });
 
-      if (RomInfo.gameFamily == GameFamilies.HGSS) {
-        DSUtils.TryUnpackNarcs(new List<DirNames> { DirNames.interiorBuildingModels });
+      if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
+        DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames> { RomInfo.DirNames.interiorBuildingModels });
       }
 
       Helpers.DisableHandlers();
@@ -76,8 +75,8 @@ namespace DSPRE.Editors {
       collisionPainterPictureBox.Image = new Bitmap(100, 100);
       typePainterPictureBox.Image = new Bitmap(100, 100);
       switch (RomInfo.gameFamily) {
-        case GameFamilies.DP:
-        case GameFamilies.Plat:
+        case RomInfo.GameFamilies.DP:
+        case RomInfo.GameFamilies.Plat:
           mapPartsTabControl.TabPages.Remove(bgsTabPage);
           break;
         default:
@@ -88,14 +87,14 @@ namespace DSPRE.Editors {
 
       /* Add map names to box */
       selectMapComboBox.Items.Clear();
-      int mapCount = Helpers.romInfo.GetMapCount();
+      int mapCount = RomInfo.GetMapCount();
 
       for (int i = 0; i < mapCount; i++) {
-        string path = RomInfo.gameDirs[DirNames.maps].unpackedDir + "\\" + i.ToString("D4");
+        string path = RomInfo.maps + "\\" + i.ToString("D4");
         using (DSUtils.EasyReader reader = new DSUtils.EasyReader(path)) {
           switch (RomInfo.gameFamily) {
-            case GameFamilies.DP:
-            case GameFamilies.Plat:
+            case RomInfo.GameFamilies.DP:
+            case RomInfo.GameFamilies.Plat:
               reader.BaseStream.Position = 0x10 + reader.ReadUInt32() + reader.ReadUInt32();
               break;
             default:
@@ -121,7 +120,7 @@ namespace DSPRE.Editors {
       /*  Fill map textures list */
       mapTextureComboBox.Items.Clear();
       mapTextureComboBox.Items.Add("Untextured");
-      for (int i = 0; i < Helpers.romInfo.GetMapTexturesCount(); i++) {
+      for (int i = 0; i < RomInfo.GetMapTexturesCount(); i++) {
         mapTextureComboBox.Items.Add("Map Texture Pack [" + i.ToString("D2") + "]");
       }
 
@@ -130,7 +129,7 @@ namespace DSPRE.Editors {
       /*  Fill building textures list */
       buildTextureComboBox.Items.Clear();
       buildTextureComboBox.Items.Add("Untextured");
-      for (int i = 0; i < Helpers.romInfo.GetBuildingTexturesCount(); i++) {
+      for (int i = 0; i < RomInfo.GetBuildingTexturesCount(); i++) {
         buildTextureComboBox.Items.Add("Building Texture Pack [" + i.ToString("D2") + "]");
       }
 
@@ -161,12 +160,12 @@ namespace DSPRE.Editors {
       selectMapComboBox.SelectedIndex = 0;
       exteriorbldRadioButton.Checked = true;
       switch (RomInfo.gameFamily) {
-        case GameFamilies.DP:
-        case GameFamilies.Plat:
+        case RomInfo.GameFamilies.DP:
+        case RomInfo.GameFamilies.Plat:
           mapTextureComboBox.SelectedIndex = 7;
           buildTextureComboBox.SelectedIndex = 1;
           break;
-        case GameFamilies.HGSS:
+        case RomInfo.GameFamilies.HGSS:
           mapTextureComboBox.SelectedIndex = 3;
           buildTextureComboBox.SelectedIndex = 1;
           break;
@@ -214,11 +213,10 @@ namespace DSPRE.Editors {
 
     private string[] GetBuildingsList(bool interior) {
       List<string> names = new List<string>();
-      string path = RomInfo.GetBuildingModelsDirPath(interior);
-      int buildModelsCount = Directory.GetFiles(path).Length;
-
+      int buildModelsCount = RomInfo.GetBuildingCount(interior);
       for (int i = 0; i < buildModelsCount; i++) {
-        using (DSUtils.EasyReader reader = new DSUtils.EasyReader(path + "\\" + i.ToString("D4"), 0x38)) {
+        string path = RomInfo.GetBuildingModelsDirPath(interior) + "\\" + i.ToString("D4");
+        using (DSUtils.EasyReader reader = new DSUtils.EasyReader(path, 0x38)) {
           string nsbmdName = Encoding.UTF8.GetString(reader.ReadBytes(16)).TrimEnd();
           names.Add(nsbmdName);
         }
@@ -428,9 +426,11 @@ namespace DSPRE.Editors {
 
       for (int i = 0; i < currentMapFile.buildings.Count; i++) {
         currentMapFile.buildings[i].LoadModelData(interiorbldRadioButton.Checked); // Load building nsbmd
-        Helpers.MW_LoadModelTextures(currentMapFile.buildings[i].NSBMDFile, RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir, buildTextureComboBox.SelectedIndex - 1); // Load building textures                
+        string path = RomInfo.buildingTextures;
+        Helpers.MW_LoadModelTextures(currentMapFile.buildings[i].NSBMDFile, path, buildTextureComboBox.SelectedIndex - 1); // Load building textures                
       }
 
+      /* Render the map */
       Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
       MessageBox.Show("Buildings imported successfully!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
@@ -480,7 +480,8 @@ namespace DSPRE.Editors {
       /* Load buildings nsbmd and textures for renderer into MapFile's building objects */
       for (int i = 0; i < currentMapFile.buildings.Count; i++) {
         currentMapFile.buildings[i].LoadModelData(interiorbldRadioButton.Checked); // Load building nsbmd
-        Helpers.MW_LoadModelTextures(currentMapFile.buildings[i].NSBMDFile, RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir, buildTextureComboBox.SelectedIndex - 1); // Load building textures                
+        string path = RomInfo.buildingTextures;
+        Helpers.MW_LoadModelTextures(currentMapFile.buildings[i].NSBMDFile, path, buildTextureComboBox.SelectedIndex - 1); // Load building textures                
       }
 
       /* Render the map */
@@ -499,7 +500,8 @@ namespace DSPRE.Editors {
 
       currentMapFile.buildings[buildingsListBox.SelectedIndex].modelID = (uint)buildIndexComboBox.SelectedIndex;
       currentMapFile.buildings[buildingsListBox.SelectedIndex].LoadModelData(interiorbldRadioButton.Checked);
-      Helpers.MW_LoadModelTextures(currentMapFile.buildings[buildingsListBox.SelectedIndex].NSBMDFile, RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir, buildTextureComboBox.SelectedIndex - 1);
+      string path = RomInfo.buildingTextures;
+      Helpers.MW_LoadModelTextures(currentMapFile.buildings[buildingsListBox.SelectedIndex].NSBMDFile, path, buildTextureComboBox.SelectedIndex - 1);
 
       Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
     }
@@ -536,7 +538,8 @@ namespace DSPRE.Editors {
 
       /* Load new building's model and textures for the renderer */
       b.LoadModelData(interiorbldRadioButton.Checked);
-      Helpers.MW_LoadModelTextures(b.NSBMDFile, RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir, buildTextureComboBox.SelectedIndex - 1);
+      string path = RomInfo.buildingTextures;
+      Helpers.MW_LoadModelTextures(b.NSBMDFile, path, buildTextureComboBox.SelectedIndex - 1);
       currentMapFile.buildings[currentMapFile.buildings.Count - 1] = b;
 
       /* Add new entry to buildings ListBox */
@@ -1153,7 +1156,7 @@ namespace DSPRE.Editors {
     }
 
     private void daeExportButton_Click(object sender, EventArgs e) {
-      string path = RomInfo.gameDirs[DirNames.mapTextures].unpackedDir + "\\" + (mapTextureComboBox.SelectedIndex - 1).ToString("D4");
+      string path = RomInfo.mapTextures + "\\" + (mapTextureComboBox.SelectedIndex - 1).ToString("D4");
       DSUtils.ModelToDAE(
         modelName: selectMapComboBox.SelectedItem.ToString().TrimEnd('\0'),
         modelData: currentMapFile.mapModelData,
@@ -1172,7 +1175,8 @@ namespace DSPRE.Editors {
       currentMapFile.LoadMapModel(DSUtils.ReadFromFile(im.FileName));
 
       if (mapTextureComboBox.SelectedIndex > 0) {
-        Helpers.MW_LoadModelTextures(currentMapFile.mapModel, RomInfo.gameDirs[DirNames.mapTextures].unpackedDir, mapTextureComboBox.SelectedIndex - 1);
+        string path = RomInfo.mapTextures;
+        Helpers.MW_LoadModelTextures(currentMapFile.mapModel, path, mapTextureComboBox.SelectedIndex - 1);
       }
 
       Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
@@ -1208,7 +1212,7 @@ namespace DSPRE.Editors {
           return;
         }
 
-        string texturePath = RomInfo.gameDirs[DirNames.mapTextures].unpackedDir + "\\" + (mapTextureComboBox.SelectedIndex - 1).ToString("D4");
+        string texturePath = RomInfo.mapTextures + "\\" + (mapTextureComboBox.SelectedIndex - 1).ToString("D4");
         byte[] texturesToEmbed = File.ReadAllBytes(texturePath);
         modelToWrite = DSUtils.BuildNSBMDwithTextures(currentMapFile.mapModelData, texturesToEmbed);
       }
@@ -1228,7 +1232,7 @@ namespace DSPRE.Editors {
 
     private void bdhcImportButton_Click(object sender, EventArgs e) {
       OpenFileDialog it = new OpenFileDialog() {
-        Filter = RomInfo.gameFamily == GameFamilies.DP ? MapFile.BDHCFilter : MapFile.BDHCamFilter
+        Filter = RomInfo.gameFamily == RomInfo.GameFamilies.DP ? MapFile.BDHCFilter : MapFile.BDHCamFilter
       };
 
       if (it.ShowDialog(this) != DialogResult.OK) {
@@ -1243,7 +1247,7 @@ namespace DSPRE.Editors {
     private void bdhcExportButton_Click(object sender, EventArgs e) {
       SaveFileDialog sf = new SaveFileDialog {
         FileName = selectMapComboBox.SelectedItem.ToString(),
-        Filter = RomInfo.gameFamily == GameFamilies.DP ? MapFile.BDHCFilter : MapFile.BDHCamFilter
+        Filter = RomInfo.gameFamily == RomInfo.GameFamilies.DP ? MapFile.BDHCFilter : MapFile.BDHCamFilter
       };
 
       if (sf.ShowDialog(this) != DialogResult.OK) {
@@ -1366,14 +1370,16 @@ namespace DSPRE.Editors {
 
       /* Load map textures for renderer */
       if (mapTextureComboBox.SelectedIndex > 0) {
-        Helpers.MW_LoadModelTextures(currentMapFile.mapModel, RomInfo.gameDirs[DirNames.mapTextures].unpackedDir, mapTextureComboBox.SelectedIndex - 1);
+        string path = RomInfo.mapTextures;
+        Helpers.MW_LoadModelTextures(currentMapFile.mapModel, path, mapTextureComboBox.SelectedIndex - 1);
       }
 
       /* Load buildings nsbmd and textures for renderer into MapFile's building objects */
       for (int i = 0; i < currentMapFile.buildings.Count; i++) {
         currentMapFile.buildings[i].LoadModelData(interiorbldRadioButton.Checked); // Load building nsbmd
         if (buildTextureComboBox.SelectedIndex > 0) {
-          Helpers.MW_LoadModelTextures(currentMapFile.buildings[i].NSBMDFile, RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir, buildTextureComboBox.SelectedIndex - 1); // Load building textures                
+          string path = RomInfo.buildingTextures;
+          Helpers.MW_LoadModelTextures(currentMapFile.buildings[i].NSBMDFile, path, buildTextureComboBox.SelectedIndex - 1); // Load building textures                
         }
       }
 
@@ -1406,7 +1412,7 @@ namespace DSPRE.Editors {
       modelSizeLBL.Text = currentMapFile.mapModelData.Length.ToString() + " B";
       terrainSizeLBL.Text = currentMapFile.bdhc.Length.ToString() + " B";
 
-      if (RomInfo.gameFamily == GameFamilies.HGSS) {
+      if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
         BGSSizeLBL.Text = currentMapFile.bgs.Length.ToString() + " B";
       }
     }
@@ -1421,7 +1427,7 @@ namespace DSPRE.Editors {
       else {
         mapTexturesOn = true;
 
-        string texturePath = RomInfo.gameDirs[DirNames.mapTextures].unpackedDir + "\\" + (mapTextureComboBox.SelectedIndex - 1).ToString("D4");
+        string texturePath = RomInfo.mapTextures + "\\" + (mapTextureComboBox.SelectedIndex - 1).ToString("D4");
         currentMapFile.mapModel.materials = NSBTXLoader.LoadNsbtx(new MemoryStream(File.ReadAllBytes(texturePath)), out currentMapFile.mapModel.Textures, out currentMapFile.mapModel.Palettes);
         try {
           currentMapFile.mapModel.MatchTextures();
@@ -1444,7 +1450,7 @@ namespace DSPRE.Editors {
         bldTexturesOn = false;
       }
       else {
-        string texturePath = RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir + "\\" + (btIndex - 1).ToString("D4");
+        string texturePath = RomInfo.buildingTextures + "\\" + (btIndex - 1).ToString("D4");
         byte[] textureFile = File.ReadAllBytes(texturePath);
 
         Stream str = new MemoryStream(textureFile);
@@ -1705,7 +1711,7 @@ namespace DSPRE.Editors {
       DialogResult d = MessageBox.Show("Are you sure you want to delete the last Map BIN File?", "Confirm deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
       if (d.Equals(DialogResult.Yes)) {
         /* Delete last map file */
-        string path = RomInfo.gameDirs[DirNames.maps].unpackedDir + "\\" + (selectMapComboBox.Items.Count - 1).ToString("D4");
+        string path = RomInfo.maps + "\\" + (selectMapComboBox.Items.Count - 1).ToString("D4");
         File.Delete(path);
 
         /* Check if currently selected file is the last one, and in that case select the one before it */
@@ -1734,13 +1740,13 @@ namespace DSPRE.Editors {
         return;
       }
       else {
-        if (RomInfo.gameFamily == GameFamilies.HGSS) {
+        if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
           //If HGSS didn't work try reading as Platinum Map
-          temp = new MapFile(of.FileName, GameFamilies.Plat, false);
+          temp = new MapFile(of.FileName, RomInfo.GameFamilies.Plat, false);
         }
         else {
           //If Plat didn't work try reading as HGSS Map
-          temp = new MapFile(of.FileName, GameFamilies.HGSS, false);
+          temp = new MapFile(of.FileName, RomInfo.GameFamilies.HGSS, false);
         }
 
         if (temp.correctnessFlag) {
@@ -1774,7 +1780,7 @@ namespace DSPRE.Editors {
     }
 
     private void locateCurrentMapBin_Click(object sender, EventArgs e) {
-      string path = Path.Combine(gameDirs[DirNames.maps].unpackedDir, selectMapComboBox.SelectedIndex.ToString("D4"));
+      string path = Path.Combine(RomInfo.maps, selectMapComboBox.SelectedIndex.ToString("D4"));
       Helpers.ExplorerSelect(path);
     }
   }

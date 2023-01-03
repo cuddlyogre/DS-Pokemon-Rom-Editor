@@ -9,7 +9,6 @@ using Tao.OpenGl;
 using LibNDSFormats.NSBMD;
 using LibNDSFormats.NSBTX;
 using DSPRE.ROMFiles;
-using static DSPRE.RomInfo;
 using Images;
 using Ekona.Images;
 using ScintillaNET;
@@ -80,10 +79,9 @@ namespace DSPRE {
       TextArchive trainerClasses = new TextArchive(RomInfo.trainerClassMessageNumber);
       TextArchive trainerNames = new TextArchive(RomInfo.trainerNamesMessageNumber);
 
-      int trainerCount = Directory.GetFiles(RomInfo.gameDirs[DirNames.trainerProperties].unpackedDir).Length;
-
+      int trainerCount = RomInfo.GetTrainerPropertiesCount();
       for (int i = 0; i < trainerCount; i++) {
-        string path = RomInfo.gameDirs[DirNames.trainerProperties].unpackedDir + "\\" + i.ToString("D4");
+        string path = RomInfo.trainerProperties + "\\" + i.ToString("D4");
         int classMessageID = BitConverter.ToUInt16(DSUtils.ReadFromFile(path, startOffset: 1, 2), 0);
         string currentTrainerName;
 
@@ -229,16 +227,16 @@ namespace DSPRE {
     }
 
     public static Image GetPokePic(int species, int w, int h, PaletteBase paletteBase, ImageBase imageBase, SpriteBase spriteBase) {
-      bool fiveDigits = false; // some extreme future proofing
-      string filename = "0000";
+      string filename = 0.ToString("D4");
 
+      bool fiveDigits = false; // some extreme future proofing
       try {
-        string path = gameDirs[DirNames.monIcons].unpackedDir + "\\" + filename;
+        string path = RomInfo.monIcons + "\\" + filename;
         paletteBase = new NCLR(path, 0, filename);
       }
       catch (FileNotFoundException) {
         filename += '0';
-        string path = gameDirs[DirNames.monIcons].unpackedDir + "\\" + filename;
+        string path = RomInfo.monIcons + "\\" + filename;
         paletteBase = new NCLR(path, 0, filename);
         fiveDigits = true;
       }
@@ -248,13 +246,13 @@ namespace DSPRE {
       byte[] iconPalTableBuf;
 
       switch (RomInfo.gameFamily) {
-        case GameFamilies.DP:
+        case RomInfo.GameFamilies.DP:
           iconPalTableBuf = DSUtils.ARM9.ReadBytes(0x6B838, 4);
           break;
-        case GameFamilies.Plat:
+        case RomInfo.GameFamilies.Plat:
           iconPalTableBuf = DSUtils.ARM9.ReadBytes(0x79F80, 4);
           break;
-        case GameFamilies.HGSS:
+        case RomInfo.GameFamilies.HGSS:
         default:
           iconPalTableBuf = DSUtils.ARM9.ReadBytes(0x74408, 4);
           break;
@@ -284,15 +282,27 @@ namespace DSPRE {
 
       // grab tiles
       int spriteFileID = species + 7;
-      string spriteFilename = spriteFileID.ToString("D" + (fiveDigits ? "5" : "4"));
-      string path1 = gameDirs[DirNames.monIcons].unpackedDir + "\\" + spriteFilename;
+      string spriteFilename;
+      if (fiveDigits) {
+        spriteFilename = spriteFileID.ToString("D5"); 
+      }
+      else {
+        spriteFilename = spriteFileID.ToString("D4"); 
+      }
+      string path1 = RomInfo.monIcons + "\\" + spriteFilename;
       imageBase = new NCGR(path1, spriteFileID, spriteFilename);
 
       // grab sprite
       int ncerFileId = 2;
-      string ncerFileName = ncerFileId.ToString("D" + (fiveDigits ? "5" : "4"));
-      string path2 = gameDirs[DirNames.monIcons].unpackedDir + "\\" + ncerFileName;
-      spriteBase = new NCER(path2, 2, ncerFileName);
+      string ncerFileName;
+      if (fiveDigits) {
+        ncerFileName = ncerFileId.ToString("D5"); 
+      }
+      else {
+        ncerFileName = ncerFileId.ToString("D4"); 
+      }
+      string path2 = RomInfo.monIcons + "\\" + ncerFileName;
+      spriteBase = new NCER(path2, ncerFileId, ncerFileName);
 
       // copy this from the trainer
       int bank0OAMcount = spriteBase.Banks[0].oams.Length;
@@ -333,7 +343,7 @@ namespace DSPRE {
       List<string> headerListBoxNames = new List<string>();
       List<string> internalNames = new List<string>();
 
-      int headerCount = GetHeaderCount();
+      int headerCount = RomInfo.GetHeaderCount();
 
       using (DSUtils.EasyReader reader = new DSUtils.EasyReader(RomInfo.internalNamesLocation)) {
         for (int i = 0; i < headerCount; i++) {
@@ -351,13 +361,13 @@ namespace DSPRE {
     public static void OpenWildEditor(int encToOpen = 0) {
       Helpers.statusLabelMessage("Attempting to extract Wild Encounters NARC...");
 
-      DSUtils.TryUnpackNarcs(new List<DirNames>() { DirNames.encounters, DirNames.monIcons });
+      DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames>() { RomInfo.DirNames.encounters, RomInfo.DirNames.monIcons });
 
       Helpers.statusLabelMessage("Passing control to Wild Pokémon Editor...");
 
       switch (RomInfo.gameFamily) {
-        case GameFamilies.DP:
-        case GameFamilies.Plat:
+        case RomInfo.GameFamilies.DP:
+        case RomInfo.GameFamilies.Plat:
           using (WildEditorDPPt editor = new WildEditorDPPt(encToOpen))
             editor.ShowDialog();
           break;

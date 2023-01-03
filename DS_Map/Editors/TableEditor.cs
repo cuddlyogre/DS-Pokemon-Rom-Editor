@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using DSPRE.ROMFiles;
-using static DSPRE.RomInfo;
 using Ekona.Images;
 
 namespace DSPRE.Editors {
@@ -37,7 +36,7 @@ namespace DSPRE.Editors {
       tableEditorIsReady = true;
 
       switch (RomInfo.gameFamily) {
-        case GameFamilies.HGSS:
+        case RomInfo.GameFamilies.HGSS:
           RomInfo.SetConditionalMusicTableOffsetToRAMAddress();
           conditionalMusicTable = new List<(ushort, ushort, ushort)>();
 
@@ -67,7 +66,7 @@ namespace DSPRE.Editors {
 
           break;
 
-        case GameFamilies.Plat:
+        case RomInfo.GameFamilies.Plat:
           pbEffectsMonGroupBox.Enabled = false;
           pbEffectsTrainerGroupBox.Enabled = false;
           break;
@@ -84,8 +83,8 @@ namespace DSPRE.Editors {
     }
 
     public void SetupBattleEffectsTables() {
-      if (RomInfo.gameFamily == GameFamilies.HGSS || RomInfo.gameFamily == GameFamilies.Plat) {
-        DSUtils.TryUnpackNarcs(new List<DirNames> { DirNames.trainerGraphics, DirNames.textArchives });
+      if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS || RomInfo.gameFamily == RomInfo.GameFamilies.Plat) {
+        DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames> { RomInfo.DirNames.trainerGraphics, RomInfo.DirNames.textArchives });
         RomInfo.SetBattleEffectsData();
 
         effectsComboTable = new List<(ushort vsGraph, ushort battleSSEQ)>();
@@ -96,7 +95,7 @@ namespace DSPRE.Editors {
 
         byte comboTableEntriesCount;
 
-        if (RomInfo.gameFamily == GameFamilies.HGSS) {
+        if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
           comboTableEntriesCount = DSUtils.ARM9.ReadByte(RomInfo.effectsComboTableOffsetToSizeLimiter);
 
           vsPokemonEffectsList = new List<(int pokemonID, int comboID)>();
@@ -129,7 +128,7 @@ namespace DSPRE.Editors {
 
         String expArmPath = RomInfo.expArmPath;
 
-        if (RomInfo.gameFamily == GameFamilies.HGSS) {
+        if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
           using (DSUtils.EasyReader ar = new DSUtils.EasyReader(ROMToolboxDialog.flag_TrainerClassBattleTableRepointed ? expArmPath : RomInfo.arm9Path, vsTrainerTableStartAddress)) {
             byte trainerTableEntriesCount = DSUtils.ARM9.ReadByte(RomInfo.vsTrainerEntryTableOffsetToSizeLimiter);
 
@@ -173,7 +172,7 @@ namespace DSPRE.Editors {
           }
         }
 
-        if (RomInfo.gameFamily == GameFamilies.HGSS) {
+        if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
           var items = pbEffectsCombosListbox.Items.Cast<Object>().ToArray();
 
           pbEffectsPokemonChooseMainCombobox.Items.Clear();
@@ -248,13 +247,13 @@ namespace DSPRE.Editors {
 
       MapHeader selected = MapHeader.LoadFromARM9(newTuple.header);
       switch (RomInfo.gameFamily) {
-        case GameFamilies.DP:
+        case RomInfo.GameFamilies.DP:
           locationNameConditionalMusicLBL.Text = RomInfo.GetLocationNames()[(selected as HeaderDP).locationName];
           break;
-        case GameFamilies.Plat:
+        case RomInfo.GameFamilies.Plat:
           locationNameConditionalMusicLBL.Text = RomInfo.GetLocationNames()[(selected as HeaderPt).locationName];
           break;
-        case GameFamilies.HGSS:
+        case RomInfo.GameFamilies.HGSS:
           locationNameConditionalMusicLBL.Text = RomInfo.GetLocationNames()[(selected as HeaderHGSS).locationName];
           break;
       }
@@ -274,7 +273,7 @@ namespace DSPRE.Editors {
 
     private void HOWpbEffectsTableButton_Click(object sender, EventArgs e) {
       MessageBox.Show("An entry of this table is a combination of VS. Graphics + Battle Theme.\n\n" +
-                      (RomInfo.gameFamily.Equals(GameFamilies.HGSS) ? "Each entry can be \"inherited\" by one or more Pokémon or Trainer classes." : ""),
+                      (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.HGSS) ? "Each entry can be \"inherited\" by one or more Pokémon or Trainer classes." : ""),
         "How this table works", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
 

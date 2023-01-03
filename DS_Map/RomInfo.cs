@@ -65,11 +65,89 @@ namespace DSPRE {
         public static Dictionary<ushort, string> ScriptComparisonOperatorsDict { get; private set; }
         public static Dictionary<string, ushort> ScriptComparisonOperatorsReverseDict { get; private set; }
 
-        public static string expArmPath {
-            get {
-                return RomInfo.gameDirs[DirNames.synthOverlay].unpackedDir + "\\" + ROMToolboxDialog.expandedARMfileID.ToString("D4");
+        public static string eventFiles { get { return RomInfo.gameDirs[DirNames.eventFiles].unpackedDir; } }
+        public static string OWSprites { get { return RomInfo.gameDirs[DirNames.OWSprites].unpackedDir; } }
+        public static string mapTextures { get { return RomInfo.gameDirs[DirNames.mapTextures].unpackedDir; } }
+        public static string buildingTextures { get { return RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir; } }
+        public static string dynamicHeaders { get { return RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir; } }
+        public static string dynamicHeadersPacked { get { return RomInfo.gameDirs[DirNames.dynamicHeaders].packedDir; } }
+        public static string scripts { get { return RomInfo.gameDirs[DirNames.scripts].unpackedDir; } }
+        public static string maps { get { return RomInfo.gameDirs[DirNames.maps].unpackedDir; } }
+        public static string matrices { get { return RomInfo.gameDirs[DirNames.matrices].unpackedDir; } }
+        public static string buildingConfigFiles { get { return RomInfo.gameDirs[DirNames.buildingConfigFiles].unpackedDir; } }
+        public static string areaData { get { return RomInfo.gameDirs[DirNames.areaData].unpackedDir; } }
+        public static string textArchives { get { return RomInfo.gameDirs[DirNames.textArchives].unpackedDir; } }
+        public static string trainerProperties { get { return RomInfo.gameDirs[DirNames.trainerProperties].unpackedDir; } }
+        public static string trainerParty { get { return RomInfo.gameDirs[DirNames.trainerParty].unpackedDir; } }
+        public static string trainerGraphics { get { return RomInfo.gameDirs[DirNames.trainerGraphics].unpackedDir; } }
+        public static string encounters { get { return RomInfo.gameDirs[DirNames.encounters].unpackedDir; } }
+        public static string headbutt { get { return RomInfo.gameDirs[DirNames.headbutt].unpackedDir; } }
+        public static string monIcons { get { return RomInfo.gameDirs[DirNames.monIcons].unpackedDir; } }
+        public static string synthOverlay { get { return RomInfo.gameDirs[DirNames.synthOverlay].unpackedDir; } }
+        public static string interiorBuildingModels { get { return RomInfo.gameDirs[DirNames.interiorBuildingModels].unpackedDir; } }
+        public static string exteriorBuildingModels { get { return RomInfo.gameDirs[DirNames.exteriorBuildingModels].unpackedDir; } }
+        public static string expArmPath { get {  return RomInfo.synthOverlay + "\\" + ROMToolboxDialog.expandedARMfileID.ToString("D4"); } }
+
+        public static string GetBuildingModelsDirPath(bool interior) {
+            if (interior) {
+                return RomInfo.interiorBuildingModels;
             }
-        } 
+            else {
+                return RomInfo.exteriorBuildingModels;
+            }
+        }
+
+        public static int GetBuildingCount(bool interior) {
+            return Directory.GetFiles(RomInfo.GetBuildingModelsDirPath(interior)).Length;
+        }
+
+        public static string[] GetAreaData() {
+            return Directory.GetFiles(RomInfo.areaData);
+        }
+        
+        public static int GetAreaDataCount() {
+            return Directory.GetFiles(RomInfo.areaData).Length;
+        }
+
+        public static int GetMapTexturesCount() {
+            return Directory.GetFiles(RomInfo.mapTextures).Length;
+        }
+
+        public static int GetBuildingTexturesCount() {
+            return Directory.GetFiles(buildingTextures).Length;
+        }
+
+        public static int GetMatrixCount() {
+            return Directory.GetFiles(RomInfo.matrices).Length;
+        }
+
+        public static int GetTextArchivesCount() {
+            return Directory.GetFiles(RomInfo.textArchives).Length;
+        }
+
+        public static int GetMapCount() {
+            return Directory.GetFiles(RomInfo.maps).Length;
+        }
+
+        public static int GetScriptCount() {
+            return Directory.GetFiles(RomInfo.scripts).Length;
+        }
+
+        public static int GetEventFileCount() {
+            return Directory.GetFiles(RomInfo.eventFiles).Length;
+        }
+
+        public static int GetTrainerPropertiesCount() {
+            return Directory.GetFiles(RomInfo.trainerProperties).Length;
+        }
+
+        public static int GetDynamicHeadersCount() {
+            return Directory.GetFiles(RomInfo.dynamicHeaders).Length;
+        }
+
+        public static int GetEncountersCount() {
+            return Directory.GetFiles(RomInfo.encounters).Length;
+        }
 
         public enum GameVersions : byte {
             Diamond, Pearl, Platinum,
@@ -133,7 +211,8 @@ namespace DSPRE {
                 folderSuffix = "";
             }
 
-            workDir = Path.GetDirectoryName(romName) + "\\" + Path.GetFileNameWithoutExtension(romName) + folderSuffix + "\\";
+            string path = Path.GetDirectoryName(romName) + "\\" + Path.GetFileNameWithoutExtension(romName) + folderSuffix + "\\";
+            workDir = path;
             arm9Path = workDir + @"arm9.bin";
             overlayTablePath = workDir + @"y9.bin";
             overlayPath = workDir + "overlay";
@@ -765,7 +844,6 @@ namespace DSPRE {
             }
         }
 
-        public static string GetBuildingModelsDirPath(bool interior) => interior ? gameDirs[DirNames.interiorBuildingModels].unpackedDir : gameDirs[DirNames.exteriorBuildingModels].unpackedDir;
         public string GetRomNameFromWorkdir() => workDir.Substring(0, workDir.Length - folderSuffix.Length - 1);
         public static int GetHeaderCount() => (int)new FileInfo(internalNamesLocation).Length / internalNameLength;
         public static List<string> GetLocationNames() => new TextArchive(locationNamesTextNumber).messages;
@@ -778,17 +856,7 @@ namespace DSPRE {
         }
         public static string[] GetPokemonNames() => new TextArchive(pokemonNamesTextNumbers[0]).messages.ToArray();
         public static string[] GetAttackNames() => new TextArchive(attackNamesTextNumber).messages.ToArray();
-        public int GetAreaDataCount() => Directory.GetFiles(gameDirs[DirNames.areaData].unpackedDir).Length;
-        public int GetMapTexturesCount() => Directory.GetFiles(gameDirs[DirNames.mapTextures].unpackedDir).Length;
-        public int GetBuildingTexturesCount() => Directory.GetFiles(gameDirs[DirNames.buildingTextures].unpackedDir).Length;
-        public int GetMatrixCount() => Directory.GetFiles(gameDirs[DirNames.matrices].unpackedDir).Length;
-        public int GetTextArchivesCount() => Directory.GetFiles(gameDirs[DirNames.textArchives].unpackedDir).Length;
-        public int GetMapCount() => Directory.GetFiles(gameDirs[DirNames.maps].unpackedDir).Length;
-        public int GetEventCount() => Directory.GetFiles(gameDirs[DirNames.eventFiles].unpackedDir).Length;
-        public int GetScriptCount() => Directory.GetFiles(gameDirs[DirNames.scripts].unpackedDir).Length;
-        public int GetBuildingCount(bool interior) => Directory.GetFiles(GetBuildingModelsDirPath(interior)).Length;
-        public static int GetEventFileCount() => Directory.GetFiles(RomInfo.gameDirs[DirNames.eventFiles].unpackedDir).Length;
-#endregion
+        #endregion
 
 #region System Methods
         private void LoadGameLanguage() {
@@ -965,7 +1033,8 @@ namespace DSPRE {
 
             gameDirs = new Dictionary<DirNames, (string packedDir, string unpackedDir)>();
             foreach (KeyValuePair<DirNames, string> kvp in packedDirsDict) {
-                gameDirs.Add(kvp.Key, (workDir + kvp.Value, workDir + @"unpacked" + "\\" + kvp.Key.ToString()));
+                string path = workDir + @"unpacked" + "\\" + kvp.Key.ToString();
+                gameDirs.Add(kvp.Key, (workDir + kvp.Value, path));
             }
         }
         public void ResetMapCellsColorDictionary() {

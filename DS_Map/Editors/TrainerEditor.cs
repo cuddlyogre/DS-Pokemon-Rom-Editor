@@ -5,7 +5,6 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using DSPRE.ROMFiles;
-using static DSPRE.RomInfo;
 using Images;
 using Ekona.Images;
 
@@ -44,12 +43,12 @@ namespace DSPRE.Editors {
       Helpers.statusLabelMessage("Setting up Trainer Editor...");
       Update();
 
-      DSUtils.TryUnpackNarcs(new List<DirNames> {
-        DirNames.trainerProperties,
-        DirNames.trainerParty,
-        DirNames.trainerGraphics,
-        DirNames.textArchives,
-        DirNames.monIcons
+      DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames> {
+        RomInfo.DirNames.trainerProperties,
+        RomInfo.DirNames.trainerParty,
+        RomInfo.DirNames.trainerGraphics,
+        RomInfo.DirNames.textArchives,
+        RomInfo.DirNames.monIcons
       });
 
       partyPokemonComboboxList.Clear();
@@ -124,7 +123,7 @@ namespace DSPRE.Editors {
       partyPokemonItemIconList.Add(partyPokemonItemPictureBox5);
       partyPokemonItemIconList.Add(partyPokemonItemPictureBox6);
 
-      int trainerCount = Directory.GetFiles(RomInfo.gameDirs[DirNames.trainerProperties].unpackedDir).Length;
+      int trainerCount = RomInfo.GetTrainerPropertiesCount();
       trainerComboBox.Items.Clear();
       trainerComboBox.Items.AddRange(Helpers.GetTrainerNames());
 
@@ -183,7 +182,7 @@ namespace DSPRE.Editors {
 
       uint entrySize = 4;
       uint tableSizeOffset = 10;
-      if (gameFamily == GameFamilies.HGSS) {
+      if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
         entrySize += 2;
         tableSizeOffset += 2;
         encounterSSEQAltUpDown.Enabled = true;
@@ -195,7 +194,7 @@ namespace DSPRE.Editors {
           uint entryOffset = (uint)ar.BaseStream.Position;
           byte tclass = (byte)ar.ReadUInt16();
           ushort musicD = ar.ReadUInt16();
-          ushort? musicN = gameFamily == GameFamilies.HGSS ? ar.ReadUInt16() : (ushort?)null;
+          ushort? musicN = RomInfo.gameFamily == RomInfo.GameFamilies.HGSS ? ar.ReadUInt16() : (ushort?)null;
           trainerClassEncounterMusicDict[tclass] = (entryOffset, musicD, musicN);
         }
       }
@@ -241,9 +240,10 @@ namespace DSPRE.Editors {
       }
 
       /*Write to File*/
-      string indexStr = "\\" + trainerComboBox.SelectedIndex.ToString("D4");
-      File.WriteAllBytes(RomInfo.gameDirs[DirNames.trainerProperties].unpackedDir + indexStr, currentTrainerFile.trp.ToByteArray());
-      File.WriteAllBytes(RomInfo.gameDirs[DirNames.trainerParty].unpackedDir + indexStr, currentTrainerFile.party.ToByteArray());
+      string path = RomInfo.trainerProperties + "\\" + trainerComboBox.SelectedIndex.ToString("D4");
+      File.WriteAllBytes(path, currentTrainerFile.trp.ToByteArray());
+      string path1 = RomInfo.trainerParty + "\\" + trainerComboBox.SelectedIndex.ToString("D4");
+      File.WriteAllBytes(path1, currentTrainerFile.party.ToByteArray());
 
       UpdateCurrentTrainerName(newName: trainerNameTextBox.Text);
       UpdateCurrentTrainerShownName();
@@ -291,17 +291,18 @@ namespace DSPRE.Editors {
       Helpers.DisableHandlers();
 
       int currentIndex = trainerComboBox.SelectedIndex;
-      string suffix = "\\" + currentIndex.ToString("D4");
       string[] trNames = RomInfo.GetSimpleTrainerNames();
 
       bool error = currentIndex >= trNames.Length;
 
+      string path = RomInfo.trainerProperties + "\\" + currentIndex.ToString("D4");
+      string path1 = RomInfo.trainerParty + "\\" + currentIndex.ToString("D4");
       currentTrainerFile = new TrainerFile(
         new TrainerProperties(
           (ushort)trainerComboBox.SelectedIndex,
-          new FileStream(RomInfo.gameDirs[DirNames.trainerProperties].unpackedDir + suffix, FileMode.Open)
+          new FileStream(path, FileMode.Open)
         ),
-        new FileStream(RomInfo.gameDirs[DirNames.trainerParty].unpackedDir + suffix, FileMode.Open),
+        new FileStream(path1, FileMode.Open),
         error ? TrainerFile.NAME_NOT_FOUND : trNames[currentIndex]
       );
 
@@ -394,21 +395,21 @@ namespace DSPRE.Editors {
     public int LoadTrainerClassPic(int trClassID) {
       int paletteFileID = (trClassID * 5 + 1);
       string paletteFilename = paletteFileID.ToString("D4");
-      string path = gameDirs[DirNames.trainerGraphics].unpackedDir + "\\" + paletteFilename;
+      string path = RomInfo.trainerGraphics + "\\" + paletteFilename;
       trainerPal = new NCLR(path, paletteFileID, paletteFilename);
 
       int tilesFileID = trClassID * 5;
       string tilesFilename = tilesFileID.ToString("D4");
-      string path2 = gameDirs[DirNames.trainerGraphics].unpackedDir + "\\" + tilesFilename;
+      string path2 = RomInfo.trainerGraphics + "\\" + tilesFilename;
       trainerTile = new NCGR(path2, tilesFileID, tilesFilename);
 
-      if (gameFamily == GameFamilies.DP) {
+      if (RomInfo.gameFamily == RomInfo.GameFamilies.DP) {
         return 0;
       }
 
       int spriteFileID = (trClassID * 5 + 2);
       string spriteFilename = spriteFileID.ToString("D4");
-      string path3 = gameDirs[DirNames.trainerGraphics].unpackedDir + "\\" + spriteFilename;
+      string path3 = RomInfo.trainerGraphics + "\\" + spriteFilename;
       trainerSprite = new NCER(path3, spriteFileID, spriteFilename);
 
       return trainerSprite.Banks.Length - 1;
@@ -460,7 +461,7 @@ namespace DSPRE.Editors {
         encounterSSEQMainUpDown.Value = 0;
       }
 
-      eyeContactMusicAltLabel.Enabled = encounterSSEQAltUpDown.Enabled = (encounterSSEQMainUpDown.Enabled && gameFamily == GameFamilies.HGSS);
+      eyeContactMusicAltLabel.Enabled = encounterSSEQAltUpDown.Enabled = (encounterSSEQMainUpDown.Enabled && RomInfo.gameFamily == RomInfo.GameFamilies.HGSS);
       encounterSSEQAltUpDown.Value = output.musicN != null ? (ushort)output.musicN : 0;
       currentTrainerFile.trp.trainerClass = (byte)selection;
     }
@@ -499,7 +500,7 @@ namespace DSPRE.Editors {
       Helpers.EnableHandlers();
 
       //trainerClassListBox_SelectedIndexChanged(null, null);
-      if (gameFamily.Equals(GameFamilies.HGSS) && EditorPanels.tableEditor.tableEditorIsReady) {
+      if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.HGSS) && EditorPanels.tableEditor.tableEditorIsReady) {
         EditorPanels.tableEditor.pbEffectsTrainerCombobox.Items[selectedTrClass] = trainerClassListBox.Items[selectedTrClass];
         for (int i = 0; i < EditorPanels.tableEditor.vsTrainerEffectsList.Count; i++) {
           if (EditorPanels.tableEditor.vsTrainerEffectsList[i].trainerClass == selectedTrClass) {
@@ -591,8 +592,8 @@ namespace DSPRE.Editors {
       /* Add new trainer file to 2 folders */
       string suffix = "\\" + trainerComboBox.Items.Count.ToString("D4");
 
-      string trainerPropertiesPath = gameDirs[DirNames.trainerProperties].unpackedDir + suffix;
-      string partyFilePath = gameDirs[DirNames.trainerParty].unpackedDir + suffix;
+      string trainerPropertiesPath = RomInfo.trainerProperties + suffix;
+      string partyFilePath = RomInfo.trainerParty + suffix;
 
       File.WriteAllBytes(trainerPropertiesPath, new TrainerProperties((ushort)trainerComboBox.Items.Count).ToByteArray());
       File.WriteAllBytes(partyFilePath, new PartyPokemon().ToByteArray());
@@ -639,8 +640,8 @@ namespace DSPRE.Editors {
         byte partySize = reader.ReadByte();
         byte[] pDat = reader.ReadBytes(partySize);
 
-        string pathData = RomInfo.gameDirs[DirNames.trainerProperties].unpackedDir + "\\" + trainerComboBox.SelectedIndex.ToString("D4");
-        string pathParty = RomInfo.gameDirs[DirNames.trainerParty].unpackedDir + "\\" + trainerComboBox.SelectedIndex.ToString("D4");
+        string pathData = RomInfo.trainerProperties + "\\" + trainerComboBox.SelectedIndex.ToString("D4");
+        string pathParty = RomInfo.trainerParty + "\\" + trainerComboBox.SelectedIndex.ToString("D4");
         File.WriteAllBytes(pathData, trDat);
         File.WriteAllBytes(pathParty, pDat);
 

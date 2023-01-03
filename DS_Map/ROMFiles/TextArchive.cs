@@ -6,7 +6,6 @@ using System.Resources;
 using System.Reflection;
 using System.Windows.Forms;
 using DSPRE.Resources;
-using static DSPRE.RomInfo;
 
 namespace DSPRE.ROMFiles {
     /// <summary>
@@ -20,7 +19,7 @@ namespace DSPRE.ROMFiles {
 
         #region Constructors (1)
         public TextArchive(int ID, List<string> msg = null, bool discardLines = false) {
-            string path = RomInfo.gameDirs[DirNames.textArchives].unpackedDir + "\\" + ID.ToString("D4");
+            string path = RomInfo.textArchives + "\\" + ID.ToString("D4");
             FileStream messageStream = new FileStream(path, FileMode.Open);
             LoadFile(messageStream, msg, discardLines);
         }
@@ -342,7 +341,7 @@ namespace DSPRE.ROMFiles {
             return this.ToByteArray(messages);
         }
         public void SaveToFileDefaultDir(int IDtoReplace, bool showSuccessMessage = true) {
-            SaveToFileDefaultDir(DirNames.textArchives, IDtoReplace, showSuccessMessage);
+            SaveToFileDefaultDir(RomInfo.DirNames.textArchives, IDtoReplace, showSuccessMessage);
         }
         public void SaveToFileExplorePath(string suggestedFileName, bool showSuccessMessage = true) {
             SaveToFileExplorePath("Gen IV Text Archive", "msg", suggestedFileName, showSuccessMessage);

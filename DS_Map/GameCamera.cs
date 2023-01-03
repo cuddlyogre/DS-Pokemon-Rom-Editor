@@ -2,7 +2,6 @@
 using System;
 using System.IO;
 using System.Windows.Forms;
-using static DSPRE.RomInfo;
 
 public class GameCamera {
 
@@ -146,7 +145,7 @@ public class GameCamera {
                 nearClip = b.ReadUInt32();
                 farClip = b.ReadUInt32();
 
-                if (RomInfo.gameFamily == GameFamilies.HGSS) {
+                if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
                     xOffset = b.ReadInt32();
                     yOffset = b.ReadInt32();
                     zOffset = b.ReadInt32();

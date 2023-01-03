@@ -6,13 +6,11 @@ using LibNDSFormats.NSBMD;
 using LibNDSFormats.NSBTX;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Tao.OpenGl;
-using static DSPRE.RomInfo;
 
 namespace DSPRE {
     public partial class BuildingEditor : Form {
         #region Variables
         public static string temp_btxname = "BLDtexture.nsbtx";
-        private readonly string folder;
         bool disableHandlers = new bool();
 
         NSBMD currentNSBMD;
@@ -42,7 +40,7 @@ namespace DSPRE {
             buildingOpenGLControl.MouseWheel += new MouseEventHandler(buildingOpenGLControl_MouseWheel);
             Gl.glEnable(Gl.GL_TEXTURE_2D);
 
-            if (RomInfo.gameFamily == GameFamilies.HGSS) {
+            if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
                 interiorCheckBox.Enabled = true;
             }
 
@@ -56,7 +54,8 @@ namespace DSPRE {
 
         #region Subroutines
         private void CreateEmbeddedTexturesFile(int modelID, bool interior) {
-            string readingPath = folder + RomInfo.GetBuildingModelsDirPath(interior) + "\\" + modelID.ToString("D4");
+            string path = RomInfo.GetBuildingModelsDirPath(interior) + "\\" + modelID.ToString("D4");
+            string readingPath = path;
 
             byte[] txFile = File.ReadAllBytes(readingPath);
             byte[] texData = DSUtils.GetTexturesFromTexturedNSBMD(txFile);
@@ -68,18 +67,19 @@ namespace DSPRE {
             DSUtils.WriteToFile(Path.GetTempPath() + temp_btxname, texData, fmode: FileMode.Create);
         }
         private void FillListBox(bool interior) {
-            int modelCount = Directory.GetFiles(folder + RomInfo.GetBuildingModelsDirPath(interior)).Length;
+            int modelCount = RomInfo.GetBuildingCount(interior);
             for (int currentIndex = 0; currentIndex < modelCount; currentIndex++) {
-                string filePath = folder + RomInfo.GetBuildingModelsDirPath(interior) + "\\" + currentIndex.ToString("D4");
+                string path = RomInfo.GetBuildingModelsDirPath(interior) + "\\" + currentIndex.ToString("D4");
 
-                using (DSUtils.EasyReader reader = new DSUtils.EasyReader(filePath, 0x14)) {
+                using (DSUtils.EasyReader reader = new DSUtils.EasyReader(path, 0x14)) {
                     string nsbmdName = DSUtils.ReadNSBMDname(reader);
                     buildingEditorBldListBox.Items.Add("[" + currentIndex.ToString("D3") + "] " + nsbmdName);
                 }
             }
         }
         private void FillTexturesBox() {
-            int texturesCount = Directory.GetFiles(folder + RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir).Length;
+            string path = RomInfo.buildingTextures;
+            int texturesCount = Directory.GetFiles(path).Length;
             textureComboBox.Items.Add("Embedded textures");
 
             for (int i = 0; i < texturesCount; i++) {
@@ -89,8 +89,8 @@ namespace DSPRE {
         private void LoadModelTextures(int fileID) {
             string path;
             if (fileID > -1) {
-                string path1 = RomInfo.gameDirs[RomInfo.DirNames.buildingTextures].unpackedDir + "\\" + fileID.ToString("D4");
-                path = folder + path1;
+                string path1 = RomInfo.buildingTextures + "\\" + fileID.ToString("D4");
+                path = path1;
             } else {
                 path = Path.GetTempPath() + temp_btxname; // Load Embedded textures if the argument passed to this function is -1
             }
@@ -169,7 +169,7 @@ namespace DSPRE {
                 return;
             }
 
-            string path = folder + RomInfo.GetBuildingModelsDirPath(interiorCheckBox.Checked) + "\\" + buildingEditorBldListBox.SelectedIndex.ToString("D4");
+            string path = RomInfo.GetBuildingModelsDirPath(interiorCheckBox.Checked) + "\\" + buildingEditorBldListBox.SelectedIndex.ToString("D4");
 
             currentModelData = File.ReadAllBytes(path);
             currentNSBMD = NSBMDLoader.LoadNSBMD(new MemoryStream(currentModelData));
@@ -187,7 +187,8 @@ namespace DSPRE {
                 return;
             }
 
-            File.Copy(folder + RomInfo.GetBuildingModelsDirPath(interiorCheckBox.Checked) + "\\" + buildingEditorBldListBox.SelectedIndex.ToString("D4"), em.FileName, true);
+            string path = RomInfo.GetBuildingModelsDirPath(interiorCheckBox.Checked) + "\\" + buildingEditorBldListBox.SelectedIndex.ToString("D4");
+            File.Copy(path, em.FileName, true);
         }
         private void importButton_Click(object sender, EventArgs e) {
             OpenFileDialog im = new OpenFileDialog {
@@ -204,7 +205,8 @@ namespace DSPRE {
                 } else {
                     int currentIndex = buildingEditorBldListBox.SelectedIndex;
 
-                    File.Copy(im.FileName, folder + RomInfo.GetBuildingModelsDirPath(interiorCheckBox.Checked) + "\\" + currentIndex.ToString("D4"), true);
+                    string path = RomInfo.GetBuildingModelsDirPath(interiorCheckBox.Checked) + "\\" + currentIndex.ToString("D4");
+                    File.Copy(im.FileName, path, true);
                     buildingEditorBldListBox.Items[currentIndex] = "[" + currentIndex.ToString("D3") + "] " + DSUtils.ReadNSBMDname(reader, 0x14);
                     buildingEditorListBox_SelectedIndexChanged(null, null);
                 }
@@ -273,7 +275,7 @@ namespace DSPRE {
         }
 
         private void bldExportDAEbutton_Click(object sender, EventArgs e) {
-            string path = RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir + "\\" + (textureComboBox.SelectedIndex - 1).ToString("D4");
+            string path = RomInfo.buildingTextures + "\\" + (textureComboBox.SelectedIndex - 1).ToString("D4");
             DSUtils.ModelToDAE(
                 modelName: buildingEditorBldListBox.SelectedItem.ToString().TrimEnd('\0'), 
                 modelData: currentModelData, 

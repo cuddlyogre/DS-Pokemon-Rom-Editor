@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using static DSPRE.RomInfo;
 
 namespace DSPRE.ROMFiles {
     /* ---------------------- WILD POKÉMON DATA STRUCTURE (DPPt):----------------------------
@@ -106,7 +105,7 @@ namespace DSPRE.ROMFiles {
 
         #region Methods (1)
         public void SaveToFileDefaultDir(int IDtoReplace, bool showSuccessMessage = true) {
-            SaveToFileDefaultDir(DirNames.encounters, IDtoReplace, showSuccessMessage);
+            SaveToFileDefaultDir(RomInfo.DirNames.encounters, IDtoReplace, showSuccessMessage);
         }
 
         public void ReportErrors(List<string> errorList) {
@@ -157,7 +156,7 @@ namespace DSPRE.ROMFiles {
         }
 
         public EncounterFileDPPt(int ID) {
-            string path = RomInfo.gameDirs[DirNames.encounters].unpackedDir + "\\" + ID.ToString("D4");
+            string path = RomInfo.encounters + "\\" + ID.ToString("D4");
             Stream data = new FileStream(path, FileMode.Open);
             LoadFile(data);
         }
@@ -455,7 +454,7 @@ namespace DSPRE.ROMFiles {
         }
 
         public EncounterFileHGSS(int ID) {
-            string path = RomInfo.gameDirs[DirNames.encounters].unpackedDir + "\\" + ID.ToString("D4");
+            string path = RomInfo.encounters + "\\" + ID.ToString("D4");
             Stream data = new FileStream(path, FileMode.Open);
             LoadFile(data);
         }

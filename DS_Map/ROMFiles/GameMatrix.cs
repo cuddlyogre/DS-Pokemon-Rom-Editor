@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using static DSPRE.RomInfo;
 
 namespace DSPRE.ROMFiles {
    /* ---------------------- MATRIX DATA STRUCTURE (DPPtHGSS):-----------------------------
@@ -69,7 +68,7 @@ namespace DSPRE.ROMFiles {
 
         public GameMatrix(int ID) {
             this.id = ID;
-            string path = RomInfo.gameDirs[DirNames.matrices].unpackedDir + "\\" + ID.ToString("D4");
+            string path = RomInfo.matrices + "\\" + ID.ToString("D4");
             Stream data = new FileStream(path, FileMode.Open);
             LoadFile(data);
         }
@@ -224,7 +223,7 @@ namespace DSPRE.ROMFiles {
             return newData.ToArray();
         }
         public void SaveToFileDefaultDir(int IDtoReplace, bool showSuccessMessage = true) {
-            SaveToFileDefaultDir(DirNames.matrices, IDtoReplace, showSuccessMessage);
+            SaveToFileDefaultDir(RomInfo.DirNames.matrices, IDtoReplace, showSuccessMessage);
         }
         public void SaveToFileExplorePath(string suggestedFileName, bool showSuccessMessage = true) {
             SaveToFileExplorePath("Gen IV Matrix File", "mtx", suggestedFileName, showSuccessMessage);

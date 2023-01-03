@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using static DSPRE.RomInfo;
 
 namespace DSPRE.ROMFiles {
     public abstract class RomFile {
@@ -22,7 +21,7 @@ namespace DSPRE.ROMFiles {
 
             return true;
         }
-        protected internal bool SaveToFileDefaultDir(DirNames dir, int IDtoReplace, bool showSuccessMessage = true) {
+        protected internal bool SaveToFileDefaultDir(RomInfo.DirNames dir, int IDtoReplace, bool showSuccessMessage = true) {
             string path = RomInfo.gameDirs[dir].unpackedDir + "\\" + IDtoReplace.ToString("D4");
             return this.SaveToFile(path, showSuccessMessage);
         }

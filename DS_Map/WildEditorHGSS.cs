@@ -5,17 +5,15 @@ using System.Windows.Forms;
 
 namespace DSPRE {
     public partial class WildEditorHGSS : Form {
-        public string encounterFileFolder { get; private set; }
         EncounterFileHGSS currentFile;
         bool disableHandlers = false;
 
         public WildEditorHGSS(int encToOpen = 0) {
             InitializeComponent();
-            encounterFileFolder = RomInfo.gameDirs[RomInfo.DirNames.encounters].unpackedDir;
 
             disableHandlers = true; //
 
-            for (int i = 0; i < Directory.GetFiles(encounterFileFolder).Length; i++) {
+            for (int i = 0; i < RomInfo.GetEncountersCount(); i++) {
                 selectEncounterComboBox.Items.Add("Encounters File " + i.ToString());
             }
 
@@ -1046,8 +1044,8 @@ namespace DSPRE {
             int encounterCount = selectEncounterComboBox.Items.Count;
 
             /* Add new encounter file to encounter folder */
-            string encounterFilePath = encounterFileFolder + "\\" + encounterCount.ToString("D4");
-            using (BinaryWriter writer = new BinaryWriter(new FileStream(encounterFilePath, FileMode.Create))) {
+            string path = RomInfo.encounters + "\\" + encounterCount.ToString("D4");
+            using (BinaryWriter writer = new BinaryWriter(new FileStream(path, FileMode.Create))) {
                 writer.Write(new EncounterFileHGSS().ToByteArray());
             }
 
@@ -1063,8 +1061,8 @@ namespace DSPRE {
                 /* Delete encounter file file */
                 int encounterToDelete = encounterCount - 1;
 
-                string encounterFilePath = encounterFileFolder + "\\" + encounterToDelete.ToString("D4");
-                File.Delete(encounterFilePath);
+                string path = RomInfo.encounters + "\\" + encounterToDelete.ToString("D4");
+                File.Delete(path);
 
                 /* Change selected index if the encounter file to be deleted is currently selected */
                 if (selectEncounterComboBox.SelectedIndex == encounterToDelete) {
@@ -1084,7 +1082,7 @@ namespace DSPRE {
                 "Do you wish to proceed?", "Repair all Encounter Files?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (d == DialogResult.Yes) {
-                for (int i = 0; i < Directory.GetFiles(encounterFileFolder).Length; i++) {
+                for (int i = 0; i < RomInfo.GetEncountersCount(); i++) {
                     currentFile.SaveToFileDefaultDir(i, showSuccessMessage: false);
                 }
 

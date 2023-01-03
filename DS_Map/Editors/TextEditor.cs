@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using DSPRE.ROMFiles;
-using static DSPRE.RomInfo;
 
 namespace DSPRE.Editors {
   public partial class TextEditor : UserControl {
@@ -19,13 +18,13 @@ namespace DSPRE.Editors {
       if (textEditorIsReady && !force) return;
       textEditorIsReady = true;
 
-      DSUtils.TryUnpackNarcs(new List<DirNames> { DirNames.textArchives });
+      DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames> { RomInfo.DirNames.textArchives });
 
       Helpers.statusLabelMessage("Setting up Text Editor...");
       Update();
 
       selectTextFileComboBox.Items.Clear();
-      int textCount = Helpers.romInfo.GetTextArchivesCount();
+      int textCount = RomInfo.GetTextArchivesCount();
       for (int i = 0; i < textCount; i++) {
         selectTextFileComboBox.Items.Add("Text Archive " + i);
       }
@@ -222,7 +221,7 @@ namespace DSPRE.Editors {
 
       if (searchAllArchivesCheckBox.Checked) {
         firstArchiveNumber = 0;
-        lastArchiveNumber = Helpers.romInfo.GetTextArchivesCount();
+        lastArchiveNumber = RomInfo.GetTextArchivesCount();
       }
       else {
         firstArchiveNumber = selectTextFileComboBox.SelectedIndex;
@@ -259,7 +258,7 @@ namespace DSPRE.Editors {
       string specify;
       if (searchAllArchivesCheckBox.Checked) {
         firstArchiveNumber = 0;
-        lastArchiveNumber = Helpers.romInfo.GetTextArchivesCount();
+        lastArchiveNumber = RomInfo.GetTextArchivesCount();
         specify = " in every Text Bank of the game (" + firstArchiveNumber + " to " + lastArchiveNumber + ")";
       }
       else {
@@ -340,7 +339,7 @@ namespace DSPRE.Editors {
     }
 
     private void locateCurrentTextArchive_Click(object sender, EventArgs e) {
-      string path = Path.Combine(gameDirs[DirNames.textArchives].unpackedDir, selectTextFileComboBox.SelectedIndex.ToString("D4"));
+      string path = Path.Combine(RomInfo.textArchives, selectTextFileComboBox.SelectedIndex.ToString("D4"));
       Helpers.ExplorerSelect(path);
     }
 
@@ -354,7 +353,7 @@ namespace DSPRE.Editors {
       }
 
       /* Update Text Archive object in memory */
-      string path = RomInfo.gameDirs[DirNames.textArchives].unpackedDir + "\\" + selectTextFileComboBox.SelectedIndex.ToString("D4");
+      string path = RomInfo.textArchives + "\\" + selectTextFileComboBox.SelectedIndex.ToString("D4");
       File.Copy(of.FileName, path, true);
 
       /* Refresh controls */
@@ -384,7 +383,7 @@ namespace DSPRE.Editors {
       DialogResult d = MessageBox.Show("Are you sure you want to delete the last Text Archive?", "Confirm deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
       if (d.Equals(DialogResult.Yes)) {
         /* Delete Text Archive */
-        string path = RomInfo.gameDirs[DirNames.textArchives].unpackedDir + "\\" + (selectTextFileComboBox.Items.Count - 1).ToString("D4");
+        string path = RomInfo.textArchives + "\\" + (selectTextFileComboBox.Items.Count - 1).ToString("D4");
         File.Delete(path);
 
         /* Check if currently selected file is the last one, and in that case select the one before it */

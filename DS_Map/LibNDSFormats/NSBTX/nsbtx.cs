@@ -23,7 +23,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Linq;
 using NSMBe4.DSFileSystem;
-using static NSMBe4.NSBMD.NSBTX_File.PalInfo_Master.Info;
 
 namespace NSMBe4.NSBMD
 {
@@ -571,7 +570,7 @@ namespace NSMBe4.NSBMD
                             uint index = this.texInfo.infoBlock.tInfoArr[imageIndex].Image[j / 4];
                             index = (index >> ((j % 4) << 1)) & 3;
 
-                            PalInfo[] pinfoArr = this.palInfo.infoBlock.pInfoArr;
+                            PalInfo_Master.Info.PalInfo[] pinfoArr = this.palInfo.infoBlock.pInfoArr;
 
                             Color c;
                             if (index == 0 && this.texInfo.infoBlock.tInfoArr[imageIndex].color0 == 1) {
@@ -593,7 +592,7 @@ namespace NSMBe4.NSBMD
                             uint index = this.texInfo.infoBlock.tInfoArr[imageIndex].Image[j / 2];
                             index = (index >> ((j % 2) << 2)) & 0x0f;
 
-                            PalInfo[] pinfoArr = this.palInfo.infoBlock.pInfoArr;
+                            PalInfo_Master.Info.PalInfo[] pinfoArr = this.palInfo.infoBlock.pInfoArr;
                             
                             Color c;
                             if (index == 0 && this.texInfo.infoBlock.tInfoArr[imageIndex].color0 == 1) {
@@ -614,7 +613,7 @@ namespace NSMBe4.NSBMD
                         for (int j = 0; j < pixelnum; j++) {
                             byte index = this.texInfo.infoBlock.tInfoArr[imageIndex].Image[j];
 
-                            PalInfo[] pinfoArr = this.palInfo.infoBlock.pInfoArr;
+                            PalInfo_Master.Info.PalInfo[] pinfoArr = this.palInfo.infoBlock.pInfoArr;
 
                             Color c;
                             if (index == 0 && this.texInfo.infoBlock.tInfoArr[imageIndex].color0 == 1) {

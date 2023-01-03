@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using static DSPRE.RomInfo;
 
 namespace DSPRE.ROMFiles {
     /// <summary>
@@ -31,7 +30,7 @@ namespace DSPRE.ROMFiles {
         public EventFile() { }
 
         public EventFile(int ID) {
-            string path = RomInfo.gameDirs[DirNames.eventFiles].unpackedDir + "\\" + ID.ToString("D4");
+            string path = RomInfo.eventFiles + "\\" + ID.ToString("D4");
             Stream data = new FileStream(path, FileMode.Open);
             LoadFile(data);
         }
@@ -103,7 +102,7 @@ namespace DSPRE.ROMFiles {
             return newData.ToArray();
         }
         public void SaveToFileDefaultDir(int IDtoReplace, bool showSuccessMessage = true) {
-            SaveToFileDefaultDir(DirNames.eventFiles, IDtoReplace, showSuccessMessage);
+            SaveToFileDefaultDir(RomInfo.DirNames.eventFiles, IDtoReplace, showSuccessMessage);
         }
         public void SaveToFileExplorePath(string suggestedFileName, bool showSuccessMessage = true) {
             SaveToFileExplorePath("Gen IV Event File", "ev", suggestedFileName, showSuccessMessage);

@@ -6,15 +6,15 @@ using System.IO;
 
 namespace DSPRE.ROMFiles {
   public class LevelScriptFile {
-    public int fileID;
-    public string path;
+    public int ID;
     public BindingList<LevelScriptTrigger> bufferSet = new BindingList<LevelScriptTrigger>();
 
     public LevelScriptFile() { }
 
-    public LevelScriptFile(int fileID) {
-      this.fileID = fileID;
-      path = Path.Combine(RomInfo.gameDirs[RomInfo.DirNames.scripts].unpackedDir, fileID.ToString("D4"));
+    public LevelScriptFile(int id) {
+      this.ID = id;
+      string path1 = RomInfo.scripts;
+      string path = Path.Combine(path1, this.ID.ToString("D4"));
       parse_file(path);
     }
 

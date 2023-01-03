@@ -6,12 +6,10 @@ using System.IO;
 using System.Windows.Forms;
 using DSPRE.Resources;
 using DSPRE.ROMFiles;
-using static DSPRE.RomInfo;
 using ScintillaNET;
 using ScintillaNET.Utils;
 using System.Globalization;
 using System.Windows.Documents;
-using static DSPRE.ROMFiles.Event;
 
 namespace DSPRE.Editors {
   public partial class ScriptEditor : UserControl {
@@ -109,7 +107,7 @@ namespace DSPRE.Editors {
       Helpers.statusLabelMessage("Setting up Script Editor...");
       Update();
 
-      DSUtils.TryUnpackNarcs(new List<DirNames> { DirNames.scripts }); //12 = scripts Narc Dir
+      DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames> { RomInfo.DirNames.scripts }); //12 = scripts Narc Dir
 
       populate_selectScriptFileComboBox(0);
 
@@ -127,17 +125,17 @@ namespace DSPRE.Editors {
 
     private void SetupScriptEditorTextAreas() {
       //PREPARE SCRIPT EDITOR KEYWORDS
-      cmdKeyWords = String.Join(" ", ScriptCommandNamesDict.Values) +
+      cmdKeyWords = String.Join(" ", RomInfo.ScriptCommandNamesDict.Values) +
                     " " + String.Join(" ", ScriptDatabase.movementsDictIDName.Values);
       cmdKeyWords += " " + cmdKeyWords.ToUpper() + " " + cmdKeyWords.ToLower();
 
-      secondaryKeyWords = String.Join(" ", ScriptComparisonOperatorsDict.Values) +
+      secondaryKeyWords = String.Join(" ", RomInfo.ScriptComparisonOperatorsDict.Values) +
                           " " + String.Join(" ", ScriptDatabase.specialOverworlds.Values) +
                           " " + String.Join(" ", ScriptDatabase.overworldDirections.Values) +
                           " " + ScriptFile.ContainerTypes.Script.ToString() +
                           " " + ScriptFile.ContainerTypes.Function.ToString() +
                           " " + ScriptFile.ContainerTypes.Action.ToString() +
-                          " " + EventType.Overworld +
+                          " " + Event.EventType.Overworld +
                           " " + Overworld.MovementCodeKW;
       secondaryKeyWords += " " + secondaryKeyWords.ToUpper() + " " + secondaryKeyWords.ToLower();
 
@@ -208,7 +206,7 @@ namespace DSPRE.Editors {
 
     private void populate_selectScriptFileComboBox(int selectedIndex = 0) {
       selectScriptFileComboBox.Items.Clear();
-      int scriptCount = Directory.GetFiles(gameDirs[DirNames.scripts].unpackedDir).Length;
+      int scriptCount = RomInfo.GetScriptCount();
       for (int i = 0; i < scriptCount; i++) {
         // ScriptFile currentScriptFile = new ScriptFile(i, true, true);
         // selectScriptFileComboBox.Items.Add(currentScriptFile);
@@ -649,7 +647,7 @@ namespace DSPRE.Editors {
       DialogResult d = MessageBox.Show("Are you sure you want to delete the last Script File?", "Confirm deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
       if (d.Equals(DialogResult.Yes)) {
         /* Delete script file */
-        string path = Path.Combine(gameDirs[DirNames.scripts].unpackedDir, (selectScriptFileComboBox.Items.Count - 1).ToString("D4"));
+        string path = Path.Combine(RomInfo.scripts, (selectScriptFileComboBox.Items.Count - 1).ToString("D4"));
         File.Delete(path);
 
         /* Check if currently selected file is the last one, and in that case select the one before it */
@@ -720,7 +718,7 @@ namespace DSPRE.Editors {
 
       /* Update scriptFile object in memory */
       int i = selectScriptFileComboBox.SelectedIndex;
-      string path = Path.Combine(gameDirs[DirNames.scripts].unpackedDir, i.ToString("D4"));
+      string path = Path.Combine(RomInfo.scripts, i.ToString("D4"));
       File.Copy(of.FileName, path, true);
 
       populate_selectScriptFileComboBox(i);
@@ -737,7 +735,7 @@ namespace DSPRE.Editors {
     }
 
     private void locateCurrentScriptFile_Click(object sender, EventArgs e) {
-      string path = Path.Combine(gameDirs[DirNames.scripts].unpackedDir, selectScriptFileComboBox.SelectedIndex.ToString("D4"));
+      string path = Path.Combine(RomInfo.scripts, selectScriptFileComboBox.SelectedIndex.ToString("D4"));
       Helpers.ExplorerSelect(path);
     }
 

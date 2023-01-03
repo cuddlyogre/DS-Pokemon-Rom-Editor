@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using System;
 using System.Windows.Forms;
-using static DSPRE.RomInfo;
 using System.Reflection;
 using System.Linq;
 

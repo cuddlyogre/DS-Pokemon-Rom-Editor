@@ -1,7 +1,6 @@
 ﻿using DSPRE.ROMFiles;
 using System.Collections.Generic;
 using System.Drawing;
-using static DSPRE.RomInfo;
 
 namespace DSPRE.Resources {
     public static class PokeDatabase {
@@ -612,42 +611,42 @@ namespace DSPRE.Resources {
             }
         }
         public static class System {
-            public static Dictionary<string, GameVersions> versionsDict = new Dictionary<string, GameVersions>() {
-                ["ADAE"] = GameVersions.Diamond,
-                ["ADAS"] = GameVersions.Diamond,
-                ["ADAI"] = GameVersions.Diamond,
-                ["ADAF"] = GameVersions.Diamond,
-                ["ADAD"] = GameVersions.Diamond,
-                ["ADAJ"] = GameVersions.Diamond,
+            public static Dictionary<string, RomInfo.GameVersions> versionsDict = new Dictionary<string, RomInfo.GameVersions>() {
+                ["ADAE"] = RomInfo.GameVersions.Diamond,
+                ["ADAS"] = RomInfo.GameVersions.Diamond,
+                ["ADAI"] = RomInfo.GameVersions.Diamond,
+                ["ADAF"] = RomInfo.GameVersions.Diamond,
+                ["ADAD"] = RomInfo.GameVersions.Diamond,
+                ["ADAJ"] = RomInfo.GameVersions.Diamond,
 
-                ["APAE"] = GameVersions.Pearl,
-                ["APAS"] = GameVersions.Pearl,
-                ["APAI"] = GameVersions.Pearl,
-                ["APAF"] = GameVersions.Pearl,
-                ["APAD"] = GameVersions.Pearl,
-                ["APAJ"] = GameVersions.Pearl,
+                ["APAE"] = RomInfo.GameVersions.Pearl,
+                ["APAS"] = RomInfo.GameVersions.Pearl,
+                ["APAI"] = RomInfo.GameVersions.Pearl,
+                ["APAF"] = RomInfo.GameVersions.Pearl,
+                ["APAD"] = RomInfo.GameVersions.Pearl,
+                ["APAJ"] = RomInfo.GameVersions.Pearl,
 
-                ["CPUE"] = GameVersions.Platinum,
-                ["CPUS"] = GameVersions.Platinum,
-                ["CPUI"] = GameVersions.Platinum,
-                ["CPUF"] = GameVersions.Platinum,
-                ["CPUD"] = GameVersions.Platinum,
-                ["CPUJ"] = GameVersions.Platinum,
-                ["CPUP"] = GameVersions.Platinum,
+                ["CPUE"] = RomInfo.GameVersions.Platinum,
+                ["CPUS"] = RomInfo.GameVersions.Platinum,
+                ["CPUI"] = RomInfo.GameVersions.Platinum,
+                ["CPUF"] = RomInfo.GameVersions.Platinum,
+                ["CPUD"] = RomInfo.GameVersions.Platinum,
+                ["CPUJ"] = RomInfo.GameVersions.Platinum,
+                ["CPUP"] = RomInfo.GameVersions.Platinum,
 
-                ["IPKE"] = GameVersions.HeartGold,
-                ["IPKS"] = GameVersions.HeartGold,
-                ["IPKI"] = GameVersions.HeartGold,
-                ["IPKF"] = GameVersions.HeartGold,
-                ["IPKD"] = GameVersions.HeartGold,
-                ["IPKJ"] = GameVersions.HeartGold,
+                ["IPKE"] = RomInfo.GameVersions.HeartGold,
+                ["IPKS"] = RomInfo.GameVersions.HeartGold,
+                ["IPKI"] = RomInfo.GameVersions.HeartGold,
+                ["IPKF"] = RomInfo.GameVersions.HeartGold,
+                ["IPKD"] = RomInfo.GameVersions.HeartGold,
+                ["IPKJ"] = RomInfo.GameVersions.HeartGold,
 
-                ["IPGE"] = GameVersions.SoulSilver,
-                ["IPGS"] = GameVersions.SoulSilver,
-                ["IPGI"] = GameVersions.SoulSilver,
-                ["IPGF"] = GameVersions.SoulSilver,
-                ["IPGD"] = GameVersions.SoulSilver,
-                ["IPGJ"] = GameVersions.SoulSilver
+                ["IPGE"] = RomInfo.GameVersions.SoulSilver,
+                ["IPGS"] = RomInfo.GameVersions.SoulSilver,
+                ["IPGI"] = RomInfo.GameVersions.SoulSilver,
+                ["IPGF"] = RomInfo.GameVersions.SoulSilver,
+                ["IPGD"] = RomInfo.GameVersions.SoulSilver,
+                ["IPGJ"] = RomInfo.GameVersions.SoulSilver
             };
 
             public static Dictionary<byte, string> MapCollisionPainters = new Dictionary<byte, string>() {

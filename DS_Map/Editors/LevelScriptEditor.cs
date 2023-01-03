@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using DSPRE.ROMFiles;
-using static DSPRE.RomInfo;
 
 namespace DSPRE.Editors {
   public partial class LevelScriptEditor : UserControl {
@@ -18,7 +17,7 @@ namespace DSPRE.Editors {
       if (levelScriptEditorIsReady && !force) return;
       levelScriptEditorIsReady = true;
 
-      DSUtils.TryUnpackNarcs(new List<DirNames> { DirNames.scripts }); //12 = scripts Narc Dir
+      DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames> { RomInfo.DirNames.scripts }); //12 = scripts Narc Dir
       populate_selectScriptFileComboBox();
     }
 
@@ -31,7 +30,7 @@ namespace DSPRE.Editors {
 
     private void populate_selectScriptFileComboBox(int selectedIndex = 0) {
       selectScriptFileComboBox.Items.Clear();
-      int scriptCount = Directory.GetFiles(gameDirs[RomInfo.DirNames.scripts].unpackedDir).Length;
+      int scriptCount = RomInfo.GetScriptCount();
       for (int i = 0; i < scriptCount; i++) {
         // ScriptFile currentScriptFile = new ScriptFile(i, true, true);
         // selectScriptFileComboBox.Items.Add(currentScriptFile);
@@ -226,7 +225,8 @@ namespace DSPRE.Editors {
 
     void buttonLocate_Click(object sender, EventArgs e) {
       if (_levelScriptFile == null) return;
-      Helpers.ExplorerSelect(_levelScriptFile.path);
+      string path = Path.Combine(RomInfo.scripts, _levelScriptFile.ID.ToString("D4"));
+      Helpers.ExplorerSelect(path);
     }
 
     void buttonImport_Click(object sender, EventArgs e) {
@@ -247,7 +247,8 @@ namespace DSPRE.Editors {
     }
 
     private void buttonSave_Click(object sender, EventArgs e) {
-      saveFile(_levelScriptFile.path);
+      string path = Path.Combine(RomInfo.scripts, _levelScriptFile.ID.ToString("D4"));
+      saveFile(path);
     }
 
     private void buttonExport_Click(object sender, EventArgs e) {

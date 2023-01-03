@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using NarcAPI;
 using DSPRE.Resources;
 using DSPRE.ROMFiles;
-using static DSPRE.RomInfo;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace DSPRE {
@@ -350,24 +349,24 @@ namespace DSPRE {
             Helpers.toolStripProgressBar.Value = 0;
             Update();
 
-            List<DirNames> toUnpack = new List<DirNames> {
-                DirNames.exteriorBuildingModels,
-                DirNames.buildingConfigFiles,
-                DirNames.buildingTextures,
-                DirNames.areaData
+            List<RomInfo.DirNames> toUnpack = new List<RomInfo.DirNames> {
+                RomInfo.DirNames.exteriorBuildingModels,
+                RomInfo.DirNames.buildingConfigFiles,
+                RomInfo.DirNames.buildingTextures,
+                RomInfo.DirNames.areaData
             };
 
             if (forceUnpack) {
                 DSUtils.ForceUnpackNarcs(toUnpack);
 
-                if (RomInfo.gameFamily == GameFamilies.HGSS) {
-                    DSUtils.ForceUnpackNarcs(new List<DirNames> { DirNames.interiorBuildingModels });// Last = interior buildings dir
+                if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
+                    DSUtils.ForceUnpackNarcs(new List<RomInfo.DirNames> { RomInfo.DirNames.interiorBuildingModels });// Last = interior buildings dir
                 }
             } else {
                 DSUtils.TryUnpackNarcs(toUnpack);
 
-                if (RomInfo.gameFamily == GameFamilies.HGSS) {
-                    DSUtils.TryUnpackNarcs(new List<DirNames> { DirNames.interiorBuildingModels });
+                if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
+                    DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames> { RomInfo.DirNames.interiorBuildingModels });
                 }
             }
 
@@ -459,7 +458,7 @@ namespace DSPRE {
             versionLabel.Text = RomInfo.gameVersion.ToString() + " " + "[" + RomInfo.romID + "]";
             languageLabel.Text = "Lang: " + RomInfo.gameLanguage;
 
-            if (RomInfo.gameLanguage == GameLanguages.English) {
+            if (RomInfo.gameLanguage == RomInfo.GameLanguages.English) {
                 if (europeByte == 0x0A) {
                     languageLabel.Text += " [Europe]";
                 } else {
@@ -509,7 +508,7 @@ namespace DSPRE {
 
         private void ReadROMInitData() {
             if ( DSUtils.ARM9.CheckCompressionMark() ) {
-                if ( !RomInfo.gameFamily.Equals(GameFamilies.HGSS) ) {
+                if ( !RomInfo.gameFamily.Equals(RomInfo.GameFamilies.HGSS) ) {
                     MessageBox.Show("Unexpected compressed ARM9. It is advised that you double check the ARM9.");
                 }
                 if (!DSUtils.ARM9.Decompress(RomInfo.arm9Path)) {
@@ -560,7 +559,7 @@ namespace DSPRE {
             Update();
 
             // Repack NARCs
-            foreach (KeyValuePair<DirNames, (string packedDir, string unpackedDir)> kvp in RomInfo.gameDirs) {
+            foreach (KeyValuePair<RomInfo.DirNames, (string packedDir, string unpackedDir)> kvp in RomInfo.gameDirs) {
                 DirectoryInfo di = new DirectoryInfo(kvp.Value.unpackedDir);
                 if (di.Exists) {
                     Narc.FromFolder(kvp.Value.unpackedDir).Save(kvp.Value.packedDir); // Make new NARC from folder
@@ -576,7 +575,7 @@ namespace DSPRE {
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (d == DialogResult.Yes) {
-                    DSUtils.ARM9.WriteBytes( new byte[4] { 0, 0, 0, 0 }, (uint)(RomInfo.gameFamily == GameFamilies.DP ? 0xB7C : 0xBB4) );
+                    DSUtils.ARM9.WriteBytes( new byte[4] { 0, 0, 0, 0 }, (uint)(RomInfo.gameFamily == RomInfo.GameFamilies.DP ? 0xB7C : 0xBB4) );
                 }
             }
 
@@ -603,7 +602,7 @@ namespace DSPRE {
 
             DSUtils.RepackROM(saveRom.FileName);
 
-            if (RomInfo.gameFamily != GameFamilies.DP && RomInfo.gameFamily != GameFamilies.Plat) {
+            if (RomInfo.gameFamily != RomInfo.GameFamilies.DP && RomInfo.gameFamily != RomInfo.GameFamilies.Plat) {
                 if (eventEditor.eventEditorIsReady) {
                     if (DSUtils.OverlayIsCompressed(1)) {
                         DSUtils.DecompressOverlay(1);
@@ -629,7 +628,7 @@ namespace DSPRE {
                 Helpers.statusLabelMessage("Attempting to unpack all NARCs... Be patient. This might take a while...");
                 Update();
 
-                DSUtils.ForceUnpackNarcs(Enum.GetValues(typeof(DirNames)).Cast<DirNames>().ToList());
+                DSUtils.ForceUnpackNarcs(Enum.GetValues(typeof(RomInfo.DirNames)).Cast<RomInfo.DirNames>().ToList());
                 MessageBox.Show("Operation completed.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 Helpers.toolStripProgressBar.Value = 0;
@@ -674,18 +673,18 @@ namespace DSPRE {
         }
         private void diamondAndPearlToolStripMenuItem_Click(object sender, EventArgs e) {
             OpenCommandsDatabase(
-                RomInfo.BuildCommandNamesDatabase(GameFamilies.DP), RomInfo.BuildCommandParametersDatabase(GameFamilies.DP),
-                RomInfo.BuildActionNamesDatabase(GameFamilies.DP), RomInfo.BuildComparisonOperatorsDatabase(GameFamilies.DP));
+                RomInfo.BuildCommandNamesDatabase(RomInfo.GameFamilies.DP), RomInfo.BuildCommandParametersDatabase(RomInfo.GameFamilies.DP),
+                RomInfo.BuildActionNamesDatabase(RomInfo.GameFamilies.DP), RomInfo.BuildComparisonOperatorsDatabase(RomInfo.GameFamilies.DP));
         }
         private void platinumToolStripMenuItem_Click(object sender, EventArgs e) {
             OpenCommandsDatabase(
-                RomInfo.BuildCommandNamesDatabase(GameFamilies.Plat), RomInfo.BuildCommandParametersDatabase(GameFamilies.Plat),
-                RomInfo.BuildActionNamesDatabase(GameFamilies.Plat), RomInfo.BuildComparisonOperatorsDatabase(GameFamilies.Plat));
+                RomInfo.BuildCommandNamesDatabase(RomInfo.GameFamilies.Plat), RomInfo.BuildCommandParametersDatabase(RomInfo.GameFamilies.Plat),
+                RomInfo.BuildActionNamesDatabase(RomInfo.GameFamilies.Plat), RomInfo.BuildComparisonOperatorsDatabase(RomInfo.GameFamilies.Plat));
         }
         private void heartGoldAndSoulSilverToolStripMenuItem_Click(object sender, EventArgs e) {
             OpenCommandsDatabase(
-                RomInfo.BuildCommandNamesDatabase(GameFamilies.HGSS), RomInfo.BuildCommandParametersDatabase(GameFamilies.HGSS),
-                RomInfo.BuildActionNamesDatabase(GameFamilies.HGSS), RomInfo.BuildComparisonOperatorsDatabase(GameFamilies.HGSS));
+                RomInfo.BuildCommandNamesDatabase(RomInfo.GameFamilies.HGSS), RomInfo.BuildCommandParametersDatabase(RomInfo.GameFamilies.HGSS),
+                RomInfo.BuildActionNamesDatabase(RomInfo.GameFamilies.HGSS), RomInfo.BuildComparisonOperatorsDatabase(RomInfo.GameFamilies.HGSS));
         }
 
         private void tabPageHeaderEditor_Enter(object sender, EventArgs e) {
@@ -897,12 +896,12 @@ namespace DSPRE {
                         if (Directory.Exists(isolatedDir)) {
                             Directory.Delete(isolatedDir);
                         }
-                        Directory.CreateDirectory(d.FullName + "\\" + ISOLATED_FOLDERNAME);
+                        Directory.CreateDirectory(isolatedDir);
 
                         while ( i < files.Length ) {
                             FileInfo f = files[i];
                             Console.WriteLine(f.Name);
-                            string destName = d.FullName + "\\" + ISOLATED_FOLDERNAME + "\\" + f.Name;
+                            string destName = isolatedDir + "\\" + f.Name;
                             File.Move(f.FullName, destName);
                             i++;
                         }
@@ -1294,7 +1293,7 @@ namespace DSPRE {
         }
 
         private void encounterReportToolStripMenuItem_Click(object sender, EventArgs e) {
-            if (gameFamily != GameFamilies.HGSS) return;
+            if (RomInfo.gameFamily != RomInfo.GameFamilies.HGSS) return;
             FolderBrowserDialog fbd = new FolderBrowserDialog();
 
             if (fbd.ShowDialog() != DialogResult.OK) {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using static DSPRE.RomInfo;
 
 namespace DSPRE.Editors {
   public partial class CameraEditor : UserControl {
@@ -58,7 +57,7 @@ namespace DSPRE.Editors {
 
       overlayCameraTblOffset = RAMaddresses[0] - DSUtils.GetOverlayRAMAddress(RomInfo.cameraTblOverlayNumber);
       using (DSUtils.EasyReader br = new DSUtils.EasyReader(camOverlayPath, overlayCameraTblOffset)) {
-        if (RomInfo.gameFamily == GameFamilies.HGSS) {
+        if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
           currentCameraTable = new GameCamera[17];
           for (int i = 0; i < currentCameraTable.Length; i++) {
             currentCameraTable[i] = new GameCamera(br.ReadUInt32(), br.ReadInt16(), br.ReadInt16(), br.ReadInt16(),

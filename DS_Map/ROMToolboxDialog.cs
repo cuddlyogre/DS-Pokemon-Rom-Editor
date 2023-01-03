@@ -8,9 +8,7 @@ using DSPRE.ROMFiles;
 using System.Collections.Generic;
 using DSPRE.Resources.ROMToolboxDB;
 using DSPRE.Resources;
-using static DSPRE.RomInfo;
 using System.Threading.Tasks;
-using static DSPRE.Resources.ROMToolboxDB.ToolboxDB;
 
 namespace DSPRE {
     public partial class ROMToolboxDialog : Form {
@@ -40,7 +38,7 @@ namespace DSPRE {
 
             CheckStandardizedItems();
 
-            if (RomInfo.gameLanguage == GameLanguages.English || RomInfo.gameLanguage == GameLanguages.Spanish) {
+            if (RomInfo.gameLanguage == RomInfo.GameLanguages.English || RomInfo.gameLanguage == RomInfo.GameLanguages.Spanish) {
                 CheckARM9ExpansionApplied();
             } else {
                 DisableARM9patch("Unsupported\nlanguage");
@@ -49,31 +47,31 @@ namespace DSPRE {
             }
 
             switch (RomInfo.gameFamily) {
-                case GameFamilies.DP:
+                case RomInfo.GameFamilies.DP:
                     DisableOverlay1patch("Unsupported");
                     DisableDynamicHeadersPatch("Unsupported");
                     DisableMatrixExpansionPatch("Unsupported");
                     DisableScrcmdRepointPatch("Unsupported");
                     DisableKillTextureAnimationsPatch("Unsupported");
                     break;
-                case GameFamilies.Plat:
+                case RomInfo.GameFamilies.Plat:
                     DisableOverlay1patch("Unsupported");
                     DisableMatrixExpansionPatch("Unsupported");
                     DisableScrcmdRepointPatch("Unsupported");
                     DisableKillTextureAnimationsPatch("Unsupported");
 
-                    if (RomInfo.gameLanguage == GameLanguages.English || RomInfo.gameLanguage == GameLanguages.Spanish) {
+                    if (RomInfo.gameLanguage == RomInfo.GameLanguages.English || RomInfo.gameLanguage == RomInfo.GameLanguages.Spanish) {
                         CheckBDHCamPatchApplied();
                     }
                     CheckDynamicHeadersPatchApplied();
                     break;
-                case GameFamilies.HGSS:
+                case RomInfo.GameFamilies.HGSS:
                     if (!DSUtils.CheckOverlayHasCompressionFlag(1)) {
                         DisableOverlay1patch("Already applied");
                         overlay1CB.Visible = true;
                     }
 
-                    if (RomInfo.gameLanguage == GameLanguages.English || RomInfo.gameLanguage == GameLanguages.Spanish) {
+                    if (RomInfo.gameLanguage == RomInfo.GameLanguages.English || RomInfo.gameLanguage == RomInfo.GameLanguages.Spanish) {
                         CheckBDHCamPatchApplied();
                         CheckMatrixExpansionApplied();
                         CheckScrcmdRepointPatchApplied();
@@ -143,7 +141,7 @@ namespace DSPRE {
 
         #region Patch 
         private static bool CheckFilesArm9ExpansionApplied() {
-            ARM9PatchData data = new ARM9PatchData();
+            ToolboxDB.ARM9PatchData data = new ToolboxDB.ARM9PatchData();
 
             byte[] branchCode = DSUtils.HexStringToByteArray(data.branchString);
             byte[] branchCodeRead = DSUtils.ARM9.ReadBytes(data.branchOffset, data.branchString.Length / 3 + 1); //Read branchCode
@@ -158,7 +156,7 @@ namespace DSPRE {
             return true;
         }
         public static bool CheckFilesBDHCamPatchApplied() {
-            BDHCAMPatchData data = new BDHCAMPatchData();
+            ToolboxDB.BDHCAMPatchData data = new ToolboxDB.BDHCAMPatchData();
 
             byte[] branchCode = DSUtils.HexStringToByteArray(data.branchString);
             byte[] branchCodeRead = DSUtils.ARM9.ReadBytes(data.branchOffset, branchCode.Length);
@@ -182,7 +180,7 @@ namespace DSPRE {
                 return false; //0 means BDHCAM patch has not been applied
 
             String fullFilePath = RomInfo.expArmPath;
-            byte[] subroutineRead = DSUtils.ReadFromFile(fullFilePath, BDHCAMPatchData.BDHCamSubroutineOffset, data.subroutine.Length); //Write new overlayCode1
+            byte[] subroutineRead = DSUtils.ReadFromFile(fullFilePath, ToolboxDB.BDHCAMPatchData.BDHCamSubroutineOffset, data.subroutine.Length); //Write new overlayCode1
             if (data.subroutine.Length != subroutineRead.Length || !data.subroutine.SequenceEqual(subroutineRead))
                 return false; //0 means BDHCAM patch has not been applied
 
@@ -257,8 +255,8 @@ namespace DSPRE {
             DisableARM9patch("Already applied");
 
             switch (RomInfo.gameFamily) {
-                case GameFamilies.Plat:
-                case GameFamilies.HGSS:
+                case RomInfo.GameFamilies.Plat:
+                case RomInfo.GameFamilies.HGSS:
                     BDHCamARM9requiredLBL.Visible = false;
                     BDHCamPatchButton.Enabled = true;
                     BDHCamPatchLBL.Enabled = true;
@@ -283,7 +281,7 @@ namespace DSPRE {
         }
 
         public static bool CheckFilesDynamicHeadersPatchApplied() {
-            DynamicHeadersPatchData data = new DynamicHeadersPatchData();
+            ToolboxDB.DynamicHeadersPatchData data = new ToolboxDB.DynamicHeadersPatchData();
             ushort initValue = BitConverter.ToUInt16(DSUtils.ARM9.ReadBytes(data.initOffset, 0x2), 0);
             return initValue == 0xB500;
         }
@@ -338,9 +336,9 @@ namespace DSPRE {
             }
         }
         private void BDHCAMPatchButton_Click(object sender, EventArgs e) {
-            BDHCAMPatchData data = new BDHCAMPatchData();
+            ToolboxDB.BDHCAMPatchData data = new ToolboxDB.BDHCAMPatchData();
 
-            if (RomInfo.gameFamily == GameFamilies.HGSS) {
+            if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
                 if (DSUtils.CheckOverlayHasCompressionFlag(data.overlayNumber)) {
                     DialogResult d1 = MessageBox.Show("It is STRONGLY recommended to configure Overlay1 as uncompressed before proceeding.\n\n" +
                         "More details in the following dialog.\n\n" + "Do you want to know more?",
@@ -359,7 +357,7 @@ namespace DSPRE {
                 "- Replace " + (data.branchString.Length / 3 + 1) + " bytes of data at arm9 offset 0x" + data.branchOffset.ToString("X") + " with " + '\n' + data.branchString + "\n\n" +
                 "- Replace " + (data.overlayString1.Length / 3 + 1) + " bytes of data at overlay" + data.overlayNumber + " offset 0x" + data.overlayOffset1.ToString("X") + " with " + '\n' + data.overlayString1 + "\n\n" +
                 "- Replace " + (data.overlayString2.Length / 3 + 1) + " bytes of data at overlay" + data.overlayNumber + " offset 0x" + data.overlayOffset2.ToString("X") + " with " + '\n' + data.overlayString2 + "\n\n" +
-                "- Modify file #" + expandedARMfileID + " inside " + '\n' + RomInfo.gameDirs[DirNames.synthOverlay].unpackedDir + '\n' + "to insert the BDHCAM routine (any data between 0x" + BDHCAMPatchData.BDHCamSubroutineOffset.ToString("X") + " and 0x" + (BDHCAMPatchData.BDHCamSubroutineOffset + data.subroutine.Length).ToString("X") + " will be overwritten)." + "\n\n" +
+                "- Modify file #" + expandedARMfileID + " inside " + '\n' + RomInfo.synthOverlay + '\n' + "to insert the BDHCAM routine (any data between 0x" + ToolboxDB.BDHCAMPatchData.BDHCamSubroutineOffset.ToString("X") + " and 0x" + (ToolboxDB.BDHCAMPatchData.BDHCamSubroutineOffset + data.subroutine.Length).ToString("X") + " will be overwritten)." + "\n\n" +
                 "Do you wish to continue?",
                 "Confirm to proceed", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
@@ -382,7 +380,7 @@ namespace DSPRE {
                     String fullFilePath = RomInfo.expArmPath;
 
                     /*Write Expanded ARM9 File*/
-                    DSUtils.WriteToFile(fullFilePath, data.subroutine, BDHCAMPatchData.BDHCamSubroutineOffset);
+                    DSUtils.WriteToFile(fullFilePath, data.subroutine, ToolboxDB.BDHCAMPatchData.BDHCamSubroutineOffset);
                 } catch {
                     MessageBox.Show("Operation failed. It is strongly advised that you restore the arm9 and overlay from their respective backups.", "Something went wrong",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -516,13 +514,13 @@ namespace DSPRE {
             }
         }
         private void ApplyARM9ExpansionButton_Click(object sender, EventArgs e) {
-            ARM9PatchData data = new ARM9PatchData();
+            ToolboxDB.ARM9PatchData data = new ToolboxDB.ARM9PatchData();
 
             DialogResult d = MessageBox.Show("Confirming this process will apply the following changes:\n\n" +
                 "- Backup ARM9 file (arm9.bin" + backupSuffix + " will be created)." + "\n\n" +
                 "- Replace " + (data.branchString.Length / 3 + 1) + " bytes of data at arm9 offset 0x" + data.branchOffset.ToString("X") + " with " + '\n' + data.branchString + "\n\n" +
                 "- Replace " + (data.initString.Length / 3 + 1) + " bytes of data at arm9 offset 0x" + data.initOffset.ToString("X") + " with " + '\n' + data.initString + "\n\n" +
-                "- Modify file #" + expandedARMfileID + " inside " + '\n' + RomInfo.gameDirs[DirNames.synthOverlay].unpackedDir + '\n' + " to accommodate for 88KB of data (no backup)." + "\n\n" +
+                "- Modify file #" + expandedARMfileID + " inside " + '\n' + RomInfo.synthOverlay + '\n' + " to accommodate for 88KB of data (no backup)." + "\n\n" +
                 "Do you wish to continue?",
                 "Confirm to proceed", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
@@ -545,8 +543,8 @@ namespace DSPRE {
                     ROMToolboxDialog.flag_arm9Expanded = true;
 
                     switch (RomInfo.gameFamily) {
-                        case GameFamilies.Plat:
-                        case GameFamilies.HGSS:
+                        case RomInfo.GameFamilies.Plat:
+                        case RomInfo.GameFamilies.HGSS:
                             BDHCamPatchButton.Text = "Apply Patch";
                             BDHCamPatchButton.Enabled = true;
                             BDHCamPatchLBL.Enabled = true;
@@ -612,10 +610,9 @@ namespace DSPRE {
             }
         }
         private void dynamicHeadersButton_Click(object sender, EventArgs e) {
-            DynamicHeadersPatchData data = new DynamicHeadersPatchData();
-            var headersDir = RomInfo.gameDirs[DirNames.dynamicHeaders];
+            ToolboxDB.DynamicHeadersPatchData data = new ToolboxDB.DynamicHeadersPatchData();
 
-            bool specialCase = RomInfo.gameFamily == GameFamilies.HGSS && RomInfo.gameLanguage != GameLanguages.Japanese && RomInfo.gameLanguage != GameLanguages.Spanish;
+            bool specialCase = RomInfo.gameFamily == RomInfo.GameFamilies.HGSS && RomInfo.gameLanguage != RomInfo.GameLanguages.Japanese && RomInfo.gameLanguage != RomInfo.GameLanguages.Spanish;
             string specialCaseChanges = "";
 
             if (specialCase) {
@@ -627,8 +624,8 @@ namespace DSPRE {
             DialogResult d;
             d = MessageBox.Show("Confirming this process will apply the following changes:\n\n" +
                 "- Backup ARM9 file (arm9.bin" + backupSuffix + " will be created)." + "\n\n" +
-                "- NARC file at " + headersDir.packedDir + " will become the new header container." + "\n\n" +
-                "- The default ARM9 header table will be split into multiple files (one per header), each one saved into NARC" + headersDir.packedDir + " upon saving the ROM." + "\n\n" +
+                "- NARC file at " + RomInfo.dynamicHeadersPacked + " will become the new header container." + "\n\n" +
+                "- The default ARM9 header table will be split into multiple files (one per header), each one saved into NARC" + RomInfo.dynamicHeadersPacked + " upon saving the ROM." + "\n\n" +
                 "- Replace " + (data.initString.Length / 3 + 1) + " bytes of data at arm9 offset 0x" + data.initOffset.ToString("X") + " with " + '\n' + data.initString + "\n\n" +
                 "- Neutralize instances of (HeaderID * 0x18) so the base offset which the data is read from is always 0x0." + "\n\n" + 
                 "- Change pointers to header fields, from(ARM9_HEADER_TABLE_OFFSET + n) to simply(0 + n)" + "\n\n" +
@@ -698,7 +695,7 @@ namespace DSPRE {
 
                      */
 
-                    foreach (Tuple<uint, uint> reference in DynamicHeadersPatchData.dynamicHeadersPointersDB [RomInfo.gameFamily]) {
+                    foreach (Tuple<uint, uint> reference in ToolboxDB.DynamicHeadersPatchData.dynamicHeadersPointersDB [RomInfo.gameFamily]) {
                         DSUtils.ARM9.WriteBytes(DSUtils.HexStringToByteArray(data.REFERENCE_STRING), (uint)(reference.Item1 + data.pointerDiff));
                         uint pointerValue = BitConverter.ToUInt32(DSUtils.ARM9.ReadBytes((uint)(reference.Item2 + data.pointerDiff), 4), 0) - RomInfo.headerTableOffset - 0x02000000;
                         DSUtils.ARM9.WriteBytes(BitConverter.GetBytes(pointerValue), (uint)(reference.Item2 + data.pointerDiff));
@@ -714,8 +711,10 @@ namespace DSPRE {
                     }
 
                     // Clear the dynamic headers directory in 'unpacked'
-                    Directory.Delete(headersDir.unpackedDir, true);
-                    Directory.CreateDirectory(headersDir.unpackedDir);
+                    string path1 = RomInfo.dynamicHeaders;
+                    Directory.Delete(path1, true);
+                    string path2 = RomInfo.dynamicHeaders;
+                    Directory.CreateDirectory(path2);
 
                     /* Now move the headers data from arm9 to the new directory. Upon saving the ROM,
                        the data will be packed into a NARC and replace a/0/5/0 in HGSS or 
@@ -724,7 +723,7 @@ namespace DSPRE {
                     int headerCount = RomInfo.GetHeaderCount();
                     for (int i = 0; i < headerCount; i++) {
                         byte[] headerData = MapHeader.LoadFromARM9((ushort)i).ToByteArray();
-                        string path = RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir + "\\" + i.ToString("D4");
+                        string path = RomInfo.dynamicHeaders + "\\" + i.ToString("D4");
                         DSUtils.WriteToFile(path, headerData);
                     }
 
@@ -748,9 +747,9 @@ namespace DSPRE {
                 "Confirm to proceed", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (d == DialogResult.Yes) {
-                DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames> { DirNames.areaData });
+                DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames> { RomInfo.DirNames.areaData });
 
-                string[] adFiles = Directory.GetFiles(gameDirs[DirNames.areaData].unpackedDir);
+                string[] adFiles = RomInfo.GetAreaData();
                 foreach (string s in adFiles) {
                     AreaData a = new AreaData(new FileStream(s, FileMode.Open)) {
                         dynamicTextureType = 0xFFFF
@@ -794,7 +793,7 @@ namespace DSPRE {
             int pointerOffset = int.Parse(customcmdDB.GetString("pointerOffset" + "_" + RomInfo.gameVersion + "_" + RomInfo.gameLanguage));
             using (DSUtils.ARM9.Reader r = new DSUtils.ARM9.Reader(pointerOffset)) {  
                 uint cmdTable = r.ReadUInt32();
-                uint offset = cmdTable - synthOverlayLoadAddress;
+                uint offset = cmdTable - RomInfo.synthOverlayLoadAddress;
 
                 if ((offset >= 0) && (offset <= 0x12B00)) {
                     return (int)offset; // Table position inside the expanded arm9 file
@@ -803,7 +802,7 @@ namespace DSPRE {
             return -1; // No table in expanded arm9 file
         }
         private void RepointCommandTable() {
-            string expandedPath = RomInfo.gameDirs[DirNames.synthOverlay].unpackedDir + "\\0000";
+            string expandedPath = RomInfo.synthOverlay + "\\" + 0.ToString("D4");
             ResourceManager customcmdDB = new ResourceManager("DSPRE.Resources.ROMToolboxDB.CustomScrCmdDB", Assembly.GetExecutingAssembly());
 
             FileStream arm9FileStream = new FileStream(RomInfo.arm9Path, FileMode.Open); // I make a copy of the stream so the file is free for writing
@@ -827,7 +826,7 @@ namespace DSPRE {
             }
         }
         private bool ImportCustomCommand() {
-            string expandedPath = RomInfo.gameDirs[DirNames.synthOverlay].unpackedDir + "\\0000";
+            string expandedPath = RomInfo.synthOverlay + "\\" + 0.ToString("D4");
             int appliedPatches = 0;
 
             OpenFileDialog of = new OpenFileDialog();
@@ -869,7 +868,7 @@ namespace DSPRE {
                                 }
 
                                 expandedWriter.BaseStream.Position = 0x200 + commandID * 4;
-                                expandedWriter.Write((int)(synthOverlayLoadAddress + asmOffset + 1));
+                                expandedWriter.Write((int)(RomInfo.synthOverlayLoadAddress + asmOffset + 1));
 
                                 byte[] asmCodeBytes = DSUtils.StringToByteArray(asmCode);
                                 expandedWriter.BaseStream.Position = asmOffset;

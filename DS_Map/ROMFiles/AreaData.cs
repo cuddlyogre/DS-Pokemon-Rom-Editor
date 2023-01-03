@@ -1,5 +1,4 @@
 using System.IO;
-using static DSPRE.RomInfo;
 
 namespace DSPRE.ROMFiles {
     /// <summary>
@@ -19,22 +18,34 @@ namespace DSPRE.ROMFiles {
         #endregion
 
         #region Constructors (1)
+
+        public AreaData(byte ID) {
+            string path = RomInfo.areaData + "\\" + ID.ToString("D4");
+            Stream data = new FileStream(path, FileMode.Open);
+            LoadFile(data);
+        }
+
         public AreaData(Stream data) {
+            LoadFile(data);
+        }
+
+        void LoadFile(Stream data) {
             using (BinaryReader reader = new BinaryReader(data)) {
                 buildingsTileset = reader.ReadUInt16();
                 mapTileset = reader.ReadUInt16();
 
-                if (RomInfo.gameFamily == GameFamilies.HGSS) {
+                if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
                     dynamicTextureType = reader.ReadUInt16();
                     areaType = reader.ReadByte();
                     lightType = reader.ReadByte();
-                } else {
+                }
+                else {
                     unknown1 = reader.ReadUInt16();
                     lightType = reader.ReadUInt16();
                 }
             }
         }
-        public AreaData (byte ID) : this(new FileStream(RomInfo.gameDirs[DirNames.areaData].unpackedDir + "//" + ID.ToString("D4"), FileMode.Open)) {}
+
         #endregion
 
         #region Methods (1)
@@ -44,7 +55,7 @@ namespace DSPRE.ROMFiles {
                 writer.Write(buildingsTileset);
                 writer.Write(mapTileset);
 
-                if (RomInfo.gameFamily == GameFamilies.HGSS) {
+                if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
                     writer.Write(dynamicTextureType);
                     writer.Write(areaType);
                     writer.Write((byte)lightType);
@@ -57,7 +68,7 @@ namespace DSPRE.ROMFiles {
         }
 
         public void SaveToFileDefaultDir(int IDtoReplace, bool showSuccessMessage = true) {
-            SaveToFileDefaultDir(DirNames.areaData, IDtoReplace, showSuccessMessage);
+            SaveToFileDefaultDir(RomInfo.DirNames.areaData, IDtoReplace, showSuccessMessage);
         }
 
         public void SaveToFileExplorePath(string suggestedFileName, bool showSuccessMessage = true) {

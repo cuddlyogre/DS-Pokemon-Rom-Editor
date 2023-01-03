@@ -7,7 +7,6 @@ using System.Windows.Forms;
 using LibNDSFormats.NSBMD;
 using DSPRE.Resources;
 using DSPRE.ROMFiles;
-using static DSPRE.RomInfo;
 using NSMBe4.NSBMD;
 
 namespace DSPRE.Editors {
@@ -42,34 +41,32 @@ namespace DSPRE.Editors {
       Helpers.toolStripProgressBar.Value = 0;
       Update();
 
-      DSUtils.TryUnpackNarcs(new List<DirNames> {
-        DirNames.matrices,
-        DirNames.maps,
-        DirNames.exteriorBuildingModels,
-        DirNames.buildingConfigFiles,
-        DirNames.buildingTextures,
-        DirNames.mapTextures,
-        DirNames.areaData,
-
-        DirNames.eventFiles,
-        DirNames.trainerProperties,
-        DirNames.OWSprites,
-
-        DirNames.scripts,
+      DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames> {
+        RomInfo.DirNames.matrices,
+        RomInfo.DirNames.maps,
+        RomInfo.DirNames.exteriorBuildingModels,
+        RomInfo.DirNames.buildingConfigFiles,
+        RomInfo.DirNames.buildingTextures,
+        RomInfo.DirNames.mapTextures,
+        RomInfo.DirNames.areaData,
+        RomInfo.DirNames.eventFiles,
+        RomInfo.DirNames.trainerProperties,
+        RomInfo.DirNames.OWSprites,
+        RomInfo.DirNames.scripts,
       });
 
       RomInfo.SetOWtable();
       RomInfo.Set3DOverworldsDict();
 
-      if (RomInfo.gameFamily == GameFamilies.HGSS) {
-        DSUtils.TryUnpackNarcs(new List<DirNames> { DirNames.interiorBuildingModels });
+      if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
+        DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames> { RomInfo.DirNames.interiorBuildingModels });
       }
 
       Helpers.DisableHandlers();
       if (File.Exists(RomInfo.OWtablePath)) {
         switch (RomInfo.gameFamily) {
-          case GameFamilies.DP:
-          case GameFamilies.Plat:
+          case RomInfo.GameFamilies.DP:
+          case RomInfo.GameFamilies.Plat:
             break;
           default:
             // HGSS Overlay 1 must be decompressed in order to read the overworld table
@@ -161,8 +158,8 @@ namespace DSPRE.Editors {
         owOrientationComboBox.SelectedIndex = 1;
       }
 
-      eventMatrixUpDown.Maximum = Helpers.romInfo.GetMatrixCount() - 1;
-      eventAreaDataUpDown.Maximum = Helpers.romInfo.GetAreaDataCount() - 1;
+      eventMatrixUpDown.Maximum = RomInfo.GetMatrixCount() - 1;
+      eventAreaDataUpDown.Maximum = RomInfo.GetAreaDataCount() - 1;
 
       Helpers.EnableHandlers();
 
@@ -256,7 +253,7 @@ namespace DSPRE.Editors {
         }
 
         /* Update event object on disk */
-        string path = RomInfo.gameDirs[DirNames.eventFiles].unpackedDir + "\\" + selectEventComboBox.SelectedIndex.ToString("D4");
+        string path = RomInfo.eventFiles + "\\" + selectEventComboBox.SelectedIndex.ToString("D4");
         File.Copy(of.FileName, path, true);
 
         /* Refresh controls */
@@ -384,7 +381,7 @@ namespace DSPRE.Editors {
       DialogResult d = MessageBox.Show("Are you sure you want to delete the last Event File?", "Confirm deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
       if (d.Equals(DialogResult.Yes)) {
         /* Delete event file */
-        string path = RomInfo.gameDirs[DirNames.eventFiles].unpackedDir + "\\" + (selectEventComboBox.Items.Count - 1).ToString("D4");
+        string path = RomInfo.eventFiles + "\\" + (selectEventComboBox.Items.Count - 1).ToString("D4");
         File.Delete(path);
 
         /* Check if currently selected file is the last one, and in that case select the one before it */
@@ -638,7 +635,7 @@ namespace DSPRE.Editors {
       }
 
       try {
-        string path = RomInfo.gameDirs[DirNames.OWSprites].unpackedDir + "\\" + result.spriteID.ToString("D4");
+        string path = RomInfo.OWSprites + "\\" + result.spriteID.ToString("D4");
         FileStream stream = new FileStream(path, FileMode.Open);
         NSBTX_File nsbtx = new NSBTX_File(stream);
 
@@ -804,7 +801,7 @@ namespace DSPRE.Editors {
 
             Dictionary<ushort, ushort> dict = new Dictionary<ushort, ushort>();
 
-            if (gameFamily.Equals(GameFamilies.DP)) {
+            if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.DP)) {
               foreach (ushort headerID in result) {
                 HeaderDP hdp = (HeaderDP)MapHeader.LoadFromARM9(headerID);
 
@@ -813,7 +810,7 @@ namespace DSPRE.Editors {
                 }
               }
             }
-            else if (gameFamily.Equals(GameFamilies.Plat)) {
+            else if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.Plat)) {
               foreach (ushort headerID in result) {
                 HeaderPt hpt = (HeaderPt)MapHeader.GetMapHeader(headerID);
 
@@ -1528,13 +1525,13 @@ namespace DSPRE.Editors {
 
       int locNum;
       switch (RomInfo.gameFamily) {
-        case GameFamilies.DP: {
+        case RomInfo.GameFamilies.DP: {
           HeaderDP h = (HeaderDP)destHeader;
 
           locNum = h.locationName;
           break;
         }
-        case GameFamilies.Plat: {
+        case RomInfo.GameFamilies.Plat: {
           HeaderPt h = (HeaderPt)destHeader;
 
           locNum = h.locationName;
@@ -1922,15 +1919,19 @@ namespace DSPRE.Editors {
 
         /* Read map and building models, match them with textures and render them*/
         currentMapFile = new MapFile((int)mapIndex, RomInfo.gameFamily, discardMoveperms: false);
-        Helpers.MW_LoadModelTextures(currentMapFile.mapModel, RomInfo.gameDirs[DirNames.mapTextures].unpackedDir, areaData.mapTileset);
+        string path = RomInfo.mapTextures;
+        Helpers.MW_LoadModelTextures(currentMapFile.mapModel, path, areaData.mapTileset);
 
         bool isInteriorMap = false;
-        if ((RomInfo.gameVersion == GameVersions.HeartGold || RomInfo.gameVersion == GameVersions.SoulSilver) && areaData.areaType == 0x0)
+        bool hgss = RomInfo.gameVersion == RomInfo.GameVersions.HeartGold || RomInfo.gameVersion == RomInfo.GameVersions.SoulSilver;
+        if (hgss && areaData.areaType == 0x0) {
           isInteriorMap = true;
+        }
 
         for (int i = 0; i < currentMapFile.buildings.Count; i++) {
           currentMapFile.buildings[i].LoadModelData(isInteriorMap); // Load building nsbmd
-          Helpers.MW_LoadModelTextures(currentMapFile.buildings[i].NSBMDFile, RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir, areaData.buildingsTileset); // Load building textures                
+          string path1 = RomInfo.buildingTextures;
+          Helpers.MW_LoadModelTextures(currentMapFile.buildings[i].NSBMDFile, path1, areaData.buildingsTileset); // Load building textures                
         }
 
         float ang = 0f;
@@ -1998,7 +1999,7 @@ namespace DSPRE.Editors {
     }
 
     private void locateCurrentEvFile_Click(object sender, EventArgs e) {
-      string path = Path.Combine(gameDirs[DirNames.eventFiles].unpackedDir, selectEventComboBox.SelectedIndex.ToString("D4"));
+      string path = Path.Combine(RomInfo.eventFiles, selectEventComboBox.SelectedIndex.ToString("D4"));
       Helpers.ExplorerSelect(path);
     }
 

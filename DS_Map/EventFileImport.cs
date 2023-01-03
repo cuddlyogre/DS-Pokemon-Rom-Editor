@@ -4,11 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using static DSPRE.ROMFiles.EventFile;
 
 namespace DSPRE {
     public partial class EventFileImport : Form { 
-        private static readonly int eventTypesCount = Enum.GetValues(typeof(SerializationOrders)).Length;
+        private static readonly int eventTypesCount = Enum.GetValues(typeof(EventFile.SerializationOrders)).Length;
 
         private readonly bool[] toImport = new bool[eventTypesCount];
         private readonly CheckedListBox[] listBoxes;
@@ -38,16 +37,16 @@ namespace DSPRE {
             };
 
             foreach (Spawnable s in ef.spawnables) {
-                listBoxes[(int)SerializationOrders.Spawnables].Items.Add(s);
+                listBoxes[(int)EventFile.SerializationOrders.Spawnables].Items.Add(s);
             }
             foreach (Overworld ow in ef.overworlds) {
-                listBoxes[(int)SerializationOrders.Overworlds].Items.Add(ow);
+                listBoxes[(int)EventFile.SerializationOrders.Overworlds].Items.Add(ow);
             }
             foreach (Warp w in ef.warps) {
-                listBoxes[(int)SerializationOrders.Warps].Items.Add(w);
+                listBoxes[(int)EventFile.SerializationOrders.Warps].Items.Add(w);
             }
             foreach (Trigger t in ef.triggers) {
-                listBoxes[(int)SerializationOrders.Triggers].Items.Add(t);
+                listBoxes[(int)EventFile.SerializationOrders.Triggers].Items.Add(t);
             }
 
             foreach (CheckedListBox clb in listBoxes) {

@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using static DSPRE.ROMFiles.ScriptFile;
-using static DSPRE.RomInfo;
 
 namespace DSPRE.ROMFiles {
     /// <summary>
@@ -156,7 +154,7 @@ namespace DSPRE.ROMFiles {
         }
 
         static FileStream getFileStream(int fileID) {
-            string path = RomInfo.gameDirs[DirNames.scripts].unpackedDir + "\\" + fileID.ToString("D4");
+            string path = RomInfo.scripts + "\\" + fileID.ToString("D4");
             return new FileStream(path, FileMode.OpenOrCreate);
         }
 
@@ -223,8 +221,8 @@ namespace DSPRE.ROMFiles {
 
             /* How to read parameters for different commands for DPPt*/
             switch (RomInfo.gameFamily) {
-                case GameFamilies.DP:
-                case GameFamilies.Plat:
+                case RomInfo.GameFamilies.DP:
+                case RomInfo.GameFamilies.Plat:
                     switch (id)  {
                         case 0x16: //Jump
                         case 0x1A: //Call 
@@ -336,7 +334,7 @@ namespace DSPRE.ROMFiles {
                             break;
                         case 0x2C5: 
                             {
-                                if (RomInfo.gameVersion == GameVersions.Platinum) {
+                                if (RomInfo.gameVersion == RomInfo.GameVersions.Platinum) {
                                     parameterList.Add(dataReader.ReadBytes(2));
                                     parameterList.Add(dataReader.ReadBytes(2));
                                 } else {
@@ -348,13 +346,13 @@ namespace DSPRE.ROMFiles {
                         case 0x2C9:
                         case 0x2CA:
                         case 0x2CD:
-                            if (RomInfo.gameVersion == GameVersions.Platinum) {
+                            if (RomInfo.gameVersion == RomInfo.GameVersions.Platinum) {
                                 break;
                             } else {
                                 goto default;
                             }
                         case 0x2CF:
-                            if (RomInfo.gameVersion == GameVersions.Platinum) {
+                            if (RomInfo.gameVersion == RomInfo.GameVersions.Platinum) {
                                 parameterList.Add(dataReader.ReadBytes(2));
                                 parameterList.Add(dataReader.ReadBytes(2));
                             } else {
@@ -366,7 +364,7 @@ namespace DSPRE.ROMFiles {
                             break;
                     }
                     break;
-                case GameFamilies.HGSS:
+                case RomInfo.GameFamilies.HGSS:
                     switch (id) {
                         case 0x16: //Jump
                         case 0x1A: //Call 
@@ -890,7 +888,7 @@ namespace DSPRE.ROMFiles {
         }
 
         public bool SaveToFileDefaultDir(int IDtoReplace, bool showSuccessMessage = true) {
-            return SaveToFileDefaultDir(DirNames.scripts, IDtoReplace, showSuccessMessage);
+            return SaveToFileDefaultDir(RomInfo.DirNames.scripts, IDtoReplace, showSuccessMessage);
         }
         public void SaveToFileExplorePath(string suggestedFileName, bool blindmode) {
             SaveFileDialog sf = new SaveFileDialog {
@@ -906,7 +904,7 @@ namespace DSPRE.ROMFiles {
             }
 
             if (blindmode) {
-                string path = RomInfo.gameDirs[DirNames.scripts].unpackedDir + "\\" + ((int)fileID).ToString("D4");
+                string path = RomInfo.scripts + "\\" + ((int)fileID).ToString("D4");
                 File.Copy(path, sf.FileName, overwrite: true);
 
                 string msg = "";
@@ -924,13 +922,13 @@ namespace DSPRE.ROMFiles {
     }
 
     internal class ScriptReference {
-        public ContainerTypes typeOfCaller { get; private set; }
+        public ScriptFile.ContainerTypes typeOfCaller { get; private set; }
         public uint callerID { get; private set; }
-        public ContainerTypes typeOfInvoked { get; private set; }
+        public ScriptFile.ContainerTypes typeOfInvoked { get; private set; }
         public uint invokedID { get; private set; }
         public int invokedAt { get; private set; }
 
-        public ScriptReference(ContainerTypes typeOfCaller, uint callerID, ContainerTypes invokedType, uint invokedID, int invokedAt) {
+        public ScriptReference(ScriptFile.ContainerTypes typeOfCaller, uint callerID, ScriptFile.ContainerTypes invokedType, uint invokedID, int invokedAt) {
             this.typeOfCaller = typeOfCaller;
             this.callerID = callerID;
             this.typeOfInvoked = invokedType;

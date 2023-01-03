@@ -2,7 +2,6 @@ using System.IO;
 using System.Collections.Generic;
 using LibNDSFormats.NSBMD;
 using System.Windows.Forms;
-using static DSPRE.RomInfo;
 using System;
 using System.Drawing;
 
@@ -77,18 +76,18 @@ namespace DSPRE.ROMFiles {
 
         #region Constructors (1)
 
-        public MapFile(int ID, GameFamilies gFamily, bool discardMoveperms = false, bool showMessages = true) {
-            string path = RomInfo.gameDirs[DirNames.maps].unpackedDir + "\\" + ID.ToString("D4");
+        public MapFile(int ID, RomInfo.GameFamilies gFamily, bool discardMoveperms = false, bool showMessages = true) {
+            string path = RomInfo.maps + "\\" + ID.ToString("D4");
             Stream data = new FileStream(path, FileMode.Open);
             LoadFile(data, gFamily, discardMoveperms, showMessages);
         }
 
-        public MapFile(string path, GameFamilies gFamily, bool discardMoveperms = false, bool showMessages = true) {
+        public MapFile(string path, RomInfo.GameFamilies gFamily, bool discardMoveperms = false, bool showMessages = true) {
             Stream data = new FileStream(path, FileMode.Open);
             LoadFile(data, gFamily, discardMoveperms, showMessages);
         }
 
-        void LoadFile(Stream data, GameFamilies gFamily, bool discardMoveperms, bool showMessages) {
+        void LoadFile(Stream data, RomInfo.GameFamilies gFamily, bool discardMoveperms, bool showMessages) {
             using (BinaryReader reader = new BinaryReader(data)) {
                 /* Read sections lengths */
                 int permissionsSectionLength = reader.ReadInt32();
@@ -97,7 +96,7 @@ namespace DSPRE.ROMFiles {
                 int bdhcSectionLength = reader.ReadInt32();
 
                 /* Read background sounds section */
-                if (gFamily == GameFamilies.HGSS) { //Map must be loaded as HGSS
+                if (gFamily == RomInfo.GameFamilies.HGSS) { //Map must be loaded as HGSS
                     ushort bgsSignature = reader.ReadUInt16();
                     if (bgsSignature == 0x1234) {
                         ushort bgsDataLength = reader.ReadUInt16();
@@ -237,7 +236,7 @@ namespace DSPRE.ROMFiles {
                 writer.Write(bdhc.Length);
 
                 /* Write soundplate section for HG/SS */
-                if (RomInfo.gameFamily == GameFamilies.HGSS) {
+                if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
                     writer.Write(bgs);
                 }
 
@@ -250,7 +249,7 @@ namespace DSPRE.ROMFiles {
             return newData.ToArray();
         }
         public void SaveToFileDefaultDir(int IDtoReplace, bool showSuccessMessage = true) {
-            SaveToFileDefaultDir(DirNames.maps, IDtoReplace, showSuccessMessage);
+            SaveToFileDefaultDir(RomInfo.DirNames.maps, IDtoReplace, showSuccessMessage);
         }
         public void SaveToFileExplorePath(string suggestedFileName, bool showSuccessMessage = true) {
             SaveToFileExplorePath("Gen IV Map Bin", "bin", suggestedFileName, showSuccessMessage);

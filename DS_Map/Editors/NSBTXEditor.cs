@@ -4,7 +4,6 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using DSPRE.ROMFiles;
-using static DSPRE.RomInfo;
 using NSMBe4.NSBMD;
 
 namespace DSPRE.Editors {
@@ -25,11 +24,11 @@ namespace DSPRE.Editors {
       Helpers.statusLabelMessage("Attempting to unpack Tileset Editor NARCs... Please wait.");
       Update();
 
-      DSUtils.TryUnpackNarcs(new List<DirNames> {
-        DirNames.buildingTextures,
-        DirNames.mapTextures,
-        DirNames.buildingConfigFiles,
-        DirNames.areaData
+      DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames> {
+        RomInfo.DirNames.buildingTextures,
+        RomInfo.DirNames.mapTextures,
+        RomInfo.DirNames.buildingConfigFiles,
+        RomInfo.DirNames.areaData
       });
 
       /* Fill Tileset ListBox */
@@ -37,7 +36,7 @@ namespace DSPRE.Editors {
 
       /* Fill AreaData ComboBox */
       selectAreaDataListBox.Items.Clear();
-      int areaDataCount = Helpers.romInfo.GetAreaDataCount();
+      int areaDataCount = RomInfo.GetAreaDataCount();
       for (int i = 0; i < areaDataCount; i++) {
         selectAreaDataListBox.Items.Add("AreaData File " + i);
       }
@@ -46,8 +45,8 @@ namespace DSPRE.Editors {
       string[] lightTypes;
 
       switch (RomInfo.gameFamily) {
-        case GameFamilies.DP:
-        case GameFamilies.Plat:
+        case RomInfo.GameFamilies.DP:
+        case RomInfo.GameFamilies.Plat:
           lightTypes = new string[3] { "Day/Night Light", "Model's light", "Unknown Light" };
           break;
         default:
@@ -110,8 +109,8 @@ namespace DSPRE.Editors {
       palettesListBox.Items.Clear();
 
       /* Load tileset file */
-      string path = RomInfo.gameDirs[DirNames.mapTextures].unpackedDir + "\\" + texturePacksListBox.SelectedIndex.ToString("D4");
-      string path2 = RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir + "\\" + texturePacksListBox.SelectedIndex.ToString("D4");
+      string path = RomInfo.mapTextures + "\\" + texturePacksListBox.SelectedIndex.ToString("D4");
+      string path2 = RomInfo.buildingTextures + "\\" + texturePacksListBox.SelectedIndex.ToString("D4");
       string tilesetPath = mapTilesetRadioButton.Checked
         ? path
         : path2;
@@ -144,10 +143,10 @@ namespace DSPRE.Editors {
 
       int tilesetFileCount;
       if (mapTilesetRadioButton.Checked) {
-        tilesetFileCount = Helpers.romInfo.GetMapTexturesCount();
+        tilesetFileCount = RomInfo.GetMapTexturesCount();
       }
       else {
-        tilesetFileCount = Helpers.romInfo.GetBuildingTexturesCount();
+        tilesetFileCount = RomInfo.GetBuildingTexturesCount();
       }
 
       for (int i = 0; i < tilesetFileCount; i++) {
@@ -293,8 +292,8 @@ namespace DSPRE.Editors {
       }
 
       /* Update nsbtx file */
-      string path = RomInfo.gameDirs[DirNames.mapTextures].unpackedDir + "\\" + texturePacksListBox.SelectedIndex.ToString("D4");
-      string path2 = RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir + "\\" + texturePacksListBox.SelectedIndex.ToString("D4");
+      string path = RomInfo.mapTextures + "\\" + texturePacksListBox.SelectedIndex.ToString("D4");
+      string path2 = RomInfo.buildingTextures + "\\" + texturePacksListBox.SelectedIndex.ToString("D4");
       string tilesetPath = mapTilesetRadioButton.Checked
         ? path
         : path2;
@@ -315,8 +314,8 @@ namespace DSPRE.Editors {
         return;
       }
 
-      string path = RomInfo.gameDirs[DirNames.mapTextures].unpackedDir + "\\" + texturePacksListBox.SelectedIndex.ToString("D4");
-      string path2 = RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir + "\\" + texturePacksListBox.SelectedIndex.ToString("D4");
+      string path = RomInfo.mapTextures + "\\" + texturePacksListBox.SelectedIndex.ToString("D4");
+      string path2 = RomInfo.buildingTextures + "\\" + texturePacksListBox.SelectedIndex.ToString("D4");
       string tilesetPath = mapTilesetRadioButton.Checked
         ? path
         : path2;
@@ -328,8 +327,8 @@ namespace DSPRE.Editors {
     private void addNSBTXButton_Click(object sender, EventArgs e) {
       /* Add new NSBTX file to the correct folder */
       if (mapTilesetRadioButton.Checked) {
-        string path = RomInfo.gameDirs[DirNames.mapTextures].unpackedDir + "\\" + 0.ToString("D4");
-        string path2 = RomInfo.gameDirs[DirNames.mapTextures].unpackedDir + "\\" + texturePacksListBox.Items.Count.ToString("D4");
+        string path = RomInfo.mapTextures + "\\" + 0.ToString("D4");
+        string path2 = RomInfo.mapTextures + "\\" + texturePacksListBox.Items.Count.ToString("D4");
         File.Copy(path, path2);
 
         if (EditorPanels.mapEditor.mapEditorIsReady) {
@@ -337,11 +336,11 @@ namespace DSPRE.Editors {
         }
       }
       else {
-        string path = RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir + "\\" + 0.ToString("D4");
-        string path2 = RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir + "\\" + texturePacksListBox.Items.Count.ToString("D4");
+        string path = RomInfo.buildingTextures + "\\" + 0.ToString("D4");
+        string path2 = RomInfo.buildingTextures + "\\" + texturePacksListBox.Items.Count.ToString("D4");
         File.Copy(path, path2);
-        string path3 = RomInfo.gameDirs[DirNames.buildingConfigFiles].unpackedDir + "\\" + 0.ToString("D4");
-        string path4 = RomInfo.gameDirs[DirNames.buildingConfigFiles].unpackedDir + "\\" + texturePacksListBox.Items.Count.ToString("D4");
+        string path3 = RomInfo.buildingConfigFiles + "\\" + 0.ToString("D4");
+        string path4 = RomInfo.buildingConfigFiles + "\\" + texturePacksListBox.Items.Count.ToString("D4");
         File.Copy(path3, path4);
 
         if (EditorPanels.mapEditor.mapEditorIsReady) {
@@ -355,7 +354,7 @@ namespace DSPRE.Editors {
     }
 
     private void locateCurrentAreaData_Click(object sender, EventArgs e) {
-      string path = Path.Combine(gameDirs[DirNames.areaData].unpackedDir, selectAreaDataListBox.SelectedIndex.ToString("D4"));
+      string path = Path.Combine(RomInfo.areaData, selectAreaDataListBox.SelectedIndex.ToString("D4"));
       Helpers.ExplorerSelect(path);
     }
 
@@ -381,7 +380,7 @@ namespace DSPRE.Editors {
       }
 
       /* Update areadata object in memory */
-      string path = RomInfo.gameDirs[DirNames.areaData].unpackedDir + "\\" + selectAreaDataListBox.SelectedIndex.ToString("D4");
+      string path = RomInfo.areaData + "\\" + selectAreaDataListBox.SelectedIndex.ToString("D4");
       File.Copy(of.FileName, path, true);
 
       /* Refresh controls */
@@ -394,7 +393,7 @@ namespace DSPRE.Editors {
     private void removeAreaDataButton_Click(object sender, EventArgs e) {
       if (selectAreaDataListBox.Items.Count > 1) {
         /* Delete AreaData file */
-        string path = RomInfo.gameDirs[DirNames.areaData].unpackedDir + "\\" + (selectAreaDataListBox.Items.Count - 1).ToString("D4");
+        string path = RomInfo.areaData + "\\" + (selectAreaDataListBox.Items.Count - 1).ToString("D4");
         File.Delete(path);
 
         /* Check if currently selected file is the last one, and in that case select the one before it */
@@ -418,8 +417,9 @@ namespace DSPRE.Editors {
 
     private void addAreaDataButton_Click(object sender, EventArgs e) {
       /* Add new NSBTX file to the correct folder */
-      string areaDataDirPath = RomInfo.gameDirs[DirNames.areaData].unpackedDir;
-      File.Copy(areaDataDirPath + "\\" + 0.ToString("D4"), areaDataDirPath + "\\" + selectAreaDataListBox.Items.Count.ToString("D4"));
+      string path = RomInfo.areaData + "\\" + 0.ToString("D4");
+      string path1 = RomInfo.areaData + "\\" + selectAreaDataListBox.Items.Count.ToString("D4");
+      File.Copy(path, path1);
 
       /* Update ComboBox and select new file */
       selectAreaDataListBox.Items.Add("AreaData File " + selectAreaDataListBox.Items.Count);
@@ -481,7 +481,7 @@ namespace DSPRE.Editors {
       areaDataLightTypeComboBox.SelectedIndex = currentAreaData.lightType;
 
       Helpers.DisableHandlers();
-      if (RomInfo.gameFamily == GameFamilies.HGSS) {
+      if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
         areaDataDynamicTexturesNumericUpDown.Value = currentAreaData.dynamicTextureType;
 
         bool interior = currentAreaData.areaType == 0;
@@ -498,7 +498,7 @@ namespace DSPRE.Editors {
         DialogResult d = MessageBox.Show("Are you sure you want to delete the last Texture Pack?", "Confirm deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
         if (d.Equals(DialogResult.Yes)) {
           if (mapTilesetRadioButton.Checked) {
-            string path = RomInfo.gameDirs[DirNames.mapTextures].unpackedDir + "\\" + (texturePacksListBox.Items.Count - 1).ToString("D4");
+            string path = RomInfo.mapTextures + "\\" + (texturePacksListBox.Items.Count - 1).ToString("D4");
             File.Delete(path);
 
             if (EditorPanels.mapEditor.mapEditorIsReady) {
@@ -506,9 +506,9 @@ namespace DSPRE.Editors {
             }
           }
           else {
-            string path = RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir + "\\" + (texturePacksListBox.Items.Count - 1).ToString("D4");
+            string path = RomInfo.buildingTextures + "\\" + (texturePacksListBox.Items.Count - 1).ToString("D4");
             File.Delete(path);
-            string path2 = RomInfo.gameDirs[DirNames.buildingConfigFiles].unpackedDir + "\\" + (texturePacksListBox.Items.Count - 1).ToString("D4");
+            string path2 = RomInfo.buildingConfigFiles + "\\" + (texturePacksListBox.Items.Count - 1).ToString("D4");
             File.Delete(path2);
 
             if (EditorPanels.mapEditor.mapEditorIsReady) {
@@ -533,11 +533,11 @@ namespace DSPRE.Editors {
 
     private void locateCurrentNsbtx_Click(object sender, EventArgs e) {
       if (mapTilesetRadioButton.Checked) {
-        string path = Path.Combine(gameDirs[DirNames.mapTextures].unpackedDir, texturePacksListBox.SelectedIndex.ToString("D4"));
+        string path = Path.Combine(RomInfo.mapTextures, texturePacksListBox.SelectedIndex.ToString("D4"));
         Helpers.ExplorerSelect(path);
       }
       else {
-        string path = Path.Combine(gameDirs[DirNames.buildingTextures].unpackedDir, texturePacksListBox.SelectedIndex.ToString("D4"));
+        string path = Path.Combine(RomInfo.buildingTextures, texturePacksListBox.SelectedIndex.ToString("D4"));
         Helpers.ExplorerSelect(path);
       }
     }

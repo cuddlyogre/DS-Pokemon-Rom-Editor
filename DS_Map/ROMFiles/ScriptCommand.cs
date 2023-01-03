@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
-using static DSPRE.ROMFiles.Event;
-using static DSPRE.ROMFiles.ScriptFile;
 
 namespace DSPRE.ROMFiles {
     public enum ParamTypeEnum { INTEGER, VARIABLE, FLEX, OW_ID, OW_MOVEMENT_TYPE, OW_DIRECTION, FUNCTION_ID, ACTION_ID, CMD_NUMBER };
@@ -13,11 +11,11 @@ namespace DSPRE.ROMFiles {
         public List<ScriptCommand> commands;
         public uint manualUserID;
         public int usedScriptID; //useScript ID referenced by this Script/Function
-        public ContainerTypes containerType;
+        public ScriptFile.ContainerTypes containerType;
         internal static readonly string functionStart;
 
         #region Constructors (2)
-        public CommandContainer(uint scriptNumber, ContainerTypes containerType, int usedScriptID = -1, List<ScriptCommand> commandList = null) {
+        public CommandContainer(uint scriptNumber, ScriptFile.ContainerTypes containerType, int usedScriptID = -1, List<ScriptCommand> commandList = null) {
             manualUserID = scriptNumber;
             this.usedScriptID = usedScriptID;
             this.containerType = containerType;
@@ -386,10 +384,10 @@ namespace DSPRE.ROMFiles {
                     return "CMD_" + prefix + num.ToString(formatOverride + '3');
 
                 case ParamTypeEnum.FUNCTION_ID:
-                    return ContainerTypes.Function.ToString() + "#" + num;
+                    return ScriptFile.ContainerTypes.Function.ToString() + "#" + num;
 
                 case ParamTypeEnum.ACTION_ID:
-                    return ContainerTypes.Action.ToString() + "#" + num;
+                    return ScriptFile.ContainerTypes.Action.ToString() + "#" + num;
 
                 case ParamTypeEnum.OW_MOVEMENT_TYPE:
                     if (num < 4000) {
@@ -403,7 +401,7 @@ namespace DSPRE.ROMFiles {
                             return output;
                         } else {
                             if (num < 4000) {
-                                outp += $"{EventType.Overworld}.";
+                                outp += $"{Event.EventType.Overworld}.";
                             }
                             goto default;
                         }

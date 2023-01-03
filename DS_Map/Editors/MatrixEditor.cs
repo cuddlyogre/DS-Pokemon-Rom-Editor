@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using DSPRE.ROMFiles;
-using static DSPRE.RomInfo;
 
 namespace DSPRE.Editors {
   public partial class MatrixEditor : UserControl {
@@ -23,14 +22,14 @@ namespace DSPRE.Editors {
       Helpers.statusLabelMessage("Setting up Matrix Editor...");
       Update();
 
-      DSUtils.TryUnpackNarcs(new List<DirNames> { DirNames.matrices });
+      DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames> { RomInfo.DirNames.matrices });
 
       Helpers.DisableHandlers();
 
       /* Add matrix entries to ComboBox */
       selectMatrixComboBox.Items.Clear();
       selectMatrixComboBox.Items.Add("Matrix 0 - Main");
-      for (int i = 1; i < Helpers.romInfo.GetMatrixCount(); i++) {
+      for (int i = 1; i < RomInfo.GetMatrixCount(); i++) {
         selectMatrixComboBox.Items.Add(new GameMatrix(i));
       }
 
@@ -533,7 +532,7 @@ namespace DSPRE.Editors {
           EditorPanels.mapEditor.mapEditorIsReady = true;
         }
 
-        int mapCount = Helpers.romInfo.GetMapCount();
+        int mapCount = RomInfo.GetMapCount();
         if (currentMatrix.maps[e.RowIndex, e.ColumnIndex] >= mapCount) {
           MessageBox.Show("This matrix cell points to a map file that doesn't exist.",
             "There " + ((mapCount > 1) ? "are only " + mapCount + " map files." : "is only 1 map file."), MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -562,7 +561,7 @@ namespace DSPRE.Editors {
                 Helpers.statusLabelMessage("Multiple Headers are associated to this Matrix, including the last selected one [Header " + headerID + "]. Now using its textures.");
               }
               else {
-                if (gameFamily.Equals(GameFamilies.DP)) {
+                if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.DP)) {
                   foreach (ushort r in result) {
                     HeaderDP hdp;
 
@@ -575,7 +574,7 @@ namespace DSPRE.Editors {
                     }
                   }
                 }
-                else if (gameFamily.Equals(GameFamilies.Plat)) {
+                else if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.Plat)) {
                   foreach (ushort r in result) {
                     HeaderPt hpt = (HeaderPt)MapHeader.GetMapHeader(r);
 
@@ -710,7 +709,7 @@ namespace DSPRE.Editors {
       GameMatrix blankMatrix = new GameMatrix();
 
       /* Add new matrix file to matrix folder */
-      string path = RomInfo.gameDirs[DirNames.matrices].unpackedDir + "\\" + Helpers.romInfo.GetMatrixCount().ToString("D4");
+      string path = RomInfo.matrices + "\\" + RomInfo.GetMatrixCount().ToString("D4");
       blankMatrix.SaveToFile(path, false);
 
       /* Update ComboBox*/
@@ -727,9 +726,9 @@ namespace DSPRE.Editors {
         DialogResult d = MessageBox.Show("Are you sure you want to delete the last matrix?", "Confirm deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
         if (d.Equals(DialogResult.Yes)) {
           /* Delete matrix file */
-          int matrixToDelete = Helpers.romInfo.GetMatrixCount() - 1;
+          int matrixToDelete = RomInfo.GetMatrixCount() - 1;
 
-          string matrixPath = RomInfo.gameDirs[DirNames.matrices].unpackedDir + "\\" + matrixToDelete.ToString("D4");
+          string matrixPath = RomInfo.matrices + "\\" + matrixToDelete.ToString("D4");
           File.Delete(matrixPath);
 
           /* Change selected index if the matrix to be deleted is currently selected */
@@ -864,7 +863,7 @@ namespace DSPRE.Editors {
     }
 
     private void locateCurrentMatrixFile_Click(object sender, EventArgs e) {
-      string path = Path.Combine(gameDirs[DirNames.matrices].unpackedDir, selectMatrixComboBox.SelectedIndex.ToString("D4"));
+      string path = Path.Combine(RomInfo.matrices, selectMatrixComboBox.SelectedIndex.ToString("D4"));
       Helpers.ExplorerSelect(path);
     }
   }

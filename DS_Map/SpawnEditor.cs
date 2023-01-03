@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using static DSPRE.RomInfo;
 
 namespace DSPRE {
     public partial class SpawnEditor : Form {
@@ -115,13 +114,13 @@ namespace DSPRE {
             matrixyUpDown.Maximum = headerMatrix.maps.GetLength(0) - 1;
 
             switch (RomInfo.gameFamily) {
-                case GameFamilies.DP:
+                case RomInfo.GameFamilies.DP:
                     locationNameLBL.Text = locations[((HeaderDP)currentHeader).locationName];
                     break;
-                case GameFamilies.Plat:
+                case RomInfo.GameFamilies.Plat:
                     locationNameLBL.Text = locations[((HeaderPt)currentHeader).locationName];
                     break;
-                case GameFamilies.HGSS:
+                case RomInfo.GameFamilies.HGSS:
                     locationNameLBL.Text = locations[((HeaderHGSS)currentHeader).locationName];
                     break;
             }
