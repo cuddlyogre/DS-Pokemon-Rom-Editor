@@ -14,45 +14,36 @@ namespace DSPRE {
     /// </summary>
 
     public class RomInfo {
+        public static readonly byte internalNameLength = 16;
+        public static uint synthOverlayLoadAddress = 0x023C8000;
+        public Dictionary<List<uint>, (Color background, Color foreground)> MapCellsColorDictionary;
         public static string folderSuffix = "_DSPRE_contents";
+
         public static string romID { get; private set; }
         public static string fileName { get; private set; }
         public static string workDir { get; private set; }
         public static string arm9Path { get; private set; }
         public static string overlayTablePath { get; set; }
         public static string overlayPath { get; set; }
-
         public static GameLanguages gameLanguage { get; private set; }
         public static GameVersions gameVersion { get; private set; }
         public static GameFamilies gameFamily { get; private set; }
-
-
-        public static uint synthOverlayLoadAddress = 0x023C8000;
         public static uint arm9spawnOffset { get; private set; }
-        
         public static int initialMoneyOverlayNumber { get; private set; }
         public static uint initialMoneyOverlayOffset { get; private set; }
-
         public static int cameraTblOverlayNumber { get; private set; }
         public static uint[] cameraTblOffsetsToRAMaddress { get; private set; }
-
         public static uint headerTableOffset { get; private set; }
-
         public static uint conditionalMusicTableOffsetToRAMAddress { get; internal set; }
         public static uint encounterMusicTableOffsetToRAMAddress { get; internal set; }
-
         public static uint vsTrainerEntryTableOffsetToRAMAddress { get; internal set; }
         public static uint vsPokemonEntryTableOffsetToRAMAddress { get; internal set; }
         public static uint effectsComboTableOffsetToRAMAddress { get; internal set; }
-
         public static uint vsTrainerEntryTableOffsetToSizeLimiter { get; internal set; }
         public static uint vsPokemonEntryTableOffsetToSizeLimiter { get; internal set; }
         public static uint effectsComboTableOffsetToSizeLimiter { get; internal set; }
-
-
         public static uint OWTableOffset { get; internal set; }
         public static string OWtablePath { get; private set; }
-
         public static int nullEncounterID { get; private set; }
         public static int attackNamesTextNumber { get; private set; }
         public static int[] pokemonNamesTextNumbers { get; private set; }
@@ -61,25 +52,16 @@ namespace DSPRE {
         public static int trainerClassMessageNumber { get; private set; }
         public static int trainerNamesMessageNumber { get; private set; }
         public static int locationNamesTextNumber { get; private set; }
-
         public static string internalNamesLocation { get; private set; }
-        public static readonly byte internalNameLength = 16;
         public static int cameraSize { get; private set; }
-
-        public Dictionary<List<uint>, (Color background, Color foreground)> MapCellsColorDictionary;
         public static SortedDictionary<uint, (uint spriteID, ushort properties)> OverworldTable { get; private set; }
         public static uint[] overworldTableKeys { get; private set; }
         public static Dictionary<uint, string> ow3DSpriteDict { get; private set; }
-
-
         public static Dictionary<ushort, string> ScriptCommandNamesDict { get; private set; }
         public static Dictionary<string, ushort> ScriptCommandNamesReverseDict { get; private set; }
-
         public static Dictionary<ushort, string> ScriptActionNamesDict { get; private set; }
         public static Dictionary<string, ushort> ScriptActionNamesReverseDict { get; private set; }
-
         public static Dictionary<ushort, byte[]> ScriptCommandParametersDict { get; private set; }
-
         public static Dictionary<ushort, string> ScriptComparisonOperatorsDict { get; private set; }
         public static Dictionary<string, ushort> ScriptComparisonOperatorsReverseDict { get; private set; }
 
@@ -144,7 +126,6 @@ namespace DSPRE {
             interiorBuildingModels
         };
         public static Dictionary<DirNames, (string packedDir, string unpackedDir)> gameDirs { get; private set; }
-
 
         #region Constructors (1)
         public RomInfo(string id, string romName, bool useSuffix = true) {
