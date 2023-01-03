@@ -355,7 +355,8 @@ namespace DSPRE.Editors {
     }
 
     private void locateCurrentAreaData_Click(object sender, EventArgs e) {
-      Helpers.ExplorerSelect(Path.Combine(gameDirs[DirNames.areaData].unpackedDir, selectAreaDataListBox.SelectedIndex.ToString("D4")));
+      string path = Path.Combine(gameDirs[DirNames.areaData].unpackedDir, selectAreaDataListBox.SelectedIndex.ToString("D4"));
+      Helpers.ExplorerSelect(path);
     }
 
     private void exportAreaDataButton_Click(object sender, EventArgs e) {
@@ -532,10 +533,12 @@ namespace DSPRE.Editors {
 
     private void locateCurrentNsbtx_Click(object sender, EventArgs e) {
       if (mapTilesetRadioButton.Checked) {
-        Helpers.ExplorerSelect(Path.Combine(gameDirs[DirNames.mapTextures].unpackedDir, texturePacksListBox.SelectedIndex.ToString("D4")));
+        string path = Path.Combine(gameDirs[DirNames.mapTextures].unpackedDir, texturePacksListBox.SelectedIndex.ToString("D4"));
+        Helpers.ExplorerSelect(path);
       }
       else {
-        Helpers.ExplorerSelect(Path.Combine(gameDirs[DirNames.buildingTextures].unpackedDir, texturePacksListBox.SelectedIndex.ToString("D4")));
+        string path = Path.Combine(gameDirs[DirNames.buildingTextures].unpackedDir, texturePacksListBox.SelectedIndex.ToString("D4"));
+        Helpers.ExplorerSelect(path);
       }
     }
 

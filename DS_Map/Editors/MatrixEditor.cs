@@ -864,7 +864,8 @@ namespace DSPRE.Editors {
     }
 
     private void locateCurrentMatrixFile_Click(object sender, EventArgs e) {
-      Helpers.ExplorerSelect(Path.Combine(gameDirs[DirNames.matrices].unpackedDir, selectMatrixComboBox.SelectedIndex.ToString("D4")));
+      string path = Path.Combine(gameDirs[DirNames.matrices].unpackedDir, selectMatrixComboBox.SelectedIndex.ToString("D4"));
+      Helpers.ExplorerSelect(path);
     }
   }
 }

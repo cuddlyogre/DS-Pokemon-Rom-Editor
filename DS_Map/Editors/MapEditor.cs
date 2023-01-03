@@ -1774,7 +1774,8 @@ namespace DSPRE.Editors {
     }
 
     private void locateCurrentMapBin_Click(object sender, EventArgs e) {
-      Helpers.ExplorerSelect(Path.Combine(gameDirs[DirNames.maps].unpackedDir, selectMapComboBox.SelectedIndex.ToString("D4")));
+      string path = Path.Combine(gameDirs[DirNames.maps].unpackedDir, selectMapComboBox.SelectedIndex.ToString("D4"));
+      Helpers.ExplorerSelect(path);
     }
   }
 }

@@ -340,7 +340,8 @@ namespace DSPRE.Editors {
     }
 
     private void locateCurrentTextArchive_Click(object sender, EventArgs e) {
-      Helpers.ExplorerSelect(Path.Combine(gameDirs[DirNames.textArchives].unpackedDir, selectTextFileComboBox.SelectedIndex.ToString("D4")));
+      string path = Path.Combine(gameDirs[DirNames.textArchives].unpackedDir, selectTextFileComboBox.SelectedIndex.ToString("D4"));
+      Helpers.ExplorerSelect(path);
     }
 
     private void importTextFileButton_Click(object sender, EventArgs e) {

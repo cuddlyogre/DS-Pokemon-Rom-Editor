@@ -1998,7 +1998,8 @@ namespace DSPRE.Editors {
     }
 
     private void locateCurrentEvFile_Click(object sender, EventArgs e) {
-      Helpers.ExplorerSelect(Path.Combine(gameDirs[DirNames.eventFiles].unpackedDir, selectEventComboBox.SelectedIndex.ToString("D4")));
+      string path = Path.Combine(gameDirs[DirNames.eventFiles].unpackedDir, selectEventComboBox.SelectedIndex.ToString("D4"));
+      Helpers.ExplorerSelect(path);
     }
 
     private void warpMatrixXUpDown_ValueChanged(object sender, EventArgs e) {
