@@ -28,6 +28,12 @@ namespace DSPRE {
         
         public static bool overlay1MustBeRestoredFromBackup { get; private set; } = true;
 
+        public static bool DynamicHeadersPatchApplied {
+            get {
+                return ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied();
+            }
+        }
+
         #region Constructor
         public ROMToolboxDialog() {
             InitializeComponent();

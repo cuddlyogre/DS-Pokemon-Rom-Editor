@@ -64,7 +64,7 @@ namespace DSPRE.Editors {
       Helpers.statusLabelMessage("Reading internal names... Please wait.");
       Update();
 
-      if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
+      if (ROMToolboxDialog.DynamicHeadersPatchApplied) {
         addHeaderBTN.Enabled = true;
         removeLastHeaderBTN.Enabled = true;
       }
@@ -441,17 +441,8 @@ namespace DSPRE.Editors {
     }
 
     private void saveHeaderButton_Click(object sender, EventArgs e) {
-      /* Check if dynamic headers patch has been applied, and save header to arm9 or a/0/5/0 accordingly */
-      if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
-        DSUtils.WriteToFile(RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir + "\\" + currentHeader.ID.ToString("D4"), currentHeader.ToByteArray(), 0, 0, fmode: FileMode.Create);
-      }
-      else {
-        uint headerOffset = (uint)(RomInfo.headerTableOffset + MapHeader.length * currentHeader.ID);
-        DSUtils.ARM9.WriteBytes(currentHeader.ToByteArray(), headerOffset);
-      }
-
+      currentHeader.SaveFile();
       Helpers.DisableHandlers();
-
       updateCurrentInternalName();
       updateHeaderNameShown(headerListBox.SelectedIndex);
       headerListBox.Focus();
@@ -504,13 +495,7 @@ namespace DSPRE.Editors {
         return;
       }
 
-      /* Check if dynamic headers patch has been applied, and load header from arm9 or a/0/5/0 accordingly */
-      if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
-        currentHeader = MapHeader.LoadFromFile(RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir + "\\" + headerNumber.ToString("D4"), headerNumber, 0);
-      }
-      else {
-        currentHeader = MapHeader.LoadFromARM9(headerNumber);
-      }
+      currentHeader = MapHeader.GetMapHeader(headerNumber);
 
       RefreshHeaderEditorFields();
     }
@@ -962,13 +947,7 @@ namespace DSPRE.Editors {
 
         /* Check if dynamic headers patch has been applied, and load header from arm9 or a/0/5/0 accordingly */
         for (ushort i = 0; i < internalNames.Count; i++) {
-          MapHeader h;
-          if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
-            h = MapHeader.LoadFromFile(RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir + "\\" + i.ToString("D4"), i, 0);
-          }
-          else {
-            h = MapHeader.LoadFromARM9(i);
-          }
+          MapHeader h = MapHeader.GetMapHeader(i);
 
           string locationName = "";
           switch (RomInfo.gameFamily) {
@@ -1154,14 +1133,7 @@ namespace DSPRE.Editors {
       }
 
       currentHeader = h;
-      /* Check if dynamic headers patch has been applied, and save header to arm9 or a/0/5/0 accordingly */
-      if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
-        DSUtils.WriteToFile(RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir + "\\" + currentHeader.ID.ToString("D4"), currentHeader.ToByteArray(), 0, 0, fmode: FileMode.Create);
-      }
-      else {
-        uint headerOffset = (uint)(RomInfo.headerTableOffset + MapHeader.length * currentHeader.ID);
-        DSUtils.ARM9.WriteBytes(currentHeader.ToByteArray(), headerOffset);
-      }
+      currentHeader.SaveFile();
 
       try {
         using (DSUtils.EasyReader reader = new DSUtils.EasyReader(of.FileName, MapHeader.length + 8)) {

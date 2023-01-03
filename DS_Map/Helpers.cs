@@ -325,31 +325,6 @@ namespace DSPRE {
       }
     }
 
-    public static MapHeader GetMapHeader(ushort headerNumber) {
-      MapHeader currentHeader;
-      /* Check if dynamic headers patch has been applied, and load header from arm9 or a/0/5/0 accordingly */
-      if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
-        currentHeader = MapHeader.LoadFromFile(RomInfo.gameDirs[RomInfo.DirNames.dynamicHeaders].unpackedDir + "\\" + headerNumber.ToString("D4"), headerNumber, 0);
-      }
-      else {
-        currentHeader = MapHeader.LoadFromARM9(headerNumber);
-      }
-
-      return currentHeader;
-    }
-
-    public static int GetHeaderCount() {
-      int headerCount;
-      if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
-        headerCount = Directory.GetFiles(RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir).Length;
-      }
-      else {
-        headerCount = RomInfo.GetHeaderCount();
-      }
-
-      return headerCount;
-    }
-
     public static Tuple<List<string>, List<string>> BuildHeaderNames() {
       List<string> headerListBoxNames = new List<string>();
       List<string> internalNames = new List<string>();

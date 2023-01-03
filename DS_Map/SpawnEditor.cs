@@ -108,12 +108,7 @@ namespace DSPRE {
         private void spawnHeaderComboBox_IndexChanged(object sender, EventArgs e) {
             ushort headerNumber = ushort.Parse(spawnHeaderComboBox.SelectedItem.ToString().Split()[0]);
 
-            MapHeader currentHeader;
-            if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
-                currentHeader = MapHeader.LoadFromFile(RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir + "\\" + headerNumber.ToString("D4"), headerNumber, 0);
-            } else {
-                currentHeader = MapHeader.LoadFromARM9(headerNumber);
-            }
+            MapHeader currentHeader = MapHeader.GetMapHeader(headerNumber);
 
             GameMatrix headerMatrix = new GameMatrix(currentHeader.matrixID);
             matrixxUpDown.Maximum = headerMatrix.maps.GetLength(1) - 1;

@@ -566,12 +566,8 @@ namespace DSPRE.Editors {
                   foreach (ushort r in result) {
                     HeaderDP hdp;
 
-                    ////Dynamic headers patch unsupported in DP
-                    //if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
-                    //    hdp = (HeaderDP)MapHeader.LoadFromFile(RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir + "\\" + r.ToString("D4"), r, 0);
-                    //} else {
+                    //Dynamic headers patch unsupported in DP
                     hdp = (HeaderDP)MapHeader.LoadFromARM9(r);
-                    //}
 
                     if (hdp.locationName != 0) {
                       headerID = hdp.ID;
@@ -581,13 +577,7 @@ namespace DSPRE.Editors {
                 }
                 else if (gameFamily.Equals(GameFamilies.Plat)) {
                   foreach (ushort r in result) {
-                    HeaderPt hpt;
-                    if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
-                      hpt = (HeaderPt)MapHeader.LoadFromFile(RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir + "\\" + r.ToString("D4"), r, 0);
-                    }
-                    else {
-                      hpt = (HeaderPt)MapHeader.LoadFromARM9(r);
-                    }
+                    HeaderPt hpt = (HeaderPt)MapHeader.GetMapHeader(r);
 
                     if (hpt.locationName != 0) {
                       headerID = hpt.ID;
@@ -597,13 +587,7 @@ namespace DSPRE.Editors {
                 }
                 else {
                   foreach (ushort r in result) {
-                    HeaderHGSS hgss;
-                    if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
-                      hgss = (HeaderHGSS)MapHeader.LoadFromFile(RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir + "\\" + r.ToString("D4"), r, 0);
-                    }
-                    else {
-                      hgss = (HeaderHGSS)MapHeader.LoadFromARM9(r);
-                    }
+                    HeaderHGSS hgss = (HeaderHGSS)MapHeader.GetMapHeader(r);
 
                     if (hgss.locationName != 0) {
                       headerID = hgss.ID;
@@ -631,13 +615,7 @@ namespace DSPRE.Editors {
         }
 
         /* get texture file numbers from area data */
-        MapHeader h;
-        if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
-          h = MapHeader.LoadFromFile(RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir + "\\" + headerID.ToString("D4"), headerID, 0);
-        }
-        else {
-          h = MapHeader.LoadFromARM9(headerID);
-        }
+        MapHeader h = MapHeader.GetMapHeader(headerID);
 
         /* Load Map File and switch to Map Editor tab */
         Helpers.DisableHandlers();

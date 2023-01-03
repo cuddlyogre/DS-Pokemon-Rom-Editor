@@ -812,14 +812,7 @@ namespace DSPRE.Editors {
             }
             else if (gameFamily.Equals(GameFamilies.Plat)) {
               foreach (ushort headerID in result) {
-                HeaderPt hpt;
-
-                if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
-                  hpt = (HeaderPt)MapHeader.LoadFromFile(RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir + "\\" + headerID.ToString("D4"), headerID, 0);
-                }
-                else {
-                  hpt = (HeaderPt)MapHeader.LoadFromARM9(headerID);
-                }
+                HeaderPt hpt = (HeaderPt)MapHeader.GetMapHeader(headerID);
 
                 if (hpt.matrixID != eventMatrixUpDown.Value && hpt.locationName != 0) {
                   dict.Add(hpt.ID, hpt.matrixID);
@@ -828,14 +821,7 @@ namespace DSPRE.Editors {
             }
             else {
               foreach (ushort headerID in result) {
-                HeaderHGSS hgss;
-
-                if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
-                  hgss = (HeaderHGSS)MapHeader.LoadFromFile(RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir + "\\" + headerID.ToString("D4"), headerID, 0);
-                }
-                else {
-                  hgss = (HeaderHGSS)MapHeader.LoadFromARM9(headerID);
-                }
+                HeaderHGSS hgss = (HeaderHGSS)MapHeader.GetMapHeader(headerID);
 
                 if (hgss.matrixID != eventMatrixUpDown.Value && hgss.locationName != 0) {
                   dict.Add(hgss.ID, hgss.matrixID);
@@ -1535,13 +1521,7 @@ namespace DSPRE.Editors {
 
       ushort destHeaderID = (ushort)eventEditorWarpHeaderListBox.SelectedIndex;
 
-      MapHeader destHeader;
-      if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
-        destHeader = MapHeader.LoadFromFile(RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir + "\\" + destHeaderID.ToString("D4"), destHeaderID, 0);
-      }
-      else {
-        destHeader = MapHeader.LoadFromARM9(destHeaderID);
-      }
+      MapHeader destHeader = MapHeader.GetMapHeader(destHeaderID);
 
       int locNum;
       switch (RomInfo.gameFamily) {
@@ -1583,13 +1563,7 @@ namespace DSPRE.Editors {
       int destAnchor = (int)warpAnchorUpDown.Value;
       ushort destHeaderID = (ushort)eventEditorWarpHeaderListBox.SelectedIndex;
 
-      MapHeader destHeader;
-      if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
-        destHeader = MapHeader.LoadFromFile(RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir + "\\" + destHeaderID.ToString("D4"), destHeaderID, 0);
-      }
-      else {
-        destHeader = MapHeader.LoadFromARM9(destHeaderID);
-      }
+      MapHeader destHeader = MapHeader.GetMapHeader(destHeaderID);
 
       if (new EventFile(destHeader.eventFileID).warps.Count < destAnchor + 1) {
         DialogResult d = MessageBox.Show("The selected warp's destination anchor doesn't exist.\n" +
@@ -1927,13 +1901,7 @@ namespace DSPRE.Editors {
         byte areaDataID;
         if (eventMatrix.hasHeadersSection && readGraphicsFromHeader) {
           ushort headerID = (ushort)eventMatrix.headers[(short)eventMatrixYUpDown.Value, (short)eventMatrixXUpDown.Value];
-          MapHeader h;
-          if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
-            h = MapHeader.LoadFromFile(RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir + "\\" + headerID.ToString("D4"), headerID, 0);
-          }
-          else {
-            h = MapHeader.LoadFromARM9(headerID);
-          }
+          MapHeader h = MapHeader.GetMapHeader(headerID);
 
           areaDataID = h.areaDataID;
 

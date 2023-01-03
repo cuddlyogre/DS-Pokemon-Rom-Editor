@@ -179,12 +179,7 @@ namespace DSPRE {
                     }
 
                     for (ushort i = startID; i < finalID; i++) {
-                        MapHeader h;
-                        if (ROMToolboxDialog.flag_DynamicHeadersPatchApplied || ROMToolboxDialog.CheckFilesDynamicHeadersPatchApplied()) {
-                            h = MapHeader.LoadFromFile(RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir + "\\" + i.ToString("D4"), i, 0);
-                        } else {
-                            h = MapHeader.LoadFromARM9(i);
-                        }
+                        MapHeader h = MapHeader.GetMapHeader(i);
                         
                         int headerField = int.Parse(property.GetValue(h, null).ToString());
 

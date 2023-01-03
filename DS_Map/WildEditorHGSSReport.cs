@@ -632,8 +632,7 @@ namespace DSPRE {
 
       //collect headers that use the same encounter file
       for (ushort i = 0; i < headerListBoxNames.Count; i++) {
-        MapHeader currentHeader = Helpers.GetMapHeader(i);
-        HeaderHGSS header = (HeaderHGSS)currentHeader;
+        HeaderHGSS header = (HeaderHGSS)MapHeader.GetMapHeader(i);
 
         ushort wildPokemon = header.wildPokemon;
         if (!map.ContainsKey(wildPokemon)) {
@@ -660,9 +659,9 @@ namespace DSPRE {
       List<string> allHeadbuttNormalEncounters = new List<string>();
       List<string> allHeadbuttSpecialEncounters = new List<string>();
 
-      int headerCount = Helpers.GetHeaderCount();
+      int headerCount = MapHeader.GetHeaderCount();
       for (ushort i = 0; i < headerCount; i++) {
-        MapHeader currentHeader = Helpers.GetMapHeader(i);
+        MapHeader currentHeader = MapHeader.GetMapHeader(i);
         HeaderHGSS header = (HeaderHGSS)currentHeader;
         HeadbuttEncounterFile headbuttEncounterFile = new HeadbuttEncounterFile(i);
 
