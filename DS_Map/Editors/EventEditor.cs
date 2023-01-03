@@ -1929,7 +1929,7 @@ namespace DSPRE.Editors {
           isInteriorMap = true;
 
         for (int i = 0; i < currentMapFile.buildings.Count; i++) {
-          currentMapFile.buildings[i].LoadModelData(RomInfo.GetBuildingModelsDirPath(isInteriorMap)); // Load building nsbmd
+          currentMapFile.buildings[i].LoadModelData(isInteriorMap); // Load building nsbmd
           Helpers.MW_LoadModelTextures(currentMapFile.buildings[i].NSBMDFile, RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir, areaData.buildingsTileset); // Load building textures                
         }
 

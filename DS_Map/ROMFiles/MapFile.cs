@@ -348,7 +348,8 @@ namespace DSPRE.ROMFiles {
         public static float U16ToDeg(ushort u16) {
             return (float)u16 * 360 / 65536;
         }
-        public void LoadModelData(string dir) {
+        public void LoadModelData(bool interior) {
+            string dir = RomInfo.GetBuildingModelsDirPath(interior);
             LoadModelDataFromID((int)modelID, dir);
         }
         public void LoadModelDataFromID(int modelID, string bmDir) {
