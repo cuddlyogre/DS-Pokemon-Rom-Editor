@@ -164,7 +164,7 @@ namespace DSPRE.ROMFiles {
             MapHeader currentHeader;
             /* Check if dynamic headers patch has been applied, and load header from arm9 or a/0/5/0 accordingly */
             if (ROMToolboxDialog.DynamicHeadersPatchApplied) {
-                string path = RomInfo.dynamicHeaders + "\\" + headerNumber.ToString("D4");
+                string path = Filesystem.GetDynamicHeaderPath(headerNumber);
                 currentHeader = MapHeader.LoadFromFile(path, headerNumber, 0);
             }
             else {
@@ -177,7 +177,7 @@ namespace DSPRE.ROMFiles {
         public static int GetHeaderCount() {
             int headerCount;
             if (ROMToolboxDialog.DynamicHeadersPatchApplied) {
-                headerCount = RomInfo.GetDynamicHeadersCount();
+                headerCount = Filesystem.GetDynamicHeadersCount();
             }
             else {
                 headerCount = RomInfo.GetHeaderCount();
@@ -189,7 +189,7 @@ namespace DSPRE.ROMFiles {
         public void SaveFile() {
             /* Check if dynamic headers patch has been applied, and save header to arm9 or a/0/5/0 accordingly */
             if (ROMToolboxDialog.DynamicHeadersPatchApplied) {
-                string path = RomInfo.dynamicHeaders + "\\" + this.ID.ToString("D4");
+                string path = Filesystem.GetDynamicHeaderPath(ID);
                 DSUtils.WriteToFile(path, this.ToByteArray(), 0, 0, fmode: FileMode.Create);
             }
             else {

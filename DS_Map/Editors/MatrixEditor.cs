@@ -29,7 +29,7 @@ namespace DSPRE.Editors {
       /* Add matrix entries to ComboBox */
       selectMatrixComboBox.Items.Clear();
       selectMatrixComboBox.Items.Add("Matrix 0 - Main");
-      for (int i = 1; i < RomInfo.GetMatrixCount(); i++) {
+      for (int i = 1; i < Filesystem.GetMatrixCount(); i++) {
         selectMatrixComboBox.Items.Add(new GameMatrix(i));
       }
 
@@ -532,7 +532,7 @@ namespace DSPRE.Editors {
           EditorPanels.mapEditor.mapEditorIsReady = true;
         }
 
-        int mapCount = RomInfo.GetMapCount();
+        int mapCount = Filesystem.GetMapCount();
         if (currentMatrix.maps[e.RowIndex, e.ColumnIndex] >= mapCount) {
           MessageBox.Show("This matrix cell points to a map file that doesn't exist.",
             "There " + ((mapCount > 1) ? "are only " + mapCount + " map files." : "is only 1 map file."), MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -709,7 +709,7 @@ namespace DSPRE.Editors {
       GameMatrix blankMatrix = new GameMatrix();
 
       /* Add new matrix file to matrix folder */
-      string path = RomInfo.matrices + "\\" + RomInfo.GetMatrixCount().ToString("D4");
+      string path = Filesystem.GetMatrixPath(Filesystem.GetMatrixCount());
       blankMatrix.SaveToFile(path, false);
 
       /* Update ComboBox*/
@@ -726,9 +726,9 @@ namespace DSPRE.Editors {
         DialogResult d = MessageBox.Show("Are you sure you want to delete the last matrix?", "Confirm deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
         if (d.Equals(DialogResult.Yes)) {
           /* Delete matrix file */
-          int matrixToDelete = RomInfo.GetMatrixCount() - 1;
+          int matrixToDelete = Filesystem.GetMatrixCount() - 1;
 
-          string matrixPath = RomInfo.matrices + "\\" + matrixToDelete.ToString("D4");
+          string matrixPath = Filesystem.GetMatrixPath(matrixToDelete);
           File.Delete(matrixPath);
 
           /* Change selected index if the matrix to be deleted is currently selected */
@@ -863,7 +863,7 @@ namespace DSPRE.Editors {
     }
 
     private void locateCurrentMatrixFile_Click(object sender, EventArgs e) {
-      string path = Path.Combine(RomInfo.matrices, selectMatrixComboBox.SelectedIndex.ToString("D4"));
+      string path = Filesystem.GetMatrixPath(selectMatrixComboBox.SelectedIndex);
       Helpers.ExplorerSelect(path);
     }
   }

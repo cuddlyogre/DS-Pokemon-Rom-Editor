@@ -79,9 +79,9 @@ namespace DSPRE {
       TextArchive trainerClasses = new TextArchive(RomInfo.trainerClassMessageNumber);
       TextArchive trainerNames = new TextArchive(RomInfo.trainerNamesMessageNumber);
 
-      int trainerCount = RomInfo.GetTrainerPropertiesCount();
+      int trainerCount = Filesystem.GetTrainerPropertiesCount();
       for (int i = 0; i < trainerCount; i++) {
-        string path = RomInfo.trainerProperties + "\\" + i.ToString("D4");
+        string path = Filesystem.GetTrainerPropertiesPath(i);
         int classMessageID = BitConverter.ToUInt16(DSUtils.ReadFromFile(path, startOffset: 1, 2), 0);
         string currentTrainerName;
 
@@ -103,7 +103,7 @@ namespace DSPRE {
         return;
       }
 
-      string texturePath = textureFolder + "\\" + fileID.ToString("D4");
+      string texturePath = Filesystem.GetPath(textureFolder, fileID);
       model.materials = NSBTXLoader.LoadNsbtx(new MemoryStream(File.ReadAllBytes(texturePath)), out model.Textures, out model.Palettes);
       try {
         model.MatchTextures();
@@ -227,17 +227,14 @@ namespace DSPRE {
     }
 
     public static Image GetPokePic(int species, int w, int h, PaletteBase paletteBase, ImageBase imageBase, SpriteBase spriteBase) {
-      string filename = 0.ToString("D4");
-
       bool fiveDigits = false; // some extreme future proofing
       try {
-        string path = RomInfo.monIcons + "\\" + filename;
-        paletteBase = new NCLR(path, 0, filename);
+        string path = Filesystem.GetMonIconPath(0);
+        paletteBase = new NCLR(path, 0, 0.ToString("D4"));
       }
       catch (FileNotFoundException) {
-        filename += '0';
-        string path = RomInfo.monIcons + "\\" + filename;
-        paletteBase = new NCLR(path, 0, filename);
+        string path = Filesystem.GetMonIconPath(0, "D5");
+        paletteBase = new NCLR(path, 0, 0.ToString("D5"));
         fiveDigits = true;
       }
 
@@ -265,7 +262,7 @@ namespace DSPRE {
       if (iconPalTableAddress >= RomInfo.synthOverlayLoadAddress) {
         // if the pointer shows the table was moved to the synthetic overlay
         iconPalTableOffsetFromFileStart = iconPalTableAddress - (int)RomInfo.synthOverlayLoadAddress;
-        iconTablePath = RomInfo.expArmPath;
+        iconTablePath = Filesystem.expArmPath;
       }
       else {
         iconPalTableOffsetFromFileStart = iconPalTableAddress - 0x02000000;
@@ -282,27 +279,25 @@ namespace DSPRE {
 
       // grab tiles
       int spriteFileID = species + 7;
-      string spriteFilename;
       if (fiveDigits) {
-        spriteFilename = spriteFileID.ToString("D5"); 
+        string path1 = Filesystem.GetMonIconPath(spriteFileID, "D5");
+        imageBase = new NCGR(path1, spriteFileID, spriteFileID.ToString("D5"));
       }
       else {
-        spriteFilename = spriteFileID.ToString("D4"); 
+        string path1 = Filesystem.GetMonIconPath(spriteFileID);
+        imageBase = new NCGR(path1, spriteFileID, spriteFileID.ToString("D4"));
       }
-      string path1 = RomInfo.monIcons + "\\" + spriteFilename;
-      imageBase = new NCGR(path1, spriteFileID, spriteFilename);
 
       // grab sprite
       int ncerFileId = 2;
-      string ncerFileName;
       if (fiveDigits) {
-        ncerFileName = ncerFileId.ToString("D5"); 
+        string path2 = Filesystem.GetMonIconPath(ncerFileId, "D5");
+        spriteBase = new NCER(path2, ncerFileId, ncerFileId.ToString("D5"));
       }
       else {
-        ncerFileName = ncerFileId.ToString("D4"); 
+        string path2 = Filesystem.GetMonIconPath(ncerFileId);
+        spriteBase = new NCER(path2, ncerFileId, ncerFileId.ToString("D4"));
       }
-      string path2 = RomInfo.monIcons + "\\" + ncerFileName;
-      spriteBase = new NCER(path2, ncerFileId, ncerFileName);
 
       // copy this from the trainer
       int bank0OAMcount = spriteBase.Banks[0].oams.Length;
@@ -345,7 +340,7 @@ namespace DSPRE {
 
       int headerCount = RomInfo.GetHeaderCount();
 
-      using (DSUtils.EasyReader reader = new DSUtils.EasyReader(RomInfo.internalNamesLocation)) {
+      using (DSUtils.EasyReader reader = new DSUtils.EasyReader(RomInfo.internalNamesPath)) {
         for (int i = 0; i < headerCount; i++) {
           byte[] row = reader.ReadBytes(RomInfo.internalNameLength);
 

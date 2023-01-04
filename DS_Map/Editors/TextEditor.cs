@@ -24,7 +24,7 @@ namespace DSPRE.Editors {
       Update();
 
       selectTextFileComboBox.Items.Clear();
-      int textCount = RomInfo.GetTextArchivesCount();
+      int textCount = Filesystem.GetTextArchivesCount();
       for (int i = 0; i < textCount; i++) {
         selectTextFileComboBox.Items.Add("Text Archive " + i);
       }
@@ -221,7 +221,7 @@ namespace DSPRE.Editors {
 
       if (searchAllArchivesCheckBox.Checked) {
         firstArchiveNumber = 0;
-        lastArchiveNumber = RomInfo.GetTextArchivesCount();
+        lastArchiveNumber = Filesystem.GetTextArchivesCount();
       }
       else {
         firstArchiveNumber = selectTextFileComboBox.SelectedIndex;
@@ -258,7 +258,7 @@ namespace DSPRE.Editors {
       string specify;
       if (searchAllArchivesCheckBox.Checked) {
         firstArchiveNumber = 0;
-        lastArchiveNumber = RomInfo.GetTextArchivesCount();
+        lastArchiveNumber = Filesystem.GetTextArchivesCount();
         specify = " in every Text Bank of the game (" + firstArchiveNumber + " to " + lastArchiveNumber + ")";
       }
       else {
@@ -339,7 +339,7 @@ namespace DSPRE.Editors {
     }
 
     private void locateCurrentTextArchive_Click(object sender, EventArgs e) {
-      string path = Path.Combine(RomInfo.textArchives, selectTextFileComboBox.SelectedIndex.ToString("D4"));
+      string path = Filesystem.GetTextArchivePath(selectTextFileComboBox.SelectedIndex);
       Helpers.ExplorerSelect(path);
     }
 
@@ -353,7 +353,7 @@ namespace DSPRE.Editors {
       }
 
       /* Update Text Archive object in memory */
-      string path = RomInfo.textArchives + "\\" + selectTextFileComboBox.SelectedIndex.ToString("D4");
+      string path = Filesystem.GetTextArchivePath(selectTextFileComboBox.SelectedIndex);
       File.Copy(of.FileName, path, true);
 
       /* Refresh controls */
@@ -383,7 +383,7 @@ namespace DSPRE.Editors {
       DialogResult d = MessageBox.Show("Are you sure you want to delete the last Text Archive?", "Confirm deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
       if (d.Equals(DialogResult.Yes)) {
         /* Delete Text Archive */
-        string path = RomInfo.textArchives + "\\" + (selectTextFileComboBox.Items.Count - 1).ToString("D4");
+        string path = Filesystem.GetTextArchivePath(selectTextFileComboBox.Items.Count - 1);
         File.Delete(path);
 
         /* Check if currently selected file is the last one, and in that case select the one before it */

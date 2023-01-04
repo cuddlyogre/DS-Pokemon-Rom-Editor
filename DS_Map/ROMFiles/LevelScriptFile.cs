@@ -13,7 +13,7 @@ namespace DSPRE.ROMFiles {
 
     public LevelScriptFile(int id) {
       this.ID = id;
-      string path1 = RomInfo.scripts;
+      string path1 = Filesystem.scripts;
       string path = Path.Combine(path1, this.ID.ToString("D4"));
       parse_file(path);
     }

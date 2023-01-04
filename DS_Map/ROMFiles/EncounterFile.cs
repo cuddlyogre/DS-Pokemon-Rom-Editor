@@ -156,7 +156,7 @@ namespace DSPRE.ROMFiles {
         }
 
         public EncounterFileDPPt(int ID) {
-            string path = RomInfo.encounters + "\\" + ID.ToString("D4");
+            string path = Filesystem.GetEncounterPath(ID);
             Stream data = new FileStream(path, FileMode.Open);
             LoadFile(data);
         }
@@ -454,7 +454,7 @@ namespace DSPRE.ROMFiles {
         }
 
         public EncounterFileHGSS(int ID) {
-            string path = RomInfo.encounters + "\\" + ID.ToString("D4");
+            string path = Filesystem.GetEncounterPath(ID);
             Stream data = new FileStream(path, FileMode.Open);
             LoadFile(data);
         }

@@ -54,8 +54,7 @@ namespace DSPRE {
 
         #region Subroutines
         private void CreateEmbeddedTexturesFile(int modelID, bool interior) {
-            string path = RomInfo.GetBuildingModelsDirPath(interior) + "\\" + modelID.ToString("D4");
-            string readingPath = path;
+            string readingPath = Filesystem.GetBuildingModelPath(interior, modelID);
 
             byte[] txFile = File.ReadAllBytes(readingPath);
             byte[] texData = DSUtils.GetTexturesFromTexturedNSBMD(txFile);
@@ -67,9 +66,9 @@ namespace DSPRE {
             DSUtils.WriteToFile(Path.GetTempPath() + temp_btxname, texData, fmode: FileMode.Create);
         }
         private void FillListBox(bool interior) {
-            int modelCount = RomInfo.GetBuildingCount(interior);
+            int modelCount = Filesystem.GetBuildingCount(interior);
             for (int currentIndex = 0; currentIndex < modelCount; currentIndex++) {
-                string path = RomInfo.GetBuildingModelsDirPath(interior) + "\\" + currentIndex.ToString("D4");
+                string path = Filesystem.GetBuildingModelPath(interior, currentIndex);
 
                 using (DSUtils.EasyReader reader = new DSUtils.EasyReader(path, 0x14)) {
                     string nsbmdName = DSUtils.ReadNSBMDname(reader);
@@ -78,8 +77,7 @@ namespace DSPRE {
             }
         }
         private void FillTexturesBox() {
-            string path = RomInfo.buildingTextures;
-            int texturesCount = Directory.GetFiles(path).Length;
+            int texturesCount = Filesystem.GetBuildingTexturesCount();
             textureComboBox.Items.Add("Embedded textures");
 
             for (int i = 0; i < texturesCount; i++) {
@@ -89,8 +87,7 @@ namespace DSPRE {
         private void LoadModelTextures(int fileID) {
             string path;
             if (fileID > -1) {
-                string path1 = RomInfo.buildingTextures + "\\" + fileID.ToString("D4");
-                path = path1;
+                path = Filesystem.GetBuildingTexturePath(fileID);
             } else {
                 path = Path.GetTempPath() + temp_btxname; // Load Embedded textures if the argument passed to this function is -1
             }
@@ -169,7 +166,7 @@ namespace DSPRE {
                 return;
             }
 
-            string path = RomInfo.GetBuildingModelsDirPath(interiorCheckBox.Checked) + "\\" + buildingEditorBldListBox.SelectedIndex.ToString("D4");
+            string path = Filesystem.GetBuildingModelPath(interiorCheckBox.Checked, buildingEditorBldListBox.SelectedIndex);
 
             currentModelData = File.ReadAllBytes(path);
             currentNSBMD = NSBMDLoader.LoadNSBMD(new MemoryStream(currentModelData));
@@ -187,7 +184,7 @@ namespace DSPRE {
                 return;
             }
 
-            string path = RomInfo.GetBuildingModelsDirPath(interiorCheckBox.Checked) + "\\" + buildingEditorBldListBox.SelectedIndex.ToString("D4");
+            string path = Filesystem.GetBuildingModelPath(interiorCheckBox.Checked, buildingEditorBldListBox.SelectedIndex);
             File.Copy(path, em.FileName, true);
         }
         private void importButton_Click(object sender, EventArgs e) {
@@ -205,7 +202,7 @@ namespace DSPRE {
                 } else {
                     int currentIndex = buildingEditorBldListBox.SelectedIndex;
 
-                    string path = RomInfo.GetBuildingModelsDirPath(interiorCheckBox.Checked) + "\\" + currentIndex.ToString("D4");
+                    string path = Filesystem.GetBuildingModelPath(interiorCheckBox.Checked, currentIndex);
                     File.Copy(im.FileName, path, true);
                     buildingEditorBldListBox.Items[currentIndex] = "[" + currentIndex.ToString("D3") + "] " + DSUtils.ReadNSBMDname(reader, 0x14);
                     buildingEditorListBox_SelectedIndexChanged(null, null);
@@ -275,7 +272,7 @@ namespace DSPRE {
         }
 
         private void bldExportDAEbutton_Click(object sender, EventArgs e) {
-            string path = RomInfo.buildingTextures + "\\" + (textureComboBox.SelectedIndex - 1).ToString("D4");
+            string path = Filesystem.GetBuildingTexturePath(textureComboBox.SelectedIndex - 1);
             DSUtils.ModelToDAE(
                 modelName: buildingEditorBldListBox.SelectedItem.ToString().TrimEnd('\0'), 
                 modelData: currentModelData, 

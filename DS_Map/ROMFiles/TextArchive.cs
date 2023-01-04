@@ -19,7 +19,7 @@ namespace DSPRE.ROMFiles {
 
         #region Constructors (1)
         public TextArchive(int ID, List<string> msg = null, bool discardLines = false) {
-            string path = RomInfo.textArchives + "\\" + ID.ToString("D4");
+            string path = Filesystem.GetTextArchivePath(ID);
             FileStream messageStream = new FileStream(path, FileMode.Open);
             LoadFile(messageStream, msg, discardLines);
         }

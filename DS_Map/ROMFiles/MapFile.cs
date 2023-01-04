@@ -77,7 +77,7 @@ namespace DSPRE.ROMFiles {
         #region Constructors (1)
 
         public MapFile(int ID, RomInfo.GameFamilies gFamily, bool discardMoveperms = false, bool showMessages = true) {
-            string path = RomInfo.maps + "\\" + ID.ToString("D4");
+            string path = Filesystem.GetMapPath(ID);
             Stream data = new FileStream(path, FileMode.Open);
             LoadFile(data, gFamily, discardMoveperms, showMessages);
         }
@@ -348,14 +348,10 @@ namespace DSPRE.ROMFiles {
             return (float)u16 * 360 / 65536;
         }
         public void LoadModelData(bool interior) {
-            string dir = RomInfo.GetBuildingModelsDirPath(interior);
-            LoadModelDataFromID((int)modelID, dir);
-        }
-        public void LoadModelDataFromID(int modelID, string bmDir) {
-            string modelPath = bmDir + "\\" + modelID.ToString("D4");
+            string modelPath = Filesystem.GetBuildingModelPath(interior, (int)modelID);
 
             if (string.IsNullOrWhiteSpace(modelPath) || !File.Exists(modelPath)) {
-                MessageBox.Show("Building " + modelID + " could not be found in\n" + '"' + bmDir + '"', "Building not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Building " + modelID + " could not be found in\n" + '"' + Path.GetDirectoryName(modelPath) + '"', "Building not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             try {
@@ -363,7 +359,7 @@ namespace DSPRE.ROMFiles {
                     this.NSBMDFile = NSBMDLoader.LoadNSBMD(fs);
                 }
             } catch (FileNotFoundException) {
-                MessageBox.Show("Building " + modelID + " could not be found in\n" + '"' + bmDir + '"', "Building not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Building " + modelID + " could not be found in\n" + '"' + Path.GetDirectoryName(modelPath) + '"', "Building not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

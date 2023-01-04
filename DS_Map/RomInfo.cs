@@ -18,13 +18,20 @@ namespace DSPRE {
         public static uint synthOverlayLoadAddress = 0x023C8000;
         public Dictionary<List<uint>, (Color background, Color foreground)> MapCellsColorDictionary;
         public static string folderSuffix = "_DSPRE_contents";
+        const string dataFolderName = @"data";
 
         public static string romID { get; private set; }
         public static string fileName { get; private set; }
         public static string workDir { get; private set; }
         public static string arm9Path { get; private set; }
+        public static string arm7Path { get; private set; }
         public static string overlayTablePath { get; set; }
+        public static string y7Path { get; set; }
+        public static string dataPath { get; set; }
         public static string overlayPath { get; set; }
+        public static string unpackedPath { get; set; }
+        public static string bannerPath { get; set; }
+        public static string headerPath { get; set; }
         public static GameLanguages gameLanguage { get; private set; }
         public static GameVersions gameVersion { get; private set; }
         public static GameFamilies gameFamily { get; private set; }
@@ -52,7 +59,7 @@ namespace DSPRE {
         public static int trainerClassMessageNumber { get; private set; }
         public static int trainerNamesMessageNumber { get; private set; }
         public static int locationNamesTextNumber { get; private set; }
-        public static string internalNamesLocation { get; private set; }
+        public static string internalNamesPath { get; private set; }
         public static int cameraSize { get; private set; }
         public static SortedDictionary<uint, (uint spriteID, ushort properties)> OverworldTable { get; private set; }
         public static uint[] overworldTableKeys { get; private set; }
@@ -64,90 +71,6 @@ namespace DSPRE {
         public static Dictionary<ushort, byte[]> ScriptCommandParametersDict { get; private set; }
         public static Dictionary<ushort, string> ScriptComparisonOperatorsDict { get; private set; }
         public static Dictionary<string, ushort> ScriptComparisonOperatorsReverseDict { get; private set; }
-
-        public static string eventFiles { get { return RomInfo.gameDirs[DirNames.eventFiles].unpackedDir; } }
-        public static string OWSprites { get { return RomInfo.gameDirs[DirNames.OWSprites].unpackedDir; } }
-        public static string mapTextures { get { return RomInfo.gameDirs[DirNames.mapTextures].unpackedDir; } }
-        public static string buildingTextures { get { return RomInfo.gameDirs[DirNames.buildingTextures].unpackedDir; } }
-        public static string dynamicHeaders { get { return RomInfo.gameDirs[DirNames.dynamicHeaders].unpackedDir; } }
-        public static string dynamicHeadersPacked { get { return RomInfo.gameDirs[DirNames.dynamicHeaders].packedDir; } }
-        public static string scripts { get { return RomInfo.gameDirs[DirNames.scripts].unpackedDir; } }
-        public static string maps { get { return RomInfo.gameDirs[DirNames.maps].unpackedDir; } }
-        public static string matrices { get { return RomInfo.gameDirs[DirNames.matrices].unpackedDir; } }
-        public static string buildingConfigFiles { get { return RomInfo.gameDirs[DirNames.buildingConfigFiles].unpackedDir; } }
-        public static string areaData { get { return RomInfo.gameDirs[DirNames.areaData].unpackedDir; } }
-        public static string textArchives { get { return RomInfo.gameDirs[DirNames.textArchives].unpackedDir; } }
-        public static string trainerProperties { get { return RomInfo.gameDirs[DirNames.trainerProperties].unpackedDir; } }
-        public static string trainerParty { get { return RomInfo.gameDirs[DirNames.trainerParty].unpackedDir; } }
-        public static string trainerGraphics { get { return RomInfo.gameDirs[DirNames.trainerGraphics].unpackedDir; } }
-        public static string encounters { get { return RomInfo.gameDirs[DirNames.encounters].unpackedDir; } }
-        public static string headbutt { get { return RomInfo.gameDirs[DirNames.headbutt].unpackedDir; } }
-        public static string monIcons { get { return RomInfo.gameDirs[DirNames.monIcons].unpackedDir; } }
-        public static string synthOverlay { get { return RomInfo.gameDirs[DirNames.synthOverlay].unpackedDir; } }
-        public static string interiorBuildingModels { get { return RomInfo.gameDirs[DirNames.interiorBuildingModels].unpackedDir; } }
-        public static string exteriorBuildingModels { get { return RomInfo.gameDirs[DirNames.exteriorBuildingModels].unpackedDir; } }
-        public static string expArmPath { get {  return RomInfo.synthOverlay + "\\" + ROMToolboxDialog.expandedARMfileID.ToString("D4"); } }
-
-        public static string GetBuildingModelsDirPath(bool interior) {
-            if (interior) {
-                return RomInfo.interiorBuildingModels;
-            }
-            else {
-                return RomInfo.exteriorBuildingModels;
-            }
-        }
-
-        public static int GetBuildingCount(bool interior) {
-            return Directory.GetFiles(RomInfo.GetBuildingModelsDirPath(interior)).Length;
-        }
-
-        public static string[] GetAreaData() {
-            return Directory.GetFiles(RomInfo.areaData);
-        }
-        
-        public static int GetAreaDataCount() {
-            return Directory.GetFiles(RomInfo.areaData).Length;
-        }
-
-        public static int GetMapTexturesCount() {
-            return Directory.GetFiles(RomInfo.mapTextures).Length;
-        }
-
-        public static int GetBuildingTexturesCount() {
-            return Directory.GetFiles(buildingTextures).Length;
-        }
-
-        public static int GetMatrixCount() {
-            return Directory.GetFiles(RomInfo.matrices).Length;
-        }
-
-        public static int GetTextArchivesCount() {
-            return Directory.GetFiles(RomInfo.textArchives).Length;
-        }
-
-        public static int GetMapCount() {
-            return Directory.GetFiles(RomInfo.maps).Length;
-        }
-
-        public static int GetScriptCount() {
-            return Directory.GetFiles(RomInfo.scripts).Length;
-        }
-
-        public static int GetEventFileCount() {
-            return Directory.GetFiles(RomInfo.eventFiles).Length;
-        }
-
-        public static int GetTrainerPropertiesCount() {
-            return Directory.GetFiles(RomInfo.trainerProperties).Length;
-        }
-
-        public static int GetDynamicHeadersCount() {
-            return Directory.GetFiles(RomInfo.dynamicHeaders).Length;
-        }
-
-        public static int GetEncountersCount() {
-            return Directory.GetFiles(RomInfo.encounters).Length;
-        }
 
         public enum GameVersions : byte {
             Diamond, Pearl, Platinum,
@@ -212,11 +135,18 @@ namespace DSPRE {
             }
 
             string path = Path.GetDirectoryName(romName) + "\\" + Path.GetFileNameWithoutExtension(romName) + folderSuffix + "\\";
-            workDir = path;
-            arm9Path = workDir + @"arm9.bin";
-            overlayTablePath = workDir + @"y9.bin";
-            overlayPath = workDir + "overlay";
-            internalNamesLocation = workDir + @"data\fielddata\maptable\mapname.bin";
+
+            workDir           = path;
+            arm9Path          = Path.Combine(workDir, @"arm9.bin");
+            arm7Path          = Path.Combine(workDir, @"arm7.bin");
+            overlayTablePath  = Path.Combine(workDir, @"y9.bin");
+            y7Path            = Path.Combine(workDir, @"y7.bin");
+            dataPath          = Path.Combine(workDir, dataFolderName);
+            overlayPath       = Path.Combine(workDir, @"overlay");
+            bannerPath        = Path.Combine(workDir, @"banner.bin");
+            headerPath        = Path.Combine(workDir, @"header.bin");
+            unpackedPath      = Path.Combine(workDir, @"unpacked");
+            internalNamesPath = Path.Combine(workDir, $@"{dataFolderName}\fielddata\maptable\mapname.bin");
 
             try {
                 gameVersion = PokeDatabase.System.versionsDict[id];
@@ -600,7 +530,7 @@ namespace DSPRE {
                         }
                         if (ramAddressOfTable >= RomInfo.synthOverlayLoadAddress) { // if the pointer shows the table was moved to the synthetic overlay
                             OWTableOffset = ramAddressOfTable - RomInfo.synthOverlayLoadAddress;
-                            OWtablePath = RomInfo.expArmPath;
+                            OWtablePath = Filesystem.expArmPath;
                         } else {
                             OWTableOffset = ramAddressOfTable - ov1Address;
                             OWtablePath = ov1Path;
@@ -845,7 +775,7 @@ namespace DSPRE {
         }
 
         public string GetRomNameFromWorkdir() => workDir.Substring(0, workDir.Length - folderSuffix.Length - 1);
-        public static int GetHeaderCount() => (int)new FileInfo(internalNamesLocation).Length / internalNameLength;
+        public static int GetHeaderCount() => (int)new FileInfo(internalNamesPath).Length / internalNameLength;
         public static List<string> GetLocationNames() => new TextArchive(locationNamesTextNumber).messages;
         public static string[] GetSimpleTrainerNames() => new TextArchive(trainerNamesMessageNumber).messages.ToArray();
         public static string[] GetTrainerClassNames() => new TextArchive(trainerClassMessageNumber).messages.ToArray();
@@ -931,101 +861,102 @@ namespace DSPRE {
                         suffix = "_release";
 
                     packedDirsDict = new Dictionary<DirNames, string>() {
-                        [DirNames.synthOverlay] = @"data\data\weather_sys.narc",
-                        [DirNames.textArchives] = @"data\msgdata\msg.narc",
+                        [DirNames.synthOverlay] = @"data\weather_sys.narc",
+                        [DirNames.textArchives] = @"msgdata\msg.narc",
 
-                        [DirNames.matrices] = @"data\fielddata\mapmatrix\map_matrix.narc",
+                        [DirNames.matrices] = @"fielddata\mapmatrix\map_matrix.narc",
 
-                        [DirNames.maps] = @"data\fielddata\land_data\land_data" + suffix + ".narc",
-                        [DirNames.exteriorBuildingModels] = @"data\fielddata\build_model\build_model.narc",
-                        [DirNames.buildingConfigFiles] = @"data\fielddata\areadata\area_build_model\area_build.narc",
-                        [DirNames.buildingTextures] = @"data\fielddata\areadata\area_build_model\areabm_texset.narc",
-                        [DirNames.mapTextures] = @"data\fielddata\areadata\area_map_tex\map_tex_set.narc",
-                        [DirNames.areaData] = @"data\fielddata\areadata\area_data.narc",
+                        [DirNames.maps]                   = @"fielddata\land_data\land_data" + suffix + ".narc",
+                        [DirNames.exteriorBuildingModels] = @"fielddata\build_model\build_model.narc",
+                        [DirNames.buildingConfigFiles]    = @"fielddata\areadata\area_build_model\area_build.narc",
+                        [DirNames.buildingTextures]       = @"fielddata\areadata\area_build_model\areabm_texset.narc",
+                        [DirNames.mapTextures]            = @"fielddata\areadata\area_map_tex\map_tex_set.narc",
+                        [DirNames.areaData]               = @"fielddata\areadata\area_data.narc",
 
-                        [DirNames.eventFiles] = @"data\fielddata\eventdata\zone_event" + suffix + ".narc",
-                        [DirNames.OWSprites] = @"data\data\mmodel\mmodel.narc",
+                        [DirNames.eventFiles] = @"fielddata\eventdata\zone_event" + suffix + ".narc",
+                        [DirNames.OWSprites]  = @"data\mmodel\mmodel.narc",
 
-                        [DirNames.scripts] = @"data\fielddata\script\scr_seq" + suffix + ".narc",
+                        [DirNames.scripts] = @"fielddata\script\scr_seq" + suffix + ".narc",
 
-                        [DirNames.trainerProperties] = @"data\poketool\trainer\trdata.narc",
-                        [DirNames.trainerParty] = @"data\poketool\trainer\trpoke.narc",
-                        [DirNames.trainerGraphics] = @"data\poketool\trgra\trfgra.narc",
+                        [DirNames.trainerProperties] = @"poketool\trainer\trdata.narc",
+                        [DirNames.trainerParty]      = @"poketool\trainer\trpoke.narc",
+                        [DirNames.trainerGraphics]   = @"poketool\trgra\trfgra.narc",
 
-                        [DirNames.monIcons] = @"data\poketool\icongra\poke_icon.narc",
+                        [DirNames.monIcons] = @"poketool\icongra\poke_icon.narc",
 
-                        [DirNames.encounters] = @"data\fielddata\encountdata\" + char.ToLower(gameVersion.ToString()[0]) + '_' + "enc_data.narc"
+                        [DirNames.encounters] = @"fielddata\encountdata\" + char.ToLower(gameVersion.ToString()[0]) + '_' + "enc_data.narc"
                     };
                     break;
                 case GameFamilies.Plat:
                     packedDirsDict = new Dictionary<DirNames, string>() {
-                        [DirNames.synthOverlay] = @"data\data\weather_sys.narc",
-                        [DirNames.dynamicHeaders] = @"data\debug\cb_edit\d_test.narc",
+                        [DirNames.synthOverlay]   = @"data\weather_sys.narc",
+                        [DirNames.dynamicHeaders] = @"debug\cb_edit\d_test.narc",
 
-                        [DirNames.textArchives] = @"data\msgdata\" + gameVersion.ToString().Substring(0, 2).ToLower() + '_' + "msg.narc",
+                        [DirNames.textArchives] = @"msgdata\" + gameVersion.ToString().Substring(0, 2).ToLower() + '_' + "msg.narc",
 
-                        [DirNames.matrices] = @"data\fielddata\mapmatrix\map_matrix.narc",
+                        [DirNames.matrices] = @"fielddata\mapmatrix\map_matrix.narc",
 
-                        [DirNames.maps] = @"data\fielddata\land_data\land_data.narc",
-                        [DirNames.exteriorBuildingModels] = @"data\fielddata\build_model\build_model.narc",
-                        [DirNames.buildingConfigFiles] = @"data\fielddata\areadata\area_build_model\area_build.narc",
-                        [DirNames.buildingTextures] = @"data\fielddata\areadata\area_build_model\areabm_texset.narc",
-                        [DirNames.mapTextures] = @"data\fielddata\areadata\area_map_tex\map_tex_set.narc",
-                        [DirNames.areaData] = @"data\fielddata\areadata\area_data.narc",
+                        [DirNames.maps]                   = @"fielddata\land_data\land_data.narc",
+                        [DirNames.exteriorBuildingModels] = @"fielddata\build_model\build_model.narc",
+                        [DirNames.buildingConfigFiles]    = @"fielddata\areadata\area_build_model\area_build.narc",
+                        [DirNames.buildingTextures]       = @"fielddata\areadata\area_build_model\areabm_texset.narc",
+                        [DirNames.mapTextures]            = @"fielddata\areadata\area_map_tex\map_tex_set.narc",
+                        [DirNames.areaData]               = @"fielddata\areadata\area_data.narc",
 
-                        [DirNames.eventFiles] = @"data\fielddata\eventdata\zone_event.narc",
-                        [DirNames.OWSprites] = @"data\data\mmodel\mmodel.narc",
+                        [DirNames.eventFiles] = @"fielddata\eventdata\zone_event.narc",
+                        [DirNames.OWSprites]  = @"data\mmodel\mmodel.narc",
 
-                        [DirNames.scripts] = @"data\fielddata\script\scr_seq.narc",
+                        [DirNames.scripts] = @"fielddata\script\scr_seq.narc",
 
-                        [DirNames.trainerProperties] = @"data\poketool\trainer\trdata.narc",
-                        [DirNames.trainerParty] = @"data\poketool\trainer\trpoke.narc",
-                        [DirNames.trainerGraphics] = @"data\poketool\trgra\trfgra.narc",
+                        [DirNames.trainerProperties] = @"poketool\trainer\trdata.narc",
+                        [DirNames.trainerParty]      = @"poketool\trainer\trpoke.narc",
+                        [DirNames.trainerGraphics]   = @"poketool\trgra\trfgra.narc",
 
-                        [DirNames.monIcons] = @"data\poketool\icongra\pl_poke_icon.narc",
+                        [DirNames.monIcons] = @"poketool\icongra\pl_poke_icon.narc",
 
-                        [DirNames.encounters] = @"data\fielddata\encountdata\" + gameVersion.ToString().Substring(0, 2).ToLower() + '_' + "enc_data.narc"
+                        [DirNames.encounters] = @"fielddata\encountdata\" + gameVersion.ToString().Substring(0, 2).ToLower() + '_' + "enc_data.narc"
                     };
                     break;
                 case GameFamilies.HGSS:
                     packedDirsDict = new Dictionary<DirNames, string>() {
-                        [DirNames.synthOverlay] = @"data\a\0\2\8",
-                        [DirNames.dynamicHeaders] = @"data\a\0\5\0",
+                        [DirNames.synthOverlay]   = @"a\0\2\8",
+                        [DirNames.dynamicHeaders] = @"a\0\5\0",
 
-                        [DirNames.textArchives] = @"data\a\0\2\7",
+                        [DirNames.textArchives] = @"a\0\2\7",
 
-                        [DirNames.matrices] = @"data\a\0\4\1",
+                        [DirNames.matrices] = @"a\0\4\1",
 
-                        [DirNames.maps] = @"data\a\0\6\5",
-                        [DirNames.exteriorBuildingModels] = @"data\a\0\4\0",
-                        [DirNames.buildingConfigFiles] = @"data\a\0\4\3",
-                        [DirNames.buildingTextures] = @"data\a\0\7\0",
-                        [DirNames.mapTextures] = @"data\a\0\4\4",
-                        [DirNames.areaData] = @"data\a\0\4\2",
+                        [DirNames.maps]                   = @"a\0\6\5",
+                        [DirNames.exteriorBuildingModels] = @"a\0\4\0",
+                        [DirNames.buildingConfigFiles]    = @"a\0\4\3",
+                        [DirNames.buildingTextures]       = @"a\0\7\0",
+                        [DirNames.mapTextures]            = @"a\0\4\4",
+                        [DirNames.areaData]               = @"a\0\4\2",
 
-                        [DirNames.eventFiles] = @"data\a\0\3\2",
-                        [DirNames.OWSprites] = @"data\a\0\8\1",
+                        [DirNames.eventFiles] = @"a\0\3\2",
+                        [DirNames.OWSprites]  = @"a\0\8\1",
 
-                        [DirNames.scripts] = @"data\a\0\1\2",
+                        [DirNames.scripts] = @"a\0\1\2",
+
                         //ENCOUNTERS FOLDER DEPENDS ON VERSION
-                        [DirNames.trainerProperties] = @"data\a\0\5\5",
-                        [DirNames.trainerParty] = @"data\a\0\5\6",
-                        [DirNames.trainerGraphics] = @"data\a\0\5\8",
+                        [DirNames.trainerProperties] = @"a\0\5\5",
+                        [DirNames.trainerParty]      = @"a\0\5\6",
+                        [DirNames.trainerGraphics]   = @"a\0\5\8",
 
-                        [DirNames.monIcons] = @"data\a\0\2\0",
+                        [DirNames.monIcons] = @"a\0\2\0",
 
-                        [DirNames.interiorBuildingModels] = @"data\a\1\4\8",
+                        [DirNames.interiorBuildingModels] = @"a\1\4\8",
 
-                        [DirNames.safariZone] = @"data\a\2\3\0",
-                        [DirNames.headbutt] = @"data\a\2\5\2", //both versions use the same folder with different data
+                        [DirNames.safariZone] = @"a\2\3\0",
+                        [DirNames.headbutt]   = @"a\2\5\2", //both versions use the same folder with different data
                     };
 
                     //Encounter archive is different for SS 
                     if (gameVersion == GameVersions.HeartGold) {
-                        packedDirsDict[DirNames.encounters] = @"data\a\0\3\7";
+                        packedDirsDict[DirNames.encounters] = @"a\0\3\7";
                     }
                     else {
-                        packedDirsDict[DirNames.encounters] = @"data\a\1\3\6";
+                        packedDirsDict[DirNames.encounters] = @"a\1\3\6";
                     }
 
                     break;
@@ -1033,8 +964,9 @@ namespace DSPRE {
 
             gameDirs = new Dictionary<DirNames, (string packedDir, string unpackedDir)>();
             foreach (KeyValuePair<DirNames, string> kvp in packedDirsDict) {
-                string path = workDir + @"unpacked" + "\\" + kvp.Key.ToString();
-                gameDirs.Add(kvp.Key, (workDir + kvp.Value, path));
+                string _packedPath = Path.Combine(workDir, Path.Combine(dataFolderName, kvp.Value));
+                string _unpackedPath = Path.Combine(unpackedPath, kvp.Key.ToString());
+                gameDirs.Add(kvp.Key, (_packedPath, _unpackedPath));
             }
         }
         public void ResetMapCellsColorDictionary() {

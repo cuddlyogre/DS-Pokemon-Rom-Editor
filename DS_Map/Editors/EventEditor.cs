@@ -87,7 +87,7 @@ namespace DSPRE.Editors {
       Helpers.statusLabelMessage("Loading Events... Please wait.");
       Update();
 
-      int eventCount = RomInfo.GetEventFileCount();
+      int eventCount = Filesystem.GetEventFileCount();
       RomInfo.ReadOWTable();
 
       eventEditorWarpHeaderListBox.Items.Clear();
@@ -158,8 +158,8 @@ namespace DSPRE.Editors {
         owOrientationComboBox.SelectedIndex = 1;
       }
 
-      eventMatrixUpDown.Maximum = RomInfo.GetMatrixCount() - 1;
-      eventAreaDataUpDown.Maximum = RomInfo.GetAreaDataCount() - 1;
+      eventMatrixUpDown.Maximum = Filesystem.GetMatrixCount() - 1;
+      eventAreaDataUpDown.Maximum = Filesystem.GetAreaDataCount() - 1;
 
       Helpers.EnableHandlers();
 
@@ -253,7 +253,7 @@ namespace DSPRE.Editors {
         }
 
         /* Update event object on disk */
-        string path = RomInfo.eventFiles + "\\" + selectEventComboBox.SelectedIndex.ToString("D4");
+        string path = Filesystem.GetEventPath(selectEventComboBox.SelectedIndex);
         File.Copy(of.FileName, path, true);
 
         /* Refresh controls */
@@ -381,7 +381,7 @@ namespace DSPRE.Editors {
       DialogResult d = MessageBox.Show("Are you sure you want to delete the last Event File?", "Confirm deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
       if (d.Equals(DialogResult.Yes)) {
         /* Delete event file */
-        string path = RomInfo.eventFiles + "\\" + (selectEventComboBox.Items.Count - 1).ToString("D4");
+        string path = Filesystem.GetEventPath(selectEventComboBox.Items.Count - 1);
         File.Delete(path);
 
         /* Check if currently selected file is the last one, and in that case select the one before it */
@@ -635,7 +635,7 @@ namespace DSPRE.Editors {
       }
 
       try {
-        string path = RomInfo.OWSprites + "\\" + result.spriteID.ToString("D4");
+        string path = Filesystem.GetOWSpritePath((int)result.spriteID);
         FileStream stream = new FileStream(path, FileMode.Open);
         NSBTX_File nsbtx = new NSBTX_File(stream);
 
@@ -1919,7 +1919,7 @@ namespace DSPRE.Editors {
 
         /* Read map and building models, match them with textures and render them*/
         currentMapFile = new MapFile((int)mapIndex, RomInfo.gameFamily, discardMoveperms: false);
-        string path = RomInfo.mapTextures;
+        string path = Filesystem.mapTextures;
         Helpers.MW_LoadModelTextures(currentMapFile.mapModel, path, areaData.mapTileset);
 
         bool isInteriorMap = false;
@@ -1930,7 +1930,7 @@ namespace DSPRE.Editors {
 
         for (int i = 0; i < currentMapFile.buildings.Count; i++) {
           currentMapFile.buildings[i].LoadModelData(isInteriorMap); // Load building nsbmd
-          string path1 = RomInfo.buildingTextures;
+          string path1 = Filesystem.buildingTextures;
           Helpers.MW_LoadModelTextures(currentMapFile.buildings[i].NSBMDFile, path1, areaData.buildingsTileset); // Load building textures                
         }
 
@@ -1999,7 +1999,7 @@ namespace DSPRE.Editors {
     }
 
     private void locateCurrentEvFile_Click(object sender, EventArgs e) {
-      string path = Path.Combine(RomInfo.eventFiles, selectEventComboBox.SelectedIndex.ToString("D4"));
+      string path = Filesystem.GetEventPath(selectEventComboBox.SelectedIndex);
       Helpers.ExplorerSelect(path);
     }
 

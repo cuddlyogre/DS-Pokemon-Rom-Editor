@@ -251,7 +251,7 @@ namespace DSPRE {
             return compress.ExitCode;
         }
         public static string GetOverlayPath(int overlayNumber) {
-            return RomInfo.workDir + "overlay" + "\\" + "overlay_" + overlayNumber.ToString("D4") + ".bin";
+            return Filesystem.GetPath(RomInfo.overlayPath, "overlay_", overlayNumber, "bin");
         }
         public static void RestoreOverlayFromCompressedBackup(int overlayNumber, bool eventEditorIsReady) {
             String overlayFilePath = GetOverlayPath(overlayNumber);
@@ -312,24 +312,33 @@ namespace DSPRE {
                 f.Write(compressStatus);
             }
         }
-        public static void RepackROM(string ndsFileName) {
-            Process repack = new Process();
-            repack.StartInfo.FileName = @"Tools\ndstool.exe";
-            repack.StartInfo.Arguments = "-c " + '"' + ndsFileName + '"'
-                + " -9 " + '"' + RomInfo.arm9Path + '"'
-                + " -7 " + '"' + RomInfo.workDir + "arm7.bin" + '"'
-                + " -y9 " + '"' + RomInfo.workDir + "y9.bin" + '"'
-                + " -y7 " + '"' + RomInfo.workDir + "y7.bin" + '"'
-                + " -d " + '"' + RomInfo.workDir + "data" + '"'
-                + " -y " + '"' + RomInfo.workDir + "overlay" + '"'
-                + " -t " + '"' + RomInfo.workDir + "banner.bin" + '"'
-                + " -h " + '"' + RomInfo.workDir + "header.bin" + '"';
+
+        public static void ndstool(string ndsFileName, string packArg) {
+            Process process = new Process();
+            process.StartInfo.FileName = @"Tools\ndstool.exe";
+            process.StartInfo.Arguments = $"{packArg} " + '"' + ndsFileName + '"'
+                + " -9 "  + '"' + RomInfo.arm9Path         + '"'
+                + " -7 "  + '"' + RomInfo.arm7Path         + '"'
+                + " -y9 " + '"' + RomInfo.overlayTablePath + '"'
+                + " -y7 " + '"' + RomInfo.y7Path           + '"'
+                + " -d "  + '"' + RomInfo.dataPath         + '"'
+                + " -y "  + '"' + RomInfo.overlayPath      + '"'
+                + " -t "  + '"' + RomInfo.bannerPath       + '"'
+                + " -h "  + '"' + RomInfo.headerPath       + '"';
 
             Application.DoEvents();
-            repack.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            repack.StartInfo.CreateNoWindow = true;
-            repack.Start();
-            repack.WaitForExit();
+            process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            process.StartInfo.CreateNoWindow = true;
+            process.Start();
+            process.WaitForExit();
+        }
+        
+        public static void RepackROM(string ndsFileName) {
+            ndstool(ndsFileName, "-c");
+        }
+
+        public static void UnpackRom(string ndsFileName) {
+            ndstool(ndsFileName, "-x");
         }
 
         public static byte[] StringToByteArray(String hex) {

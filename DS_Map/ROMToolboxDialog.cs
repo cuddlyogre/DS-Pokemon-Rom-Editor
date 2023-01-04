@@ -179,7 +179,7 @@ namespace DSPRE {
             if (overlayCode2.Length != overlayCode2Read.Length || !overlayCode2.SequenceEqual(overlayCode2Read))
                 return false; //0 means BDHCAM patch has not been applied
 
-            String fullFilePath = RomInfo.expArmPath;
+            String fullFilePath = Filesystem.expArmPath;
             byte[] subroutineRead = DSUtils.ReadFromFile(fullFilePath, ToolboxDB.BDHCAMPatchData.BDHCamSubroutineOffset, data.subroutine.Length); //Write new overlayCode1
             if (data.subroutine.Length != subroutineRead.Length || !data.subroutine.SequenceEqual(subroutineRead))
                 return false; //0 means BDHCAM patch has not been applied
@@ -357,7 +357,7 @@ namespace DSPRE {
                 "- Replace " + (data.branchString.Length / 3 + 1) + " bytes of data at arm9 offset 0x" + data.branchOffset.ToString("X") + " with " + '\n' + data.branchString + "\n\n" +
                 "- Replace " + (data.overlayString1.Length / 3 + 1) + " bytes of data at overlay" + data.overlayNumber + " offset 0x" + data.overlayOffset1.ToString("X") + " with " + '\n' + data.overlayString1 + "\n\n" +
                 "- Replace " + (data.overlayString2.Length / 3 + 1) + " bytes of data at overlay" + data.overlayNumber + " offset 0x" + data.overlayOffset2.ToString("X") + " with " + '\n' + data.overlayString2 + "\n\n" +
-                "- Modify file #" + expandedARMfileID + " inside " + '\n' + RomInfo.synthOverlay + '\n' + "to insert the BDHCAM routine (any data between 0x" + ToolboxDB.BDHCAMPatchData.BDHCamSubroutineOffset.ToString("X") + " and 0x" + (ToolboxDB.BDHCAMPatchData.BDHCamSubroutineOffset + data.subroutine.Length).ToString("X") + " will be overwritten)." + "\n\n" +
+                "- Modify file #" + expandedARMfileID + " inside " + '\n' + Filesystem.synthOverlay + '\n' + "to insert the BDHCAM routine (any data between 0x" + ToolboxDB.BDHCAMPatchData.BDHCamSubroutineOffset.ToString("X") + " and 0x" + (ToolboxDB.BDHCAMPatchData.BDHCamSubroutineOffset + data.subroutine.Length).ToString("X") + " will be overwritten)." + "\n\n" +
                 "Do you wish to continue?",
                 "Confirm to proceed", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
@@ -377,7 +377,7 @@ namespace DSPRE {
                     DSUtils.WriteToFile(overlayFilePath, DSUtils.HexStringToByteArray(data.overlayString2), data.overlayOffset2); //Write new overlayCode2
                     overlay1MustBeRestoredFromBackup = false;
 
-                    String fullFilePath = RomInfo.expArmPath;
+                    String fullFilePath = Filesystem.expArmPath;
 
                     /*Write Expanded ARM9 File*/
                     DSUtils.WriteToFile(fullFilePath, data.subroutine, ToolboxDB.BDHCAMPatchData.BDHCamSubroutineOffset);
@@ -460,7 +460,7 @@ namespace DSPRE {
                     }
 
                     // Parse all event files and fix instances of ground items according to the new order
-                    for (int i = 0; i < RomInfo.GetEventFileCount(); i++) {
+                    for (int i = 0; i < Filesystem.GetEventFileCount(); i++) {
                         EventFile eventFile = new EventFile(i);
 
                         for (int j = 0; j < eventFile.overworlds.Count; j++) {
@@ -520,7 +520,7 @@ namespace DSPRE {
                 "- Backup ARM9 file (arm9.bin" + backupSuffix + " will be created)." + "\n\n" +
                 "- Replace " + (data.branchString.Length / 3 + 1) + " bytes of data at arm9 offset 0x" + data.branchOffset.ToString("X") + " with " + '\n' + data.branchString + "\n\n" +
                 "- Replace " + (data.initString.Length / 3 + 1) + " bytes of data at arm9 offset 0x" + data.initOffset.ToString("X") + " with " + '\n' + data.initString + "\n\n" +
-                "- Modify file #" + expandedARMfileID + " inside " + '\n' + RomInfo.synthOverlay + '\n' + " to accommodate for 88KB of data (no backup)." + "\n\n" +
+                "- Modify file #" + expandedARMfileID + " inside " + '\n' + Filesystem.synthOverlay + '\n' + " to accommodate for 88KB of data (no backup)." + "\n\n" +
                 "Do you wish to continue?",
                 "Confirm to proceed", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
@@ -531,7 +531,7 @@ namespace DSPRE {
                     DSUtils.ARM9.WriteBytes(DSUtils.HexStringToByteArray(data.branchString), data.branchOffset); //Write new branchOffset
                     DSUtils.ARM9.WriteBytes(DSUtils.HexStringToByteArray(data.initString), data.initOffset); //Write new initOffset
 
-                    string fullFilePath = RomInfo.expArmPath;
+                    string fullFilePath = Filesystem.expArmPath;
                     File.Delete(fullFilePath);
                     using (BinaryWriter f = new BinaryWriter(File.Create(fullFilePath))) {
                         for (int i = 0; i < 0x16000; i++)
@@ -624,8 +624,8 @@ namespace DSPRE {
             DialogResult d;
             d = MessageBox.Show("Confirming this process will apply the following changes:\n\n" +
                 "- Backup ARM9 file (arm9.bin" + backupSuffix + " will be created)." + "\n\n" +
-                "- NARC file at " + RomInfo.dynamicHeadersPacked + " will become the new header container." + "\n\n" +
-                "- The default ARM9 header table will be split into multiple files (one per header), each one saved into NARC" + RomInfo.dynamicHeadersPacked + " upon saving the ROM." + "\n\n" +
+                "- NARC file at " + Filesystem.dynamicHeadersPacked + " will become the new header container." + "\n\n" +
+                "- The default ARM9 header table will be split into multiple files (one per header), each one saved into NARC" + Filesystem.dynamicHeadersPacked + " upon saving the ROM." + "\n\n" +
                 "- Replace " + (data.initString.Length / 3 + 1) + " bytes of data at arm9 offset 0x" + data.initOffset.ToString("X") + " with " + '\n' + data.initString + "\n\n" +
                 "- Neutralize instances of (HeaderID * 0x18) so the base offset which the data is read from is always 0x0." + "\n\n" + 
                 "- Change pointers to header fields, from(ARM9_HEADER_TABLE_OFFSET + n) to simply(0 + n)" + "\n\n" +
@@ -711,10 +711,8 @@ namespace DSPRE {
                     }
 
                     // Clear the dynamic headers directory in 'unpacked'
-                    string path1 = RomInfo.dynamicHeaders;
-                    Directory.Delete(path1, true);
-                    string path2 = RomInfo.dynamicHeaders;
-                    Directory.CreateDirectory(path2);
+                    Directory.Delete(Filesystem.dynamicHeaders, true);
+                    Directory.CreateDirectory(Filesystem.dynamicHeaders);
 
                     /* Now move the headers data from arm9 to the new directory. Upon saving the ROM,
                        the data will be packed into a NARC and replace a/0/5/0 in HGSS or 
@@ -723,7 +721,7 @@ namespace DSPRE {
                     int headerCount = RomInfo.GetHeaderCount();
                     for (int i = 0; i < headerCount; i++) {
                         byte[] headerData = MapHeader.LoadFromARM9((ushort)i).ToByteArray();
-                        string path = RomInfo.dynamicHeaders + "\\" + i.ToString("D4");
+                        string path = Filesystem.GetDynamicHeaderPath(i);
                         DSUtils.WriteToFile(path, headerData);
                     }
 
@@ -749,7 +747,7 @@ namespace DSPRE {
             if (d == DialogResult.Yes) {
                 DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames> { RomInfo.DirNames.areaData });
 
-                string[] adFiles = RomInfo.GetAreaData();
+                string[] adFiles = Filesystem.GetAreaDataFiles();
                 foreach (string s in adFiles) {
                     AreaData a = new AreaData(new FileStream(s, FileMode.Open)) {
                         dynamicTextureType = 0xFFFF
@@ -802,7 +800,7 @@ namespace DSPRE {
             return -1; // No table in expanded arm9 file
         }
         private void RepointCommandTable() {
-            string expandedPath = RomInfo.synthOverlay + "\\" + 0.ToString("D4");
+            string expandedPath = Filesystem.GetSynthOerlayPath(0);
             ResourceManager customcmdDB = new ResourceManager("DSPRE.Resources.ROMToolboxDB.CustomScrCmdDB", Assembly.GetExecutingAssembly());
 
             FileStream arm9FileStream = new FileStream(RomInfo.arm9Path, FileMode.Open); // I make a copy of the stream so the file is free for writing
@@ -826,7 +824,7 @@ namespace DSPRE {
             }
         }
         private bool ImportCustomCommand() {
-            string expandedPath = RomInfo.synthOverlay + "\\" + 0.ToString("D4");
+            string expandedPath = Filesystem.GetSynthOerlayPath(0);
             int appliedPatches = 0;
 
             OpenFileDialog of = new OpenFileDialog();

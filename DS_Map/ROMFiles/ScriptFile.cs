@@ -154,7 +154,7 @@ namespace DSPRE.ROMFiles {
         }
 
         static FileStream getFileStream(int fileID) {
-            string path = RomInfo.scripts + "\\" + fileID.ToString("D4");
+            string path = Filesystem.GetScriptPath(fileID);
             return new FileStream(path, FileMode.OpenOrCreate);
         }
 
@@ -904,7 +904,7 @@ namespace DSPRE.ROMFiles {
             }
 
             if (blindmode) {
-                string path = RomInfo.scripts + "\\" + ((int)fileID).ToString("D4");
+                string path = Filesystem.GetScriptPath(fileID);
                 File.Copy(path, sf.FileName, overwrite: true);
 
                 string msg = "";

@@ -68,7 +68,7 @@ namespace DSPRE.ROMFiles {
 
         public GameMatrix(int ID) {
             this.id = ID;
-            string path = RomInfo.matrices + "\\" + ID.ToString("D4");
+            string path = Filesystem.GetMatrixPath(ID);
             Stream data = new FileStream(path, FileMode.Open);
             LoadFile(data);
         }

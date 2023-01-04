@@ -193,6 +193,7 @@
     </Compile>
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Filesystem.cs" />
     <Compile Include="GameCamera.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="WildEditorHGSSReport.cs" />

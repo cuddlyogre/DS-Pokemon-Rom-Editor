@@ -206,7 +206,7 @@ namespace DSPRE.Editors {
 
     private void populate_selectScriptFileComboBox(int selectedIndex = 0) {
       selectScriptFileComboBox.Items.Clear();
-      int scriptCount = RomInfo.GetScriptCount();
+      int scriptCount = Filesystem.GetScriptCount();
       for (int i = 0; i < scriptCount; i++) {
         // ScriptFile currentScriptFile = new ScriptFile(i, true, true);
         // selectScriptFileComboBox.Items.Add(currentScriptFile);
@@ -647,7 +647,7 @@ namespace DSPRE.Editors {
       DialogResult d = MessageBox.Show("Are you sure you want to delete the last Script File?", "Confirm deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
       if (d.Equals(DialogResult.Yes)) {
         /* Delete script file */
-        string path = Path.Combine(RomInfo.scripts, (selectScriptFileComboBox.Items.Count - 1).ToString("D4"));
+        string path = Filesystem.GetScriptPath(selectScriptFileComboBox.Items.Count - 1);
         File.Delete(path);
 
         /* Check if currently selected file is the last one, and in that case select the one before it */
@@ -718,7 +718,7 @@ namespace DSPRE.Editors {
 
       /* Update scriptFile object in memory */
       int i = selectScriptFileComboBox.SelectedIndex;
-      string path = Path.Combine(RomInfo.scripts, i.ToString("D4"));
+      string path = Filesystem.GetScriptPath(i);
       File.Copy(of.FileName, path, true);
 
       populate_selectScriptFileComboBox(i);
@@ -735,7 +735,7 @@ namespace DSPRE.Editors {
     }
 
     private void locateCurrentScriptFile_Click(object sender, EventArgs e) {
-      string path = Path.Combine(RomInfo.scripts, selectScriptFileComboBox.SelectedIndex.ToString("D4"));
+      string path = Filesystem.GetScriptPath(selectScriptFileComboBox.SelectedIndex);
       Helpers.ExplorerSelect(path);
     }
 

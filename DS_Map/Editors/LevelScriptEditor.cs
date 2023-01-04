@@ -30,7 +30,7 @@ namespace DSPRE.Editors {
 
     private void populate_selectScriptFileComboBox(int selectedIndex = 0) {
       selectScriptFileComboBox.Items.Clear();
-      int scriptCount = RomInfo.GetScriptCount();
+      int scriptCount = Filesystem.GetScriptCount();
       for (int i = 0; i < scriptCount; i++) {
         // ScriptFile currentScriptFile = new ScriptFile(i, true, true);
         // selectScriptFileComboBox.Items.Add(currentScriptFile);
@@ -225,7 +225,7 @@ namespace DSPRE.Editors {
 
     void buttonLocate_Click(object sender, EventArgs e) {
       if (_levelScriptFile == null) return;
-      string path = Path.Combine(RomInfo.scripts, _levelScriptFile.ID.ToString("D4"));
+      string path = Filesystem.GetScriptPath(_levelScriptFile.ID);
       Helpers.ExplorerSelect(path);
     }
 
@@ -247,7 +247,7 @@ namespace DSPRE.Editors {
     }
 
     private void buttonSave_Click(object sender, EventArgs e) {
-      string path = Path.Combine(RomInfo.scripts, _levelScriptFile.ID.ToString("D4"));
+      string path = Filesystem.GetScriptPath(_levelScriptFile.ID);
       saveFile(path);
     }
 

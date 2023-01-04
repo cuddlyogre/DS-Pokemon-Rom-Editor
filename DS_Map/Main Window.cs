@@ -39,7 +39,7 @@ namespace DSPRE {
                 FileStream banner;
 
                 try {
-                    banner = File.OpenRead(RomInfo.workDir + @"banner.bin");
+                    banner = File.OpenRead(RomInfo.bannerPath);
                 } catch (FileNotFoundException) {
                     MessageBox.Show("Couldn't load " + '"' + "banner.bin" + '"' + '.', "Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -158,23 +158,9 @@ namespace DSPRE {
             Update();
 
             Directory.CreateDirectory(RomInfo.workDir);
-            Process unpack = new Process();
-            unpack.StartInfo.FileName = @"Tools\ndstool.exe";
-            unpack.StartInfo.Arguments = "-x " + '"' + ndsFileName + '"'
-                + " -9 " + '"' + RomInfo.arm9Path + '"'
-                + " -7 " + '"' + RomInfo.workDir + "arm7.bin" + '"'
-                + " -y9 " + '"' + RomInfo.workDir + "y9.bin" + '"'
-                + " -y7 " + '"' + RomInfo.workDir + "y7.bin" + '"'
-                + " -d " + '"' + RomInfo.workDir + "data" + '"'
-                + " -y " + '"' + RomInfo.workDir + "overlay" + '"'
-                + " -t " + '"' + RomInfo.workDir + "banner.bin" + '"'
-                + " -h " + '"' + RomInfo.workDir + "header.bin" + '"';
-            Application.DoEvents();
-            unpack.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            unpack.StartInfo.CreateNoWindow = true;
+ 
             try {
-                unpack.Start();
-                unpack.WaitForExit();
+                DSUtils.UnpackRom(ndsFileName);
             } catch (System.ComponentModel.Win32Exception) {
                 MessageBox.Show("Failed to call ndstool.exe" + Environment.NewLine + "Make sure DSPRE's Tools folder is intact.",
                     "Couldn't unpack ROM", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -779,7 +765,7 @@ namespace DSPRE {
                 return;
             }
 
-            string finalExtractedPath = narcDir.FileName + "\\" + Path.GetFileNameWithoutExtension(of.FileName);
+            string finalExtractedPath = Path.Combine(narcDir.FileName, Path.GetFileNameWithoutExtension(of.FileName)) ;
             userfile.ExtractToFolder(finalExtractedPath);
             MessageBox.Show("The contents of " + of.FileName + " have been extracted and saved.", "NARC Extracted", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -878,7 +864,7 @@ namespace DSPRE {
                 for (i = 0; i < tot; i++) {
                     FileInfo f = files[i];
                     Console.WriteLine(f.Name);
-                    string destName = Path.GetDirectoryName(f.FullName) + "\\" + listLines[i];
+                    string destName = Path.Combine(Path.GetDirectoryName(f.FullName), listLines[i]);
 
                     if (string.IsNullOrWhiteSpace(destName)) {
                         continue;
@@ -892,7 +878,7 @@ namespace DSPRE {
                     DialogResult dr2 = MessageBox.Show("Do you want to isolate the unnamed files by moving them to a dedicated folder?", "Waiting for user", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                     if (dr2.Equals(DialogResult.Yes)) {
-                        string isolatedDir = d.FullName + "\\" + ISOLATED_FOLDERNAME;
+                        string isolatedDir = Path.Combine(d.FullName, ISOLATED_FOLDERNAME);
                         if (Directory.Exists(isolatedDir)) {
                             Directory.Delete(isolatedDir);
                         }
@@ -901,7 +887,7 @@ namespace DSPRE {
                         while ( i < files.Length ) {
                             FileInfo f = files[i];
                             Console.WriteLine(f.Name);
-                            string destName = isolatedDir + "\\" + f.Name;
+                            string destName = Path.Combine(isolatedDir, f.Name);
                             File.Move(f.FullName, destName);
                             i++;
                         }

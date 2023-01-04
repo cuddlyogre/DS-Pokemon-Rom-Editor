@@ -78,7 +78,7 @@ namespace DSPRE.Editors {
         headerListBox.Items.AddRange(headerListBoxNames.ToArray());
       }
       catch (FileNotFoundException) {
-        MessageBox.Show(RomInfo.internalNamesLocation + " doesn't exist.", "Couldn't read internal names", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        MessageBox.Show(RomInfo.internalNamesPath + " doesn't exist.", "Couldn't read internal names", MessageBoxButtons.OK, MessageBoxIcon.Error);
         return;
       }
 
@@ -470,7 +470,7 @@ namespace DSPRE.Editors {
       /* Update internal name according to internalNameBox text*/
       ushort headerID = currentHeader.ID;
 
-      using (DSUtils.EasyWriter writer = new DSUtils.EasyWriter(RomInfo.internalNamesLocation, headerID * RomInfo.internalNameLength)) {
+      using (DSUtils.EasyWriter writer = new DSUtils.EasyWriter(RomInfo.internalNamesPath, headerID * RomInfo.internalNameLength)) {
         writer.Write(StringToInternalName(internalNameBox.Text));
       }
 
@@ -1198,13 +1198,13 @@ namespace DSPRE.Editors {
 
     private void addHeaderBTN_Click(object sender, EventArgs e) {
       // Add new file in the dynamic headers directory
-      string sourcePath = RomInfo.dynamicHeaders + "\\" + 0.ToString("D4");
-      string destPath = RomInfo.dynamicHeaders + "\\" + RomInfo.GetHeaderCount().ToString("D4");
+      string sourcePath = Filesystem.GetDynamicHeaderPath(0);
+      string destPath = Filesystem.GetDynamicHeaderPath(RomInfo.GetHeaderCount());
       File.Copy(sourcePath, destPath);
 
       // Add row to internal names table
       const string newmap = "NEWMAP";
-      DSUtils.WriteToFile(RomInfo.internalNamesLocation, StringToInternalName(newmap), (uint)RomInfo.GetHeaderCount() * RomInfo.internalNameLength);
+      DSUtils.WriteToFile(RomInfo.internalNamesPath, StringToInternalName(newmap), (uint)RomInfo.GetHeaderCount() * RomInfo.internalNameLength);
 
       // Update headers ListBox and internal names list
       headerListBox.Items.Add(headerListBox.Items.Count + MapHeader.nameSeparator + " " + newmap);
@@ -1226,9 +1226,9 @@ namespace DSPRE.Editors {
         }
 
         /* Physically delete last header file */
-        string path = RomInfo.dynamicHeaders + "\\" + lastIndex.ToString("D4");
+        string path = Filesystem.GetDynamicHeaderPath(lastIndex);
         File.Delete(path);
-        using (DSUtils.EasyWriter ew = new DSUtils.EasyWriter(RomInfo.internalNamesLocation)) {
+        using (DSUtils.EasyWriter ew = new DSUtils.EasyWriter(RomInfo.internalNamesPath)) {
           ew.EditSize(-RomInfo.internalNameLength); //Delete internalNameLength amount of bytes from file end
         }
 

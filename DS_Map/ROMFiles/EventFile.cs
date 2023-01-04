@@ -30,7 +30,7 @@ namespace DSPRE.ROMFiles {
         public EventFile() { }
 
         public EventFile(int ID) {
-            string path = RomInfo.eventFiles + "\\" + ID.ToString("D4");
+            string path = Filesystem.GetEventPath(ID);
             Stream data = new FileStream(path, FileMode.Open);
             LoadFile(data);
         }

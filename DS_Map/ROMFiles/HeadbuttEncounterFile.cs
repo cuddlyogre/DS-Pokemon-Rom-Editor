@@ -22,7 +22,7 @@ namespace DSPRE.ROMFiles {
 
     public HeadbuttEncounterFile(int id) {
       this.ID = id;
-      string path = RomInfo.headbutt + "\\" + id.ToString("D4");
+      string path = Filesystem.GetHeadbuttPath(id);
       parse_file(path);
     }
 

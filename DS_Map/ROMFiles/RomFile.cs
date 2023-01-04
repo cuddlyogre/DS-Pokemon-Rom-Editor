@@ -22,7 +22,7 @@ namespace DSPRE.ROMFiles {
             return true;
         }
         protected internal bool SaveToFileDefaultDir(RomInfo.DirNames dir, int IDtoReplace, bool showSuccessMessage = true) {
-            string path = RomInfo.gameDirs[dir].unpackedDir + "\\" + IDtoReplace.ToString("D4");
+            string path = Filesystem.GetPath(RomInfo.gameDirs[dir].unpackedDir, IDtoReplace);
             return this.SaveToFile(path, showSuccessMessage);
         }
         protected internal void SaveToFileExplorePath(string fileType, string fileExtension, string suggestedFileName, bool showSuccessMessage = true) {

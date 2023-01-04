@@ -20,7 +20,7 @@ namespace DSPRE.ROMFiles {
         #region Constructors (1)
 
         public AreaData(byte ID) {
-            string path = RomInfo.areaData + "\\" + ID.ToString("D4");
+            string path = Filesystem.GetAreaDataPath(ID);
             Stream data = new FileStream(path, FileMode.Open);
             LoadFile(data);
         }
