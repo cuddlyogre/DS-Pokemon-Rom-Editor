@@ -179,8 +179,7 @@ namespace DSPRE {
             if (overlayCode2.Length != overlayCode2Read.Length || !overlayCode2.SequenceEqual(overlayCode2Read))
                 return false; //0 means BDHCAM patch has not been applied
 
-            String fullFilePath = Filesystem.expArmPath;
-            byte[] subroutineRead = DSUtils.ReadFromFile(fullFilePath, ToolboxDB.BDHCAMPatchData.BDHCamSubroutineOffset, data.subroutine.Length); //Write new overlayCode1
+            byte[] subroutineRead = DSUtils.ReadFromFile(Filesystem.expArmPath, ToolboxDB.BDHCAMPatchData.BDHCamSubroutineOffset, data.subroutine.Length); //Write new overlayCode1
             if (data.subroutine.Length != subroutineRead.Length || !data.subroutine.SequenceEqual(subroutineRead))
                 return false; //0 means BDHCAM patch has not been applied
 
@@ -377,10 +376,8 @@ namespace DSPRE {
                     DSUtils.WriteToFile(overlayFilePath, DSUtils.HexStringToByteArray(data.overlayString2), data.overlayOffset2); //Write new overlayCode2
                     overlay1MustBeRestoredFromBackup = false;
 
-                    String fullFilePath = Filesystem.expArmPath;
-
                     /*Write Expanded ARM9 File*/
-                    DSUtils.WriteToFile(fullFilePath, data.subroutine, ToolboxDB.BDHCAMPatchData.BDHCamSubroutineOffset);
+                    DSUtils.WriteToFile(Filesystem.expArmPath, data.subroutine, ToolboxDB.BDHCAMPatchData.BDHCamSubroutineOffset);
                 } catch {
                     MessageBox.Show("Operation failed. It is strongly advised that you restore the arm9 and overlay from their respective backups.", "Something went wrong",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -531,9 +528,8 @@ namespace DSPRE {
                     DSUtils.ARM9.WriteBytes(DSUtils.HexStringToByteArray(data.branchString), data.branchOffset); //Write new branchOffset
                     DSUtils.ARM9.WriteBytes(DSUtils.HexStringToByteArray(data.initString), data.initOffset); //Write new initOffset
 
-                    string fullFilePath = Filesystem.expArmPath;
-                    File.Delete(fullFilePath);
-                    using (BinaryWriter f = new BinaryWriter(File.Create(fullFilePath))) {
+                    File.Delete(Filesystem.expArmPath);
+                    using (BinaryWriter f = new BinaryWriter(File.Create(Filesystem.expArmPath))) {
                         for (int i = 0; i < 0x16000; i++)
                             f.Write((byte)0x00); // Write Expanded ARM9 File 
                     }
