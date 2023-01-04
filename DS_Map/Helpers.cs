@@ -238,11 +238,11 @@ namespace DSPRE {
       bool fiveDigits = false; // some extreme future proofing
       try {
         string path = Filesystem.GetMonIconPath(0);
-        paletteBase = new NCLR(path, 0, 0.ToString("D4"));
+        paletteBase = new NCLR(path, 0, Path.GetFileName(path));
       }
       catch (FileNotFoundException) {
         string path = Filesystem.GetMonIconPath(0, "D5");
-        paletteBase = new NCLR(path, 0, 0.ToString("D5"));
+        paletteBase = new NCLR(path, 0, Path.GetFileName(path));
         fiveDigits = true;
       }
 
@@ -288,23 +288,23 @@ namespace DSPRE {
       // grab tiles
       int spriteFileID = species + 7;
       if (fiveDigits) {
-        string path1 = Filesystem.GetMonIconPath(spriteFileID, "D5");
-        imageBase = new NCGR(path1, spriteFileID, spriteFileID.ToString("D5"));
+        string path = Filesystem.GetMonIconPath(spriteFileID, "D5");
+        imageBase = new NCGR(path, spriteFileID, Path.GetFileName(path));
       }
       else {
-        string path1 = Filesystem.GetMonIconPath(spriteFileID);
-        imageBase = new NCGR(path1, spriteFileID, spriteFileID.ToString("D4"));
+        string path = Filesystem.GetMonIconPath(spriteFileID);
+        imageBase = new NCGR(path, spriteFileID, Path.GetFileName(path));
       }
 
       // grab sprite
-      int ncerFileId = 2;
+      const int ncerFileId = 2;
       if (fiveDigits) {
-        string path2 = Filesystem.GetMonIconPath(ncerFileId, "D5");
-        spriteBase = new NCER(path2, ncerFileId, ncerFileId.ToString("D5"));
+        string path = Filesystem.GetMonIconPath(ncerFileId, "D5");
+        spriteBase = new NCER(path, ncerFileId, Path.GetFileName(path));
       }
       else {
-        string path2 = Filesystem.GetMonIconPath(ncerFileId);
-        spriteBase = new NCER(path2, ncerFileId, ncerFileId.ToString("D4"));
+        string path = Filesystem.GetMonIconPath(ncerFileId);
+        spriteBase = new NCER(path, ncerFileId, Path.GetFileName(path));
       }
 
       // copy this from the trainer
