@@ -425,9 +425,9 @@ namespace DSPRE.Editors {
       if (buildingsListBox.Items.Count > 0) buildingsListBox.SelectedIndex = 0;
 
       for (int i = 0; i < currentMapFile.buildings.Count; i++) {
-        currentMapFile.buildings[i].LoadModelData(interiorbldRadioButton.Checked); // Load building nsbmd
-        string path = Filesystem.buildingTextures;
-        Helpers.MW_LoadModelTextures(currentMapFile.buildings[i].NSBMDFile, path, buildTextureComboBox.SelectedIndex - 1); // Load building textures                
+        Building building = currentMapFile.buildings[i];
+        building.LoadModelData(interiorbldRadioButton.Checked); // Load building nsbmd
+        Helpers.MW_LoadModelTextures(building, buildTextureComboBox.SelectedIndex - 1); // Load building textures                
       }
 
       /* Render the map */
@@ -479,9 +479,9 @@ namespace DSPRE.Editors {
 
       /* Load buildings nsbmd and textures for renderer into MapFile's building objects */
       for (int i = 0; i < currentMapFile.buildings.Count; i++) {
-        currentMapFile.buildings[i].LoadModelData(interiorbldRadioButton.Checked); // Load building nsbmd
-        string path = Filesystem.buildingTextures;
-        Helpers.MW_LoadModelTextures(currentMapFile.buildings[i].NSBMDFile, path, buildTextureComboBox.SelectedIndex - 1); // Load building textures                
+        Building building = currentMapFile.buildings[i];
+        building.LoadModelData(interiorbldRadioButton.Checked); // Load building nsbmd
+        Helpers.MW_LoadModelTextures(building, buildTextureComboBox.SelectedIndex - 1); // Load building textures                
       }
 
       /* Render the map */
@@ -498,11 +498,10 @@ namespace DSPRE.Editors {
       buildingsListBox.Items[buildingsListBox.SelectedIndex] = (buildingsListBox.SelectedIndex + 1).ToString("D2") + MapHeader.nameSeparator + buildIndexComboBox.SelectedItem;
       Helpers.EnableHandlers();
 
-      currentMapFile.buildings[buildingsListBox.SelectedIndex].modelID = (uint)buildIndexComboBox.SelectedIndex;
-      currentMapFile.buildings[buildingsListBox.SelectedIndex].LoadModelData(interiorbldRadioButton.Checked);
-      string path = Filesystem.buildingTextures;
-      Helpers.MW_LoadModelTextures(currentMapFile.buildings[buildingsListBox.SelectedIndex].NSBMDFile, path, buildTextureComboBox.SelectedIndex - 1);
-
+      Building building = currentMapFile.buildings[buildingsListBox.SelectedIndex];
+      building.modelID = (uint)buildIndexComboBox.SelectedIndex;
+      building.LoadModelData(interiorbldRadioButton.Checked);
+      Helpers.MW_LoadModelTextures(building, buildTextureComboBox.SelectedIndex - 1);
       Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
     }
 
@@ -533,17 +532,16 @@ namespace DSPRE.Editors {
       }
     }
 
-    private void AddBuildingToMap(Building b) {
-      currentMapFile.buildings.Add(b);
+    private void AddBuildingToMap(Building building) {
+      currentMapFile.buildings.Add(building);
 
       /* Load new building's model and textures for the renderer */
-      b.LoadModelData(interiorbldRadioButton.Checked);
-      string path = Filesystem.buildingTextures;
-      Helpers.MW_LoadModelTextures(b.NSBMDFile, path, buildTextureComboBox.SelectedIndex - 1);
-      currentMapFile.buildings[currentMapFile.buildings.Count - 1] = b;
+      building.LoadModelData(interiorbldRadioButton.Checked);
+      Helpers.MW_LoadModelTextures(building, buildTextureComboBox.SelectedIndex - 1);
+      currentMapFile.buildings[currentMapFile.buildings.Count - 1] = building;
 
       /* Add new entry to buildings ListBox */
-      buildingsListBox.Items.Add((buildingsListBox.Items.Count + 1).ToString("D2") + MapHeader.nameSeparator + buildIndexComboBox.Items[(int)b.modelID]);
+      buildingsListBox.Items.Add((buildingsListBox.Items.Count + 1).ToString("D2") + MapHeader.nameSeparator + buildIndexComboBox.Items[(int)building.modelID]);
       buildingsListBox.SelectedIndex = buildingsListBox.Items.Count - 1;
 
       /* Redraw scene with new building */
@@ -1175,8 +1173,7 @@ namespace DSPRE.Editors {
       currentMapFile.LoadMapModel(DSUtils.ReadFromFile(im.FileName));
 
       if (mapTextureComboBox.SelectedIndex > 0) {
-        string path = Filesystem.mapTextures;
-        Helpers.MW_LoadModelTextures(currentMapFile.mapModel, path, mapTextureComboBox.SelectedIndex - 1);
+        Helpers.MW_LoadModelTextures(currentMapFile, mapTextureComboBox.SelectedIndex - 1);
       }
 
       Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
@@ -1370,17 +1367,15 @@ namespace DSPRE.Editors {
 
       /* Load map textures for renderer */
       if (mapTextureComboBox.SelectedIndex > 0) {
-        string path = Filesystem.mapTextures;
-        Helpers.MW_LoadModelTextures(currentMapFile.mapModel, path, mapTextureComboBox.SelectedIndex - 1);
+        Helpers.MW_LoadModelTextures(currentMapFile, mapTextureComboBox.SelectedIndex - 1);
       }
 
       /* Load buildings nsbmd and textures for renderer into MapFile's building objects */
       for (int i = 0; i < currentMapFile.buildings.Count; i++) {
-        currentMapFile.buildings[i].LoadModelData(interiorbldRadioButton.Checked); // Load building nsbmd
-        if (buildTextureComboBox.SelectedIndex > 0) {
-          string path = Filesystem.buildingTextures;
-          Helpers.MW_LoadModelTextures(currentMapFile.buildings[i].NSBMDFile, path, buildTextureComboBox.SelectedIndex - 1); // Load building textures                
-        }
+        Building building = currentMapFile.buildings[i];
+        building.LoadModelData(interiorbldRadioButton.Checked); // Load building nsbmd
+        if (buildTextureComboBox.SelectedIndex <= 0) continue;
+        Helpers.MW_LoadModelTextures(building, buildTextureComboBox.SelectedIndex - 1); // Load building textures                
       }
 
       /* Render the map */

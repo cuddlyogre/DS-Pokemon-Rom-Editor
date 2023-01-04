@@ -112,6 +112,14 @@ namespace DSPRE {
       }
     }
 
+    public static void MW_LoadModelTextures(MapFile mapFile, int fileID) {
+      MW_LoadModelTextures(mapFile.mapModel, Filesystem.mapTextures, fileID);
+    }
+
+    public static void MW_LoadModelTextures(Building building, int fileID) {
+      MW_LoadModelTextures(building.NSBMDFile, Filesystem.buildingTextures, fileID);
+    }
+
     private static void SetupRenderer(float ang, float dist, float elev, float perspective, int width, int height) {
       //TODO: improve this
       Gl.glEnable(Gl.GL_RESCALE_NORMAL);

@@ -1919,8 +1919,7 @@ namespace DSPRE.Editors {
 
         /* Read map and building models, match them with textures and render them*/
         currentMapFile = new MapFile((int)mapIndex, RomInfo.gameFamily, discardMoveperms: false);
-        string path = Filesystem.mapTextures;
-        Helpers.MW_LoadModelTextures(currentMapFile.mapModel, path, areaData.mapTileset);
+        Helpers.MW_LoadModelTextures(currentMapFile, areaData.mapTileset);
 
         bool isInteriorMap = false;
         bool hgss = RomInfo.gameVersion == RomInfo.GameVersions.HeartGold || RomInfo.gameVersion == RomInfo.GameVersions.SoulSilver;
@@ -1929,9 +1928,9 @@ namespace DSPRE.Editors {
         }
 
         for (int i = 0; i < currentMapFile.buildings.Count; i++) {
-          currentMapFile.buildings[i].LoadModelData(isInteriorMap); // Load building nsbmd
-          string path1 = Filesystem.buildingTextures;
-          Helpers.MW_LoadModelTextures(currentMapFile.buildings[i].NSBMDFile, path1, areaData.buildingsTileset); // Load building textures                
+          Building building = currentMapFile.buildings[i];
+          building.LoadModelData(isInteriorMap); // Load building nsbmd
+          Helpers.MW_LoadModelTextures(building, areaData.buildingsTileset); // Load building textures                
         }
 
         float ang = 0f;
