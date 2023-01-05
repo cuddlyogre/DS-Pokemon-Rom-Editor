@@ -115,13 +115,13 @@ namespace DSPRE {
 
             switch (RomInfo.gameFamily) {
                 case RomInfo.GameFamilies.DP:
-                    locationNameLBL.Text = locations[((HeaderDP)currentHeader).locationName];
+                    locationNameLBL.Text = locations[((MapHeaderDP)currentHeader).locationName];
                     break;
                 case RomInfo.GameFamilies.Plat:
-                    locationNameLBL.Text = locations[((HeaderPt)currentHeader).locationName];
+                    locationNameLBL.Text = locations[((MapHeaderPt)currentHeader).locationName];
                     break;
                 case RomInfo.GameFamilies.HGSS:
-                    locationNameLBL.Text = locations[((HeaderHGSS)currentHeader).locationName];
+                    locationNameLBL.Text = locations[((MapHeaderHGSS)currentHeader).locationName];
                     break;
             }
         }

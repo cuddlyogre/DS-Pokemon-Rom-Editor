@@ -560,11 +560,11 @@ namespace DSPRE.Editors {
       return true;
     }
 
-    static void displayScriptFile(ScriptFile.ContainerTypes containerType, List<CommandContainer> commandList, ListBox navListBox, Scintilla textArea) {
+    static void displayScriptFile(ScriptFile.ContainerTypes containerType, List<ScriptCommandContainer> commandList, ListBox navListBox, Scintilla textArea) {
       string buffer = "";
       /* Add commands */
       for (int i = 0; i < commandList.Count; i++) {
-        CommandContainer currentCommand = commandList[i];
+        ScriptCommandContainer scriptCommandContainer = commandList[i];
 
         /* Write header */
         string header = containerType + " " + (i + 1);
@@ -572,9 +572,9 @@ namespace DSPRE.Editors {
         navListBox.Items.Add(header);
 
         /* If current command is identical to another, print UseScript instead of commands */
-        if (currentCommand.usedScriptID < 0) {
-          for (int j = 0; j < currentCommand.commands.Count; j++) {
-            ScriptCommand command = currentCommand.commands[j];
+        if (scriptCommandContainer.usedScriptID < 0) {
+          for (int j = 0; j < scriptCommandContainer.commands.Count; j++) {
+            ScriptCommand command = scriptCommandContainer.commands[j];
             if (!ScriptDatabase.endCodes.Contains(command.id)) {
               buffer += '\t';
             }
@@ -583,7 +583,7 @@ namespace DSPRE.Editors {
           }
         }
         else {
-          buffer += '\t' + "UseScript_#" + currentCommand.usedScriptID + Environment.NewLine;
+          buffer += '\t' + "UseScript_#" + scriptCommandContainer.usedScriptID + Environment.NewLine;
         }
 
         textArea.AppendText(buffer + Environment.NewLine);
@@ -591,11 +591,11 @@ namespace DSPRE.Editors {
       }
     }
 
-    static void displayScriptFileActions(ScriptFile.ContainerTypes containerType, List<ActionContainer> commandList, ListBox navListBox, Scintilla textArea) {
+    static void displayScriptFileActions(ScriptFile.ContainerTypes containerType, List<ScriptActionContainer> commandList, ListBox navListBox, Scintilla textArea) {
       /* Add movements */
       string buffer = "";
       for (int i = 0; i < commandList.Count; i++) {
-        ActionContainer currentCommand = commandList[i];
+        ScriptActionContainer currentCommand = commandList[i];
 
         string header = containerType + " " + (i + 1);
         buffer += header + ':' + Environment.NewLine;
@@ -954,7 +954,7 @@ namespace DSPRE.Editors {
       bw.RunWorkerAsync();
     }
 
-    private List<ScriptEditorSearchResult> SearchInScripts(ScriptFile scriptFile, List<CommandContainer> commandContainers, Func<string, bool> criteria) {
+    private List<ScriptEditorSearchResult> SearchInScripts(ScriptFile scriptFile, List<ScriptCommandContainer> commandContainers, Func<string, bool> criteria) {
       List<ScriptEditorSearchResult> results = new List<ScriptEditorSearchResult>();
 
       for (int j = 0; j < commandContainers.Count; j++) {
@@ -962,10 +962,10 @@ namespace DSPRE.Editors {
           continue;
         }
 
-        CommandContainer commandContainer = commandContainers[j];
-        foreach (ScriptCommand scriptCommand in commandContainer.commands) {
+        ScriptCommandContainer scriptCommandContainer = commandContainers[j];
+        foreach (ScriptCommand scriptCommand in scriptCommandContainer.commands) {
           if (criteria(scriptCommand.name)) {
-            results.Add(new ScriptEditorSearchResult(scriptFile, commandContainer.containerType, j + 1, scriptCommand));
+            results.Add(new ScriptEditorSearchResult(scriptFile, scriptCommandContainer.containerType, j + 1, scriptCommand));
           }
         }
       }

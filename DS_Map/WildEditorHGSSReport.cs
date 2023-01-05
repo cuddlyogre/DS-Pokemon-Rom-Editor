@@ -11,13 +11,13 @@ namespace DSPRE {
     readonly int id;
     readonly string locationName;
 
-    public HeaderHGSS header;
+    public MapHeaderHGSS header;
     public HeadbuttEncounterFile headbuttEncounterFile;
 
     public HashSet<string> normalEncounters = new HashSet<string>();
     public HashSet<string> specialEncounters = new HashSet<string>();
 
-    public WildHeadbuttReport(HeaderHGSS header, HeadbuttEncounterFile headbuttEncounterFile) {
+    public WildHeadbuttReport(MapHeaderHGSS header, HeadbuttEncounterFile headbuttEncounterFile) {
       DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames>() { RomInfo.DirNames.headbutt });
 
       Tuple<List<string>, List<string>> headerNames = Helpers.BuildHeaderNames();
@@ -285,7 +285,7 @@ namespace DSPRE {
     public HashSet<string> goodRodEncounters = new HashSet<string>();
     public HashSet<string> superRodEncounters = new HashSet<string>();
 
-    public WildEditorHGSSReport(List<HeaderHGSS> headers, int wildPokemon) {
+    public WildEditorHGSSReport(List<MapHeaderHGSS> headers, int wildPokemon) {
       DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames>() { RomInfo.DirNames.encounters });
 
       Tuple<List<string>, List<string>> headerNames = Helpers.BuildHeaderNames();
@@ -295,7 +295,7 @@ namespace DSPRE {
       TextArchive currentTextArchive = new TextArchive(RomInfo.locationNamesTextNumber);
 
       StringBuilder sb = new StringBuilder();
-      foreach (HeaderHGSS header in headers) {
+      foreach (MapHeaderHGSS header in headers) {
         string _locationName = currentTextArchive.messages[header.locationName];
         sb.Append($"{header.ID} {MapHeader.nameSeparator.Trim()} {internalNames[header.ID].Trim()} - {_locationName}\n");
       }
@@ -627,16 +627,16 @@ namespace DSPRE {
       string[] pokemonNames = RomInfo.GetPokemonNames();
       TextArchive currentTextArchive = new TextArchive(RomInfo.locationNamesTextNumber);
 
-      Dictionary<int, List<HeaderHGSS>> map = new Dictionary<int, List<HeaderHGSS>>();
-      Dictionary<HeaderHGSS, HeadbuttEncounterFile> headbuttEncounters = new Dictionary<HeaderHGSS, HeadbuttEncounterFile>();
+      Dictionary<int, List<MapHeaderHGSS>> map = new Dictionary<int, List<MapHeaderHGSS>>();
+      Dictionary<MapHeaderHGSS, HeadbuttEncounterFile> headbuttEncounters = new Dictionary<MapHeaderHGSS, HeadbuttEncounterFile>();
 
       //collect headers that use the same encounter file
       for (ushort i = 0; i < headerListBoxNames.Count; i++) {
-        HeaderHGSS header = (HeaderHGSS)MapHeader.GetMapHeader(i);
+        MapHeaderHGSS header = (MapHeaderHGSS)MapHeader.GetMapHeader(i);
 
         ushort wildPokemon = header.wildPokemon;
         if (!map.ContainsKey(wildPokemon)) {
-          map[wildPokemon] = new List<HeaderHGSS>();
+          map[wildPokemon] = new List<MapHeaderHGSS>();
         }
 
         map[wildPokemon].Add(header);
@@ -662,7 +662,7 @@ namespace DSPRE {
       int headerCount = MapHeader.GetHeaderCount();
       for (ushort i = 0; i < headerCount; i++) {
         MapHeader currentHeader = MapHeader.GetMapHeader(i);
-        HeaderHGSS header = (HeaderHGSS)currentHeader;
+        MapHeaderHGSS header = (MapHeaderHGSS)currentHeader;
         HeadbuttEncounterFile headbuttEncounterFile = new HeadbuttEncounterFile(i);
 
         WildHeadbuttReport report = new WildHeadbuttReport(header, headbuttEncounterFile);
@@ -676,9 +676,9 @@ namespace DSPRE {
         allHeadbuttSpecialEncounters.AddRange(report.specialEncounters);
       }
 
-      foreach (KeyValuePair<int, List<HeaderHGSS>> kv in map) {
+      foreach (KeyValuePair<int, List<MapHeaderHGSS>> kv in map) {
         int wildPokemon = kv.Key;
-        List<HeaderHGSS> headers = kv.Value;
+        List<MapHeaderHGSS> headers = kv.Value;
 
         WildEditorHGSSReport report = new WildEditorHGSSReport(headers, wildPokemon);
         string report_path = Path.Combine(dir, "encounters", $"{wildPokemon.ToString("D4")}.txt");

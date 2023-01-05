@@ -563,10 +563,10 @@ namespace DSPRE.Editors {
               else {
                 if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.DP)) {
                   foreach (ushort r in result) {
-                    HeaderDP hdp;
+                    MapHeaderDP hdp;
 
                     //Dynamic headers patch unsupported in DP
-                    hdp = (HeaderDP)MapHeader.LoadFromARM9(r);
+                    hdp = (MapHeaderDP)MapHeader.LoadFromARM9(r);
 
                     if (hdp.locationName != 0) {
                       headerID = hdp.ID;
@@ -576,7 +576,7 @@ namespace DSPRE.Editors {
                 }
                 else if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.Plat)) {
                   foreach (ushort r in result) {
-                    HeaderPt hpt = (HeaderPt)MapHeader.GetMapHeader(r);
+                    MapHeaderPt hpt = (MapHeaderPt)MapHeader.GetMapHeader(r);
 
                     if (hpt.locationName != 0) {
                       headerID = hpt.ID;
@@ -586,7 +586,7 @@ namespace DSPRE.Editors {
                 }
                 else {
                   foreach (ushort r in result) {
-                    HeaderHGSS hgss = (HeaderHGSS)MapHeader.GetMapHeader(r);
+                    MapHeaderHGSS hgss = (MapHeaderHGSS)MapHeader.GetMapHeader(r);
 
                     if (hgss.locationName != 0) {
                       headerID = hgss.ID;

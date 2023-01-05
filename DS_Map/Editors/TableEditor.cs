@@ -250,13 +250,13 @@ namespace DSPRE.Editors {
       MapHeader selected = MapHeader.LoadFromARM9(newTuple.header);
       switch (RomInfo.gameFamily) {
         case RomInfo.GameFamilies.DP:
-          locationNameConditionalMusicLBL.Text = RomInfo.GetLocationNames()[(selected as HeaderDP).locationName];
+          locationNameConditionalMusicLBL.Text = RomInfo.GetLocationNames()[(selected as MapHeaderDP).locationName];
           break;
         case RomInfo.GameFamilies.Plat:
-          locationNameConditionalMusicLBL.Text = RomInfo.GetLocationNames()[(selected as HeaderPt).locationName];
+          locationNameConditionalMusicLBL.Text = RomInfo.GetLocationNames()[(selected as MapHeaderPt).locationName];
           break;
         case RomInfo.GameFamilies.HGSS:
-          locationNameConditionalMusicLBL.Text = RomInfo.GetLocationNames()[(selected as HeaderHGSS).locationName];
+          locationNameConditionalMusicLBL.Text = RomInfo.GetLocationNames()[(selected as MapHeaderHGSS).locationName];
           break;
       }
     }

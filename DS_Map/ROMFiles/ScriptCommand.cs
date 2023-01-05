@@ -7,28 +7,7 @@ using System.Windows.Forms;
 
 namespace DSPRE.ROMFiles {
     public enum ParamTypeEnum { INTEGER, VARIABLE, FLEX, OW_ID, OW_MOVEMENT_TYPE, OW_DIRECTION, FUNCTION_ID, ACTION_ID, CMD_NUMBER };
-    public class CommandContainer {
-        public List<ScriptCommand> commands;
-        public uint manualUserID;
-        public int usedScriptID; //useScript ID referenced by this Script/Function
-        public ScriptFile.ContainerTypes containerType;
-        internal static readonly string functionStart;
 
-        #region Constructors (2)
-        public CommandContainer(uint scriptNumber, ScriptFile.ContainerTypes containerType, int usedScriptID = -1, List<ScriptCommand> commandList = null) {
-            manualUserID = scriptNumber;
-            this.usedScriptID = usedScriptID;
-            this.containerType = containerType;
-            commands = commandList;
-        }
-        public CommandContainer(uint newID, CommandContainer toCopy) {
-            manualUserID = newID;
-            usedScriptID = toCopy.usedScriptID;
-            containerType = toCopy.containerType;
-            commands = new List<ScriptCommand>(toCopy.commands); //command parameters need to be copied recursively
-        }
-        #endregion
-    }
     public class ScriptCommand {
         #region Fields (4)
         public ushort? id;

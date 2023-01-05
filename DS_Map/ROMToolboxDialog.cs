@@ -478,7 +478,7 @@ namespace DSPRE {
 
                     // Sort scripts in the Script File according to item indices
                     int itemCount = new TextArchive(RomInfo.itemNamesTextNumber).messages.Count;
-                    CommandContainer executeGive = new CommandContainer((uint)itemCount, itemScriptFile.allScripts[itemScriptFile.allScripts.Count - 1]);
+                    ScriptCommandContainer executeGive = new ScriptCommandContainer((uint)itemCount, itemScriptFile.allScripts[itemScriptFile.allScripts.Count - 1]);
                     
                     itemScriptFile.allScripts.Clear();
 
@@ -490,7 +490,7 @@ namespace DSPRE {
                             new ScriptCommand("Jump Function_#1")
                         };
 
-                        itemScriptFile.allScripts.Add(new CommandContainer((ushort)(i + 1), ScriptFile.ContainerTypes.Script, commandList: cmdList));
+                        itemScriptFile.allScripts.Add(new ScriptCommandContainer((ushort)(i + 1), ScriptFile.ContainerTypes.Script, commandList: cmdList));
                     }
                     
                     itemScriptFile.allScripts.Add(executeGive);

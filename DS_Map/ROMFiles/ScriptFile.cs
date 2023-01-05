@@ -22,9 +22,9 @@ namespace DSPRE.ROMFiles {
         #endregion
 
         #region Fields (3)
-        public List<CommandContainer> allScripts = new List<CommandContainer>();
-        public List<CommandContainer> allFunctions = new List<CommandContainer>();
-        public List<ActionContainer> allActions = new List<ActionContainer>();
+        public List<ScriptCommandContainer> allScripts = new List<ScriptCommandContainer>();
+        public List<ScriptCommandContainer> allFunctions = new List<ScriptCommandContainer>();
+        public List<ScriptActionContainer> allActions = new List<ScriptActionContainer>();
         public int fileID = -1;
         public bool isLevelScript = new bool();
 
@@ -94,9 +94,9 @@ namespace DSPRE.ROMFiles {
                                 endScript = true;
                             }
                         }
-                        allScripts.Add(new CommandContainer(current+1, ContainerTypes.Script, commandList: cmdList));
+                        allScripts.Add(new ScriptCommandContainer(current+1, ContainerTypes.Script, commandList: cmdList));
                     } else {
-                        allScripts.Add(new CommandContainer(current+1, ContainerTypes.Script, usedScriptID: index+1));
+                        allScripts.Add(new ScriptCommandContainer(current+1, ContainerTypes.Script, usedScriptID: index+1));
                     }
                 }
 
@@ -120,9 +120,9 @@ namespace DSPRE.ROMFiles {
                                     endFunction = true;
                                 }
                             }
-                            allFunctions.Add(new CommandContainer(current + 1, ContainerTypes.Function, commandList: cmdList));
+                            allFunctions.Add(new ScriptCommandContainer(current + 1, ContainerTypes.Function, commandList: cmdList));
                         } else {
-                            allFunctions.Add(new CommandContainer(current + 1, ContainerTypes.Function, usedScriptID: posInList + 1));
+                            allFunctions.Add(new ScriptCommandContainer(current + 1, ContainerTypes.Function, usedScriptID: posInList + 1));
                         }
                     }
                 }
@@ -143,7 +143,7 @@ namespace DSPRE.ROMFiles {
                                 cmdList.Add(new ScriptAction(id, br.ReadUInt16()));
                             }
                         }
-                        allActions.Add(new ActionContainer(current + 1, commands: cmdList));
+                        allActions.Add(new ScriptActionContainer(current + 1, commands: cmdList));
                     }
                 }
             }
@@ -163,7 +163,7 @@ namespace DSPRE.ROMFiles {
             return $"{prefix}Script File " + this.fileID;
         }
 
-        public ScriptFile(List<CommandContainer> scripts, List<CommandContainer> functions, List<ActionContainer> movements, int fileID = -1) {
+        public ScriptFile(List<ScriptCommandContainer> scripts, List<ScriptCommandContainer> functions, List<ScriptActionContainer> movements, int fileID = -1) {
             allScripts = scripts;
             allFunctions = functions;
             allActions = movements;
@@ -489,7 +489,7 @@ namespace DSPRE.ROMFiles {
                 return;
             }
         }
-        private void AddReference(ref List<ScriptReference> references, ushort commandID, List<byte[]> parameterList, int pos, CommandContainer cont) {
+        private void AddReference(ref List<ScriptReference> references, ushort commandID, List<byte[]> parameterList, int pos, ScriptCommandContainer cont) {
             if (ScriptDatabase.commandsWithRelativeJump.TryGetValue(commandID, out int parameterWithRelativeJump)) {
                 uint invokedID = BitConverter.ToUInt32(parameterList[parameterWithRelativeJump], 0);  // Jump, Call
 
@@ -500,7 +500,7 @@ namespace DSPRE.ROMFiles {
                 }
             }
         }
-        private List<CommandContainer> ReadCommandsFromLines(List<string> linelist, ContainerTypes containerType, Func<List<(int linenum, string text)>, int, ushort?, bool> endConditions) {
+        private List<ScriptCommandContainer> ReadCommandsFromLines(List<string> linelist, ContainerTypes containerType, Func<List<(int linenum, string text)>, int, ushort?, bool> endConditions) {
             List<(int linenum, string text)> lineSource = new List<(int linenum, string text)>();
 
             for (int l = 0; l < linelist.Count; l++) {
@@ -510,7 +510,7 @@ namespace DSPRE.ROMFiles {
                 }
             }
 
-            List<CommandContainer> ls = new List<CommandContainer>();
+            List<ScriptCommandContainer> ls = new List<ScriptCommandContainer>();
             int i = 0;
 
             try {
@@ -538,7 +538,7 @@ namespace DSPRE.ROMFiles {
 
                     if (lineSource[i].text.IndexOf("UseScript", StringComparison.InvariantCultureIgnoreCase) >= 0) {
                         int useScriptNumber = short.Parse(lineSource[i].text.Substring(1 + lineSource[i].text.IndexOf('#')));
-                        ls.Add(new CommandContainer(scriptNumber, containerType, useScriptNumber));
+                        ls.Add(new ScriptCommandContainer(scriptNumber, containerType, useScriptNumber));
                         i++;
                     } else {
                         /* Read script commands */
@@ -554,7 +554,7 @@ namespace DSPRE.ROMFiles {
                             cmdList.Add(lastRead);
                         } while (!endConditions(lineSource, i++, lastRead.id));
 
-                        ls.Add(new CommandContainer(scriptNumber, containerType, commandList: cmdList));
+                        ls.Add(new ScriptCommandContainer(scriptNumber, containerType, commandList: cmdList));
                     }
                     scriptNumber = 0;
                 }
@@ -568,7 +568,7 @@ namespace DSPRE.ROMFiles {
             return ls;
         }
 
-        private List<ActionContainer> ReadActionsFromLines(List<string> linelist) {
+        private List<ScriptActionContainer> ReadActionsFromLines(List<string> linelist) {
             List<(int linenum, string text)> lineSource = new List<(int linenum, string text)>();
 
             for (int l = 0; l < linelist.Count; l++) {
@@ -578,7 +578,7 @@ namespace DSPRE.ROMFiles {
                 }
             }
 
-            List<ActionContainer> ls = new List<ActionContainer>();
+            List<ScriptActionContainer> ls = new List<ScriptActionContainer>();
             int i = 0;
 
             try {
@@ -617,7 +617,7 @@ namespace DSPRE.ROMFiles {
                         
                     } while (!lineSource[i++].text.IgnoreCaseEquals(RomInfo.ScriptActionNamesDict[0x00FE]));
 
-                    ls.Add( new ActionContainer(actionNumber, commands: cmdList) );
+                    ls.Add( new ScriptActionContainer(actionNumber, commands: cmdList) );
                     actionNumber = 0;
                 }
             } catch (ArgumentOutOfRangeException) {
@@ -644,10 +644,10 @@ namespace DSPRE.ROMFiles {
                 try {
                     writer.BaseStream.Position += allScripts.Count * 0x4;
                     writer.Write((ushort)0xFD13); // Signal the end of header section
-                    List<CommandContainer> useScriptCallers = new List<CommandContainer>();
+                    List<ScriptCommandContainer> useScriptCallers = new List<ScriptCommandContainer>();
 
                     /* Write scripts */
-                    foreach (CommandContainer currentScript in allScripts) {
+                    foreach (ScriptCommandContainer currentScript in allScripts) {
                         if (currentScript.usedScriptID == -1) {
                             scriptOffsets.Add(new ContainerReference() {
                                 ID = currentScript.manualUserID,
@@ -674,7 +674,7 @@ namespace DSPRE.ROMFiles {
                     }
 
                     int scriptsCount = scriptOffsets.Count;
-                    foreach (CommandContainer caller in useScriptCallers) {
+                    foreach (ScriptCommandContainer caller in useScriptCallers) {
                         for (int i = 0; i < scriptsCount; i++) {
                             ContainerReference scriptReference = scriptOffsets[i];
 
@@ -688,7 +688,7 @@ namespace DSPRE.ROMFiles {
                     }
 
                     /* Write functions */
-                    foreach (CommandContainer currentFunction in allFunctions) {
+                    foreach (ScriptCommandContainer currentFunction in allFunctions) {
                         if (currentFunction.usedScriptID == -1) {
                             functionOffsets.Add(new ContainerReference() { 
                                 ID = currentFunction.manualUserID, 
@@ -729,7 +729,7 @@ namespace DSPRE.ROMFiles {
                     }
 
                     /* Write movements */
-                    foreach (ActionContainer currentAction in allActions) {
+                    foreach (ScriptActionContainer currentAction in allActions) {
                         actionOffsets.Add(new ContainerReference() {
                             ID = currentAction.manualUserID,
                             offsetInFile = (uint)writer.BaseStream.Position
@@ -919,26 +919,5 @@ namespace DSPRE.ROMFiles {
         }
         #endregion
         #endregion
-    }
-
-    internal class ScriptReference {
-        public ScriptFile.ContainerTypes typeOfCaller { get; private set; }
-        public uint callerID { get; private set; }
-        public ScriptFile.ContainerTypes typeOfInvoked { get; private set; }
-        public uint invokedID { get; private set; }
-        public int invokedAt { get; private set; }
-
-        public ScriptReference(ScriptFile.ContainerTypes typeOfCaller, uint callerID, ScriptFile.ContainerTypes invokedType, uint invokedID, int invokedAt) {
-            this.typeOfCaller = typeOfCaller;
-            this.callerID = callerID;
-            this.typeOfInvoked = invokedType;
-            this.invokedID = invokedID;
-
-            this.invokedAt = invokedAt;
-        }
-
-        public override string ToString() {
-            return typeOfCaller + " " + callerID + " invokes " + typeOfInvoked + " " + invokedID + " at " + invokedAt;
-        }
     }
 }

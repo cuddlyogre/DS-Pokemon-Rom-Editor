@@ -125,7 +125,7 @@ namespace DSPRE.Editors {
       else {
         ScriptFile itemScript = new ScriptFile(RomInfo.itemScriptFileNumber);
         owItemComboBox.Items.Clear();
-        foreach (CommandContainer cont in itemScript.allScripts) {
+        foreach (ScriptCommandContainer cont in itemScript.allScripts) {
           if (cont.commands.Count > 4) {
             continue;
           }
@@ -803,7 +803,7 @@ namespace DSPRE.Editors {
 
             if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.DP)) {
               foreach (ushort headerID in result) {
-                HeaderDP hdp = (HeaderDP)MapHeader.LoadFromARM9(headerID);
+                MapHeaderDP hdp = (MapHeaderDP)MapHeader.LoadFromARM9(headerID);
 
                 if (hdp.matrixID != eventMatrixUpDown.Value && hdp.locationName != 0) {
                   dict.Add(hdp.ID, hdp.matrixID);
@@ -812,7 +812,7 @@ namespace DSPRE.Editors {
             }
             else if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.Plat)) {
               foreach (ushort headerID in result) {
-                HeaderPt hpt = (HeaderPt)MapHeader.GetMapHeader(headerID);
+                MapHeaderPt hpt = (MapHeaderPt)MapHeader.GetMapHeader(headerID);
 
                 if (hpt.matrixID != eventMatrixUpDown.Value && hpt.locationName != 0) {
                   dict.Add(hpt.ID, hpt.matrixID);
@@ -821,7 +821,7 @@ namespace DSPRE.Editors {
             }
             else {
               foreach (ushort headerID in result) {
-                HeaderHGSS hgss = (HeaderHGSS)MapHeader.GetMapHeader(headerID);
+                MapHeaderHGSS hgss = (MapHeaderHGSS)MapHeader.GetMapHeader(headerID);
 
                 if (hgss.matrixID != eventMatrixUpDown.Value && hgss.locationName != 0) {
                   dict.Add(hgss.ID, hgss.matrixID);
@@ -1526,19 +1526,19 @@ namespace DSPRE.Editors {
       int locNum;
       switch (RomInfo.gameFamily) {
         case RomInfo.GameFamilies.DP: {
-          HeaderDP h = (HeaderDP)destHeader;
+          MapHeaderDP h = (MapHeaderDP)destHeader;
 
           locNum = h.locationName;
           break;
         }
         case RomInfo.GameFamilies.Plat: {
-          HeaderPt h = (HeaderPt)destHeader;
+          MapHeaderPt h = (MapHeaderPt)destHeader;
 
           locNum = h.locationName;
           break;
         }
         default: {
-          HeaderHGSS h = (HeaderHGSS)destHeader;
+          MapHeaderHGSS h = (MapHeaderHGSS)destHeader;
 
           locNum = h.locationName;
           break;

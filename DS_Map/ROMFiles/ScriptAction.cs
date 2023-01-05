@@ -1,21 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace DSPRE.ROMFiles {
-    public class ActionContainer {
-        public List<ScriptAction> commands;
-        public uint manualUserID;
-
-        #region Constructors (2)
-        public ActionContainer(uint actionNumber, List<ScriptAction> commands = null) {
-            manualUserID = actionNumber;
-            this.commands = commands;
-        }
-        #endregion
-    }
     public class ScriptAction {
 
         #region Fields (4)

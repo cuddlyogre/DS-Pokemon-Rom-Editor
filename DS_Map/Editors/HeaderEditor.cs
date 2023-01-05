@@ -174,8 +174,8 @@ namespace DSPRE.Editors {
       }
 
       if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
-        HeaderHGSS currentHeaderHGSS = (HeaderHGSS)currentHeader;
-        currentHeaderHGSS.followMode = (byte)followModeComboBox.SelectedIndex;
+        MapHeaderHGSS currentMapHeaderHgss = (MapHeaderHGSS)currentHeader;
+        currentMapHeaderHgss.followMode = (byte)followModeComboBox.SelectedIndex;
       }
     }
 
@@ -185,8 +185,8 @@ namespace DSPRE.Editors {
       }
 
       if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
-        HeaderHGSS currentHeaderHGSS = (HeaderHGSS)currentHeader;
-        currentHeaderHGSS.kantoFlag = kantoRadioButton.Checked;
+        MapHeaderHGSS currentMapHeaderHgss = (MapHeaderHGSS)currentHeader;
+        currentMapHeaderHgss.kantoFlag = kantoRadioButton.Checked;
       }
     }
 
@@ -226,7 +226,7 @@ namespace DSPRE.Editors {
       battleBackgroundUpDown.Value = currentHeader.battleBackground;
 
       if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
-        areaSettingsComboBox.SelectedIndex = ((HeaderHGSS)currentHeader).locationType;
+        areaSettingsComboBox.SelectedIndex = ((MapHeaderHGSS)currentHeader).locationType;
       }
 
       openWildEditorButton.Enabled = currentHeader.wildPokemon != RomInfo.nullEncounterID;
@@ -235,7 +235,7 @@ namespace DSPRE.Editors {
       try {
         switch (RomInfo.gameFamily) {
           case RomInfo.GameFamilies.DP: {
-            HeaderDP h = (HeaderDP)currentHeader;
+            MapHeaderDP h = (MapHeaderDP)currentHeader;
 
             locationNameComboBox.SelectedIndex = h.locationName;
             musicDayUpDown.Value = h.musicDayID;
@@ -244,7 +244,7 @@ namespace DSPRE.Editors {
             break;
           }
           case RomInfo.GameFamilies.Plat: {
-            HeaderPt h = (HeaderPt)currentHeader;
+            MapHeaderPt h = (MapHeaderPt)currentHeader;
 
             areaIconComboBox.SelectedIndex = h.areaIcon;
             locationNameComboBox.SelectedIndex = h.locationName;
@@ -254,7 +254,7 @@ namespace DSPRE.Editors {
             break;
           }
           default: {
-            HeaderHGSS h = (HeaderHGSS)currentHeader;
+            MapHeaderHGSS h = (MapHeaderHGSS)currentHeader;
 
             areaIconComboBox.SelectedIndex = h.areaIcon;
             locationNameComboBox.SelectedIndex = h.locationName;
@@ -812,12 +812,12 @@ namespace DSPRE.Editors {
         case RomInfo.GameFamilies.DP:
           break;
         case RomInfo.GameFamilies.Plat:
-          ((HeaderPt)currentHeader).areaIcon = (byte)areaIconComboBox.SelectedIndex;
+          ((MapHeaderPt)currentHeader).areaIcon = (byte)areaIconComboBox.SelectedIndex;
           imageName = "areaicon0" + areaIconComboBox.SelectedIndex.ToString();
           areaIconPictureBox.Image = (Image)Properties.Resources.ResourceManager.GetObject(imageName);
           break;
         default:
-          ((HeaderHGSS)currentHeader).areaIcon = (byte)areaIconComboBox.SelectedIndex;
+          ((MapHeaderHGSS)currentHeader).areaIcon = (byte)areaIconComboBox.SelectedIndex;
           imageName = PokeDatabase.System.AreaPics.hgssAreaPicDict[areaIconComboBox.SelectedIndex];
           areaIconPictureBox.Image = (Image)Properties.Resources.ResourceManager.GetObject(imageName);
           break;
@@ -835,7 +835,7 @@ namespace DSPRE.Editors {
           currentHeader.locationSpecifier = Byte.Parse(areaSettingsComboBox.SelectedItem.ToString().Substring(1, 3));
           break;
         case RomInfo.GameFamilies.HGSS:
-          HeaderHGSS ch = (HeaderHGSS)currentHeader;
+          MapHeaderHGSS ch = (MapHeaderHGSS)currentHeader;
           ch.locationType = (byte)areaSettingsComboBox.SelectedIndex;
           //areaImageLabel.Text = "Area icon";
           //areaIconComboBox.Enabled = true;
@@ -851,13 +851,13 @@ namespace DSPRE.Editors {
 
       switch (RomInfo.gameFamily) {
         case RomInfo.GameFamilies.DP:
-          ((HeaderDP)currentHeader).locationName = (ushort)locationNameComboBox.SelectedIndex;
+          ((MapHeaderDP)currentHeader).locationName = (ushort)locationNameComboBox.SelectedIndex;
           break;
         case RomInfo.GameFamilies.Plat:
-          ((HeaderPt)currentHeader).locationName = (byte)locationNameComboBox.SelectedIndex;
+          ((MapHeaderPt)currentHeader).locationName = (byte)locationNameComboBox.SelectedIndex;
           break;
         default:
-          ((HeaderHGSS)currentHeader).locationName = (byte)locationNameComboBox.SelectedIndex;
+          ((MapHeaderHGSS)currentHeader).locationName = (byte)locationNameComboBox.SelectedIndex;
           break;
       }
     }
@@ -951,13 +951,13 @@ namespace DSPRE.Editors {
           string locationName = "";
           switch (RomInfo.gameFamily) {
             case RomInfo.GameFamilies.DP:
-              locationName = locationNameComboBox.Items[((HeaderDP)h).locationName].ToString();
+              locationName = locationNameComboBox.Items[((MapHeaderDP)h).locationName].ToString();
               break;
             case RomInfo.GameFamilies.Plat:
-              locationName = locationNameComboBox.Items[((HeaderPt)h).locationName].ToString();
+              locationName = locationNameComboBox.Items[((MapHeaderPt)h).locationName].ToString();
               break;
             case RomInfo.GameFamilies.HGSS:
-              locationName = locationNameComboBox.Items[((HeaderHGSS)h).locationName].ToString();
+              locationName = locationNameComboBox.Items[((MapHeaderHGSS)h).locationName].ToString();
               break;
           }
 
@@ -1189,11 +1189,11 @@ namespace DSPRE.Editors {
     }
 
     private void worldmapYCoordUpDown_ValueChanged(object sender, EventArgs e) {
-      ((HeaderHGSS)currentHeader).worldmapY = (byte)worldmapYCoordUpDown.Value;
+      ((MapHeaderHGSS)currentHeader).worldmapY = (byte)worldmapYCoordUpDown.Value;
     }
 
     private void worldmapXCoordUpDown_ValueChanged(object sender, EventArgs e) {
-      ((HeaderHGSS)currentHeader).worldmapX = (byte)worldmapXCoordUpDown.Value;
+      ((MapHeaderHGSS)currentHeader).worldmapX = (byte)worldmapXCoordUpDown.Value;
     }
 
     private void addHeaderBTN_Click(object sender, EventArgs e) {
