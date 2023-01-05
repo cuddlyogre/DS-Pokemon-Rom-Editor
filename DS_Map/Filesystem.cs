@@ -163,6 +163,13 @@ namespace DSPRE {
       return GetPath(Filesystem.maps, id);
     }
 
+    public static string GetTexturePath(bool useMapTiles, int textureID) {
+      string path = Filesystem.GetMapTexturePath(textureID);
+      string path2 = Filesystem.GetBuildingTexturePath(textureID);
+      string tilesetPath = useMapTiles ? path : path2;
+      return tilesetPath;
+    }
+
     public static string GetMapTexturePath(int id) {
       return GetPath(Filesystem.mapTextures, id);
     }

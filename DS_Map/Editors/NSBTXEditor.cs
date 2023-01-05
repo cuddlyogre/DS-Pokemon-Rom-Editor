@@ -109,11 +109,7 @@ namespace DSPRE.Editors {
       palettesListBox.Items.Clear();
 
       /* Load tileset file */
-      string path = Filesystem.GetMapTexturePath(texturePacksListBox.SelectedIndex);
-      string path2 = Filesystem.GetBuildingTexturePath(texturePacksListBox.SelectedIndex);
-      string tilesetPath = mapTilesetRadioButton.Checked
-        ? path
-        : path2;
+      string tilesetPath = Filesystem.GetTexturePath(mapTilesetRadioButton.Checked, texturePacksListBox.SelectedIndex);
 
       currentNsbtx = new NSBTX_File(new FileStream(tilesetPath, FileMode.Open));
       string currentItemName = texturePacksListBox.Items[texturePacksListBox.SelectedIndex].ToString();
@@ -292,11 +288,7 @@ namespace DSPRE.Editors {
       }
 
       /* Update nsbtx file */
-      string path = Filesystem.GetMapTexturePath(texturePacksListBox.SelectedIndex);
-      string path2 = Filesystem.GetBuildingTexturePath(texturePacksListBox.SelectedIndex);
-      string tilesetPath = mapTilesetRadioButton.Checked
-        ? path
-        : path2;
+      string tilesetPath = Filesystem.GetTexturePath(mapTilesetRadioButton.Checked, texturePacksListBox.SelectedIndex);
       File.Copy(ofd.FileName, tilesetPath, true);
 
       /* Update nsbtx object in memory and controls */
@@ -314,11 +306,7 @@ namespace DSPRE.Editors {
         return;
       }
 
-      string path = Filesystem.GetMapTexturePath(texturePacksListBox.SelectedIndex);
-      string path2 = Filesystem.GetBuildingTexturePath(texturePacksListBox.SelectedIndex);
-      string tilesetPath = mapTilesetRadioButton.Checked
-        ? path
-        : path2;
+      string tilesetPath = Filesystem.GetTexturePath(mapTilesetRadioButton.Checked, texturePacksListBox.SelectedIndex);
       File.Copy(tilesetPath, sf.FileName);
 
       MessageBox.Show("NSBTX tileset exported successfully!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
