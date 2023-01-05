@@ -815,7 +815,13 @@ namespace DSPRE.Editors {
                             Environment.NewLine + "Do you want to check if any Header uses this Matrix and choose that one as your Spawn Header? " +
                             Environment.NewLine + "\nChoosing 'No' will pick the last selected Header.", "Couldn't find Header Tab", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
         if (d == DialogResult.Yes) {
-          result = HeaderSearch.AdvancedSearch(0, (ushort)EditorPanels.headerEditor.internalNames.Count, EditorPanels.headerEditor.internalNames, (int)MapHeader.SearchableFields.MatrixID, (int)HeaderSearch.NumOperators.Equal, selectMatrixComboBox.SelectedIndex.ToString());
+          result = HeaderSearch.AdvancedSearch(0,
+            (ushort)EditorPanels.headerEditor.internalNames.Count,
+            EditorPanels.headerEditor.internalNames,
+            (int)MapHeader.SearchableFields.MatrixID,
+            (int)HeaderSearch.NumOperators.Equal,
+            selectMatrixComboBox.SelectedIndex.ToString());
+
           if (result.Count < 1) {
             MessageBox.Show("The current Matrix isn't assigned to any Header.\nThe default choice has been set to the last selected Header.", "No result", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             headerNumber = EditorPanels.headerEditor.currentHeader.ID;

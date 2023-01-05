@@ -239,7 +239,12 @@ namespace DSPRE {
             headerListBox.Items.Clear();
             
             try {
-                result = AdvancedSearch(0, (ushort)intNames.Count, intNames, fieldToSearch1ComboBox.SelectedIndex, operator1ComboBox.SelectedIndex, valueTextBox.Text);
+                result = AdvancedSearch(0, 
+                    (ushort)intNames.Count, 
+                    intNames, 
+                    fieldToSearch1ComboBox.SelectedIndex, 
+                    operator1ComboBox.SelectedIndex, 
+                    valueTextBox.Text);
             } catch (FormatException) {
                 if (showDialog) {
                     MessageBox.Show("Make sure the value to search is correct.", "Format Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

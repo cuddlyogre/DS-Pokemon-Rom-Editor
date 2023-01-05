@@ -795,8 +795,13 @@ namespace DSPRE.Editors {
           DialogResult main = MessageBox.Show("The selected event tried to reference a bigger Matrix than the one which is currently being displayed.\nDo you want to check for another potentially compatible matrix?", "Event is out of range", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
           if (main.Equals(DialogResult.Yes)) {
-            ushort[] result = HeaderSearch.AdvancedSearch(0, (ushort)EditorPanels.headerEditor.internalNames.Count, EditorPanels.headerEditor.internalNames, (int)MapHeader.SearchableFields.EventFileID, (int)HeaderSearch.NumOperators.Equal, selectEventComboBox.SelectedIndex.ToString())
-              .Select(x => ushort.Parse(x.Split()[0]))
+            ushort[] result = HeaderSearch.AdvancedSearch(0, 
+                (ushort)EditorPanels.headerEditor.internalNames.Count, 
+                EditorPanels.headerEditor.internalNames, 
+                (int)MapHeader.SearchableFields.EventFileID, 
+                (int)HeaderSearch.NumOperators.Equal, 
+                selectEventComboBox.SelectedIndex.ToString())
+              .Select(s => ushort.Parse(s.Split()[0]))
               .ToArray();
 
             Dictionary<ushort, ushort> dict = new Dictionary<ushort, ushort>();
