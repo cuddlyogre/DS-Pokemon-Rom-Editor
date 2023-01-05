@@ -803,7 +803,7 @@ namespace DSPRE.Editors {
 
             if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.DP)) {
               foreach (ushort headerID in result) {
-                MapHeaderDP hdp = (MapHeaderDP)MapHeader.LoadFromARM9(headerID);
+                MapHeaderDP hdp = (MapHeaderDP)MapHeader.GetMapHeader(headerID);
 
                 if (hdp.matrixID != eventMatrixUpDown.Value && hdp.locationName != 0) {
                   dict.Add(hdp.ID, hdp.matrixID);

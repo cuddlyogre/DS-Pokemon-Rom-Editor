@@ -542,62 +542,61 @@ namespace DSPRE.Editors {
           headerID = currentMatrix.headers[e.RowIndex, e.ColumnIndex];
         }
         else {
-          ushort[] result = HeaderSearch.AdvancedSearch(0, (ushort)EditorPanels.headerEditor.internalNames.Count, EditorPanels.headerEditor.internalNames, (int)MapHeader.SearchableFields.MatrixID, (int)HeaderSearch.NumOperators.Equal, selectMatrixComboBox.SelectedIndex.ToString())
+          ushort[] result = HeaderSearch.AdvancedSearch(0, 
+              (ushort)EditorPanels.headerEditor.internalNames.Count, 
+              EditorPanels.headerEditor.internalNames, 
+              (int)MapHeader.SearchableFields.MatrixID, 
+              (int)HeaderSearch.NumOperators.Equal, 
+              selectMatrixComboBox.SelectedIndex.ToString())
             .Select(x => ushort.Parse(x.Split()[0]))
             .ToArray();
 
-          if (result.Length < 1) {
+          if (result.Length == 0) {
             headerID = EditorPanels.headerEditor.currentHeader.ID;
             Helpers.statusLabelMessage("This Matrix is not linked to any Header. DSPRE can't determine the most appropriate AreaData (and textures) to use.\nDisplaying Textures from the last selected Header (" + headerID + ")'s AreaData...");
           }
+          else if (result.Length == 1) {
+            headerID = result[0];
+            Helpers.statusLabelMessage("Loading Header " + headerID + "'s textures.");
+          }
           else {
-            if (result.Length > 1) {
-              if (result.Contains(EditorPanels.headerEditor.currentHeader.ID)) {
-                headerID = EditorPanels.headerEditor.currentHeader.ID;
-
-                Helpers.statusLabelMessage("Multiple Headers are associated to this Matrix, including the last selected one [Header " + headerID + "]. Now using its textures.");
-              }
-              else {
-                if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.DP)) {
-                  foreach (ushort r in result) {
-                    MapHeaderDP hdp;
-
-                    //Dynamic headers patch unsupported in DP
-                    hdp = (MapHeaderDP)MapHeader.LoadFromARM9(r);
-
-                    if (hdp.locationName != 0) {
-                      headerID = hdp.ID;
-                      break;
-                    }
-                  }
-                }
-                else if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.Plat)) {
-                  foreach (ushort r in result) {
-                    MapHeaderPt hpt = (MapHeaderPt)MapHeader.GetMapHeader(r);
-
-                    if (hpt.locationName != 0) {
-                      headerID = hpt.ID;
-                      break;
-                    }
-                  }
-                }
-                else {
-                  foreach (ushort r in result) {
-                    MapHeaderHGSS hgss = (MapHeaderHGSS)MapHeader.GetMapHeader(r);
-
-                    if (hgss.locationName != 0) {
-                      headerID = hgss.ID;
-                      break;
-                    }
-                  }
-                }
-
-                Helpers.statusLabelMessage("Multiple Headers are using this Matrix. Header " + headerID + "'s textures are currently being displayed.");
-              }
+            if (result.Contains(EditorPanels.headerEditor.currentHeader.ID)) {
+              headerID = EditorPanels.headerEditor.currentHeader.ID;
+              Helpers.statusLabelMessage("Multiple Headers are associated to this Matrix, including the last selected one [Header " + headerID + "]. Now using its textures.");
             }
             else {
-              headerID = result[0];
-              Helpers.statusLabelMessage("Loading Header " + headerID + "'s textures.");
+              if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.DP)) {
+                foreach (ushort r in result) {
+                  MapHeaderDP hdp = (MapHeaderDP)MapHeader.GetMapHeader(r);
+
+                  if (hdp.locationName != 0) {
+                    headerID = hdp.ID;
+                    break;
+                  }
+                }
+              }
+              else if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.Plat)) {
+                foreach (ushort r in result) {
+                  MapHeaderPt hpt = (MapHeaderPt)MapHeader.GetMapHeader(r);
+
+                  if (hpt.locationName != 0) {
+                    headerID = hpt.ID;
+                    break;
+                  }
+                }
+              }
+              else {
+                foreach (ushort r in result) {
+                  MapHeaderHGSS hgss = (MapHeaderHGSS)MapHeader.GetMapHeader(r);
+
+                  if (hgss.locationName != 0) {
+                    headerID = hgss.ID;
+                    break;
+                  }
+                }
+              }
+
+              Helpers.statusLabelMessage("Multiple Headers are using this Matrix. Header " + headerID + "'s textures are currently being displayed.");
             }
           }
         }

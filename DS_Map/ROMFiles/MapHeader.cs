@@ -157,17 +157,23 @@ namespace DSPRE.ROMFiles {
     }
 
     public static MapHeader GetMapHeader(ushort headerNumber) {
-      MapHeader currentHeader;
+      MapHeader mapHeader;
+
+      //Dynamic headers patch unsupported in DP
+      if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.DP)) {
+        return MapHeader.LoadFromARM9(headerNumber);
+      }
+
       /* Check if dynamic headers patch has been applied, and load header from arm9 or a/0/5/0 accordingly */
       if (ROMToolboxDialog.DynamicHeadersPatchApplied) {
         string path = Filesystem.GetDynamicHeaderPath(headerNumber);
-        currentHeader = MapHeader.LoadFromFile(path, headerNumber, 0);
+        mapHeader = MapHeader.LoadFromFile(path, headerNumber, 0);
       }
       else {
-        currentHeader = MapHeader.LoadFromARM9(headerNumber);
+        mapHeader = MapHeader.LoadFromARM9(headerNumber);
       }
 
-      return currentHeader;
+      return mapHeader;
     }
 
     public static int GetHeaderCount() {
