@@ -6,7 +6,7 @@ namespace DSPRE.ROMFiles {
       Warp,
       Trigger
     }
-    #region Fields (6)
+
     public EventType evType;
 
     public short xMapPosition;
@@ -14,10 +14,7 @@ namespace DSPRE.ROMFiles {
     public short zPosition;
     public ushort xMatrixPosition;
     public ushort yMatrixPosition;
-    #endregion
 
-    #region Methods (1)
     public abstract byte[] ToByteArray();
-    #endregion
   }
 }

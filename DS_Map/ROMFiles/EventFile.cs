@@ -16,16 +16,13 @@ namespace DSPRE.ROMFiles {
             Triggers
         }
 
-        #region Fields
         public static readonly string DefaultFilter = "Event File (*.evt, *.ev)|*.evt;*.ev";
 
         public List<Spawnable> spawnables = new List<Spawnable>();
         public List<Overworld> overworlds = new List<Overworld>();
         public List<Warp> warps = new List<Warp>();
         public List<Trigger> triggers = new List<Trigger>();
-        #endregion
 
-        #region Constructors (1)
         public EventFile() { }
 
         public EventFile(int ID) {
@@ -65,9 +62,7 @@ namespace DSPRE.ROMFiles {
                 }
             }
         }
-        #endregion
 
-        #region Methods (1)
         public override string ToString() {
             return base.ToString();
         }
@@ -111,7 +106,5 @@ namespace DSPRE.ROMFiles {
                 (overworlds is null || overworlds.Count == 0) &&
                 (warps is null || warps.Count == 0) &&
                 (triggers is null || triggers.Count == 0);
-        #endregion
-
     }
 }

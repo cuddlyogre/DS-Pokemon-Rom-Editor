@@ -2,7 +2,6 @@ using System.IO;
 
 namespace DSPRE.ROMFiles {
   public class Overworld : Event {
-    #region Fields (14)
     public static string MovementCodeKW = "Move";
     public enum OwType : ushort { NORMAL = 0, TRAINER = 1, ITEM = 3 };
 
@@ -20,9 +19,7 @@ namespace DSPRE.ROMFiles {
     public ushort yRange;
     public ushort unknown3;
     public bool is3D = new bool();
-    #endregion
 
-    #region Constructors (2)
     public Overworld(Stream data) {
       evType = EventType.Overworld;
       using (BinaryReader reader = new BinaryReader(data)) {
@@ -97,9 +94,7 @@ namespace DSPRE.ROMFiles {
       this.xMatrixPosition = toCopy.xMatrixPosition;
       this.yMatrixPosition = toCopy.yMatrixPosition;
     }
-    #endregion
 
-    #region Methods (1)
     public override byte[] ToByteArray() {
       using (BinaryWriter writer = new BinaryWriter(new MemoryStream())) {
         writer.Write(owID);
@@ -136,6 +131,5 @@ namespace DSPRE.ROMFiles {
     private bool isAlias() {
       return scriptNumber == 0xFFFF;
     }
-    #endregion
   }
 }

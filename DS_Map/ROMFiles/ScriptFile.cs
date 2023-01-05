@@ -10,7 +10,6 @@ namespace DSPRE.ROMFiles {
     /// Class to store script file data in Pokémon NDS games
     /// </summary>
     public class ScriptFile: RomFile {
-        #region Constants
         //this enum doesn't really make much sense now but it will, once scripts can be called and jumped to
         public enum ContainerTypes { Function, Action, Script };
 
@@ -19,9 +18,6 @@ namespace DSPRE.ROMFiles {
             public uint offsetInFile;
         }
 
-        #endregion
-
-        #region Fields (3)
         public List<ScriptCommandContainer> allScripts = new List<ScriptCommandContainer>();
         public List<ScriptCommandContainer> allFunctions = new List<ScriptCommandContainer>();
         public List<ScriptActionContainer> allActions = new List<ScriptActionContainer>();
@@ -31,9 +27,6 @@ namespace DSPRE.ROMFiles {
         public bool hasNoScripts { get { return fileID == int.MaxValue; } }
 
         public static readonly char[] specialChars = { 'x', 'X', '#', '.', '_' };
-        #endregion
-
-        #region Constructors (1)
 
         public ScriptFile(Stream fs, bool readFunctions = true, bool readActions = true) {
             List<int> scriptOffsets = new List<int>();
@@ -212,9 +205,7 @@ namespace DSPRE.ROMFiles {
 
             this.fileID = fileID;
         }
-        #endregion
 
-        #region Methods (1)
         private ScriptCommand ReadCommand(BinaryReader dataReader, ref List<int> functionOffsets, ref List<int> actionOffsets) {
             ushort id = dataReader.ReadUInt16();
             List<byte[]> parameterList = new List<byte[]>();
@@ -629,8 +620,7 @@ namespace DSPRE.ROMFiles {
 
             return ls;
         }
-      
-        #region Output
+
         public override byte[] ToByteArray() {
             MemoryStream newData = new MemoryStream();
             using (BinaryWriter writer = new BinaryWriter(newData)) {
@@ -917,7 +907,5 @@ namespace DSPRE.ROMFiles {
                 this.SaveToFile(sf.FileName, showSuccessMessage: true);
             }
         }
-        #endregion
-        #endregion
     }
 }

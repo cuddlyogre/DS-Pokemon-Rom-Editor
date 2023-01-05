@@ -2,16 +2,13 @@ using System.IO;
 
 namespace DSPRE.ROMFiles {
   public class Trigger : Event {
-    #region Fields (7)
     public ushort scriptNumber;
     public ushort widthX;
     public ushort heightY;
     new public ushort zPosition;
     public ushort expectedVarValue;
     public ushort variableWatched;
-    #endregion Fields
 
-    #region Constructors (2)
     public Trigger(Stream data) {
       evType = EventType.Trigger;
       using (BinaryReader reader = new BinaryReader(data)) {
@@ -61,9 +58,7 @@ namespace DSPRE.ROMFiles {
       this.xMatrixPosition = toCopy.xMatrixPosition;
       this.yMatrixPosition = toCopy.yMatrixPosition;
     }
-    #endregion
 
-    #region Methods (1)
     public override byte[] ToByteArray() {
       using (BinaryWriter writer = new BinaryWriter(new MemoryStream())) {
         writer.Write(scriptNumber);
@@ -87,6 +82,5 @@ namespace DSPRE.ROMFiles {
       }
       return msg;
     }
-    #endregion
   }
 }

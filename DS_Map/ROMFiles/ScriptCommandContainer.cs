@@ -8,7 +8,6 @@ namespace DSPRE.ROMFiles {
     public ScriptFile.ContainerTypes containerType;
     internal static readonly string functionStart;
 
-    #region Constructors (2)
     public ScriptCommandContainer(uint scriptNumber, ScriptFile.ContainerTypes containerType, int usedScriptID = -1, List<ScriptCommand> commandList = null) {
       manualUserID = scriptNumber;
       this.usedScriptID = usedScriptID;
@@ -21,6 +20,5 @@ namespace DSPRE.ROMFiles {
       containerType = toCopy.containerType;
       commands = new List<ScriptCommand>(toCopy.commands); //command parameters need to be copied recursively
     }
-    #endregion
   }
 }

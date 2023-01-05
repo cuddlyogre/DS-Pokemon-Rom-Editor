@@ -107,8 +107,6 @@ namespace DSPRE.ROMFiles {
         };
         /**/
 
-
-        #region Fields (10)
         public byte areaDataID { get; set; }
         public byte cameraAngleID { get; set; }
         public ushort eventFileID { get; set; }
@@ -123,9 +121,7 @@ namespace DSPRE.ROMFiles {
         public byte weatherID { get; set; }
         public byte flags { get; set; }
         public ushort wildPokemon { get; set; }
-        #endregion Fields
 
-        #region Methods (1)
         public static MapHeader LoadFromByteArray(byte[] headerData, ushort headerNumber, RomInfo.GameFamilies gameFamily = RomInfo.GameFamilies.NULL) {
             /* Encapsulate header data into the class appropriate for the gameVersion */
             if (headerData.Length < MapHeader.length) {
@@ -156,10 +152,6 @@ namespace DSPRE.ROMFiles {
             return LoadFromFile(RomInfo.arm9Path, headerNumber, headerOffset, gameFamily);
         }
 
-        
-        #endregion
-        
-        
         public static MapHeader GetMapHeader(ushort headerNumber) {
             MapHeader currentHeader;
             /* Check if dynamic headers patch has been applied, and load header from arm9 or a/0/5/0 accordingly */

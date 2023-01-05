@@ -22,7 +22,6 @@ namespace DSPRE.ROMFiles {
     /// Class to store map matrix data from Pokémon NDS games
     /// </summary>
     public class GameMatrix: RomFile {
-        #region Fields (8)
         public static readonly string DefaultFilter = "Game Matrix File (*.mtx)|*.mtx";
 
 
@@ -38,10 +37,7 @@ namespace DSPRE.ROMFiles {
         public ushort[,] maps;
 
         public static readonly ushort EMPTY = 65535;
-        #endregion Fields
 
-        #region Constructors(1)
-        
         public GameMatrix() {
             this.name = "newMatrix";
             this.hasHeadersSection = false;
@@ -125,9 +121,6 @@ namespace DSPRE.ROMFiles {
             }
         }
 
-        #endregion
-
-        #region Methods (6)
         public void ResizeMatrix(int newHeight, int newWidth)
         {
             /*  Initialize new arrays   */
@@ -228,6 +221,5 @@ namespace DSPRE.ROMFiles {
         public void SaveToFileExplorePath(string suggestedFileName, bool showSuccessMessage = true) {
             SaveToFileExplorePath("Gen IV Matrix File", "mtx", suggestedFileName, showSuccessMessage);
         }
-        #endregion
     }
 }

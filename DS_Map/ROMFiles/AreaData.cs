@@ -8,16 +8,12 @@ namespace DSPRE.ROMFiles {
         internal static readonly byte TYPE_INDOOR = 0;
         internal static readonly byte TYPE_OUTDOOR = 1;
 
-        #region Fields (2)
         public ushort buildingsTileset;
         public ushort mapTileset;
         public ushort dynamicTextureType;
         public ushort unknown1;
         public byte areaType = TYPE_OUTDOOR; //HGSS ONLY
         public ushort lightType; //using an overabundant size. HGSS only needs a byte
-        #endregion
-
-        #region Constructors (1)
 
         public AreaData(byte ID) {
             string path = Filesystem.GetAreaDataPath(ID);
@@ -46,9 +42,6 @@ namespace DSPRE.ROMFiles {
             }
         }
 
-        #endregion
-
-        #region Methods (1)
         public override byte[] ToByteArray() {
             MemoryStream newData = new MemoryStream();
             using (BinaryWriter writer = new BinaryWriter(newData)) {
@@ -74,6 +67,5 @@ namespace DSPRE.ROMFiles {
         public void SaveToFileExplorePath(string suggestedFileName, bool showSuccessMessage = true) {
             SaveToFileExplorePath("Gen IV Area Data File", "bin", suggestedFileName, showSuccessMessage);
         }
-        #endregion
     }
 }

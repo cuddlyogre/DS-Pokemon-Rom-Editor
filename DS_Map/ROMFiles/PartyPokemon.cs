@@ -2,7 +2,6 @@ using System.IO;
 
 namespace DSPRE.ROMFiles {
   public class PartyPokemon : RomFile {
-    #region Fields
     public ushort? pokeID = null;
     public ushort level = 0;
     public ushort unknown1_DATASTART = 0;
@@ -10,9 +9,7 @@ namespace DSPRE.ROMFiles {
 
     public ushort? heldItem = null;
     public ushort[] moves = null;
-    #endregion
 
-    #region Constructor
     public PartyPokemon(bool hasItems = false, bool hasMoves = false) {
       UpdateItemsAndMoves(hasItems, hasMoves);
     }
@@ -60,6 +57,5 @@ namespace DSPRE.ROMFiles {
     public bool CheckEmpty () {
       return this is null || pokeID is null || level <= 0;
     }
-    #endregion
   }
 }

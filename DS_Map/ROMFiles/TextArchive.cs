@@ -12,12 +12,9 @@ namespace DSPRE.ROMFiles {
     /// Class to store message data from DS Pokémon games
     /// </summary>
     public class TextArchive : RomFile {
-        #region Fields (2)
         public List<string> messages;
         public int initialKey;
-        #endregion Fields
 
-        #region Constructors (1)
         public TextArchive(int ID, List<string> msg = null, bool discardLines = false) {
             string path = Filesystem.GetTextArchivePath(ID);
             FileStream messageStream = new FileStream(path, FileMode.Open);
@@ -96,8 +93,6 @@ namespace DSPRE.ROMFiles {
                                         specialCharON = false;
                                     }
                                     else if (compressed) {
-                                        #region Compressed String
-
                                         int shift = 0;
                                         int trans = 0;
                                         string uncomp = "";
@@ -151,8 +146,6 @@ namespace DSPRE.ROMFiles {
                                             }
                                         }
 
-                                        #endregion
-
                                         pokemonText.Append(uncomp);
                                     }
                                     else {
@@ -176,9 +169,7 @@ namespace DSPRE.ROMFiles {
                 }
             }
         }
-        #endregion
 
-        #region Methods (2)
         public int[] EncodeString(string currentMessage, int stringIndex, int stringSize) { // Converts string to hex characters 
             ResourceManager GetByte = new ResourceManager("DSPRE.Resources.WriteText", Assembly.GetExecutingAssembly());
 
@@ -346,6 +337,5 @@ namespace DSPRE.ROMFiles {
         public void SaveToFileExplorePath(string suggestedFileName, bool showSuccessMessage = true) {
             SaveToFileExplorePath("Gen IV Text Archive", "msg", suggestedFileName, showSuccessMessage);
         }
-        #endregion
     }
 }

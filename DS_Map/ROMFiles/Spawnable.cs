@@ -7,7 +7,6 @@ namespace DSPRE.ROMFiles {
     public const int TYPE_BOARD = 1;
     public const int TYPE_HIDDENITEM = 2;
 
-    #region Fields (7)
     public ushort scriptNumber;
     public ushort type;
     public ushort unknown2;
@@ -15,9 +14,7 @@ namespace DSPRE.ROMFiles {
     public ushort unknown4;
     public ushort dir;
     public ushort unknown5;
-    #endregion
 
-    #region Constructors (2)
     public Spawnable(Stream data) {
       evType = EventType.Spawnable;
       using (BinaryReader reader = new BinaryReader(data)) {
@@ -77,9 +74,7 @@ namespace DSPRE.ROMFiles {
       this.xMatrixPosition = toCopy.xMatrixPosition;
       this.yMatrixPosition = toCopy.yMatrixPosition;
     }
-    #endregion
 
-    #region Methods (1)
     public override byte[] ToByteArray() {
       using (BinaryWriter writer = new BinaryWriter(new MemoryStream())) {
         writer.Write(scriptNumber);
@@ -116,6 +111,5 @@ namespace DSPRE.ROMFiles {
       }
       return msg + $", [Scr {scriptNumber}]";
     }
-    #endregion
   }
 }

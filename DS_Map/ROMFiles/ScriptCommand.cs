@@ -9,13 +9,10 @@ namespace DSPRE.ROMFiles {
     public class ScriptCommand {
         enum ParamTypeEnum { INTEGER, VARIABLE, FLEX, OW_ID, OW_MOVEMENT_TYPE, OW_DIRECTION, FUNCTION_ID, ACTION_ID, CMD_NUMBER };
 
-        #region Fields (4)
         public ushort? id;
         public List<byte[]> cmdParams;
         public string name;
-        #endregion
 
-        #region Constructors (2)
         public ScriptCommand(ushort id, List<byte[]> parametersList) {
             if (parametersList is null) {
                 this.id = null;
@@ -324,9 +321,7 @@ namespace DSPRE.ROMFiles {
                 id = null;
             }
         }
-        #endregion
 
-        #region Utilities
         private string FormatNumber(byte[] par, ParamTypeEnum paramType = ParamTypeEnum.INTEGER) {
             //number acquisition
             uint num;
@@ -412,6 +407,5 @@ namespace DSPRE.ROMFiles {
         public override string ToString() {
             return name + " (" + ((ushort)id).ToString("X") + ")";
         }
-        #endregion
     }
 }

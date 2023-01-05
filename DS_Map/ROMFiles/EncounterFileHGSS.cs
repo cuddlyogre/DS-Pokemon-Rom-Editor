@@ -6,7 +6,6 @@ namespace DSPRE.ROMFiles {
   /// Class to store wild Pokemon data from Pokemon HeartGold and SoulSilver
   /// </summary>
   public class EncounterFileHGSS : EncounterFile {
-    #region Fields (9)
     public byte rockSmashRate;
     public ushort[] morningPokemon = new ushort[12];
     public ushort[] dayPokemon = new ushort[12];
@@ -16,9 +15,7 @@ namespace DSPRE.ROMFiles {
     public ushort[] rockSmashPokemon = new ushort[2];
     public byte[] rockSmashMinLevels = new byte[2];
     public byte[] rockSmashMaxLevels = new byte[2];
-    #endregion
 
-    #region Constructors
     public EncounterFileHGSS() {
       swarmPokemon = new ushort[4];
     }
@@ -277,9 +274,7 @@ namespace DSPRE.ROMFiles {
         }
       }
     }
-    #endregion
 
-    #region Methods (1)
     public override byte[] ToByteArray() {
       MemoryStream newData = new MemoryStream();
       using (BinaryWriter writer = new BinaryWriter(newData)) {
@@ -368,6 +363,5 @@ namespace DSPRE.ROMFiles {
     public void SaveToFileExplorePath(string suggestedFileName, bool showSuccessMessage = true) {
       SaveToFileExplorePath("HGSS Encounter File", EncounterFile.extension, suggestedFileName, showSuccessMessage);
     }
-    #endregion
   }
 }

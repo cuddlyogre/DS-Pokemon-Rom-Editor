@@ -7,7 +7,6 @@ namespace DSPRE.ROMFiles {
     public const int AI_COUNT = 11;
     public const int TRAINER_ITEMS = 4;
 
-    #region Fields
     public ushort trainerID;
     public byte trDataUnknown;
 
@@ -20,9 +19,7 @@ namespace DSPRE.ROMFiles {
 
     public ushort[] trainerItems = new ushort[TRAINER_ITEMS];
     public BitArray AI;
-    #endregion
 
-    #region Constructor
     public TrainerProperties(ushort ID, byte partyCount = 0) {
       trainerID = ID;
       trainerItems = new ushort[TRAINER_ITEMS];
@@ -48,9 +45,7 @@ namespace DSPRE.ROMFiles {
         doubleBattle = reader.ReadUInt32() == 2;
       }
     }
-    #endregion
 
-    #region Methods
     public override byte[] ToByteArray() {
       MemoryStream newData = new MemoryStream();
       using (BinaryWriter writer = new BinaryWriter(newData)) {
@@ -83,7 +78,5 @@ namespace DSPRE.ROMFiles {
     public void SaveToFileExplorePath(string suggestedFileName, bool showSuccessMessage = true) {
       SaveToFileExplorePath("Gen IV Trainer Properties", "trp", suggestedFileName, showSuccessMessage);
     }
-    #endregion
-
   }
 }

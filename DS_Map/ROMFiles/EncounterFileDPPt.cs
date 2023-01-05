@@ -6,7 +6,6 @@ namespace DSPRE.ROMFiles {
   /// Class to store wild Pokemon data from Pokemon Diamond, Pearl and Platinum
   /// </summary>
   public class EncounterFileDPPt : EncounterFile {
-    #region Fields (9)       
     /* Field encounters */
     public uint[] radarPokemon = new uint[4];
     public uint[] walkingPokemon = new uint[12];
@@ -21,10 +20,7 @@ namespace DSPRE.ROMFiles {
     public uint[] emeraldPokemon = new uint[2];
     public uint[] fireRedPokemon = new uint[2];
     public uint[] leafGreenPokemon = new uint[2];
-    #endregion
 
-    #region Constructors (1)
-        
     public EncounterFileDPPt() {
       swarmPokemon = new ushort[2];
     }
@@ -204,9 +200,7 @@ namespace DSPRE.ROMFiles {
         }
       }
     }
-    #endregion Constructors
 
-    #region Methods (1)
     public override byte[] ToByteArray() {
       MemoryStream newData = new MemoryStream();
       using (BinaryWriter writer = new BinaryWriter(newData)) {
@@ -303,6 +297,5 @@ namespace DSPRE.ROMFiles {
     public void SaveToFileExplorePath(string suggestedFileName, bool showSuccessMessage = true) {
       SaveToFileExplorePath("DPPt Encounter File", EncounterFile.extension, suggestedFileName, showSuccessMessage);
     }
-    #endregion
   }
 }

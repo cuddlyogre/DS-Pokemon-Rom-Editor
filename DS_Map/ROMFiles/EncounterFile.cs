@@ -74,7 +74,6 @@ namespace DSPRE.ROMFiles {
     public abstract class EncounterFile : RomFile {
         public const string msgFixed = " (already fixed)";
         public const string extension = "wld";
-        #region Fields (19)
 
         /* Encounter rates */
         public byte goodRodRate { get; set; }
@@ -100,9 +99,7 @@ namespace DSPRE.ROMFiles {
         public ushort[] superRodPokemon = new ushort[5];
         public ushort[] surfPokemon = new ushort[5];
         public ushort[] swarmPokemon { get; set; }  //2 for DPPt, 4 for HGSS
-        #endregion
 
-        #region Methods (1)
         public void SaveToFileDefaultDir(int IDtoReplace, bool showSuccessMessage = true) {
             SaveToFileDefaultDir(RomInfo.DirNames.encounters, IDtoReplace, showSuccessMessage);
         }
@@ -124,6 +121,5 @@ namespace DSPRE.ROMFiles {
 
             MessageBox.Show(fullError, "Encounter File error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-        #endregion
     }
 }

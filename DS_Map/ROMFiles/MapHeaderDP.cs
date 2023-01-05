@@ -5,12 +5,9 @@ namespace DSPRE.ROMFiles {
   /// Class to store map header data from Pokémon D and P
   /// </summary>
   public class MapHeaderDP : MapHeader {
-    #region Fields (5)
     public byte unknown1 { get; set; }
     public ushort locationName { get; set; }
-    #endregion Fields
 
-    #region Constructors (1)
     public MapHeaderDP(ushort headerNumber, Stream data) {
       this.ID = headerNumber;
       using (BinaryReader reader = new BinaryReader(data)) {
@@ -34,9 +31,7 @@ namespace DSPRE.ROMFiles {
         flags = (byte)(mapSettings >> 4 & 0b_1111);
       }
     }
-    #endregion Constructors
 
-    #region Methods (1)
     public override byte[] ToByteArray() {
       MemoryStream newData = new MemoryStream();
       using (BinaryWriter writer = new BinaryWriter(newData)) {
@@ -60,6 +55,5 @@ namespace DSPRE.ROMFiles {
       }
       return newData.ToArray();
     }
-    #endregion
   }
 }

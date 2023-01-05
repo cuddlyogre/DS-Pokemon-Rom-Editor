@@ -45,8 +45,6 @@ namespace DSPRE.ROMFiles {
     /// Class to store map data in Pokémon NDS games
     /// </summary>
     public class MapFile : RomFile {
-        #region Fields
-
         public static readonly string NSBMDFilter = "NSBMD File (*.nsbmd)|*.nsbmd";
         public static readonly string TexturedNSBMDFilter = "Textured" + NSBMDFilter;
         public static readonly string UntexturedNSBMDFilter = "Untextured" + NSBMDFilter;
@@ -72,9 +70,6 @@ namespace DSPRE.ROMFiles {
         public byte[] mapModelData;
         public byte[] bdhc;
         public byte[] bgs = blankBGS;
-        #endregion
-
-        #region Constructors (1)
 
         public MapFile(int ID, RomInfo.GameFamilies gFamily, bool discardMoveperms = false, bool showMessages = true) {
             string path = Filesystem.GetMapPath(ID);
@@ -132,9 +127,7 @@ namespace DSPRE.ROMFiles {
                 ImportTerrain(reader.ReadBytes(bdhcSectionLength));
             }
         }
-        #endregion
 
-        #region Methods
         public byte[] BuildingsToByteArray() {
             MemoryStream newData = new MemoryStream(buildingHeaderSize * buildings.Count);
             using (BinaryWriter writer = new BinaryWriter(newData)) {
@@ -254,6 +247,5 @@ namespace DSPRE.ROMFiles {
         public void SaveToFileExplorePath(string suggestedFileName, bool showSuccessMessage = true) {
             SaveToFileExplorePath("Gen IV Map Bin", "bin", suggestedFileName, showSuccessMessage);
         }
-        #endregion
     }
 }

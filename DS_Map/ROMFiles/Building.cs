@@ -7,7 +7,6 @@ namespace DSPRE.ROMFiles {
   /// Class to store building data from Pokémon NDS games
   /// </summary>
   public class Building {
-    #region Fields (11)
     public NSBMD NSBMDFile;
     public uint modelID { get; set; }
     public short xPosition { get; set; }
@@ -22,9 +21,7 @@ namespace DSPRE.ROMFiles {
     public uint width { get; set; }
     public uint height { get; set; }
     public uint length { get; set; }
-    #endregion Fields
 
-    #region Constructors (2)
     public Building(Stream data) {
       using (BinaryReader reader = new BinaryReader(data)) {
         modelID = reader.ReadUInt32();
@@ -86,7 +83,7 @@ namespace DSPRE.ROMFiles {
       height = toCopy.height;
       length = toCopy.length;
     }
-    #endregion Constructors
+
     public static ushort DegToU16(float deg) {
       return (ushort)(deg * 65536 / 360);
     }

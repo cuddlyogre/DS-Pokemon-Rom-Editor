@@ -5,12 +5,9 @@ using System.Windows.Forms;
 
 namespace DSPRE.ROMFiles {
     public class ScriptAction {
-
-        #region Fields (4)
         public ushort? id;
         public ushort? repetitionCount;
         public string name;
-        #endregion
 
         public ScriptAction(ushort id, ushort? repetitionCount = null) {
             this.id = id;

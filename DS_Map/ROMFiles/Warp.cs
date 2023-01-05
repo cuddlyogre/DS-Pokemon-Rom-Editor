@@ -2,13 +2,10 @@ using System.IO;
 
 namespace DSPRE.ROMFiles {
   public class Warp : Event {
-    #region Fields (4)
     public ushort header;
     public ushort anchor;
     public uint height;
-    #endregion
 
-    #region Constructors (2)
     public Warp(Stream data) {
       evType = EventType.Warp;
       using (BinaryReader reader = new BinaryReader(data)) {
@@ -47,9 +44,7 @@ namespace DSPRE.ROMFiles {
       this.xMatrixPosition = toCopy.xMatrixPosition;
       this.yMatrixPosition = toCopy.yMatrixPosition;
     }
-    #endregion
 
-    #region Methods (1)
     public override byte[] ToByteArray() {
       using (BinaryWriter writer = new BinaryWriter(new MemoryStream())) {
         ushort xCoordinate = (ushort)(xMapPosition + MapFile.mapSize * xMatrixPosition);
@@ -68,7 +63,5 @@ namespace DSPRE.ROMFiles {
     public override string ToString() {
       return "To Header " + header.ToString("D3") + ", " + "Hook " + anchor.ToString("D2");
     }
-    #endregion
-
   }
 }

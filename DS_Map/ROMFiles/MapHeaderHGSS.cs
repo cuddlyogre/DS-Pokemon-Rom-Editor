@@ -6,7 +6,6 @@ namespace DSPRE.ROMFiles {
   /// Class to store map header data from Pokémon HG and SS
   /// </summary>
   public class MapHeaderHGSS : MapHeader {
-    #region Fields (7)
     public byte areaIcon { get; set; }
     public byte followMode { get; set; }
     public byte locationName { get; set; }
@@ -16,9 +15,7 @@ namespace DSPRE.ROMFiles {
     public byte worldmapX { get; set; } //6 bits only
     public byte worldmapY { get; set; } //6 bits only
     public bool kantoFlag { get; set; }
-    #endregion
 
-    #region Constructors (1)
     public MapHeaderHGSS(ushort headerNumber, Stream data) {
       this.ID = headerNumber;
       using (BinaryReader reader = new BinaryReader(data)) {
@@ -60,9 +57,7 @@ namespace DSPRE.ROMFiles {
         }
       }
     }
-    #endregion Constructors
 
-    #region Methods(1)
     public override byte[] ToByteArray() {
       MemoryStream newData = new MemoryStream();
       using (BinaryWriter writer = new BinaryWriter(newData)) {
@@ -99,6 +94,5 @@ namespace DSPRE.ROMFiles {
       }
       return newData.ToArray();
     }
-    #endregion
   }
 }

@@ -5,13 +5,10 @@ namespace DSPRE.ROMFiles {
         public const int POKE_IN_PARTY = 6;
         public static readonly string NAME_NOT_FOUND = "NAME READ ERROR";
 
-        #region Fields
         public string name;
         public TrainerProperties trp;
         public Party party;
-        #endregion
 
-        #region Constructor
         public TrainerFile(TrainerProperties trp, string name = ""){
             this.name = name;
             this.trp = trp;
@@ -23,9 +20,7 @@ namespace DSPRE.ROMFiles {
             this.trp = trp;
             party = new Party(readFirstByte: false, POKE_IN_PARTY, partyData, this.trp);
         }
-        #endregion
 
-        #region Methods
         public override byte[] ToByteArray() {
             MemoryStream newData = new MemoryStream();
             using (BinaryWriter writer = new BinaryWriter(newData)) {
@@ -45,8 +40,6 @@ namespace DSPRE.ROMFiles {
         public void SaveToFileExplorePath(string suggestedFileName, bool showSuccessMessage = true) {
             SaveToFileExplorePath("Gen IV Trainer File", "trf", suggestedFileName, showSuccessMessage);
         }
-        #endregion
-
     }
 
 }
