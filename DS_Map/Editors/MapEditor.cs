@@ -180,6 +180,33 @@ namespace DSPRE.Editors {
       Helpers.statusLabelMessage();
     }
 
+    public void OpenMapEditor(ushort headerID, ushort mapID) {
+      SetupMapEditor();
+
+      /* Load Map File and switch to Map Editor tab */
+      Helpers.DisableHandlers();
+
+      /* get texture file numbers from area data */
+      MapHeader mapHeader = MapHeader.GetMapHeader(headerID);
+      AreaData areaData = new AreaData(mapHeader.areaDataID);
+
+      selectMapComboBox.SelectedIndex = mapID;
+      mapTextureComboBox.SelectedIndex = areaData.mapTileset + 1;
+      buildTextureComboBox.SelectedIndex = areaData.buildingsTileset + 1;
+
+      if (areaData.areaType == AreaData.TYPE_INDOOR) {
+        interiorbldRadioButton.Checked = true;
+      }
+      else {
+        exteriorbldRadioButton.Checked = true;
+      }
+
+      EditorPanels.mainTabControl.SelectedTab = EditorPanels.mapEditorTabPage;
+
+      Helpers.EnableHandlers();
+      selectMapComboBox_SelectedIndexChanged(null, null);
+    }
+
     public void makeCurrent() {
       openGlControl.MakeCurrent();
       if (selectMapComboBox.SelectedIndex > -1)

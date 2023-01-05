@@ -224,10 +224,6 @@ namespace DSPRE.Editors {
 
       /* Generate table rows */
       for (int i = 0; i < currentMatrix.height; i++) {
-        mapFilesGridView.Rows.Add();
-        mapFilesGridView.Rows[i].Height = MapFile.mapSize;
-        mapFilesGridView.Rows[i].HeaderCell.Value = i.ToString();
-
         headersGridView.Rows.Add();
         headersGridView.Rows[i].Height = MapFile.mapSize;
         headersGridView.Rows[i].HeaderCell.Value = i.ToString();
@@ -235,6 +231,10 @@ namespace DSPRE.Editors {
         heightsGridView.Rows.Add();
         heightsGridView.Rows[i].Height = MapFile.mapSize;
         heightsGridView.Rows[i].HeaderCell.Value = i.ToString();
+
+        mapFilesGridView.Rows.Add();
+        mapFilesGridView.Rows[i].Height = MapFile.mapSize;
+        mapFilesGridView.Rows[i].HeaderCell.Value = i.ToString();
       }
 
       /* Fill tables */
@@ -518,119 +518,101 @@ namespace DSPRE.Editors {
     }
 
     private void mapFilesGridView_CellMouseDoubleClick(object sender, DataGridViewCellEventArgs e) {
-      if (e.RowIndex >= 0 && e.ColumnIndex >= 0) {
-        if (currentMatrix.maps[e.RowIndex, e.ColumnIndex] == GameMatrix.EMPTY) {
-          MessageBox.Show("You can't load an empty map.\nSelect a valid map and try again.\n\n" +
-                          "If you only meant to change the value of this cell, wait some time between one mouse click and the other.\n" +
-                          "Alternatively, highlight the cell and press F2 on your keyboard.",
-            "User attempted to load VOID", MessageBoxButtons.OK, MessageBoxIcon.Error);
-          return;
+      if (e.RowIndex < 0 || e.ColumnIndex < 0) {
+        return;
+      }
+
+      ushort selectedMap = currentMatrix.maps[e.RowIndex, e.ColumnIndex];
+
+      if (selectedMap == GameMatrix.EMPTY) {
+        MessageBox.Show("You can't load an empty map.\nSelect a valid map and try again.\n\n" +
+                        "If you only meant to change the value of this cell, wait some time between one mouse click and the other.\n" +
+                        "Alternatively, highlight the cell and press F2 on your keyboard.",
+          "User attempted to load VOID", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        return;
+      }
+
+      int mapCount = Filesystem.GetMapCount();
+      if (selectedMap >= mapCount) {
+        MessageBox.Show("This matrix cell points to a map file that doesn't exist.",
+          "There " + ((mapCount > 1) ? "are only " + mapCount + " map files." : "is only 1 map file."), MessageBoxButtons.OK, MessageBoxIcon.Error);
+        return;
+      }
+
+      /* Determine area data */
+      ushort headerID = 0;
+      if (currentMatrix.hasHeadersSection) {
+        headerID = currentMatrix.headers[e.RowIndex, e.ColumnIndex];
+      }
+      else {
+        ushort[] result = HeaderSearch.AdvancedSearch(0,
+            (ushort)EditorPanels.headerEditor.internalNames.Count,
+            EditorPanels.headerEditor.internalNames,
+            (int)MapHeader.SearchableFields.MatrixID,
+            (int)HeaderSearch.NumOperators.Equal,
+            selectMatrixComboBox.SelectedIndex.ToString())
+          .Select(s => ushort.Parse(s.Split()[0]))
+          .ToArray();
+
+        if (result.Length == 0) {
+          headerID = EditorPanels.headerEditor.currentHeader.ID;
+          Helpers.statusLabelMessage("This Matrix is not linked to any Header. DSPRE can't determine the most appropriate AreaData (and textures) to use.\nDisplaying Textures from the last selected Header (" + headerID + ")'s AreaData...");
         }
-
-        EditorPanels.mapEditor.SetupMapEditor();
-
-        int mapCount = Filesystem.GetMapCount();
-        if (currentMatrix.maps[e.RowIndex, e.ColumnIndex] >= mapCount) {
-          MessageBox.Show("This matrix cell points to a map file that doesn't exist.",
-            "There " + ((mapCount > 1) ? "are only " + mapCount + " map files." : "is only 1 map file."), MessageBoxButtons.OK, MessageBoxIcon.Error);
-          return;
-        }
-
-        /* Determine area data */
-        ushort headerID = 0;
-        if (currentMatrix.hasHeadersSection) {
-          headerID = currentMatrix.headers[e.RowIndex, e.ColumnIndex];
+        else if (result.Length == 1) {
+          headerID = result[0];
+          Helpers.statusLabelMessage("Loading Header " + headerID + "'s textures.");
         }
         else {
-          ushort[] result = HeaderSearch.AdvancedSearch(0, 
-              (ushort)EditorPanels.headerEditor.internalNames.Count, 
-              EditorPanels.headerEditor.internalNames, 
-              (int)MapHeader.SearchableFields.MatrixID, 
-              (int)HeaderSearch.NumOperators.Equal, 
-              selectMatrixComboBox.SelectedIndex.ToString())
-            .Select(x => ushort.Parse(x.Split()[0]))
-            .ToArray();
-
-          if (result.Length == 0) {
+          if (result.Contains(EditorPanels.headerEditor.currentHeader.ID)) {
             headerID = EditorPanels.headerEditor.currentHeader.ID;
-            Helpers.statusLabelMessage("This Matrix is not linked to any Header. DSPRE can't determine the most appropriate AreaData (and textures) to use.\nDisplaying Textures from the last selected Header (" + headerID + ")'s AreaData...");
-          }
-          else if (result.Length == 1) {
-            headerID = result[0];
-            Helpers.statusLabelMessage("Loading Header " + headerID + "'s textures.");
+            Helpers.statusLabelMessage("Multiple Headers are associated to this Matrix, including the last selected one [Header " + headerID + "]. Now using its textures.");
           }
           else {
-            if (result.Contains(EditorPanels.headerEditor.currentHeader.ID)) {
-              headerID = EditorPanels.headerEditor.currentHeader.ID;
-              Helpers.statusLabelMessage("Multiple Headers are associated to this Matrix, including the last selected one [Header " + headerID + "]. Now using its textures.");
+            if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.DP)) {
+              foreach (ushort r in result) {
+                MapHeaderDP hdp = (MapHeaderDP)MapHeader.GetMapHeader(r);
+
+                if (hdp.locationName != 0) {
+                  headerID = hdp.ID;
+                  break;
+                }
+              }
+            }
+            else if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.Plat)) {
+              foreach (ushort r in result) {
+                MapHeaderPt hpt = (MapHeaderPt)MapHeader.GetMapHeader(r);
+
+                if (hpt.locationName != 0) {
+                  headerID = hpt.ID;
+                  break;
+                }
+              }
             }
             else {
-              if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.DP)) {
-                foreach (ushort r in result) {
-                  MapHeaderDP hdp = (MapHeaderDP)MapHeader.GetMapHeader(r);
+              foreach (ushort r in result) {
+                MapHeaderHGSS hgss = (MapHeaderHGSS)MapHeader.GetMapHeader(r);
 
-                  if (hdp.locationName != 0) {
-                    headerID = hdp.ID;
-                    break;
-                  }
+                if (hgss.locationName != 0) {
+                  headerID = hgss.ID;
+                  break;
                 }
               }
-              else if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.Plat)) {
-                foreach (ushort r in result) {
-                  MapHeaderPt hpt = (MapHeaderPt)MapHeader.GetMapHeader(r);
-
-                  if (hpt.locationName != 0) {
-                    headerID = hpt.ID;
-                    break;
-                  }
-                }
-              }
-              else {
-                foreach (ushort r in result) {
-                  MapHeaderHGSS hgss = (MapHeaderHGSS)MapHeader.GetMapHeader(r);
-
-                  if (hgss.locationName != 0) {
-                    headerID = hgss.ID;
-                    break;
-                  }
-                }
-              }
-
-              Helpers.statusLabelMessage("Multiple Headers are using this Matrix. Header " + headerID + "'s textures are currently being displayed.");
             }
+
+            Helpers.statusLabelMessage("Multiple Headers are using this Matrix. Header " + headerID + "'s textures are currently being displayed.");
           }
         }
-
-        Update();
-
-        if (headerID > EditorPanels.headerEditor.internalNames.Count) {
-          MessageBox.Show("This map is associated to a non-existent header.\nThis will lead to unpredictable behaviour and, possibily, problems, if you attempt to load it in game.",
-            "Invalid header", MessageBoxButtons.OK, MessageBoxIcon.Information);
-          headerID = 0;
-        }
-
-        /* get texture file numbers from area data */
-        MapHeader h = MapHeader.GetMapHeader(headerID);
-
-        /* Load Map File and switch to Map Editor tab */
-        Helpers.DisableHandlers();
-
-        AreaData areaData = new AreaData(h.areaDataID);
-        EditorPanels.mapEditor.selectMapComboBox.SelectedIndex = currentMatrix.maps[e.RowIndex, e.ColumnIndex];
-        EditorPanels.mapEditor.mapTextureComboBox.SelectedIndex = areaData.mapTileset + 1;
-        EditorPanels.mapEditor.buildTextureComboBox.SelectedIndex = areaData.buildingsTileset + 1;
-        EditorPanels.mainTabControl.SelectedTab = EditorPanels.mapEditorTabPage;
-
-        if (areaData.areaType == AreaData.TYPE_INDOOR) {
-          EditorPanels.mapEditor.interiorbldRadioButton.Checked = true;
-        }
-        else {
-          EditorPanels.mapEditor.exteriorbldRadioButton.Checked = true;
-        }
-
-        Helpers.EnableHandlers();
-        EditorPanels.mapEditor.selectMapComboBox_SelectedIndexChanged(null, null);
       }
+
+      Update();
+
+      if (headerID > EditorPanels.headerEditor.internalNames.Count) {
+        MessageBox.Show("This map is associated to a non-existent header.\nThis will lead to unpredictable behaviour and, possibily, problems, if you attempt to load it in game.",
+          "Invalid header", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        headerID = 0;
+      }
+
+      EditorPanels.mapEditor.OpenMapEditor(headerID, selectedMap);
     }
 
     private void mapFilesGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
