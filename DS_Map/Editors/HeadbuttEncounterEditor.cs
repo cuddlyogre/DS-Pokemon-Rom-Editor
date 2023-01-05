@@ -16,6 +16,7 @@ namespace DSPRE.Editors {
     public void SetupHeadbuttEncounterEditor(bool force=false) {
       if (headbuttEncounterEditorIsReady && !force) return;
       headbuttEncounterEditorIsReady = true;
+
       DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames> { RomInfo.DirNames.headbutt });
 
       string[] pokemonNames = RomInfo.GetPokemonNames();

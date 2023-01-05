@@ -527,10 +527,7 @@ namespace DSPRE.Editors {
           return;
         }
 
-        if (!EditorPanels.mapEditor.mapEditorIsReady) {
-          EditorPanels.mapEditor.SetupMapEditor();
-          EditorPanels.mapEditor.mapEditorIsReady = true;
-        }
+        EditorPanels.mapEditor.SetupMapEditor();
 
         int mapCount = Filesystem.GetMapCount();
         if (currentMatrix.maps[e.RowIndex, e.ColumnIndex] >= mapCount) {
