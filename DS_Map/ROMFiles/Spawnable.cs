@@ -40,6 +40,7 @@ namespace DSPRE.ROMFiles {
         unknown5 = reader.ReadUInt16();
       }
     }
+
     public Spawnable(int xMatrixPosition, int yMatrixPosition) {
       evType = EventType.Spawnable;
 
@@ -57,6 +58,7 @@ namespace DSPRE.ROMFiles {
       this.xMatrixPosition = (ushort)xMatrixPosition;
       this.yMatrixPosition = (ushort)yMatrixPosition;
     }
+
     public Spawnable(Spawnable toCopy) {
       evType = EventType.Spawnable;
 
@@ -93,6 +95,7 @@ namespace DSPRE.ROMFiles {
         return ((MemoryStream)writer.BaseStream).ToArray();
       }
     }
+
     public override string ToString() {
       string msg = "";
       switch (this.type) {
@@ -109,6 +112,7 @@ namespace DSPRE.ROMFiles {
           msg += "Hidden Item";
           break;
       }
+
       return msg + $", [Scr {scriptNumber}]";
     }
   }

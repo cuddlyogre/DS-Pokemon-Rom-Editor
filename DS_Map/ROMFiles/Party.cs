@@ -9,6 +9,7 @@ namespace DSPRE.ROMFiles {
     public bool exportCondensedData;
 
     public const int MOVES_PER_POKE = 4;
+
     public Party(int POKE_IN_PARTY, bool init, TrainerProperties trp) {
       this.trp = trp;
       this.content = new PartyPokemon[POKE_IN_PARTY];
@@ -37,6 +38,7 @@ namespace DSPRE.ROMFiles {
           if (trp.hasMoves) {
             dividend += Party.MOVES_PER_POKE * sizeof(ushort);
           }
+
           if (trp.hasItems) {
             dividend += sizeof(ushort);
           }
@@ -49,21 +51,22 @@ namespace DSPRE.ROMFiles {
 
             //NOTE: The following bitwise 'AND' operation fixes TUBER JARED [PLAT] and all trainers who
             //use pokemon with a special form --> ALL PARTY POKEMON WITH A SPECIAL FORM WILL LOSE IT
-                        
+
             //the way special forms are stored is
 
             //U16 POKEMON
             // 0 1 2 3   4 5 6 7    8 9 A B   C D E F
             //BITS 6 - F --> pokemon ID
             //BITS 0 - 5 --> form ID 
-            ushort pokemon = (ushort)(reader.ReadUInt16() & (ushort.MaxValue>>6)); 
-                        
+            ushort pokemon = (ushort)(reader.ReadUInt16() & (ushort.MaxValue >> 6));
+
             ushort? heldItem = null;
             ushort[] moves = null;
 
             if (trp.hasItems) {
               heldItem = reader.ReadUInt16();
             }
+
             if (trp.hasMoves) {
               moves = new ushort[MOVES_PER_POKE];
               for (int m = 0; m < moves.Length; m++) {
@@ -74,10 +77,12 @@ namespace DSPRE.ROMFiles {
 
             content[i] = new PartyPokemon(unknown1, level, pokemon, reader.ReadUInt16(), heldItem, moves);
           }
+
           for (int i = endval; i < maxPoke; i++) {
             content[i] = new PartyPokemon();
           }
-        } catch (EndOfStreamException) {
+        }
+        catch (EndOfStreamException) {
           MessageBox.Show("There was a problem reading the party data of this " + this.GetType().Name + ".", "Read Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
       }
@@ -91,27 +96,33 @@ namespace DSPRE.ROMFiles {
         content[index] = value;
       }
     }
+
     public override string ToString() {
       if (this.content == null) {
         return "Empty";
-      } else {
+      }
+      else {
         string buffer = "";
         byte nonEmptyCtr = 0;
-        foreach(PartyPokemon p in this.content) {
+        foreach (PartyPokemon p in this.content) {
           if (!p.CheckEmpty()) {
             nonEmptyCtr++;
           }
         }
+
         buffer += nonEmptyCtr + " Poke ";
         if (this.trp.hasMoves) {
           buffer += ", moves ";
         }
+
         if (this.trp.hasItems) {
           buffer += ", items ";
         }
+
         return buffer;
       }
     }
+
     public override byte[] ToByteArray() {
       MemoryStream newData = new MemoryStream();
       using (BinaryWriter writer = new BinaryWriter(newData)) {
@@ -126,8 +137,10 @@ namespace DSPRE.ROMFiles {
           }
         }
       }
+
       return newData.ToArray();
     }
+
     public void SaveToFileExplorePath(string suggestedFileName, bool showSuccessMessage = true) {
       SaveToFileExplorePath("Gen IV Party Data", "pdat", suggestedFileName, showSuccessMessage);
     }

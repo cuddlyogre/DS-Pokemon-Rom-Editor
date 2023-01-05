@@ -22,6 +22,7 @@ namespace DSPRE.ROMFiles {
         height = reader.ReadUInt32();
       }
     }
+
     public Warp(int xMatrixPosition, int yMatrixPosition) {
       evType = EventType.Warp;
 
@@ -33,6 +34,7 @@ namespace DSPRE.ROMFiles {
       this.xMatrixPosition = (ushort)xMatrixPosition;
       this.yMatrixPosition = (ushort)yMatrixPosition;
     }
+
     public Warp(Warp toCopy) {
       evType = EventType.Warp;
 
@@ -60,6 +62,7 @@ namespace DSPRE.ROMFiles {
         return ((MemoryStream)writer.BaseStream).ToArray();
       }
     }
+
     public override string ToString() {
       return "To Header " + header.ToString("D3") + ", " + "Hook " + anchor.ToString("D2");
     }

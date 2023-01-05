@@ -23,9 +23,10 @@ namespace DSPRE.ROMFiles {
     public TrainerProperties(ushort ID, byte partyCount = 0) {
       trainerID = ID;
       trainerItems = new ushort[TRAINER_ITEMS];
-      AI = new BitArray( new bool[AI_COUNT] { true, false, false, false, false, false, false, false, false, false, false } );
+      AI = new BitArray(new bool[AI_COUNT] { true, false, false, false, false, false, false, false, false, false, false });
       trDataUnknown = 0;
     }
+
     public TrainerProperties(ushort ID, Stream trainerPropertiesStream) {
       trainerID = ID;
       using (BinaryReader reader = new BinaryReader(trainerPropertiesStream)) {
@@ -41,7 +42,7 @@ namespace DSPRE.ROMFiles {
           trainerItems[i] = reader.ReadUInt16();
         }
 
-        AI = new BitArray( BitConverter.GetBytes(reader.ReadUInt32()) );
+        AI = new BitArray(BitConverter.GetBytes(reader.ReadUInt32()));
         doubleBattle = reader.ReadUInt32() == 2;
       }
     }
@@ -72,6 +73,7 @@ namespace DSPRE.ROMFiles {
         writer.Write(AIflags);
         writer.Write((uint)(doubleBattle ? 2 : 0));
       }
+
       return newData.ToArray();
     }
 

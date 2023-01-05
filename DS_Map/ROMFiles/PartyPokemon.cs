@@ -22,6 +22,7 @@ namespace DSPRE.ROMFiles {
       this.heldItem = heldItem;
       this.moves = moves;
     }
+
     public override byte[] ToByteArray() {
       MemoryStream newData = new MemoryStream();
       using (BinaryWriter writer = new BinaryWriter(newData)) {
@@ -38,14 +39,18 @@ namespace DSPRE.ROMFiles {
             writer.Write(move);
           }
         }
+
         writer.Write(unknown2_DATAEND);
       }
+
       return newData.ToArray();
     }
+
     public void UpdateItemsAndMoves(bool hasItems = false, bool hasMoves = false) {
       if (hasItems) {
         this.heldItem = 0;
       }
+
       if (hasMoves) {
         this.moves = new ushort[4];
       }
@@ -54,7 +59,8 @@ namespace DSPRE.ROMFiles {
     public override string ToString() {
       return CheckEmpty() ? "Empty" : this.pokeID + " Lv. " + this.level;
     }
-    public bool CheckEmpty () {
+
+    public bool CheckEmpty() {
       return this is null || pokeID is null || level <= 0;
     }
   }

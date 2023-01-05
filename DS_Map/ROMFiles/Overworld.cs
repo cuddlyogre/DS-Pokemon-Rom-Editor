@@ -3,7 +3,12 @@ using System.IO;
 namespace DSPRE.ROMFiles {
   public class Overworld : Event {
     public static string MovementCodeKW = "Move";
-    public enum OwType : ushort { NORMAL = 0, TRAINER = 1, ITEM = 3 };
+
+    public enum OwType : ushort {
+      NORMAL = 0,
+      TRAINER = 1,
+      ITEM = 3
+    };
 
     public ushort owID;
     public ushort overlayTableEntry;
@@ -48,6 +53,7 @@ namespace DSPRE.ROMFiles {
         unknown3 = reader.ReadUInt16();
       }
     }
+
     public Overworld(int owID, int xMatrixPosition, int yMatrixPosition) {
       evType = EventType.Overworld;
 
@@ -71,6 +77,7 @@ namespace DSPRE.ROMFiles {
       this.xMatrixPosition = (ushort)xMatrixPosition;
       this.yMatrixPosition = (ushort)yMatrixPosition;
     }
+
     public Overworld(Overworld toCopy) {
       evType = EventType.Overworld;
 

@@ -26,7 +26,7 @@ namespace DSPRE.ROMFiles {
     }
 
     public override int GetHashCode() {
-      return this.triggerType.GetHashCode()^variableToWatch.GetHashCode()^expectedValue.GetHashCode();
+      return this.triggerType.GetHashCode() ^ variableToWatch.GetHashCode() ^ expectedValue.GetHashCode();
     }
   }
 }

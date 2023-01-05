@@ -14,6 +14,7 @@ namespace DSPRE.ROMFiles {
       this.containerType = containerType;
       commands = commandList;
     }
+
     public ScriptCommandContainer(uint newID, ScriptCommandContainer toCopy) {
       manualUserID = newID;
       usedScriptID = toCopy.usedScriptID;

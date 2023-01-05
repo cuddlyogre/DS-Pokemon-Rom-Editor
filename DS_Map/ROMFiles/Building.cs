@@ -32,7 +32,7 @@ namespace DSPRE.ROMFiles {
         yPosition = reader.ReadInt16();
         zFraction = reader.ReadUInt16();
         zPosition = reader.ReadInt16();
-                
+
         xRotation = reader.ReadUInt16();
         reader.BaseStream.Position += 0x2;
         yRotation = reader.ReadUInt16();
@@ -47,10 +47,11 @@ namespace DSPRE.ROMFiles {
         height = reader.ReadUInt16();
         reader.BaseStream.Position += 0x2;
         length = reader.ReadUInt16();
-                
+
         //reader.BaseStream.Position += 0x2;
       }
     }
+
     public Building() {
       modelID = 0;
       xFraction = 0;
@@ -87,9 +88,11 @@ namespace DSPRE.ROMFiles {
     public static ushort DegToU16(float deg) {
       return (ushort)(deg * 65536 / 360);
     }
+
     public static float U16ToDeg(ushort u16) {
       return (float)u16 * 360 / 65536;
     }
+
     public void LoadModelData(bool interior) {
       string modelPath = Filesystem.GetBuildingModelPath(interior, (int)modelID);
 
@@ -97,11 +100,13 @@ namespace DSPRE.ROMFiles {
         MessageBox.Show("Building " + modelID + " could not be found in\n" + '"' + Path.GetDirectoryName(modelPath) + '"', "Building not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
         return;
       }
+
       try {
         using (Stream fs = new FileStream(modelPath, FileMode.Open)) {
           this.NSBMDFile = NSBMDLoader.LoadNSBMD(fs);
         }
-      } catch (FileNotFoundException) {
+      }
+      catch (FileNotFoundException) {
         MessageBox.Show("Building " + modelID + " could not be found in\n" + '"' + Path.GetDirectoryName(modelPath) + '"', "Building not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
       }
     }

@@ -53,6 +53,7 @@ namespace DSPRE.ROMFiles {
         byte mapSettings = (byte)((battleBackground & 0b_1111) + ((flags & 0b_1111) << 4));
         writer.Write(mapSettings);
       }
+
       return newData.ToArray();
     }
   }

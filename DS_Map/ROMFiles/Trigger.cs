@@ -30,6 +30,7 @@ namespace DSPRE.ROMFiles {
         variableWatched = reader.ReadUInt16();
       }
     }
+
     public Trigger(int xMatrixPosition, int yMatrixPosition) {
       evType = EventType.Trigger;
 
@@ -44,6 +45,7 @@ namespace DSPRE.ROMFiles {
       this.xMatrixPosition = (ushort)xMatrixPosition;
       this.yMatrixPosition = (ushort)yMatrixPosition;
     }
+
     public Trigger(Trigger toCopy) {
       evType = EventType.Trigger;
 
@@ -75,11 +77,13 @@ namespace DSPRE.ROMFiles {
         return ((MemoryStream)writer.BaseStream).ToArray();
       }
     }
+
     public override string ToString() {
       string msg = "Run script " + scriptNumber;
       if (variableWatched != 0) {
         msg += $" when Var {variableWatched} is {expectedVarValue}";
       }
+
       return msg;
     }
   }

@@ -9,7 +9,7 @@ namespace DSPRE.ROMFiles {
     public byte areaIcon { get; set; }
     public byte followMode { get; set; }
     public byte locationName { get; set; }
-    public byte locationType { get; set; }  //4 bits only
+    public byte locationType { get; set; } //4 bits only
     public byte unknown0 { get; set; } //4 bits only
     public byte unknown1 { get; set; } //4 bits only
     public byte worldmapX { get; set; } //6 bits only
@@ -36,7 +36,7 @@ namespace DSPRE.ROMFiles {
           musicNightID = reader.ReadUInt16();
           eventFileID = reader.ReadUInt16();
           locationName = reader.ReadByte();
-                    
+
           byte areaProperties = reader.ReadByte();
           areaIcon = (byte)(areaProperties & 0b_1111); //get 4 bits
           unknown1 = (byte)((areaProperties >> 4) & 0b_1111); //get 4 bits after the first 4
@@ -50,8 +50,8 @@ namespace DSPRE.ROMFiles {
           followMode = (byte)((last32 >> 18) & 0b_11); //get 2 bits after the first 17
           battleBackground = (byte)((last32 >> 20) & 0b_1111_1); //get 5 bits after the first 19
           flags = (byte)(last32 >> 25 & 0b_1111_111); //get 7 bits after the first 24
-
-        } catch (EndOfStreamException) {
+        }
+        catch (EndOfStreamException) {
           MessageBox.Show("Error loading header " + ID + '.', "Unexpected EOF", MessageBoxButtons.OK, MessageBoxIcon.Error);
           ID = ushort.MaxValue;
         }
@@ -92,6 +92,7 @@ namespace DSPRE.ROMFiles {
 
         writer.Write(last32);
       }
+
       return newData.ToArray();
     }
   }

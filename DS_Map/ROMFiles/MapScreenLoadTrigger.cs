@@ -29,7 +29,7 @@ namespace DSPRE.ROMFiles {
     }
 
     public override int GetHashCode() {
-      return this.triggerType.GetHashCode()^scriptTriggered.GetHashCode();
+      return this.triggerType.GetHashCode() ^ scriptTriggered.GetHashCode();
     }
   }
 }

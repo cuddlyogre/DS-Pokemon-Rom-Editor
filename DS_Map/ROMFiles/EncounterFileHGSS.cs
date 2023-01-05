@@ -37,42 +37,48 @@ namespace DSPRE.ROMFiles {
         /* Encounter rates */
         try {
           walkingRate = reader.ReadByte();
-        } catch {
+        }
+        catch {
           walkingRate = 0x00;
           fieldsWithErrors.Add("Regular Encounters rate" + msgFixed);
         }
 
         try {
           surfRate = reader.ReadByte();
-        } catch {
+        }
+        catch {
           surfRate = 0x00;
           fieldsWithErrors.Add("Surf rate" + msgFixed);
         }
 
-        try { 
+        try {
           rockSmashRate = reader.ReadByte();
-        } catch {
+        }
+        catch {
           rockSmashRate = 0x00;
           fieldsWithErrors.Add("Rock Smash rate" + msgFixed);
         }
 
-        try { 
+        try {
           oldRodRate = reader.ReadByte();
-        } catch {
+        }
+        catch {
           oldRodRate = 0x00;
           fieldsWithErrors.Add("Old Rod rate" + msgFixed);
         }
 
-        try { 
+        try {
           goodRodRate = reader.ReadByte();
-        } catch {
+        }
+        catch {
           goodRodRate = 0x00;
           fieldsWithErrors.Add("Good Rod rate" + msgFixed);
         }
 
-        try { 
+        try {
           superRodRate = reader.ReadByte();
-        } catch {
+        }
+        catch {
           superRodRate = 0x00;
           fieldsWithErrors.Add("Super Rod rate" + msgFixed);
         }
@@ -81,9 +87,10 @@ namespace DSPRE.ROMFiles {
 
         /* Walking encounters levels */
         for (int i = 0; i < 12; i++) {
-          try { 
+          try {
             walkingLevels[i] = reader.ReadByte();
-          } catch {
+          }
+          catch {
             walkingLevels[i] = 0x00;
             fieldsWithErrors.Add("Regular Encounters" + ' ' + '[' + i + ']' + msgFixed);
           }
@@ -93,7 +100,8 @@ namespace DSPRE.ROMFiles {
         for (int i = 0; i < 12; i++) {
           try {
             morningPokemon[i] = reader.ReadUInt16();
-          } catch {
+          }
+          catch {
             morningPokemon[i] = 0x00;
             fieldsWithErrors.Add("Morning Encounters" + ' ' + '[' + i + ']' + msgFixed);
           }
@@ -101,9 +109,10 @@ namespace DSPRE.ROMFiles {
 
         /* Day walking encounters */
         for (int i = 0; i < 12; i++) {
-          try { 
+          try {
             dayPokemon[i] = reader.ReadUInt16();
-          } catch {
+          }
+          catch {
             dayPokemon[i] = 0x00;
             fieldsWithErrors.Add("Day Encounters" + ' ' + '[' + i + ']' + msgFixed);
           }
@@ -111,9 +120,10 @@ namespace DSPRE.ROMFiles {
 
         /* Night walking encounters */
         for (int i = 0; i < 12; i++) {
-          try { 
+          try {
             nightPokemon[i] = reader.ReadUInt16();
-          } catch {
+          }
+          catch {
             nightPokemon[i] = 0x00;
             fieldsWithErrors.Add("Night Encounters" + ' ' + '[' + i + ']' + msgFixed);
           }
@@ -123,16 +133,18 @@ namespace DSPRE.ROMFiles {
         for (int i = 0; i < 2; i++) {
           try {
             hoennMusicPokemon[i] = reader.ReadUInt16();
-          } catch {
+          }
+          catch {
             hoennMusicPokemon[i] = 0x00;
             fieldsWithErrors.Add("Hoenn Music Encounters" + ' ' + '[' + i + ']' + msgFixed);
           }
         }
 
         for (int i = 0; i < 2; i++) {
-          try {  
+          try {
             sinnohMusicPokemon[i] = reader.ReadUInt16();
-          } catch {
+          }
+          catch {
             sinnohMusicPokemon[i] = 0x00;
             fieldsWithErrors.Add("Sinnoh Music Encounters" + ' ' + '[' + i + ']' + msgFixed);
           }
@@ -142,21 +154,24 @@ namespace DSPRE.ROMFiles {
         for (int i = 0; i < 5; i++) {
           try {
             surfMinLevels[i] = reader.ReadByte();
-          } catch {
+          }
+          catch {
             surfMinLevels[i] = 0x01;
             fieldsWithErrors.Add("Surf Encounters" + ' ' + '[' + i + ']' + " min. level" + msgFixed);
           }
 
           try {
             surfMaxLevels[i] = reader.ReadByte();
-          } catch {
+          }
+          catch {
             surfMaxLevels[i] = 0x01;
             fieldsWithErrors.Add("Surf Encounters" + ' ' + '[' + i + ']' + " max. level" + msgFixed);
           }
 
           try {
             surfPokemon[i] = reader.ReadUInt16();
-          } catch {
+          }
+          catch {
             surfMinLevels[i] = 0x00;
             fieldsWithErrors.Add("Surf Encounters" + ' ' + '[' + i + ']' + " Pokémon" + msgFixed);
           }
@@ -166,21 +181,24 @@ namespace DSPRE.ROMFiles {
         for (int i = 0; i < 2; i++) {
           try {
             rockSmashMinLevels[i] = reader.ReadByte();
-          } catch {
+          }
+          catch {
             rockSmashMinLevels[i] = 0x01;
             fieldsWithErrors.Add("Rock Smash Encounters" + ' ' + '[' + i + ']' + " min. level" + msgFixed);
           }
 
           try {
             rockSmashMaxLevels[i] = reader.ReadByte();
-          } catch {
+          }
+          catch {
             rockSmashMaxLevels[i] = 0x01;
             fieldsWithErrors.Add("Rock Smash Encounters" + ' ' + '[' + i + ']' + " max. level" + msgFixed);
           }
 
           try {
             rockSmashPokemon[i] = reader.ReadUInt16();
-          } catch {
+          }
+          catch {
             rockSmashPokemon[i] = 0x00;
             fieldsWithErrors.Add("Rock Smash Encounters" + ' ' + '[' + i + ']' + " Pokémon" + msgFixed);
           }
@@ -190,21 +208,24 @@ namespace DSPRE.ROMFiles {
         for (int i = 0; i < 5; i++) {
           try {
             oldRodMinLevels[i] = reader.ReadByte();
-          } catch {
+          }
+          catch {
             oldRodMinLevels[i] = 0x01;
             fieldsWithErrors.Add("Old Rod Encounters" + ' ' + '[' + i + ']' + " min. level" + msgFixed);
           }
 
           try {
             oldRodMaxLevels[i] = reader.ReadByte();
-          } catch {
+          }
+          catch {
             oldRodMaxLevels[i] = 0x01;
             fieldsWithErrors.Add("Old Rod Encounters" + ' ' + '[' + i + ']' + " max. level" + msgFixed);
           }
 
           try {
             oldRodPokemon[i] = reader.ReadUInt16();
-          } catch {
+          }
+          catch {
             oldRodPokemon[i] = 0x00;
             fieldsWithErrors.Add("Old Rod Encounters" + ' ' + '[' + i + ']' + " Pokémon" + msgFixed);
           }
@@ -214,21 +235,24 @@ namespace DSPRE.ROMFiles {
         for (int i = 0; i < 5; i++) {
           try {
             goodRodMinLevels[i] = reader.ReadByte();
-          } catch {
+          }
+          catch {
             goodRodMinLevels[i] = 0x01;
             fieldsWithErrors.Add("Good Rod Encounters" + ' ' + '[' + i + ']' + " min. level" + msgFixed);
           }
 
           try {
             goodRodMaxLevels[i] = reader.ReadByte();
-          } catch {
+          }
+          catch {
             goodRodMaxLevels[i] = 0x01;
             fieldsWithErrors.Add("Good Rod Encounters" + ' ' + '[' + i + ']' + " max. level" + msgFixed);
           }
 
           try {
             goodRodPokemon[i] = reader.ReadUInt16();
-          } catch {
+          }
+          catch {
             goodRodPokemon[i] = 0x00;
             fieldsWithErrors.Add("Good Rod Encounters" + ' ' + '[' + i + ']' + " Pokémon" + msgFixed);
           }
@@ -238,21 +262,24 @@ namespace DSPRE.ROMFiles {
         for (int i = 0; i < 5; i++) {
           try {
             superRodMinLevels[i] = reader.ReadByte();
-          } catch {
+          }
+          catch {
             superRodMinLevels[i] = 0x01;
             fieldsWithErrors.Add("Super Rod Encounters" + ' ' + '[' + i + ']' + " min. level" + msgFixed);
           }
 
           try {
             superRodMaxLevels[i] = reader.ReadByte();
-          } catch {
+          }
+          catch {
             superRodMaxLevels[i] = 0x01;
             fieldsWithErrors.Add("Super Rod Encounters" + ' ' + '[' + i + ']' + " max. level" + msgFixed);
           }
 
           try {
             superRodPokemon[i] = reader.ReadUInt16();
-          } catch {
+          }
+          catch {
             superRodPokemon[i] = 0x00;
             fieldsWithErrors.Add("Super Rod Encounters" + ' ' + '[' + i + ']' + " Pokémon" + msgFixed);
           }
@@ -263,7 +290,8 @@ namespace DSPRE.ROMFiles {
         for (int i = 0; i < 4; i++) {
           try {
             swarmPokemon[i] = reader.ReadUInt16();
-          } catch (EndOfStreamException) {
+          }
+          catch (EndOfStreamException) {
             swarmPokemon[i] = 0x00;
             fieldsWithErrors.Add("Swarms" + '[' + i + ']' + msgFixed);
           }
@@ -294,7 +322,7 @@ namespace DSPRE.ROMFiles {
         }
 
         /* Morning walking encounters */
-        for (int i = 0; i < 12; i++) { 
+        for (int i = 0; i < 12; i++) {
           writer.Write(morningPokemon[i]);
         }
 
@@ -357,6 +385,7 @@ namespace DSPRE.ROMFiles {
           writer.Write(swarmPokemon[i]);
         }
       }
+
       return newData.ToArray();
     }
 

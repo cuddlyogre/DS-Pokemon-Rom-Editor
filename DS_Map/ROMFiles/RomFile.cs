@@ -3,44 +3,46 @@ using System.IO;
 using System.Windows.Forms;
 
 namespace DSPRE.ROMFiles {
-    public abstract class RomFile {
-        public abstract byte[] ToByteArray();
-        public bool SaveToFile(string path, bool showSuccessMessage = true) {
-            
-            byte[] romFileToByteArray = ToByteArray();
-            if (romFileToByteArray is null) {
-                Console.WriteLine(GetType().Name + " couldn't be saved!");
-                return false;
-            }
+  public abstract class RomFile {
+    public abstract byte[] ToByteArray();
 
-            File.WriteAllBytes(path, romFileToByteArray);
+    public bool SaveToFile(string path, bool showSuccessMessage = true) {
+      byte[] romFileToByteArray = ToByteArray();
+      if (romFileToByteArray is null) {
+        Console.WriteLine(GetType().Name + " couldn't be saved!");
+        return false;
+      }
 
-            if (showSuccessMessage) {
-                MessageBox.Show(GetType().Name + " saved successfully!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+      File.WriteAllBytes(path, romFileToByteArray);
 
-            return true;
-        }
-        protected internal bool SaveToFileDefaultDir(RomInfo.DirNames dir, int IDtoReplace, bool showSuccessMessage = true) {
-            string path = Filesystem.GetPath(RomInfo.gameDirs[dir].unpackedDir, IDtoReplace);
-            return this.SaveToFile(path, showSuccessMessage);
-        }
-        protected internal void SaveToFileExplorePath(string fileType, string fileExtension, string suggestedFileName, bool showSuccessMessage = true) {
-            fileExtension = "*." + fileExtension;
+      if (showSuccessMessage) {
+        MessageBox.Show(GetType().Name + " saved successfully!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+      }
 
-            SaveFileDialog sf = new SaveFileDialog {
-                Filter = $"{fileType} ({fileExtension})|{fileExtension}"
-            };
-
-            if (!string.IsNullOrWhiteSpace(suggestedFileName)) {
-                sf.FileName = suggestedFileName;
-            }
-
-            if (sf.ShowDialog() != DialogResult.OK) {
-                return;
-            }
-
-            this.SaveToFile(sf.FileName, showSuccessMessage);
-        }
+      return true;
     }
+
+    protected internal bool SaveToFileDefaultDir(RomInfo.DirNames dir, int IDtoReplace, bool showSuccessMessage = true) {
+      string path = Filesystem.GetPath(RomInfo.gameDirs[dir].unpackedDir, IDtoReplace);
+      return this.SaveToFile(path, showSuccessMessage);
+    }
+
+    protected internal void SaveToFileExplorePath(string fileType, string fileExtension, string suggestedFileName, bool showSuccessMessage = true) {
+      fileExtension = "*." + fileExtension;
+
+      SaveFileDialog sf = new SaveFileDialog {
+        Filter = $"{fileType} ({fileExtension})|{fileExtension}"
+      };
+
+      if (!string.IsNullOrWhiteSpace(suggestedFileName)) {
+        sf.FileName = suggestedFileName;
+      }
+
+      if (sf.ShowDialog() != DialogResult.OK) {
+        return;
+      }
+
+      this.SaveToFile(sf.FileName, showSuccessMessage);
+    }
+  }
 }

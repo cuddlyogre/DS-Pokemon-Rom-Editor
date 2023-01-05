@@ -33,8 +33,8 @@ namespace DSPRE.ROMFiles {
           locationSpecifier = (byte)(mapSettings & 0b_1111_111);
           battleBackground = (byte)(mapSettings >> 7 & 0b_1111_1);
           flags = (byte)(mapSettings >> 12 & 0b_1111);
-
-        } catch (EndOfStreamException) {
+        }
+        catch (EndOfStreamException) {
           MessageBox.Show("Error loading header " + ID + '.', "Unexpected EOF", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
       }
@@ -61,6 +61,7 @@ namespace DSPRE.ROMFiles {
         ushort mapSettings = (ushort)((locationSpecifier & 0b_1111_111) + ((battleBackground & 0b_1111_1) << 7) + ((flags & 0b_1111) << 12));
         writer.Write(mapSettings);
       }
+
       return newData.ToArray();
     }
   }
