@@ -6,9 +6,9 @@ using System.Linq;
 using System.Windows.Forms;
 
 namespace DSPRE.ROMFiles {
-    public enum ParamTypeEnum { INTEGER, VARIABLE, FLEX, OW_ID, OW_MOVEMENT_TYPE, OW_DIRECTION, FUNCTION_ID, ACTION_ID, CMD_NUMBER };
-
     public class ScriptCommand {
+        enum ParamTypeEnum { INTEGER, VARIABLE, FLEX, OW_ID, OW_MOVEMENT_TYPE, OW_DIRECTION, FUNCTION_ID, ACTION_ID, CMD_NUMBER };
+
         #region Fields (4)
         public ushort? id;
         public List<byte[]> cmdParams;
