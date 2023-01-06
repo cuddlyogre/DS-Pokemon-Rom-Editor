@@ -2,22 +2,38 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
 using DSPRE.ROMFiles;
+using LibNDSFormats.NSBMD;
 
 namespace DSPRE {
   public class WildHeadbuttReport {
     readonly int id;
     readonly string locationName;
 
-    public MapHeaderHGSS header;
-    public HeadbuttEncounterFile headbuttEncounterFile;
+    private MapHeaderHGSS mapHeader;
+    private GameMatrix matrix;
+    private AreaData areaData;
+    public static NSBMDGlRenderer mapRenderer = new NSBMDGlRenderer();
+    public static NSBMDGlRenderer buildingsRenderer = new NSBMDGlRenderer();
+    private static float perspective;
+    private static float ang;
+    private static float dist;
+    private static float elev;
+
+    private HeadbuttEncounterFile headbuttEncounterFile;
 
     public HashSet<string> normalEncounters = new HashSet<string>();
     public HashSet<string> specialEncounters = new HashSet<string>();
 
-    public WildHeadbuttReport(MapHeaderHGSS header, HeadbuttEncounterFile headbuttEncounterFile) {
+    int width = 608;
+    int height = 608;
+    static SimpleOpenGlControl2 openGlControl;
+
+    public WildHeadbuttReport(MapHeaderHGSS mapHeader, HeadbuttEncounterFile headbuttEncounterFile) {
       DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames>() { RomInfo.DirNames.headbutt });
 
       Tuple<List<string>, List<string>> headerNames = Helpers.BuildHeaderNames();
@@ -26,11 +42,23 @@ namespace DSPRE {
       string[] pokemonNames = RomInfo.GetPokemonNames();
       TextArchive currentTextArchive = new TextArchive(RomInfo.locationNamesTextNumber);
 
-      this.header = header;
-      this.headbuttEncounterFile = headbuttEncounterFile;
+      this.mapHeader = mapHeader;
+      this.matrix = new GameMatrix(mapHeader.matrixID);
+      this.areaData = new AreaData(mapHeader.areaDataID);
+      SetCam2DValues();
 
+      this.headbuttEncounterFile = headbuttEncounterFile;
       this.id = headbuttEncounterFile.ID;
-      this.locationName = currentTextArchive.messages[header.locationName];
+      this.locationName = currentTextArchive.messages[mapHeader.locationName];
+
+      if (openGlControl == null) {
+        openGlControl = new SimpleOpenGlControl2();
+        openGlControl.InitializeContexts();
+        openGlControl.Width = width;
+        openGlControl.Height = height;
+        openGlControl.Invalidate();
+        openGlControl.MakeCurrent();
+      }
 
       foreach (HeadbuttEncounter encounter in headbuttEncounterFile.normalEncounters) {
         string pokemon = pokemonNames[encounter.pokemonID];
@@ -43,7 +71,41 @@ namespace DSPRE {
       }
     }
 
-    public override string ToString() {
+    private void SetCam2DValues() {
+      perspective = 4f;
+      ang = 0f;
+      dist = 115.2f;
+      elev = 90f;
+    }
+
+    private Bitmap RenderMap(MapFile currentMapFile) {
+      Helpers.MW_LoadModelTextures(currentMapFile, areaData.mapTileset);
+
+      bool isInteriorMap = false;
+      bool hgss = RomInfo.gameVersion == RomInfo.GameVersions.HeartGold || RomInfo.gameVersion == RomInfo.GameVersions.SoulSilver;
+      if (hgss && areaData.areaType == 0x0) {
+        isInteriorMap = true;
+      }
+
+      for (int i = 0; i < currentMapFile.buildings.Count; i++) {
+        Building building = currentMapFile.buildings[i];
+        building.LoadModelData(isInteriorMap); // Load building nsbmd
+        Helpers.MW_LoadModelTextures(building, areaData.buildingsTileset); // Load building textures                
+      }
+
+      Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl.Width, openGlControl.Height, ang, dist, elev, perspective);
+      openGlControl.Invalidate();
+
+      return Helpers.GrabMapScreenshot(width, height);
+    }
+
+    public void BuildReport(string dir) {
+      string report_dir;
+      report_dir = Path.Combine(dir, "headbutt_encounters");
+      if (!Directory.Exists(report_dir)) {
+        Directory.CreateDirectory(report_dir);
+      }
+
       Tuple<List<string>, List<string>> headerNames = Helpers.BuildHeaderNames();
       List<string> headerListBoxNames = headerNames.Item1;
       List<string> internalNames = headerNames.Item2;
@@ -51,64 +113,104 @@ namespace DSPRE {
       TextArchive currentTextArchive = new TextArchive(RomInfo.locationNamesTextNumber);
 
       StringBuilder sb = new StringBuilder();
-      sb.Append($"{header.ID} {MapHeader.nameSeparator.Trim()} {internalNames[header.ID].Trim()} - {locationName}\n");
-
-      sb.Append("\n");
       sb.Append($"Headbutt Encounter File {headbuttEncounterFile.ID}\n");
+      sb.Append($"Header File {mapHeader.ID}\n");
+      sb.Append($"Internal Name: {internalNames[mapHeader.ID].Trim()}\n");
+      sb.Append($"Location Name: {locationName}\n");
+      sb.Append("\n");
 
-      sb.Append($"  Normal Encounters\n");
+      sb.Append($"Normal Encounters\n");
       WriteEncounters(sb, headbuttEncounterFile.normalEncounters, pokemonNames);
       sb.Append("\n");
-      WriteCoordinates(sb, headbuttEncounterFile.normalTreeGroups);
+      var n = WriteCoordinates(sb, headbuttEncounterFile.normalTreeGroups);
       sb.Append("\n");
 
       sb.Append("\n");
 
-      sb.Append($"  Special Encounters\n");
+      sb.Append($"Special Encounters\n");
       WriteEncounters(sb, headbuttEncounterFile.specialEncounters, pokemonNames);
       sb.Append("\n");
-      WriteCoordinates(sb, headbuttEncounterFile.specialTreeGroups);
+      var s = WriteCoordinates(sb, headbuttEncounterFile.specialTreeGroups);
       sb.Append("\n");
 
-      return sb.ToString();
-    }
-
-    static void WriteEncounters(StringBuilder sb, List<HeadbuttEncounter> encounters, string[] pokemonNames) {
-      sb.Append($"     Min Level       Max Level\n");
-      foreach (HeadbuttEncounter encounter in encounters) {
-        string pokemon = pokemonNames[encounter.pokemonID];
-        sb.Append($"     {encounter.minLevel,9}       {encounter.maxLevel,9}   {pokemon,10}\n");
+      string path = Path.Combine(dir, $"{headbuttEncounterFile.ID.ToString("D4")}.txt");
+      using (StreamWriter writer = new StreamWriter(path)) {
+        writer.Write(sb.ToString());
       }
-    }
 
-    static void WriteCoordinates(StringBuilder sb, BindingList<HeadbuttTreeGroup> treeGroups) {
-      int iii;
-      sb.Append($"  Coordinates\n");
-      iii = 0;
-      foreach (var treeGroup in treeGroups) {
-        foreach (var tree in treeGroup.trees) {
-          if (tree.unused) continue;
-          sb.Append($"{tree.globalX},{tree.globalY}".PadLeft(9));
-          iii += 1;
-          if (iii % 10 == 0) {
-            sb.Append("\n");
-          }
-          else {
-            sb.Append(" ");
-          }
-        }
-      }
-    }
-
-    public void WriteFile(string path) {
-      string report_dir = Path.GetDirectoryName(path);
+      report_dir = Path.Combine(dir, "headbutt_encounter_maps");
       if (!Directory.Exists(report_dir)) {
         Directory.CreateDirectory(report_dir);
       }
 
-      using (StreamWriter writer = new StreamWriter(path)) {
-        writer.Write(this.ToString());
+      foreach (var kv in n) {
+        Pen paintPen = new Pen(Color.FromArgb(128, Color.LimeGreen));
+        SolidBrush paintBrush = new SolidBrush(Color.FromArgb(128, Color.LimeGreen));
+        writeImage(report_dir, kv.Key, kv.Value, paintPen, paintBrush);
       }
+
+      foreach (var kv in s) {
+        Pen paintPen = new Pen(Color.FromArgb(128, Color.Red));
+        SolidBrush paintBrush = new SolidBrush(Color.FromArgb(128, Color.Red));
+        writeImage(report_dir, kv.Key, kv.Value, paintPen, paintBrush);
+      }
+    }
+
+    void writeImage(string dir, int mapID, List<HeadbuttTree> trees, Pen paintPen, SolidBrush paintBrush) {
+      var currentMapFile = new MapFile(mapID, RomInfo.gameFamily, discardMoveperms: true);
+      Bitmap bm = RenderMap(currentMapFile);
+
+      using (Graphics gSmall = Graphics.FromImage(bm)) {
+        foreach (HeadbuttTree tree in trees) {
+          int tileWidth = openGlControl.Width / MapFile.mapSize;
+          int tileHeight = openGlControl.Height / MapFile.mapSize;
+          Rectangle smallCell = new Rectangle(tree.mapX * tileWidth, tree.mapY * tileHeight, tileWidth, tileHeight);
+          gSmall.DrawRectangle(paintPen, smallCell);
+          gSmall.FillRectangle(paintBrush, smallCell);
+        }
+      }
+
+      string path2 = Path.Combine(dir, $"{headbuttEncounterFile.ID.ToString("D4")}_{mapID.ToString("D4")}.jpg");
+      bm.Save(path2, ImageFormat.Jpeg);
+      bm.Dispose();
+    }
+
+    void WriteEncounters(StringBuilder sb, List<HeadbuttEncounter> encounters, string[] pokemonNames) {
+      sb.Append($"   Min   Max\n");
+      foreach (HeadbuttEncounter encounter in encounters) {
+        string pokemon = pokemonNames[encounter.pokemonID];
+        sb.Append($"   {encounter.minLevel,3}   {encounter.maxLevel,3}   {pokemon,10}\n");
+      }
+    }
+
+    Dictionary<int, List<HeadbuttTree>> WriteCoordinates(StringBuilder sb, BindingList<HeadbuttTreeGroup> treeGroups) {
+      sb.Append($"   Coordinates\n");
+
+      Dictionary<int, List<HeadbuttTree>> ids = new Dictionary<int, List<HeadbuttTree>>();
+
+      foreach (var treeGroup in treeGroups) {
+        foreach (var tree in treeGroup.trees) {
+          if (tree.unused) continue;
+          sb.Append($"   {tree.globalX.ToString(),4},{tree.globalY.ToString(),4} {tree.matrixX.ToString(),2},{tree.matrixY.ToString(),2} {tree.mapX.ToString(),2},{tree.mapY.ToString(),2}\n");
+
+          if (mapHeader.ID == GameMatrix.EMPTY) continue;
+          if (tree.matrixX >= matrix.width || tree.matrixY >= matrix.height) continue;
+          ushort mapIndex = matrix.maps[tree.matrixY, tree.matrixX];
+          if (mapIndex == GameMatrix.EMPTY) continue;
+
+          if (!ids.ContainsKey((int)mapIndex)) {
+            ids[(int)mapIndex] = new List<HeadbuttTree>();
+          }
+
+          ids[(int)mapIndex].Add(tree);
+        }
+      }
+
+      return ids;
+    }
+
+    public void WriteFile(string dir) {
+      BuildReport(dir);
     }
   }
 
@@ -522,70 +624,70 @@ namespace DSPRE {
     //20 10 5 4 1
     public override string ToString() {
       StringBuilder sb = new StringBuilder();
-      sb.Append($"{locationName}\n");
-      sb.Append("\n");
       sb.Append($"Encounter File {this.id}\n");
-      sb.Append($"  Walking - {walkingRate}%\n");
-      sb.Append($"     Rate   Level         Morning             Day           Night\n");
-      sb.Append($"      20%   {rateRow(twentyFirstLevel, morningTwentyFirstPokemon, dayTwentyFirstPokemon, nightTwentyFirstPokemon)}\n");
-      sb.Append($"      20%   {rateRow(twentySecondLevel, morningTwentySecondPokemon, dayTwentySecondPokemon, nightTwentySecondPokemon)}\n");
-      sb.Append($"      10%   {rateRow(tenFirstLevel, morningTenFirstPokemon, dayTenFirstPokemon, nightTenFirstPokemon)}\n");
-      sb.Append($"      10%   {rateRow(tenSecondLevel, morningTenSecondPokemon, dayTenSecondPokemon, nightTenSecondPokemon)}\n");
-      sb.Append($"      10%   {rateRow(tenThirdLevel, morningTenThirdPokemon, dayTenThirdPokemon, nightTenThirdPokemon)}\n");
-      sb.Append($"      10%   {rateRow(tenFourthLevel, morningTenFourthPokemon, dayTenFourthPokemon, nightTenFourthPokemon)}\n");
-      sb.Append($"       5%   {rateRow(fiveFirstLevel, morningFiveFirstPokemon, dayFiveFirstPokemon, nightFiveFirstPokemon)}\n");
-      sb.Append($"       5%   {rateRow(fiveSecondLevel, morningFiveSecondPokemon, dayFiveSecondPokemon, nightFiveSecondPokemon)}\n");
-      sb.Append($"       4%   {rateRow(fourFirstLevel, morningFourFirstPokemon, dayFourFirstPokemon, nightFourFirstPokemon)}\n");
-      sb.Append($"       4%   {rateRow(fourSecondLevel, morningFourSecondPokemon, dayFourSecondPokemon, nightFourSecondPokemon)}\n");
-      sb.Append($"       1%   {rateRow(oneFirstLevel, morningOneFirstPokemon, dayOneFirstPokemon, nightOneFirstPokemon)}\n");
-      sb.Append($"       1%   {rateRow(oneSecondLevel, morningOneSecondPokemon, dayOneSecondPokemon, nightOneSecondPokemon)}\n");
+      sb.Append($"{locationName}");
       sb.Append("\n");
-      sb.Append($"  Radio\n");
-      sb.Append($"       Hoenn   {radioRow(hoennFirstPokemon, hoennSecondPokemon)}\n");
-      sb.Append($"      Sinnoh   {radioRow(sinnohFirstPokemon, sinnohSecondPokemon)}\n");
+      sb.Append($"Walking - {walkingRate}%\n");
+      sb.Append($"   Rate   Level         Morning             Day           Night\n");
+      sb.Append($"    20%   {rateRow(twentyFirstLevel, morningTwentyFirstPokemon, dayTwentyFirstPokemon, nightTwentyFirstPokemon)}\n");
+      sb.Append($"    20%   {rateRow(twentySecondLevel, morningTwentySecondPokemon, dayTwentySecondPokemon, nightTwentySecondPokemon)}\n");
+      sb.Append($"    10%   {rateRow(tenFirstLevel, morningTenFirstPokemon, dayTenFirstPokemon, nightTenFirstPokemon)}\n");
+      sb.Append($"    10%   {rateRow(tenSecondLevel, morningTenSecondPokemon, dayTenSecondPokemon, nightTenSecondPokemon)}\n");
+      sb.Append($"    10%   {rateRow(tenThirdLevel, morningTenThirdPokemon, dayTenThirdPokemon, nightTenThirdPokemon)}\n");
+      sb.Append($"    10%   {rateRow(tenFourthLevel, morningTenFourthPokemon, dayTenFourthPokemon, nightTenFourthPokemon)}\n");
+      sb.Append($"     5%   {rateRow(fiveFirstLevel, morningFiveFirstPokemon, dayFiveFirstPokemon, nightFiveFirstPokemon)}\n");
+      sb.Append($"     5%   {rateRow(fiveSecondLevel, morningFiveSecondPokemon, dayFiveSecondPokemon, nightFiveSecondPokemon)}\n");
+      sb.Append($"     4%   {rateRow(fourFirstLevel, morningFourFirstPokemon, dayFourFirstPokemon, nightFourFirstPokemon)}\n");
+      sb.Append($"     4%   {rateRow(fourSecondLevel, morningFourSecondPokemon, dayFourSecondPokemon, nightFourSecondPokemon)}\n");
+      sb.Append($"     1%   {rateRow(oneFirstLevel, morningOneFirstPokemon, dayOneFirstPokemon, nightOneFirstPokemon)}\n");
+      sb.Append($"     1%   {rateRow(oneSecondLevel, morningOneSecondPokemon, dayOneSecondPokemon, nightOneSecondPokemon)}\n");
       sb.Append("\n");
-      sb.Append($"   Swarm\n");
-      sb.Append($"       Grass   {swarmRow(grassSwarmPokemon)}\n");
-      sb.Append($"        Surf   {swarmRow(surfSwarmPokemon)}\n");
-      sb.Append($"    Good Rod   {swarmRow(goodRodSwarmPokemon)}\n");
-      sb.Append($"   Super Rod   {swarmRow(superRodSwarmPokemon)}\n");
+      sb.Append($"Radio\n");
+      sb.Append($"     Hoenn   {radioRow(hoennFirstPokemon, hoennSecondPokemon)}\n");
+      sb.Append($"    Sinnoh   {radioRow(sinnohFirstPokemon, sinnohSecondPokemon)}\n");
       sb.Append("\n");
-      sb.Append($"  Rock Smash - {rockSmashRate}%\n");
-      sb.Append($"        Rate         Min Level       Max Level\n");
-      sb.Append($"         90%   {rockSmashRow(rockSmashNinetyMinLevel, rockSmashNinetyMaxLevel, rockSmashNinetyPokemon)}\n");
-      sb.Append($"         10%   {rockSmashRow(rockSmashTenMinLevel, rockSmashTenMaxLevel, rockSmashTenPokemon)}\n");
+      sb.Append($"Swarm\n");
+      sb.Append($"     Grass   {swarmRow(grassSwarmPokemon)}\n");
+      sb.Append($"      Surf   {swarmRow(surfSwarmPokemon)}\n");
+      sb.Append($"  Good Rod   {swarmRow(goodRodSwarmPokemon)}\n");
+      sb.Append($" Super Rod   {swarmRow(superRodSwarmPokemon)}\n");
       sb.Append("\n");
-      sb.Append($"  Surfing - {surfRate}%\n");
-      sb.Append($"        Rate         Min Level       Max Level\n");
-      sb.Append($"         60%   {rockSmashRow(surfSixtyMinLevel, surfSixtyMaxLevel, surfSixtyPokemon)}\n");
-      sb.Append($"         30%   {rockSmashRow(surfThirtyMinLevel, surfThirtyMaxLevel, surfThirtyPokemon)}\n");
-      sb.Append($"          5%   {rockSmashRow(surfFiveMinLevel, surfFiveMaxLevel, surfFivePokemon)}\n");
-      sb.Append($"          4%   {rockSmashRow(surfFourMinLevel, surfFourMaxLevel, surfFourPokemon)}\n");
-      sb.Append($"          1%   {rockSmashRow(surfOneMinLevel, surfOneMaxLevel, surfOnePokemon)}\n");
+      sb.Append($"Rock Smash - {rockSmashRate}%\n");
+      sb.Append($"      Rate   Min   Max\n");
+      sb.Append($"       90%   {rockSmashRow(rockSmashNinetyMinLevel, rockSmashNinetyMaxLevel, rockSmashNinetyPokemon)}\n");
+      sb.Append($"       10%   {rockSmashRow(rockSmashTenMinLevel, rockSmashTenMaxLevel, rockSmashTenPokemon)}\n");
       sb.Append("\n");
-      sb.Append($"  Old Rod - {oldRodRate}%\n");
-      sb.Append($"        Rate         Min Level       Max Level\n");
-      sb.Append($"         60%   {rockSmashRow(oldRodSixtyMinLevel, oldRodSixtyMaxLevel, oldRodSixtyPokemon)}\n");
-      sb.Append($"         30%   {rockSmashRow(oldRodThirtyMinLevel, oldRodThirtyMaxLevel, oldRodThirtyPokemon)}\n");
-      sb.Append($"          5%   {rockSmashRow(oldRodFiveMinLevel, oldRodFiveMaxLevel, oldRodFivePokemon)}\n");
-      sb.Append($"          4%   {rockSmashRow(oldRodFourMinLevel, oldRodFourMaxLevel, oldRodFourPokemon)}\n");
-      sb.Append($"          1%   {rockSmashRow(oldRodOneMinLevel, oldRodOneMaxLevel, oldRodOnePokemon)}\n");
+      sb.Append($"Surfing - {surfRate}%\n");
+      sb.Append($"      Rate   Min   Max\n");
+      sb.Append($"       60%   {rockSmashRow(surfSixtyMinLevel, surfSixtyMaxLevel, surfSixtyPokemon)}\n");
+      sb.Append($"       30%   {rockSmashRow(surfThirtyMinLevel, surfThirtyMaxLevel, surfThirtyPokemon)}\n");
+      sb.Append($"        5%   {rockSmashRow(surfFiveMinLevel, surfFiveMaxLevel, surfFivePokemon)}\n");
+      sb.Append($"        4%   {rockSmashRow(surfFourMinLevel, surfFourMaxLevel, surfFourPokemon)}\n");
+      sb.Append($"        1%   {rockSmashRow(surfOneMinLevel, surfOneMaxLevel, surfOnePokemon)}\n");
       sb.Append("\n");
-      sb.Append($"  Good Rod - {goodRodRate}%\n");
-      sb.Append($"        Rate         Min Level       Max Level\n");
-      sb.Append($"         40%   {rockSmashRow(goodRodFirstFortyMinLevel, goodRodFirstFortyMaxLevel, goodRodFirstFortyPokemon)}\n");
-      sb.Append($"         40%   {rockSmashRow(goodRodSecondFortyMinLevel, goodRodSecondFortyMaxLevel, goodRodSecondFortyPokemon)}\n");
-      sb.Append($"         15%   {rockSmashRow(goodRodFifteenMinLevel, goodRodFifteenMaxLevel, goodRodFifteenPokemon)}\n");
-      sb.Append($"          4%   {rockSmashRow(goodRodFourMinLevel, goodRodFourMaxLevel, goodRodFourPokemon)}\n");
-      sb.Append($"          1%   {rockSmashRow(goodRodOneMinLevel, goodRodOneMaxLevel, goodRodOnePokemon)}\n");
+      sb.Append($"Old Rod - {oldRodRate}%\n");
+      sb.Append($"      Rate   Min   Max\n");
+      sb.Append($"       60%   {rockSmashRow(oldRodSixtyMinLevel, oldRodSixtyMaxLevel, oldRodSixtyPokemon)}\n");
+      sb.Append($"       30%   {rockSmashRow(oldRodThirtyMinLevel, oldRodThirtyMaxLevel, oldRodThirtyPokemon)}\n");
+      sb.Append($"        5%   {rockSmashRow(oldRodFiveMinLevel, oldRodFiveMaxLevel, oldRodFivePokemon)}\n");
+      sb.Append($"        4%   {rockSmashRow(oldRodFourMinLevel, oldRodFourMaxLevel, oldRodFourPokemon)}\n");
+      sb.Append($"        1%   {rockSmashRow(oldRodOneMinLevel, oldRodOneMaxLevel, oldRodOnePokemon)}\n");
       sb.Append("\n");
-      sb.Append($"  Super Rod - {superRodRate}%\n");
-      sb.Append($"        Rate         Min Level       Max Level\n");
-      sb.Append($"         40%   {rockSmashRow(superRodFirstFortyMinLevel, superRodFirstFortyMaxLevel, superRodFirstFortyPokemon)}\n");
-      sb.Append($"         40%   {rockSmashRow(superRodSecondFortyMinLevel, superRodSecondFortyMaxLevel, superRodSecondFortyPokemon)}\n");
-      sb.Append($"         15%   {rockSmashRow(superRodFifteenMinLevel, superRodFifteenMaxLevel, superRodFifteenPokemon)}\n");
-      sb.Append($"          4%   {rockSmashRow(superRodFourMinLevel, superRodFourMaxLevel, superRodFourPokemon)}\n");
-      sb.Append($"          1%   {rockSmashRow(superRodOneMinLevel, superRodOneMaxLevel, superRodOnePokemon)}\n");
+      sb.Append($"Good Rod - {goodRodRate}%\n");
+      sb.Append($"      Rate   Min   Max\n");
+      sb.Append($"       40%   {rockSmashRow(goodRodFirstFortyMinLevel, goodRodFirstFortyMaxLevel, goodRodFirstFortyPokemon)}\n");
+      sb.Append($"       40%   {rockSmashRow(goodRodSecondFortyMinLevel, goodRodSecondFortyMaxLevel, goodRodSecondFortyPokemon)}\n");
+      sb.Append($"       15%   {rockSmashRow(goodRodFifteenMinLevel, goodRodFifteenMaxLevel, goodRodFifteenPokemon)}\n");
+      sb.Append($"        4%   {rockSmashRow(goodRodFourMinLevel, goodRodFourMaxLevel, goodRodFourPokemon)}\n");
+      sb.Append($"        1%   {rockSmashRow(goodRodOneMinLevel, goodRodOneMaxLevel, goodRodOnePokemon)}\n");
+      sb.Append("\n");
+      sb.Append($"Super Rod - {superRodRate}%\n");
+      sb.Append($"      Rate   Min   Max\n");
+      sb.Append($"       40%   {rockSmashRow(superRodFirstFortyMinLevel, superRodFirstFortyMaxLevel, superRodFirstFortyPokemon)}\n");
+      sb.Append($"       40%   {rockSmashRow(superRodSecondFortyMinLevel, superRodSecondFortyMaxLevel, superRodSecondFortyPokemon)}\n");
+      sb.Append($"       15%   {rockSmashRow(superRodFifteenMinLevel, superRodFifteenMaxLevel, superRodFifteenPokemon)}\n");
+      sb.Append($"        4%   {rockSmashRow(superRodFourMinLevel, superRodFourMaxLevel, superRodFourPokemon)}\n");
+      sb.Append($"        1%   {rockSmashRow(superRodOneMinLevel, superRodOneMaxLevel, superRodOnePokemon)}\n");
       sb.Append("\n");
 
       return sb.ToString();
@@ -596,15 +698,15 @@ namespace DSPRE {
     }
 
     string radioRow(string a, string b) {
-      return $"{a.PadLeft(15)} {b.PadLeft(15)}";
+      return $"{a.PadLeft(10)} {b.PadLeft(10)}";
     }
 
     string swarmRow(string a) {
-      return $"{a.PadLeft(15)}";
+      return $"{a.PadLeft(10)}";
     }
 
     string rockSmashRow(byte a, byte b, string c) {
-      return $"{a.ToString().PadLeft(15)} {b.ToString().PadLeft(15)} {c.PadLeft(15)}";
+      return $"{a.ToString(),3}   {b.ToString(),3}   {c,10}";
     }
 
     public void WriteFile(string path) {
@@ -627,19 +729,19 @@ namespace DSPRE {
       string[] pokemonNames = RomInfo.GetPokemonNames();
       TextArchive currentTextArchive = new TextArchive(RomInfo.locationNamesTextNumber);
 
-      Dictionary<int, List<MapHeaderHGSS>> map = new Dictionary<int, List<MapHeaderHGSS>>();
+      Dictionary<int, List<MapHeaderHGSS>> headerEncounters = new Dictionary<int, List<MapHeaderHGSS>>();
       Dictionary<MapHeaderHGSS, HeadbuttEncounterFile> headbuttEncounters = new Dictionary<MapHeaderHGSS, HeadbuttEncounterFile>();
 
       //collect headers that use the same encounter file
       for (ushort i = 0; i < headerListBoxNames.Count; i++) {
-        MapHeaderHGSS header = (MapHeaderHGSS)MapHeader.GetMapHeader(i);
+        MapHeaderHGSS mapHeader = (MapHeaderHGSS)MapHeader.GetMapHeader(i);
 
-        ushort wildPokemon = header.wildPokemon;
-        if (!map.ContainsKey(wildPokemon)) {
-          map[wildPokemon] = new List<MapHeaderHGSS>();
+        ushort encounterID = mapHeader.wildPokemon;
+        if (!headerEncounters.ContainsKey(encounterID)) {
+          headerEncounters[encounterID] = new List<MapHeaderHGSS>();
         }
 
-        map[wildPokemon].Add(header);
+        headerEncounters[encounterID].Add(mapHeader);
       }
 
       List<string> allEncounters = new List<string>();
@@ -666,8 +768,7 @@ namespace DSPRE {
         HeadbuttEncounterFile headbuttEncounterFile = new HeadbuttEncounterFile(i);
 
         WildHeadbuttReport report = new WildHeadbuttReport(header, headbuttEncounterFile);
-        string report_path = Path.Combine(dir, "headbutt_encounters", $"{headbuttEncounterFile.ID.ToString("D4")}.txt");
-        report.WriteFile(report_path);
+        report.WriteFile(dir);
 
         allEncounters.AddRange(report.normalEncounters);
         allEncounters.AddRange(report.specialEncounters);
@@ -676,7 +777,7 @@ namespace DSPRE {
         allHeadbuttSpecialEncounters.AddRange(report.specialEncounters);
       }
 
-      foreach (KeyValuePair<int, List<MapHeaderHGSS>> kv in map) {
+      foreach (KeyValuePair<int, List<MapHeaderHGSS>> kv in headerEncounters) {
         int wildPokemon = kv.Key;
         List<MapHeaderHGSS> headers = kv.Value;
 

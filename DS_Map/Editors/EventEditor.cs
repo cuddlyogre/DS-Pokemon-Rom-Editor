@@ -1898,7 +1898,6 @@ namespace DSPRE.Editors {
         using (Graphics g = Graphics.FromImage(openGlPictureBox.BackgroundImage)) {
           g.Clear(Color.Black);
         }
-
         currentMapFile = null;
       }
       else {
@@ -1938,17 +1937,16 @@ namespace DSPRE.Editors {
           Helpers.MW_LoadModelTextures(building, areaData.buildingsTileset); // Load building textures                
         }
 
+        int width = openGlControl.Width;
+        int height = openGlControl.Height;
         float ang = 0f;
         float dist = 115.0f;
         float elev = 90f;
         float perspective = 4f;
-        bool mapTexturesOn = true;
-        bool bldTexturesOn = true;
-        Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
-        openGlPictureBox.BackgroundImage = Helpers.GrabMapScreenshot(openGlControl.Width, openGlControl.Height);
+        Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, width, height, ang, dist, elev, perspective);
+        openGlControl.Invalidate();
+        openGlPictureBox.BackgroundImage = Helpers.GrabMapScreenshot(width, height);
       }
-
-      openGlPictureBox.Invalidate();
     }
 
     private void selectEventComboBox_SelectedIndexChanged(object sender, EventArgs e) {

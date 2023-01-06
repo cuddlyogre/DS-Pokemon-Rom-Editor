@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
 using DSPRE.ROMFiles;
+using LibNDSFormats.NSBMD;
+using Tao.OpenGl;
 
 namespace DSPRE.Editors {
   public partial class HeadbuttEncounterEditor : UserControl {
@@ -13,7 +17,7 @@ namespace DSPRE.Editors {
       InitializeComponent();
     }
 
-    public void SetupHeadbuttEncounterEditor(bool force=false) {
+    public void SetupHeadbuttEncounterEditor(bool force = false) {
       if (headbuttEncounterEditorIsReady && !force) return;
       headbuttEncounterEditorIsReady = true;
 
@@ -85,6 +89,79 @@ namespace DSPRE.Editors {
       else {
         currentHeadbuttEncounterFile.SaveToFile(saveFileDialog1.FileName);
       }
+    }
+
+    private void mapScreenshotButton_Click(object sender, EventArgs e) {
+      // MessageBox.Show("Choose where to save the map screenshot.", "Choose destination path", MessageBoxButtons.OK, MessageBoxIcon.Information);
+      // SaveFileDialog imageSFD = new SaveFileDialog {
+      //   Filter = "PNG File(*.png)|*.png",
+      // };
+      // if (imageSFD.ShowDialog() != DialogResult.OK) {
+      //   return;
+      // }
+      //
+      // Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
+      //
+      // int newW = 512, newH = 512;
+      // Bitmap newImage = new Bitmap(newW, newH);
+      // using (var graphCtr = Graphics.FromImage(newImage)) {
+      //   graphCtr.SmoothingMode = SmoothingMode.HighQuality;
+      //   graphCtr.InterpolationMode = InterpolationMode.NearestNeighbor;
+      //   graphCtr.PixelOffsetMode = PixelOffsetMode.HighQuality;
+      //   graphCtr.DrawImage(Helpers.GrabMapScreenshot(openGlControl.Width, openGlControl.Height), 0, 0, newW, newH);
+      // }
+      //
+      // newImage.Save(imageSFD.FileName);
+      // MessageBox.Show("Screenshot saved.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+    }
+
+    private void radio2D_CheckedChanged(object sender, EventArgs e) {
+      // bool _2dmodeSelected = radio2D.Checked;
+      //
+      // if (_2dmodeSelected) {
+      //   SetCam2D();
+      // }
+      // else {
+      //   SetCam3D();
+      // }
+      //
+      // bldPlaceWithMouseCheckbox.Enabled = _2dmodeSelected;
+      // radio3D.Checked = !_2dmodeSelected;
+      //
+      // bldPlaceWithMouseCheckbox_CheckedChanged(null, null);
+    }
+
+    private void wireframeCheckBox_CheckedChanged(object sender, EventArgs e) {
+      SetCamWireframe();
+    }
+
+    private void SetCam2D() {
+      // perspective = 4f;
+      // ang = 0f;
+      // dist = 115.2f;
+      // elev = 90f;
+      //
+      // Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
+    }
+
+    private void SetCam3D() {
+      // perspective = 45f;
+      // ang = 0f;
+      // dist = 12.8f;
+      // elev = 50.0f;
+      //
+      // Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
+    }
+
+    private void SetCamWireframe() {
+      // if (wireframeCheckBox.Checked) {
+      //   Gl.glPolygonMode(Gl.GL_FRONT_AND_BACK, Gl.GL_LINE);
+      // }
+      // else {
+      //   Gl.glPolygonMode(Gl.GL_FRONT_AND_BACK, Gl.GL_FILL);
+      // }
+      //
+      // Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
     }
   }
 }

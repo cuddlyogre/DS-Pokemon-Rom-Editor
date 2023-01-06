@@ -158,7 +158,7 @@ namespace DSPRE {
       Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
     }
 
-    public static void RenderMap(ref NSBMDGlRenderer mapRenderer, ref NSBMDGlRenderer buildingsRenderer, ref MapFile mapFile, SimpleOpenGlControl openGlControl, float ang, float dist, float elev, float perspective, bool mapTexturesON = true, bool buildingTexturesON = true) {
+    public static void RenderMap(ref NSBMDGlRenderer mapRenderer, ref NSBMDGlRenderer buildingsRenderer, ref MapFile mapFile, int width, int height, float ang, float dist, float elev, float perspective, bool mapTexturesON = true, bool buildingTexturesON = true) {
       #region Useless variables that the rendering API still needs
 
       MKDS_Course_Editor.NSBTA.NSBTA.NSBTA_File ani = new MKDS_Course_Editor.NSBTA.NSBTA.NSBTA_File();
@@ -168,44 +168,49 @@ namespace DSPRE {
 
       #endregion
 
-      /* Invalidate drawing surfaces */
-      openGlControl.Invalidate();
-
       /* Adjust rendering settings */
-      SetupRenderer(ang, dist, elev, perspective, openGlControl.Width, openGlControl.Height);
+      SetupRenderer(ang, dist, elev, perspective, width, height);
 
       /* Render the map model */
-      mapRenderer.Model = mapFile.mapModel.models[0];
-      Gl.glScalef(mapFile.mapModel.models[0].modelScale / 64, mapFile.mapModel.models[0].modelScale / 64, mapFile.mapModel.models[0].modelScale / 64);
+      NSBMD model = mapFile.mapModel;
+      mapRenderer.Model = model.models[0];
+
+      // int scale = 64;
+      float scale = 0.015625f;
+      Gl.glScalef(mapRenderer.Model.modelScale * scale, mapRenderer.Model.modelScale * scale, mapRenderer.Model.modelScale * scale);
 
       /* Determine if map textures must be rendered */
-      if (!mapTexturesON) {
-        Gl.glDisable(Gl.GL_TEXTURE_2D);
-      }
-      else {
+      if (mapTexturesON) {
         Gl.glEnable(Gl.GL_TEXTURE_2D);
       }
+      else {
+        Gl.glDisable(Gl.GL_TEXTURE_2D);
+      }
 
-      mapRenderer.RenderModel("", ani, aniframeS, aniframeS, aniframeS, aniframeS, aniframeS, ca, false, -1, 0.0f, 0.0f, dist, elev, ang, true, tp, mapFile.mapModel); // Render map model
+      // Render map model
+      mapRenderer.RenderModel("", ani, aniframeS, aniframeS, aniframeS, aniframeS, aniframeS, ca, false, -1, 0.0f, 0.0f, dist, elev, ang, true, tp, model);
 
-      if (!hideBuildings) {
-        if (buildingTexturesON) {
-          Gl.glEnable(Gl.GL_TEXTURE_2D);
+      if (hideBuildings) {
+        return;
+      }
+
+      if (buildingTexturesON) {
+        Gl.glEnable(Gl.GL_TEXTURE_2D);
+      }
+      else {
+        Gl.glDisable(Gl.GL_TEXTURE_2D);
+      }
+
+      for (int i = 0; i < mapFile.buildings.Count; i++) {
+        Building building = mapFile.buildings[i];
+        NSBMD file = building.NSBMDFile;
+        if (file is null) {
+          Console.WriteLine("Null building can't be rendered");
         }
         else {
-          Gl.glDisable(Gl.GL_TEXTURE_2D);
-        }
-
-        for (int i = 0; i < mapFile.buildings.Count; i++) {
-          NSBMD file = mapFile.buildings[i].NSBMDFile;
-          if (file is null) {
-            Console.WriteLine("Null building can't be rendered");
-          }
-          else {
-            buildingsRenderer.Model = file.models[0];
-            ScaleTranslateRotateBuilding(mapFile.buildings[i]);
-            buildingsRenderer.RenderModel("", ani, aniframeS, aniframeS, aniframeS, aniframeS, aniframeS, ca, false, -1, 0.0f, 0.0f, dist, elev, ang, true, tp, file);
-          }
+          buildingsRenderer.Model = file.models[0];
+          ScaleTranslateRotateBuilding(building);
+          buildingsRenderer.RenderModel("", ani, aniframeS, aniframeS, aniframeS, aniframeS, aniframeS, ca, false, -1, 0.0f, 0.0f, dist, elev, ang, true, tp, file);
         }
       }
     }

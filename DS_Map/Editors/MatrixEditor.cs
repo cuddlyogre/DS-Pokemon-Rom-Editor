@@ -50,16 +50,18 @@ namespace DSPRE.Editors {
       selectMatrixComboBox.SelectedIndex = matrixID;
       EditorPanels.mainTabControl.SelectedTab = EditorPanels.matrixEditorTabPage;
 
-      if (currentMatrix.hasHeadersSection) {
-        matrixTabControl.SelectedTab = headersTabPage;
+      if (!currentMatrix.hasHeadersSection) {
+        return;
+      }
 
-        //Autoselect cell containing current header, if such cell exists [and if current matrix has headers sections]
-        for (int i = 0; i < headersGridView.RowCount; i++) {
-          for (int j = 0; j < headersGridView.ColumnCount; j++) {
-            if (headerID.ToString() == headersGridView.Rows[i].Cells[j].Value.ToString()) {
-              headersGridView.CurrentCell = headersGridView.Rows[i].Cells[j];
-              return;
-            }
+      matrixTabControl.SelectedTab = headersTabPage;
+
+      //Autoselect cell containing current header, if such cell exists [and if current matrix has headers sections]
+      for (int i = 0; i < headersGridView.RowCount; i++) {
+        for (int j = 0; j < headersGridView.ColumnCount; j++) {
+          if (headerID.ToString() == headersGridView.Rows[i].Cells[j].Value.ToString()) {
+            headersGridView.CurrentCell = headersGridView.Rows[i].Cells[j];
+            return;
           }
         }
       }
