@@ -33,8 +33,18 @@ namespace DSPRE {
     int height = 608;
     static SimpleOpenGlControl2 openGlControl;
 
-    public WildHeadbuttReport(MapHeaderHGSS mapHeader, HeadbuttEncounterFile headbuttEncounterFile) {
-      DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames>() { RomInfo.DirNames.headbutt });
+    public WildHeadbuttReport(ushort i) {
+      DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames>() {
+        RomInfo.DirNames.dynamicHeaders,
+        RomInfo.DirNames.matrices,
+        RomInfo.DirNames.textArchives,
+        RomInfo.DirNames.areaData,
+        RomInfo.DirNames.headbutt,
+        RomInfo.DirNames.maps,
+        RomInfo.DirNames.mapTextures,
+        RomInfo.DirNames.exteriorBuildingModels,
+        RomInfo.DirNames.buildingTextures,
+      });
 
       Tuple<List<string>, List<string>> headerNames = Helpers.BuildHeaderNames();
       List<string> headerListBoxNames = headerNames.Item1;
@@ -42,14 +52,13 @@ namespace DSPRE {
       string[] pokemonNames = RomInfo.GetPokemonNames();
       TextArchive currentTextArchive = new TextArchive(RomInfo.locationNamesTextNumber);
 
-      this.mapHeader = mapHeader;
+      this.mapHeader = (MapHeaderHGSS)MapHeader.GetMapHeader(i);
+      this.headbuttEncounterFile = new HeadbuttEncounterFile(i);
       this.matrix = new GameMatrix(mapHeader.matrixID);
       this.areaData = new AreaData(mapHeader.areaDataID);
-      SetCam2DValues();
-
-      this.headbuttEncounterFile = headbuttEncounterFile;
-      this.id = headbuttEncounterFile.ID;
       this.locationName = currentTextArchive.messages[mapHeader.locationName];
+
+      SetCam2DValues();
 
       if (openGlControl == null) {
         openGlControl = new SimpleOpenGlControl2();
@@ -82,8 +91,7 @@ namespace DSPRE {
       Helpers.MW_LoadModelTextures(currentMapFile, areaData.mapTileset);
 
       bool isInteriorMap = false;
-      bool hgss = RomInfo.gameVersion == RomInfo.GameVersions.HeartGold || RomInfo.gameVersion == RomInfo.GameVersions.SoulSilver;
-      if (hgss && areaData.areaType == 0x0) {
+      if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS && areaData.areaType == AreaData.TYPE_INDOOR) {
         isInteriorMap = true;
       }
 
@@ -122,7 +130,7 @@ namespace DSPRE {
       sb.Append($"Normal Encounters\n");
       WriteEncounters(sb, headbuttEncounterFile.normalEncounters, pokemonNames);
       sb.Append("\n");
-      var n = WriteCoordinates(sb, headbuttEncounterFile.normalTreeGroups);
+      Dictionary<int, List<HeadbuttTree>> normalCoordinates = WriteCoordinates(sb, headbuttEncounterFile.normalTreeGroups);
       sb.Append("\n");
 
       sb.Append("\n");
@@ -130,34 +138,43 @@ namespace DSPRE {
       sb.Append($"Special Encounters\n");
       WriteEncounters(sb, headbuttEncounterFile.specialEncounters, pokemonNames);
       sb.Append("\n");
-      var s = WriteCoordinates(sb, headbuttEncounterFile.specialTreeGroups);
+      Dictionary<int, List<HeadbuttTree>> specialCoordinates = WriteCoordinates(sb, headbuttEncounterFile.specialTreeGroups);
       sb.Append("\n");
 
+      write_text_report(dir, sb.ToString());
+      write_headbutt_encounter_maps(dir, normalCoordinates, true);
+      write_headbutt_encounter_maps(dir, specialCoordinates, false);
+    }
+
+    private void write_text_report(string dir, string reportText) {
       string path = Path.Combine(dir, $"{headbuttEncounterFile.ID.ToString("D4")}.txt");
       using (StreamWriter writer = new StreamWriter(path)) {
-        writer.Write(sb.ToString());
+        writer.Write(reportText);
       }
+    }
 
-      report_dir = Path.Combine(dir, "headbutt_encounter_maps");
+    private void write_headbutt_encounter_maps(string dir, Dictionary<int, List<HeadbuttTree>> coordinates, bool normal) {
+      string report_dir = Path.Combine(dir, "headbutt_encounter_maps");
       if (!Directory.Exists(report_dir)) {
         Directory.CreateDirectory(report_dir);
       }
 
-      foreach (var kv in n) {
-        Pen paintPen = new Pen(Color.FromArgb(128, Color.LimeGreen));
-        SolidBrush paintBrush = new SolidBrush(Color.FromArgb(128, Color.LimeGreen));
-        writeImage(report_dir, kv.Key, kv.Value, paintPen, paintBrush);
-      }
-
-      foreach (var kv in s) {
-        Pen paintPen = new Pen(Color.FromArgb(128, Color.Red));
-        SolidBrush paintBrush = new SolidBrush(Color.FromArgb(128, Color.Red));
-        writeImage(report_dir, kv.Key, kv.Value, paintPen, paintBrush);
+      foreach (KeyValuePair<int, List<HeadbuttTree>> kv in coordinates) {
+        if (normal) {
+          Pen paintPen = new Pen(Color.FromArgb(128, Color.LimeGreen));
+          SolidBrush paintBrush = new SolidBrush(Color.FromArgb(128, Color.LimeGreen));
+          writeImage(report_dir, kv.Key, kv.Value, paintPen, paintBrush);
+        }
+        else {
+          Pen paintPen = new Pen(Color.FromArgb(128, Color.Red));
+          SolidBrush paintBrush = new SolidBrush(Color.FromArgb(128, Color.Red));
+          writeImage(report_dir, kv.Key, kv.Value, paintPen, paintBrush);
+        }
       }
     }
 
     void writeImage(string dir, int mapID, List<HeadbuttTree> trees, Pen paintPen, SolidBrush paintBrush) {
-      var currentMapFile = new MapFile(mapID, RomInfo.gameFamily, discardMoveperms: true);
+      MapFile currentMapFile = new MapFile(mapID, RomInfo.gameFamily, discardMoveperms: true);
       Bitmap bm = RenderMap(currentMapFile);
 
       using (Graphics gSmall = Graphics.FromImage(bm)) {
@@ -184,12 +201,11 @@ namespace DSPRE {
     }
 
     Dictionary<int, List<HeadbuttTree>> WriteCoordinates(StringBuilder sb, BindingList<HeadbuttTreeGroup> treeGroups) {
-      sb.Append($"   Coordinates\n");
-
       Dictionary<int, List<HeadbuttTree>> ids = new Dictionary<int, List<HeadbuttTree>>();
 
-      foreach (var treeGroup in treeGroups) {
-        foreach (var tree in treeGroup.trees) {
+      sb.Append($"   Coordinates\n");
+      foreach (HeadbuttTreeGroup treeGroup in treeGroups) {
+        foreach (HeadbuttTree tree in treeGroup.trees) {
           if (tree.unused) continue;
           sb.Append($"   {tree.globalX.ToString(),4},{tree.globalY.ToString(),4} {tree.matrixX.ToString(),2},{tree.matrixY.ToString(),2} {tree.mapX.ToString(),2},{tree.mapY.ToString(),2}\n");
 
@@ -763,11 +779,7 @@ namespace DSPRE {
 
       int headerCount = MapHeader.GetHeaderCount();
       for (ushort i = 0; i < headerCount; i++) {
-        MapHeader currentHeader = MapHeader.GetMapHeader(i);
-        MapHeaderHGSS header = (MapHeaderHGSS)currentHeader;
-        HeadbuttEncounterFile headbuttEncounterFile = new HeadbuttEncounterFile(i);
-
-        WildHeadbuttReport report = new WildHeadbuttReport(header, headbuttEncounterFile);
+        WildHeadbuttReport report = new WildHeadbuttReport(i);
         report.WriteFile(dir);
 
         allEncounters.AddRange(report.normalEncounters);
@@ -823,7 +835,7 @@ namespace DSPRE {
 
       path = Path.Combine(dir, $"_{ii.ToString("D2")}_all_encounters.txt");
       using (StreamWriter writer = new StreamWriter(path)) {
-        foreach (var name in pokemonNames) {
+        foreach (string name in pokemonNames) {
           if (allEncounters.Contains(name)) {
             writer.WriteLine(name);
           }
@@ -834,7 +846,7 @@ namespace DSPRE {
 
       path = Path.Combine(dir, $"_{ii.ToString("D2")}_missing_encounters.txt");
       using (StreamWriter writer = new StreamWriter(path)) {
-        foreach (var name in pokemonNames) {
+        foreach (string name in pokemonNames) {
           if (!allEncounters.Contains(name)) {
             writer.WriteLine(name);
           }
@@ -845,7 +857,7 @@ namespace DSPRE {
 
       path = Path.Combine(dir, $"_{ii.ToString("D2")}_grass_encounters.txt");
       using (StreamWriter writer = new StreamWriter(path)) {
-        foreach (var name in pokemonNames) {
+        foreach (string name in pokemonNames) {
           if (allGrassEncounters.Contains(name)) {
             writer.WriteLine(name);
           }
@@ -856,7 +868,7 @@ namespace DSPRE {
 
       path = Path.Combine(dir, $"_{ii.ToString("D2")}_radio_hoenn_encounters.txt");
       using (StreamWriter writer = new StreamWriter(path)) {
-        foreach (var name in pokemonNames) {
+        foreach (string name in pokemonNames) {
           if (allRadioHeonnEncounters.Contains(name)) {
             writer.WriteLine(name);
           }
@@ -867,7 +879,7 @@ namespace DSPRE {
 
       path = Path.Combine(dir, $"_{ii.ToString("D2")}_radio_sinnoh_encounters.txt");
       using (StreamWriter writer = new StreamWriter(path)) {
-        foreach (var name in pokemonNames) {
+        foreach (string name in pokemonNames) {
           if (allRadioSinnohEncounters.Contains(name)) {
             writer.WriteLine(name);
           }
@@ -878,7 +890,7 @@ namespace DSPRE {
 
       path = Path.Combine(dir, $"_{ii.ToString("D2")}_swarm_grass_encounters.txt");
       using (StreamWriter writer = new StreamWriter(path)) {
-        foreach (var name in pokemonNames) {
+        foreach (string name in pokemonNames) {
           if (allSwarmGrassEncounters.Contains(name)) {
             writer.WriteLine(name);
           }
@@ -889,7 +901,7 @@ namespace DSPRE {
 
       path = Path.Combine(dir, $"_{ii.ToString("D2")}_swarm_surf_encounters.txt");
       using (StreamWriter writer = new StreamWriter(path)) {
-        foreach (var name in pokemonNames) {
+        foreach (string name in pokemonNames) {
           if (allSwarmSurfEncounters.Contains(name)) {
             writer.WriteLine(name);
           }
@@ -900,7 +912,7 @@ namespace DSPRE {
 
       path = Path.Combine(dir, $"_{ii.ToString("D2")}_swarm_good_rod_encounters.txt");
       using (StreamWriter writer = new StreamWriter(path)) {
-        foreach (var name in pokemonNames) {
+        foreach (string name in pokemonNames) {
           if (allSwarmGoodRodEncounters.Contains(name)) {
             writer.WriteLine(name);
           }
@@ -911,7 +923,7 @@ namespace DSPRE {
 
       path = Path.Combine(dir, $"_{ii.ToString("D2")}_swarm_super_rod_encounters.txt");
       using (StreamWriter writer = new StreamWriter(path)) {
-        foreach (var name in pokemonNames) {
+        foreach (string name in pokemonNames) {
           if (allSwarmSuperRodEncounters.Contains(name)) {
             writer.WriteLine(name);
           }
@@ -922,7 +934,7 @@ namespace DSPRE {
 
       path = Path.Combine(dir, $"_{ii.ToString("D2")}_rock_smash_encounters.txt");
       using (StreamWriter writer = new StreamWriter(path)) {
-        foreach (var name in pokemonNames) {
+        foreach (string name in pokemonNames) {
           if (allRockSmashEncounters.Contains(name)) {
             writer.WriteLine(name);
           }
@@ -933,7 +945,7 @@ namespace DSPRE {
 
       path = Path.Combine(dir, $"_{ii.ToString("D2")}_surf_encounters.txt");
       using (StreamWriter writer = new StreamWriter(path)) {
-        foreach (var name in pokemonNames) {
+        foreach (string name in pokemonNames) {
           if (allSurfEncounters.Contains(name)) {
             writer.WriteLine(name);
           }
@@ -944,7 +956,7 @@ namespace DSPRE {
 
       path = Path.Combine(dir, $"_{ii.ToString("D2")}_old_rod_encounters.txt");
       using (StreamWriter writer = new StreamWriter(path)) {
-        foreach (var name in pokemonNames) {
+        foreach (string name in pokemonNames) {
           if (allOldRodEncounters.Contains(name)) {
             writer.WriteLine(name);
           }
@@ -955,7 +967,7 @@ namespace DSPRE {
 
       path = Path.Combine(dir, $"_{ii.ToString("D2")}_good_rod_encounters.txt");
       using (StreamWriter writer = new StreamWriter(path)) {
-        foreach (var name in pokemonNames) {
+        foreach (string name in pokemonNames) {
           if (allGoodRodEncounters.Contains(name)) {
             writer.WriteLine(name);
           }
@@ -966,7 +978,7 @@ namespace DSPRE {
 
       path = Path.Combine(dir, $"_{ii.ToString("D2")}_super_rod_encounters.txt");
       using (StreamWriter writer = new StreamWriter(path)) {
-        foreach (var name in pokemonNames) {
+        foreach (string name in pokemonNames) {
           if (allSuperRodEncounters.Contains(name)) {
             writer.WriteLine(name);
           }
@@ -977,7 +989,7 @@ namespace DSPRE {
 
       path = Path.Combine(dir, $"_{ii.ToString("D2")}_normal_headbutt_encounters.txt");
       using (StreamWriter writer = new StreamWriter(path)) {
-        foreach (var name in pokemonNames) {
+        foreach (string name in pokemonNames) {
           if (allHeadbuttNormalEncounters.Contains(name)) {
             writer.WriteLine(name);
           }
@@ -988,7 +1000,7 @@ namespace DSPRE {
 
       path = Path.Combine(dir, $"_{ii.ToString("D2")}_special_headbutt_encounters.txt");
       using (StreamWriter writer = new StreamWriter(path)) {
-        foreach (var name in pokemonNames) {
+        foreach (string name in pokemonNames) {
           if (allHeadbuttSpecialEncounters.Contains(name)) {
             writer.WriteLine(name);
           }
