@@ -1926,8 +1926,7 @@ namespace DSPRE.Editors {
         Helpers.MW_LoadModelTextures(currentMapFile, areaData.mapTileset);
 
         bool isInteriorMap = false;
-        bool hgss = RomInfo.gameVersion == RomInfo.GameVersions.HeartGold || RomInfo.gameVersion == RomInfo.GameVersions.SoulSilver;
-        if (hgss && areaData.areaType == 0x0) {
+        if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS && areaData.areaType == AreaData.TYPE_INDOOR) {
           isInteriorMap = true;
         }
 

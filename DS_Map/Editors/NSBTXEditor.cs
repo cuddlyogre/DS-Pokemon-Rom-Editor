@@ -472,7 +472,7 @@ namespace DSPRE.Editors {
       if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
         areaDataDynamicTexturesNumericUpDown.Value = currentAreaData.dynamicTextureType;
 
-        bool interior = currentAreaData.areaType == 0;
+        bool interior = currentAreaData.areaType == AreaData.TYPE_INDOOR;
         indoorAreaRadioButton.Checked = interior;
         outdoorAreaRadioButton.Checked = !interior;
       }
