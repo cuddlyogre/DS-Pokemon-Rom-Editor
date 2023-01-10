@@ -201,6 +201,7 @@
     <Compile Include="ROMFiles\EncounterFileHGSS.cs" />
     <Compile Include="ROMFiles\Event.cs" />
     <Compile Include="ROMFiles\HeadbuttEncounter.cs" />
+    <Compile Include="ROMFiles\HeadbuttEncounterMap.cs" />
     <Compile Include="ROMFiles\HeadbuttTree.cs" />
     <Compile Include="ROMFiles\HeadbuttTreeGroup.cs" />
     <Compile Include="ROMFiles\LevelScriptTrigger.cs" />
