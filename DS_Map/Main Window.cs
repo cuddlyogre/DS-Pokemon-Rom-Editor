@@ -738,6 +738,7 @@ namespace DSPRE {
 
     private void tabPageHeabuttEncounterEditor_Enter(object sender, EventArgs e) {
       headbuttEncounterEditor.SetupHeadbuttEncounterEditor();
+      headbuttEncounterEditor.makeCurrent();
     }
 
     private void tabPageTextEditor_Enter(object sender, EventArgs e) {

@@ -12,19 +12,19 @@ using LibNDSFormats.NSBMD;
 namespace DSPRE {
   public class WildHeadbuttReport {
     readonly int id;
-    readonly string locationName;
 
     private MapHeaderHGSS mapHeader;
-    private GameMatrix matrix;
+    private HeadbuttEncounterFile headbuttEncounterFile;
+    private GameMatrix gameMatrix;
     private AreaData areaData;
+    readonly string locationName;
+
     public static NSBMDGlRenderer mapRenderer = new NSBMDGlRenderer();
     public static NSBMDGlRenderer buildingsRenderer = new NSBMDGlRenderer();
     private static float perspective;
     private static float ang;
     private static float dist;
     private static float elev;
-
-    private HeadbuttEncounterFile headbuttEncounterFile;
 
     public HashSet<string> normalEncounters = new HashSet<string>();
     public HashSet<string> specialEncounters = new HashSet<string>();
@@ -53,8 +53,8 @@ namespace DSPRE {
       TextArchive currentTextArchive = new TextArchive(RomInfo.locationNamesTextNumber);
 
       this.mapHeader = (MapHeaderHGSS)MapHeader.GetMapHeader(i);
-      this.headbuttEncounterFile = new HeadbuttEncounterFile(i);
-      this.matrix = new GameMatrix(mapHeader.matrixID);
+      this.headbuttEncounterFile = new HeadbuttEncounterFile(this.mapHeader.ID);
+      this.gameMatrix = new GameMatrix(mapHeader.matrixID);
       this.areaData = new AreaData(mapHeader.areaDataID);
       this.locationName = currentTextArchive.messages[mapHeader.locationName];
 
@@ -210,8 +210,8 @@ namespace DSPRE {
           sb.Append($"   {tree.globalX.ToString(),4},{tree.globalY.ToString(),4} {tree.matrixX.ToString(),2},{tree.matrixY.ToString(),2} {tree.mapX.ToString(),2},{tree.mapY.ToString(),2}\n");
 
           if (mapHeader.ID == GameMatrix.EMPTY) continue;
-          if (tree.matrixX >= matrix.width || tree.matrixY >= matrix.height) continue;
-          ushort mapIndex = matrix.maps[tree.matrixY, tree.matrixX];
+          if (tree.matrixX >= gameMatrix.width || tree.matrixY >= gameMatrix.height) continue;
+          ushort mapIndex = gameMatrix.maps[tree.matrixY, tree.matrixX];
           if (mapIndex == GameMatrix.EMPTY) continue;
 
           if (!ids.ContainsKey((int)mapIndex)) {

@@ -85,6 +85,7 @@ namespace DSPRE
       this.texturizeNSBMDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.untexturizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.extractNSBTXFromNSBMDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.encounterReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.menuViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.essentialToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.simpleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -126,7 +127,6 @@ namespace DSPRE
       this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
       this.directoryEntry1 = new System.DirectoryServices.DirectoryEntry();
       this.directoryEntry2 = new System.DirectoryServices.DirectoryEntry();
-      this.encounterReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.mainTabControl.SuspendLayout();
       this.tabPageHeaderEditor.SuspendLayout();
       this.tabPageMatrixEditor.SuspendLayout();
@@ -335,7 +335,7 @@ namespace DSPRE
       this.headbuttEncounterEditor.headbuttEncounterEditorIsReady = false;
       this.headbuttEncounterEditor.Location = new System.Drawing.Point(6, 6);
       this.headbuttEncounterEditor.Name = "headbuttEncounterEditor";
-      this.headbuttEncounterEditor.Size = new System.Drawing.Size(419, 608);
+      this.headbuttEncounterEditor.Size = new System.Drawing.Size(1173, 621);
       this.headbuttEncounterEditor.TabIndex = 0;
       // 
       // tabPageTextEditor
@@ -704,6 +704,13 @@ namespace DSPRE
       this.extractNSBTXFromNSBMDToolStripMenuItem.Size = new System.Drawing.Size(251, 38);
       this.extractNSBTXFromNSBMDToolStripMenuItem.Text = "Save textures from NSBMD";
       this.extractNSBTXFromNSBMDToolStripMenuItem.Click += new System.EventHandler(this.nsbmdExportTexButton_Click);
+      // 
+      // encounterReportToolStripMenuItem
+      // 
+      this.encounterReportToolStripMenuItem.Name = "encounterReportToolStripMenuItem";
+      this.encounterReportToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+      this.encounterReportToolStripMenuItem.Text = "Encounter Report";
+      this.encounterReportToolStripMenuItem.Click += new System.EventHandler(this.encounterReportToolStripMenuItem_Click);
       // 
       // menuViewToolStripMenuItem
       // 
@@ -1113,13 +1120,6 @@ namespace DSPRE
       // openFileDialog1
       // 
       this.openFileDialog1.FileName = "openFileDialog1";
-      // 
-      // encounterReportToolStripMenuItem
-      // 
-      this.encounterReportToolStripMenuItem.Name = "encounterReportToolStripMenuItem";
-      this.encounterReportToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-      this.encounterReportToolStripMenuItem.Text = "Encounter Report";
-      this.encounterReportToolStripMenuItem.Click += new System.EventHandler(this.encounterReportToolStripMenuItem_Click);
       // 
       // MainProgram
       // 
