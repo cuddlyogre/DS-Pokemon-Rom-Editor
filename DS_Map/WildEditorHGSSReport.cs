@@ -33,6 +33,11 @@ namespace DSPRE {
     int height = 608;
     static SimpleOpenGlControl2 openGlControl;
 
+    private Pen normalPen;
+    private SolidBrush normalBrush;
+    private Pen specialPen;
+    private SolidBrush specialBrush;
+
     public WildHeadbuttReport(ushort i) {
       DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames>() {
         RomInfo.DirNames.dynamicHeaders,
@@ -57,6 +62,14 @@ namespace DSPRE {
       this.gameMatrix = new GameMatrix(mapHeader.matrixID);
       this.areaData = new AreaData(mapHeader.areaDataID);
       this.locationName = currentTextArchive.messages[mapHeader.locationName];
+
+      Color normalColor = Color.FromArgb(128, Color.DarkBlue);
+      normalPen = new Pen(normalColor);
+      normalBrush = new SolidBrush(normalColor);
+
+      Color specialColor = Color.FromArgb(128, Color.DarkRed);
+      specialPen = new Pen(specialColor);
+      specialBrush = new SolidBrush(specialColor);
 
       SetCam2DValues();
 
@@ -124,7 +137,7 @@ namespace DSPRE {
       sb.Append($"Normal Encounters\n");
       WriteEncounters(sb, headbuttEncounterFile.normalEncounters, pokemonNames);
       sb.Append("\n");
-      Dictionary<int, List<HeadbuttTree>> normalCoordinates = WriteCoordinates(sb, headbuttEncounterFile.normalTreeGroups);
+      Dictionary<HeadbuttEncounterMap, List<HeadbuttTree>> normalCoordinates = WriteCoordinates(sb, headbuttEncounterFile.normalTreeGroups);
       sb.Append("\n");
 
       sb.Append("\n");
@@ -132,7 +145,7 @@ namespace DSPRE {
       sb.Append($"Special Encounters\n");
       WriteEncounters(sb, headbuttEncounterFile.specialEncounters, pokemonNames);
       sb.Append("\n");
-      Dictionary<int, List<HeadbuttTree>> specialCoordinates = WriteCoordinates(sb, headbuttEncounterFile.specialTreeGroups);
+      Dictionary<HeadbuttEncounterMap, List<HeadbuttTree>> specialCoordinates = WriteCoordinates(sb, headbuttEncounterFile.specialTreeGroups);
       sb.Append("\n");
 
       write_text_report(dir, sb.ToString());
@@ -151,27 +164,31 @@ namespace DSPRE {
       }
     }
 
-    private void write_headbutt_encounter_maps(string dir, Dictionary<int, List<HeadbuttTree>> normalCoordinates, Dictionary<int, List<HeadbuttTree>> specialCoordinates) {
+    private void write_headbutt_encounter_maps(string dir, Dictionary<HeadbuttEncounterMap, List<HeadbuttTree>> normalCoordinates, Dictionary<HeadbuttEncounterMap, List<HeadbuttTree>> specialCoordinates) {
       string report_dir = Path.Combine(dir, "headbutt_encounter_maps");
       if (!Directory.Exists(report_dir)) {
         Directory.CreateDirectory(report_dir);
       }
 
-      foreach (KeyValuePair<int, List<HeadbuttTree>> kv in normalCoordinates) {
-        int mapID = kv.Key;
+      List<HeadbuttEncounterMap> allMaps = new List<HeadbuttEncounterMap>();
+      allMaps.AddRange(normalCoordinates.Keys);
+      allMaps.AddRange(specialCoordinates.Keys);
+      HashSet<HeadbuttEncounterMap> umaps = new HashSet<HeadbuttEncounterMap>(allMaps);
 
-        MapFile currentMapFile = new MapFile(mapID, RomInfo.gameFamily, discardMoveperms: true);
+      foreach (HeadbuttEncounterMap map in umaps) {
+        MapFile currentMapFile = new MapFile(map.mapID, RomInfo.gameFamily, discardMoveperms: true);
         Bitmap bm = RenderMap(currentMapFile);
 
-        if (normalCoordinates.ContainsKey(mapID)) {
-          writeImage(bm, normalCoordinates[mapID], true);
+        if (normalCoordinates.ContainsKey(map)) {
+          writeImage(bm, normalCoordinates[map], true);
         }
 
-        if (specialCoordinates.ContainsKey(mapID)) {
-          writeImage(bm, specialCoordinates[mapID], false);
+        if (specialCoordinates.ContainsKey(map)) {
+          writeImage(bm, specialCoordinates[map], false);
         }
 
-        string path2 = Path.Combine(report_dir, $"{headbuttEncounterFile.ID.ToString("D4")}_{mapID.ToString("D4")}.jpg");
+        //TODO: HeadbuttEncounterMap
+        string path2 = Path.Combine(report_dir, $"{headbuttEncounterFile.ID:D4}_{map.mapID:D4}_{map.x:D2}_{map.y:D2}.jpg");
         bm.Save(path2, ImageFormat.Jpeg);
         bm.Dispose();
       }
@@ -182,12 +199,12 @@ namespace DSPRE {
       SolidBrush paintBrush;
 
       if (normal) {
-        paintPen = new Pen(Color.FromArgb(128, Color.LimeGreen));
-        paintBrush = new SolidBrush(Color.FromArgb(128, Color.LimeGreen));
+        paintPen = normalPen;
+        paintBrush = normalBrush;
       }
       else {
-        paintPen = new Pen(Color.FromArgb(128, Color.Red));
-        paintBrush = new SolidBrush(Color.FromArgb(128, Color.Red));
+        paintPen = specialPen;
+        paintBrush = specialBrush;
       }
 
       using (Graphics gSmall = Graphics.FromImage(bm)) {
@@ -209,29 +226,31 @@ namespace DSPRE {
       }
     }
 
-    Dictionary<int, List<HeadbuttTree>> WriteCoordinates(StringBuilder sb, BindingList<HeadbuttTreeGroup> treeGroups) {
-      Dictionary<int, List<HeadbuttTree>> ids = new Dictionary<int, List<HeadbuttTree>>();
+    Dictionary<HeadbuttEncounterMap, List<HeadbuttTree>> WriteCoordinates(StringBuilder sb, BindingList<HeadbuttTreeGroup> treeGroups) {
+      Dictionary<HeadbuttEncounterMap, List<HeadbuttTree>> coordinates = new Dictionary<HeadbuttEncounterMap, List<HeadbuttTree>>();
 
       sb.Append($"   Coordinates\n");
       foreach (HeadbuttTreeGroup treeGroup in treeGroups) {
         foreach (HeadbuttTree tree in treeGroup.trees) {
           if (tree.unused) continue;
-          sb.Append($"   {tree.globalX.ToString(),4},{tree.globalY.ToString(),4} {tree.matrixX.ToString(),2},{tree.matrixY.ToString(),2} {tree.mapX.ToString(),2},{tree.mapY.ToString(),2}\n");
+          sb.Append($"   {tree.globalX,4},{tree.globalY,4} {tree.matrixX,2},{tree.matrixY,2} {tree.mapX,2},{tree.mapY,2}\n");
 
           if (mapHeader.ID == GameMatrix.EMPTY) continue;
           if (tree.matrixX >= gameMatrix.width || tree.matrixY >= gameMatrix.height) continue;
-          ushort mapIndex = gameMatrix.maps[tree.matrixY, tree.matrixX];
-          if (mapIndex == GameMatrix.EMPTY) continue;
+          ushort mapID = gameMatrix.maps[tree.matrixY, tree.matrixX];
+          if (mapID == GameMatrix.EMPTY) continue;
 
-          if (!ids.ContainsKey((int)mapIndex)) {
-            ids[(int)mapIndex] = new List<HeadbuttTree>();
+          HeadbuttEncounterMap map = new HeadbuttEncounterMap(tree.matrixX, tree.matrixY, mapID);
+
+          if (!coordinates.ContainsKey(map)) {
+            coordinates[map] = new List<HeadbuttTree>();
           }
 
-          ids[(int)mapIndex].Add(tree);
+          coordinates[map].Add(tree);
         }
       }
 
-      return ids;
+      return coordinates;
     }
 
     public void WriteFile(string dir) {
