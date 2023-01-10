@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace DSPRE.ROMFiles
 {
+  //This class is in case a MapHeader uses the same MapFile more than once
+  //ToString is the matrix x,y and mapID
   class HeadbuttEncounterMap {
     public readonly int x;
     public readonly int y;
