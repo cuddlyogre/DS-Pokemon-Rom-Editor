@@ -6,6 +6,12 @@ namespace DSPRE.ROMFiles {
     public byte minLevel;
     public byte maxLevel;
 
+    public HeadbuttEncounter() {
+      maxLevel = 0;
+      minLevel = 0;
+      pokemonID = 0;
+    }
+
     public HeadbuttEncounter(BinaryReader br) {
       this.pokemonID = br.ReadUInt16();
       this.minLevel = br.ReadByte();

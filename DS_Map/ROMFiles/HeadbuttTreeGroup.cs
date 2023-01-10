@@ -7,15 +7,15 @@ namespace DSPRE.ROMFiles {
 
     public List<HeadbuttTree> trees = new List<HeadbuttTree>();
 
-    public HeadbuttTreeGroup(BinaryReader br, HeadbuttTree.Types headbuttTreeType) {
+    public HeadbuttTreeGroup(BinaryReader br) {
       for (int j = 0; j < treeCount; j++) {
-        trees.Add(new HeadbuttTree(br, headbuttTreeType));
+        trees.Add(new HeadbuttTree(br));
       }
     }
 
-    public HeadbuttTreeGroup(HeadbuttTree.Types headbuttTreeType) {
+    public HeadbuttTreeGroup() {
       for (int j = 0; j < treeCount; j++) {
-        trees.Add(new HeadbuttTree(headbuttTreeType));
+        trees.Add(new HeadbuttTree());
       }
     }
 

@@ -2,8 +2,6 @@ using System.IO;
 
 namespace DSPRE.ROMFiles {
   public class HeadbuttTree {
-    public HeadbuttTree.Types headbuttTreeType;
-
     private ushort _globalX;
     private ushort _globalY;
     private ushort _matrixX;
@@ -18,22 +16,19 @@ namespace DSPRE.ROMFiles {
       Special,
     }
 
-    public HeadbuttTree(BinaryReader br, HeadbuttTree.Types headbuttTreeType) {
+    public HeadbuttTree(BinaryReader br) {
       this.globalX = br.ReadUInt16();
       this.globalY = br.ReadUInt16();
-      this.headbuttTreeType = headbuttTreeType;
     }
 
-    public HeadbuttTree(HeadbuttTree.Types headbuttTreeType, ushort globalX = ushort.MaxValue, ushort globalY = ushort.MaxValue) {
+    public HeadbuttTree(ushort globalX = ushort.MaxValue, ushort globalY = ushort.MaxValue) {
       this.globalX = globalX;
       this.globalY = globalY;
-      this.headbuttTreeType = headbuttTreeType;
     }
 
     public HeadbuttTree(HeadbuttTree original) {
       this.globalX = original.globalX;
       this.globalY = original.globalY;
-      this.headbuttTreeType = original.headbuttTreeType;
     }
 
     public ushort globalX {
