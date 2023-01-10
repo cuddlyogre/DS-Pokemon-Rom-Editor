@@ -12,6 +12,9 @@ namespace DSPRE.Editors {
   public partial class HeadbuttEncounterEditor : UserControl {
     public bool headbuttEncounterEditorIsReady { get; set; } = false;
 
+    private ListBox2 listBoxTrees;
+    private HeadbuttTree headbuttTree;
+
     private MapHeaderHGSS mapHeader;
     private HeadbuttEncounterFile headbuttEncounterFile;
     private GameMatrix gameMatrix;
@@ -58,9 +61,11 @@ namespace DSPRE.Editors {
 
       headbuttEncounterEditorTabNormal.comboBoxPokemon.Items.AddRange(pokemonNames);
       headbuttEncounterEditorTabNormal.comboBoxPokemon.SelectedIndex = 0;
+      headbuttEncounterEditorTabNormal.listBoxTrees.SelectedIndexChanged += ListBoxTrees_SelectedIndexChanged;
 
       headbuttEncounterEditorTabSpecial.comboBoxPokemon.Items.AddRange(pokemonNames);
       headbuttEncounterEditorTabSpecial.comboBoxPokemon.SelectedIndex = 0;
+      headbuttEncounterEditorTabSpecial.listBoxTrees.SelectedIndexChanged += ListBoxTrees_SelectedIndexChanged;
 
       openGlControl.InitializeContexts();
       comboBoxMapHeader.Items.AddRange(headerListBoxNames.ToArray());
@@ -81,31 +86,69 @@ namespace DSPRE.Editors {
 
     public void setCurrentMap(ushort headerID) {
       this.mapFile = null;
+
       comboBoxMapFile.Items.Clear();
+      labelLocationName.Text = "";
+      
+      listBoxTrees = null;
+      headbuttTree = null;
+
+      headbuttEncounterEditorTabNormal.Reset();
+      headbuttEncounterEditorTabSpecial.Reset();
+
+      numericUpDownTreeGlobalX.Value = 0;
+      numericUpDownTreeGlobalY.Value = 0;
+      numericUpDownTreeMatrixX.Value = 0;
+      numericUpDownTreeMatrixY.Value = 0;
+      numericUpDownTreeMapX.Value = 0;
+      numericUpDownTreeMapY.Value = 0;
+
       RenderBackground();
 
       if (headerID == GameMatrix.EMPTY) return;
-
-      TextArchive currentTextArchive = new TextArchive(RomInfo.locationNamesTextNumber);
 
       this.mapHeader = (MapHeaderHGSS)MapHeader.GetMapHeader(headerID);
       this.headbuttEncounterFile = new HeadbuttEncounterFile(this.mapHeader.ID);
       this.gameMatrix = new GameMatrix(mapHeader.matrixID);
       this.areaData = new AreaData(mapHeader.areaDataID);
+
+      TextArchive currentTextArchive = new TextArchive(RomInfo.locationNamesTextNumber);
       this.locationName = currentTextArchive.messages[mapHeader.locationName];
+      labelLocationName.Text = locationName;
 
-      width = openGlControl.Width;
-      height = openGlControl.Height;
+      headbuttEncounterEditorTabNormal.SetHeadbuttEncounter(headbuttEncounterFile.normalEncounters, headbuttEncounterFile.normalTreeGroups);
+      headbuttEncounterEditorTabSpecial.SetHeadbuttEncounter(headbuttEncounterFile.specialEncounters, headbuttEncounterFile.specialTreeGroups);
 
-      HashSet<int> mapIDs = new HashSet<int>();
+      List<int> mapHeaderMapsIDsList = new List<int>();
+
+      if (gameMatrix.hasHeadersSection) {
+        for (int y = 0; y < gameMatrix.height; y++) {
+          for (int x = 0; x < gameMatrix.width; x++) {
+            if (gameMatrix.headers[y, x] == mapHeader.ID) {
+              int mapID = gameMatrix.maps[y, x];
+              if (mapID == GameMatrix.EMPTY) continue;
+              if (mapHeaderMapsIDsList.Contains(mapID)) continue;
+              mapHeaderMapsIDsList.Add(mapID);
+            }
+          }
+        }
+      }
+      else {
+        for (int y = 0; y < gameMatrix.height; y++) {
+          for (int x = 0; x < gameMatrix.width; x++) {
+            mapHeaderMapsIDsList.Add(gameMatrix.maps[y, x]);
+          }
+        }
+      }
 
       foreach (HeadbuttTreeGroup treeGroup in headbuttEncounterFile.normalTreeGroups) {
         foreach (HeadbuttTree tree in treeGroup.trees) {
           if (tree.unused) continue;
           if (tree.matrixX >= gameMatrix.width || tree.matrixY >= gameMatrix.height) continue;
           int mapID = gameMatrix.maps[tree.matrixY, tree.matrixX];
-          if (mapID == GameMatrix.EMPTY) return;
-          mapIDs.Add(mapID);
+          if (mapID == GameMatrix.EMPTY) continue;
+          if (mapHeaderMapsIDsList.Contains(mapID)) continue;
+          mapHeaderMapsIDsList.Add(mapID);
         }
       }
 
@@ -114,14 +157,15 @@ namespace DSPRE.Editors {
           if (tree.unused) continue;
           if (tree.matrixX >= gameMatrix.width || tree.matrixY >= gameMatrix.height) continue;
           int mapID = gameMatrix.maps[tree.matrixY, tree.matrixX];
-          if (mapID == GameMatrix.EMPTY) return;
-          mapIDs.Add(mapID);
+          if (mapID == GameMatrix.EMPTY) continue;
+          if (mapHeaderMapsIDsList.Contains(mapID)) continue;
+          mapHeaderMapsIDsList.Add(mapID);
         }
       }
 
-      List<int> idsList = new List<int>(mapIDs);
-      idsList.Sort();
-      foreach (int id in idsList) {
+      mapHeaderMapsIDsList.Sort();
+
+      foreach (int id in mapHeaderMapsIDsList) {
         comboBoxMapFile.Items.Add(id);
       }
 
@@ -137,6 +181,8 @@ namespace DSPRE.Editors {
     }
 
     private void RenderBackground() {
+      width = openGlControl.Width;
+      height = openGlControl.Height;
       Bitmap bm = RenderMap();
       openGlControl.Invalidate();
       openGlPictureBox.BackgroundImage = bm;
@@ -181,45 +227,11 @@ namespace DSPRE.Editors {
       EditorPanels.mainTabControl.SelectedTab = EditorPanels.headbuttEncounterEditorTabPage;
     }
 
-    void buttonLoad_Click(object sender, EventArgs e) {
-      try {
-        openFileDialog1.InitialDirectory = Path.GetDirectoryName(openFileDialog1.FileName);
-        openFileDialog1.FileName = Path.GetFileName(openFileDialog1.FileName);
-      }
-      catch (Exception ex) {
-        openFileDialog1.InitialDirectory = Path.GetDirectoryName(Environment.SpecialFolder.UserProfile.ToString());
-        openFileDialog1.FileName = Path.GetFileName(openFileDialog1.FileName);
-      }
-
-      if (openFileDialog1.ShowDialog() == DialogResult.OK) {
-        //path = @"unpacked\headbutt\0000"; // normalTreeGroups =  0 specialTreeGroups = 0
-        //path = @"unpacked\headbutt\0021"; // normalTreeGroups = 15 specialTreeGroups = 0
-        //path = @"unpacked\headbutt\0117"; // normalTreeGroups = 56 specialTreeGroups = 0
-        //path = @"unpacked\headbutt\0151"; // normalTreeGroups = 10 specialTreeGroups = 4
-        string path = "";
-        path = openFileDialog1.FileName;
-        LoadFile(path);
-      }
-    }
-
-    public void LoadFile(string path) {
-      headbuttEncounterFile = new HeadbuttEncounterFile(path);
-
-      headbuttEncounterEditorTabNormal.listBoxEncounters.DataSource = headbuttEncounterFile.normalEncounters;
-      headbuttEncounterEditorTabNormal.listBoxTreeGroups.DataSource = headbuttEncounterFile.normalTreeGroups;
-      headbuttEncounterEditorTabSpecial.listBoxEncounters.DataSource = headbuttEncounterFile.specialEncounters;
-      headbuttEncounterEditorTabSpecial.listBoxTreeGroups.DataSource = headbuttEncounterFile.specialTreeGroups;
-    }
-
     private void buttonSave_Click(object sender, EventArgs e) {
-      doSave(String.IsNullOrWhiteSpace(saveFileDialog1.FileName));
+      headbuttEncounterFile.SaveToFile();
     }
 
     private void buttonSaveAs_Click(object sender, EventArgs e) {
-      doSave(true);
-    }
-
-    void doSave(bool saveAs) {
       try {
         saveFileDialog1.InitialDirectory = Path.GetDirectoryName(saveFileDialog1.FileName);
         saveFileDialog1.FileName = Path.GetFileName(saveFileDialog1.FileName);
@@ -229,12 +241,7 @@ namespace DSPRE.Editors {
         saveFileDialog1.FileName = Path.GetFileName(saveFileDialog1.FileName);
       }
 
-      if (saveAs) {
-        if (saveFileDialog1.ShowDialog() == DialogResult.OK) {
-          headbuttEncounterFile.SaveToFile(saveFileDialog1.FileName);
-        }
-      }
-      else {
+      if (saveFileDialog1.ShowDialog() == DialogResult.OK) {
         headbuttEncounterFile.SaveToFile(saveFileDialog1.FileName);
       }
     }
@@ -308,14 +315,62 @@ namespace DSPRE.Editors {
     }
 
     private void SetCamWireframe() {
-      // if (wireframeCheckBox.Checked) {
-      //   Gl.glPolygonMode(Gl.GL_FRONT_AND_BACK, Gl.GL_LINE);
-      // }
-      // else {
-      //   Gl.glPolygonMode(Gl.GL_FRONT_AND_BACK, Gl.GL_FILL);
-      // }
-      //
-      // Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
+      if (wireframeCheckBox.Checked) {
+        Gl.glPolygonMode(Gl.GL_FRONT_AND_BACK, Gl.GL_LINE);
+      }
+      else {
+        Gl.glPolygonMode(Gl.GL_FRONT_AND_BACK, Gl.GL_FILL);
+      }
+
+      Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref mapFile, openGlControl.Width, openGlControl.Height, ang, dist, elev, perspective);
+    }
+
+    private void ListBoxTrees_SelectedIndexChanged(object sender, EventArgs e) {
+      listBoxTrees = sender as ListBox2;
+      headbuttTree = listBoxTrees.SelectedItem as HeadbuttTree;
+      if (headbuttTree == null) return;
+      numericUpDownTreeGlobalX.Value = headbuttTree.globalX;
+      numericUpDownTreeGlobalY.Value = headbuttTree.globalY;
+      numericUpDownTreeMatrixX.Value = headbuttTree.matrixX;
+      numericUpDownTreeMatrixY.Value = headbuttTree.matrixY;
+      numericUpDownTreeMapX.Value = headbuttTree.mapX;
+      numericUpDownTreeMapY.Value = headbuttTree.mapY;
+    }
+
+    private void numericUpDownTreeGlobalX_ValueChanged(object sender, EventArgs e) {
+      if (headbuttTree == null) return;
+      headbuttTree.globalX = (ushort)((NumericUpDown)sender).Value;
+      listBoxTrees.RefreshItem(listBoxTrees.SelectedIndex);
+    }
+
+    private void numericUpDownTreeGlobalY_ValueChanged(object sender, EventArgs e) {
+      if (headbuttTree == null) return;
+      headbuttTree.globalY = (ushort)((NumericUpDown)sender).Value;
+      listBoxTrees.RefreshItem(listBoxTrees.SelectedIndex);
+    }
+
+    private void numericUpDownTreeMatrixX_ValueChanged(object sender, EventArgs e) {
+      if (headbuttTree == null) return;
+      headbuttTree.matrixX = (ushort)((NumericUpDown)sender).Value;
+      listBoxTrees.RefreshItem(listBoxTrees.SelectedIndex);
+    }
+
+    private void numericUpDownTreeMatrixY_ValueChanged(object sender, EventArgs e) {
+      if (headbuttTree == null) return;
+      headbuttTree.matrixY = (ushort)((NumericUpDown)sender).Value;
+      listBoxTrees.RefreshItem(listBoxTrees.SelectedIndex);
+    }
+
+    private void numericUpDownTreeMapX_ValueChanged(object sender, EventArgs e) {
+      if (headbuttTree == null) return;
+      headbuttTree.mapX = (ushort)((NumericUpDown)sender).Value;
+      listBoxTrees.RefreshItem(listBoxTrees.SelectedIndex);
+    }
+
+    private void numericUpDownTreeMapY_ValueChanged(object sender, EventArgs e) {
+      if (headbuttTree == null) return;
+      headbuttTree.mapY = (ushort)((NumericUpDown)sender).Value;
+      listBoxTrees.RefreshItem(listBoxTrees.SelectedIndex);
     }
   }
 }

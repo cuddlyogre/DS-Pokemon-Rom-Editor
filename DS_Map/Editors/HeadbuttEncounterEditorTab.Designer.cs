@@ -34,17 +34,8 @@ namespace DSPRE.Editors
       this.numericUpDownMinLevel = new System.Windows.Forms.NumericUpDown();
       this.buttonAddTreeGroup = new System.Windows.Forms.Button();
       this.label5 = new System.Windows.Forms.Label();
-      this.groupBox1 = new System.Windows.Forms.GroupBox();
-      this.numericUpDownTreeGlobalX = new System.Windows.Forms.NumericUpDown();
-      this.numericUpDownTreeGlobalY = new System.Windows.Forms.NumericUpDown();
       this.label6 = new System.Windows.Forms.Label();
-      this.groupBox2 = new System.Windows.Forms.GroupBox();
-      this.numericUpDownTreeMatrixX = new System.Windows.Forms.NumericUpDown();
-      this.numericUpDownTreeMatrixY = new System.Windows.Forms.NumericUpDown();
       this.label2 = new System.Windows.Forms.Label();
-      this.groupBox3 = new System.Windows.Forms.GroupBox();
-      this.numericUpDownTreeMapX = new System.Windows.Forms.NumericUpDown();
-      this.numericUpDownTreeMapY = new System.Windows.Forms.NumericUpDown();
       this.label3 = new System.Windows.Forms.Label();
       this.label1 = new System.Windows.Forms.Label();
       this.label4 = new System.Windows.Forms.Label();
@@ -54,15 +45,6 @@ namespace DSPRE.Editors
       this.listBoxEncounters = new DSPRE.ListBox2();
       ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxLevel)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinLevel)).BeginInit();
-      this.groupBox1.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTreeGlobalX)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTreeGlobalY)).BeginInit();
-      this.groupBox2.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTreeMatrixX)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTreeMatrixY)).BeginInit();
-      this.groupBox3.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTreeMapX)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTreeMapY)).BeginInit();
       this.SuspendLayout();
       // 
       // buttonDuplicateTreeGroup
@@ -120,43 +102,6 @@ namespace DSPRE.Editors
       this.label5.TabIndex = 18;
       this.label5.Text = "Tree Groups";
       // 
-      // groupBox1
-      // 
-      this.groupBox1.Controls.Add(this.numericUpDownTreeGlobalX);
-      this.groupBox1.Controls.Add(this.numericUpDownTreeGlobalY);
-      this.groupBox1.Location = new System.Drawing.Point(264, 354);
-      this.groupBox1.Name = "groupBox1";
-      this.groupBox1.Size = new System.Drawing.Size(134, 49);
-      this.groupBox1.TabIndex = 16;
-      this.groupBox1.TabStop = false;
-      this.groupBox1.Text = "Global";
-      // 
-      // numericUpDownTreeGlobalX
-      // 
-      this.numericUpDownTreeGlobalX.Location = new System.Drawing.Point(6, 19);
-      this.numericUpDownTreeGlobalX.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-      this.numericUpDownTreeGlobalX.Name = "numericUpDownTreeGlobalX";
-      this.numericUpDownTreeGlobalX.Size = new System.Drawing.Size(58, 20);
-      this.numericUpDownTreeGlobalX.TabIndex = 15;
-      this.numericUpDownTreeGlobalX.ValueChanged += new System.EventHandler(this.numericUpDownTreeGlobalX_ValueChanged);
-      // 
-      // numericUpDownTreeGlobalY
-      // 
-      this.numericUpDownTreeGlobalY.Location = new System.Drawing.Point(70, 19);
-      this.numericUpDownTreeGlobalY.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-      this.numericUpDownTreeGlobalY.Name = "numericUpDownTreeGlobalY";
-      this.numericUpDownTreeGlobalY.Size = new System.Drawing.Size(58, 20);
-      this.numericUpDownTreeGlobalY.TabIndex = 15;
-      this.numericUpDownTreeGlobalY.ValueChanged += new System.EventHandler(this.numericUpDownTreeGlobalY_ValueChanged);
-      // 
       // label6
       // 
       this.label6.AutoSize = true;
@@ -166,43 +111,6 @@ namespace DSPRE.Editors
       this.label6.TabIndex = 18;
       this.label6.Text = "Trees";
       // 
-      // groupBox2
-      // 
-      this.groupBox2.Controls.Add(this.numericUpDownTreeMatrixX);
-      this.groupBox2.Controls.Add(this.numericUpDownTreeMatrixY);
-      this.groupBox2.Location = new System.Drawing.Point(264, 409);
-      this.groupBox2.Name = "groupBox2";
-      this.groupBox2.Size = new System.Drawing.Size(134, 49);
-      this.groupBox2.TabIndex = 16;
-      this.groupBox2.TabStop = false;
-      this.groupBox2.Text = "Matrix";
-      // 
-      // numericUpDownTreeMatrixX
-      // 
-      this.numericUpDownTreeMatrixX.Location = new System.Drawing.Point(6, 19);
-      this.numericUpDownTreeMatrixX.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-      this.numericUpDownTreeMatrixX.Name = "numericUpDownTreeMatrixX";
-      this.numericUpDownTreeMatrixX.Size = new System.Drawing.Size(58, 20);
-      this.numericUpDownTreeMatrixX.TabIndex = 15;
-      this.numericUpDownTreeMatrixX.ValueChanged += new System.EventHandler(this.numericUpDownTreeMatrixX_ValueChanged);
-      // 
-      // numericUpDownTreeMatrixY
-      // 
-      this.numericUpDownTreeMatrixY.Location = new System.Drawing.Point(70, 19);
-      this.numericUpDownTreeMatrixY.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-      this.numericUpDownTreeMatrixY.Name = "numericUpDownTreeMatrixY";
-      this.numericUpDownTreeMatrixY.Size = new System.Drawing.Size(58, 20);
-      this.numericUpDownTreeMatrixY.TabIndex = 15;
-      this.numericUpDownTreeMatrixY.ValueChanged += new System.EventHandler(this.numericUpDownTreeMatrixY_ValueChanged);
-      // 
       // label2
       // 
       this.label2.AutoSize = true;
@@ -211,43 +119,6 @@ namespace DSPRE.Editors
       this.label2.Size = new System.Drawing.Size(52, 13);
       this.label2.TabIndex = 18;
       this.label2.Text = "Pokemon";
-      // 
-      // groupBox3
-      // 
-      this.groupBox3.Controls.Add(this.numericUpDownTreeMapX);
-      this.groupBox3.Controls.Add(this.numericUpDownTreeMapY);
-      this.groupBox3.Location = new System.Drawing.Point(264, 464);
-      this.groupBox3.Name = "groupBox3";
-      this.groupBox3.Size = new System.Drawing.Size(134, 49);
-      this.groupBox3.TabIndex = 16;
-      this.groupBox3.TabStop = false;
-      this.groupBox3.Text = "Local";
-      // 
-      // numericUpDownTreeMapX
-      // 
-      this.numericUpDownTreeMapX.Location = new System.Drawing.Point(6, 19);
-      this.numericUpDownTreeMapX.Maximum = new decimal(new int[] {
-            31,
-            0,
-            0,
-            0});
-      this.numericUpDownTreeMapX.Name = "numericUpDownTreeMapX";
-      this.numericUpDownTreeMapX.Size = new System.Drawing.Size(58, 20);
-      this.numericUpDownTreeMapX.TabIndex = 15;
-      this.numericUpDownTreeMapX.ValueChanged += new System.EventHandler(this.numericUpDownTreeMapX_ValueChanged);
-      // 
-      // numericUpDownTreeMapY
-      // 
-      this.numericUpDownTreeMapY.Location = new System.Drawing.Point(70, 19);
-      this.numericUpDownTreeMapY.Maximum = new decimal(new int[] {
-            31,
-            0,
-            0,
-            0});
-      this.numericUpDownTreeMapY.Name = "numericUpDownTreeMapY";
-      this.numericUpDownTreeMapY.Size = new System.Drawing.Size(58, 20);
-      this.numericUpDownTreeMapY.TabIndex = 15;
-      this.numericUpDownTreeMapY.ValueChanged += new System.EventHandler(this.numericUpDownTreeMapY_ValueChanged);
       // 
       // label3
       // 
@@ -325,32 +196,20 @@ namespace DSPRE.Editors
       this.Controls.Add(this.label1);
       this.Controls.Add(this.listBoxTreeGroups);
       this.Controls.Add(this.label3);
-      this.Controls.Add(this.groupBox3);
       this.Controls.Add(this.buttonDuplicateTreeGroup);
       this.Controls.Add(this.label2);
       this.Controls.Add(this.buttonRemoveTreeGroup);
-      this.Controls.Add(this.groupBox2);
       this.Controls.Add(this.listBoxTrees);
       this.Controls.Add(this.label6);
       this.Controls.Add(this.numericUpDownMaxLevel);
-      this.Controls.Add(this.groupBox1);
       this.Controls.Add(this.listBoxEncounters);
       this.Controls.Add(this.label5);
       this.Controls.Add(this.numericUpDownMinLevel);
       this.Controls.Add(this.buttonAddTreeGroup);
       this.Name = "HeadbuttEncounterEditorTab";
-      this.Size = new System.Drawing.Size(402, 517);
+      this.Size = new System.Drawing.Size(262, 517);
       ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxLevel)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinLevel)).EndInit();
-      this.groupBox1.ResumeLayout(false);
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTreeGlobalX)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTreeGlobalY)).EndInit();
-      this.groupBox2.ResumeLayout(false);
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTreeMatrixX)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTreeMatrixY)).EndInit();
-      this.groupBox3.ResumeLayout(false);
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTreeMapX)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTreeMapY)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -361,23 +220,14 @@ namespace DSPRE.Editors
     public DSPRE.ListBox2 listBoxTreeGroups;
     private System.Windows.Forms.Button buttonDuplicateTreeGroup;
     private System.Windows.Forms.Button buttonRemoveTreeGroup;
-    private ListBox2 listBoxTrees;
-    private System.Windows.Forms.NumericUpDown numericUpDownMaxLevel;
+    public ListBox2 listBoxTrees;
+    public System.Windows.Forms.NumericUpDown numericUpDownMaxLevel;
     public DSPRE.ListBox2 listBoxEncounters;
-    private System.Windows.Forms.NumericUpDown numericUpDownMinLevel;
+    public System.Windows.Forms.NumericUpDown numericUpDownMinLevel;
     private System.Windows.Forms.Button buttonAddTreeGroup;
     private System.Windows.Forms.Label label5;
-    private System.Windows.Forms.GroupBox groupBox1;
-    private System.Windows.Forms.NumericUpDown numericUpDownTreeGlobalX;
-    private System.Windows.Forms.NumericUpDown numericUpDownTreeGlobalY;
     private System.Windows.Forms.Label label6;
-    private System.Windows.Forms.GroupBox groupBox2;
-    private System.Windows.Forms.NumericUpDown numericUpDownTreeMatrixX;
-    private System.Windows.Forms.NumericUpDown numericUpDownTreeMatrixY;
     private System.Windows.Forms.Label label2;
-    private System.Windows.Forms.GroupBox groupBox3;
-    private System.Windows.Forms.NumericUpDown numericUpDownTreeMapX;
-    private System.Windows.Forms.NumericUpDown numericUpDownTreeMapY;
     private System.Windows.Forms.Label label3;
     private System.Windows.Forms.Label label1;
     private System.Windows.Forms.Label label4;

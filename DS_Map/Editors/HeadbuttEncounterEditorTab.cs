@@ -1,11 +1,32 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Forms;
 using DSPRE.ROMFiles;
 
 namespace DSPRE.Editors {
   public partial class HeadbuttEncounterEditorTab : UserControl {
+    private List<HeadbuttEncounter> encounters;
+    private BindingList<HeadbuttTreeGroup> treeGroups;
+
     public HeadbuttEncounterEditorTab() {
       InitializeComponent();
+    }
+
+    public void Reset() {
+      listBoxEncounters.DataSource = null;
+      listBoxTreeGroups.DataSource = null;
+      listBoxTrees.DataSource = null;
+      comboBoxPokemon.SelectedIndex = 0;
+      numericUpDownMinLevel.Value = 0;
+      numericUpDownMaxLevel.Value = 0;
+    }
+
+    public void SetHeadbuttEncounter(List<HeadbuttEncounter> encounters, BindingList<HeadbuttTreeGroup> treeGroups) {
+      this.encounters = encounters;
+      this.treeGroups = treeGroups;
+      listBoxEncounters.DataSource = this.encounters;
+      listBoxTreeGroups.DataSource = this.treeGroups;
     }
 
     private void listBoxEncounters_SelectedIndexChanged(object sender, EventArgs e) {
@@ -45,74 +66,24 @@ namespace DSPRE.Editors {
     }
 
     private void buttonAddTreeGroup_Click(object sender, EventArgs e) {
-      HeadbuttTreeGroup headbuttTreeGroup = (HeadbuttTreeGroup)listBoxTreeGroups.SelectedItem;
-      if (headbuttTreeGroup == null) return;
-      listBoxTreeGroups.Items.Add(new HeadbuttTreeGroup(HeadbuttTree.Types.Normal));
+      treeGroups.Add(new HeadbuttTreeGroup());
     }
 
     private void buttonRemoveTreeGroup_Click(object sender, EventArgs e) {
       int selectedIndex = listBoxTreeGroups.SelectedIndex;
       if (selectedIndex == -1) return;
-      listBoxTreeGroups.Items.RemoveAt(selectedIndex);
+      treeGroups.RemoveAt(selectedIndex);
     }
 
     private void buttonDuplicateTreeGroup_Click(object sender, EventArgs e) {
       HeadbuttTreeGroup headbuttTreeGroup = (HeadbuttTreeGroup)listBoxTreeGroups.SelectedItem;
       if (headbuttTreeGroup == null) return;
-      listBoxTreeGroups.Items.Add(new HeadbuttTreeGroup(headbuttTreeGroup));
+      treeGroups.Add(new HeadbuttTreeGroup(headbuttTreeGroup));
     }
 
-    private void listBoxTrees_SelectedIndexChanged(object sender, EventArgs e) {
-      HeadbuttTree headbuttTree = (HeadbuttTree)listBoxTrees.SelectedItem;
-      if (headbuttTree == null) return;
-      numericUpDownTreeGlobalX.Value = headbuttTree.globalX;
-      numericUpDownTreeGlobalY.Value = headbuttTree.globalY;
-      numericUpDownTreeMatrixX.Value = headbuttTree.matrixX;
-      numericUpDownTreeMatrixY.Value = headbuttTree.matrixY;
-      numericUpDownTreeMapX.Value = headbuttTree.mapX;
-      numericUpDownTreeMapY.Value = headbuttTree.mapY;
-    }
+    private void listBoxTrees_SelectedIndexChanged(object sender, EventArgs e)
+    {
 
-    private void numericUpDownTreeGlobalX_ValueChanged(object sender, EventArgs e) {
-      HeadbuttTree headbuttTree = (HeadbuttTree)listBoxTrees.SelectedItem;
-      if (headbuttTree == null) return;
-      headbuttTree.globalX = (ushort)((NumericUpDown)sender).Value;
-      listBoxTrees.RefreshItem(listBoxTrees.SelectedIndex);
-    }
-
-    private void numericUpDownTreeGlobalY_ValueChanged(object sender, EventArgs e) {
-      HeadbuttTree headbuttTree = (HeadbuttTree)listBoxTrees.SelectedItem;
-      if (headbuttTree == null) return;
-      headbuttTree.globalY = (ushort)((NumericUpDown)sender).Value;
-      listBoxTrees.RefreshItem(listBoxTrees.SelectedIndex);
-    }
-
-    private void numericUpDownTreeMatrixX_ValueChanged(object sender, EventArgs e) {
-      HeadbuttTree headbuttTree = (HeadbuttTree)listBoxTrees.SelectedItem;
-      if (headbuttTree == null) return;
-      headbuttTree.matrixX = (ushort)((NumericUpDown)sender).Value;
-      listBoxTrees.RefreshItem(listBoxTrees.SelectedIndex);
-    }
-
-    private void numericUpDownTreeMatrixY_ValueChanged(object sender, EventArgs e) {
-      HeadbuttTree headbuttTree = (HeadbuttTree)listBoxTrees.SelectedItem;
-      if (headbuttTree == null) return;
-      headbuttTree.matrixY = (ushort)((NumericUpDown)sender).Value;
-      listBoxTrees.RefreshItem(listBoxTrees.SelectedIndex);
-    }
-
-    private void numericUpDownTreeMapX_ValueChanged(object sender, EventArgs e) {
-      HeadbuttTree headbuttTree = (HeadbuttTree)listBoxTrees.SelectedItem;
-      if (headbuttTree == null) return;
-      headbuttTree.mapX = (ushort)((NumericUpDown)sender).Value;
-      listBoxTrees.RefreshItem(listBoxTrees.SelectedIndex);
-    }
-
-    private void numericUpDownTreeMapY_ValueChanged(object sender, EventArgs e) {
-      HeadbuttTree headbuttTree = (HeadbuttTree)listBoxTrees.SelectedItem;
-      if (headbuttTree == null) return;
-      headbuttTree.mapY = (ushort)((NumericUpDown)sender).Value;
-      listBoxTrees.RefreshItem(listBoxTrees.SelectedIndex);
     }
   }
 }
