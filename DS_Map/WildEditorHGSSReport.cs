@@ -108,12 +108,6 @@ namespace DSPRE {
     }
 
     public void BuildReport(string dir) {
-      string report_dir;
-      report_dir = Path.Combine(dir, "headbutt_encounters");
-      if (!Directory.Exists(report_dir)) {
-        Directory.CreateDirectory(report_dir);
-      }
-
       Tuple<List<string>, List<string>> headerNames = Helpers.BuildHeaderNames();
       List<string> headerListBoxNames = headerNames.Item1;
       List<string> internalNames = headerNames.Item2;
@@ -142,40 +136,59 @@ namespace DSPRE {
       sb.Append("\n");
 
       write_text_report(dir, sb.ToString());
-      write_headbutt_encounter_maps(dir, normalCoordinates, true);
-      write_headbutt_encounter_maps(dir, specialCoordinates, false);
+      write_headbutt_encounter_maps(dir, normalCoordinates, specialCoordinates);
     }
 
     private void write_text_report(string dir, string reportText) {
-      string path = Path.Combine(dir, $"{headbuttEncounterFile.ID.ToString("D4")}.txt");
+      string report_dir = Path.Combine(dir, "headbutt_encounters");
+      if (!Directory.Exists(report_dir)) {
+        Directory.CreateDirectory(report_dir);
+      }
+
+      string path = Path.Combine(report_dir, $"{headbuttEncounterFile.ID.ToString("D4")}.txt");
       using (StreamWriter writer = new StreamWriter(path)) {
         writer.Write(reportText);
       }
     }
 
-    private void write_headbutt_encounter_maps(string dir, Dictionary<int, List<HeadbuttTree>> coordinates, bool normal) {
+    private void write_headbutt_encounter_maps(string dir, Dictionary<int, List<HeadbuttTree>> normalCoordinates, Dictionary<int, List<HeadbuttTree>> specialCoordinates) {
       string report_dir = Path.Combine(dir, "headbutt_encounter_maps");
       if (!Directory.Exists(report_dir)) {
         Directory.CreateDirectory(report_dir);
       }
 
-      foreach (KeyValuePair<int, List<HeadbuttTree>> kv in coordinates) {
-        if (normal) {
-          Pen paintPen = new Pen(Color.FromArgb(128, Color.LimeGreen));
-          SolidBrush paintBrush = new SolidBrush(Color.FromArgb(128, Color.LimeGreen));
-          writeImage(report_dir, kv.Key, kv.Value, paintPen, paintBrush);
+      foreach (KeyValuePair<int, List<HeadbuttTree>> kv in normalCoordinates) {
+        int mapID = kv.Key;
+
+        MapFile currentMapFile = new MapFile(mapID, RomInfo.gameFamily, discardMoveperms: true);
+        Bitmap bm = RenderMap(currentMapFile);
+
+        if (normalCoordinates.ContainsKey(mapID)) {
+          writeImage(bm, normalCoordinates[mapID], true);
         }
-        else {
-          Pen paintPen = new Pen(Color.FromArgb(128, Color.Red));
-          SolidBrush paintBrush = new SolidBrush(Color.FromArgb(128, Color.Red));
-          writeImage(report_dir, kv.Key, kv.Value, paintPen, paintBrush);
+
+        if (specialCoordinates.ContainsKey(mapID)) {
+          writeImage(bm, specialCoordinates[mapID], false);
         }
+
+        string path2 = Path.Combine(report_dir, $"{headbuttEncounterFile.ID.ToString("D4")}_{mapID.ToString("D4")}.jpg");
+        bm.Save(path2, ImageFormat.Jpeg);
+        bm.Dispose();
       }
     }
 
-    void writeImage(string dir, int mapID, List<HeadbuttTree> trees, Pen paintPen, SolidBrush paintBrush) {
-      MapFile currentMapFile = new MapFile(mapID, RomInfo.gameFamily, discardMoveperms: true);
-      Bitmap bm = RenderMap(currentMapFile);
+    void writeImage(Bitmap bm, List<HeadbuttTree> trees, bool normal) {
+      Pen paintPen;
+      SolidBrush paintBrush;
+
+      if (normal) {
+        paintPen = new Pen(Color.FromArgb(128, Color.LimeGreen));
+        paintBrush = new SolidBrush(Color.FromArgb(128, Color.LimeGreen));
+      }
+      else {
+        paintPen = new Pen(Color.FromArgb(128, Color.Red));
+        paintBrush = new SolidBrush(Color.FromArgb(128, Color.Red));
+      }
 
       using (Graphics gSmall = Graphics.FromImage(bm)) {
         foreach (HeadbuttTree tree in trees) {
@@ -186,10 +199,6 @@ namespace DSPRE {
           gSmall.FillRectangle(paintBrush, smallCell);
         }
       }
-
-      string path2 = Path.Combine(dir, $"{headbuttEncounterFile.ID.ToString("D4")}_{mapID.ToString("D4")}.jpg");
-      bm.Save(path2, ImageFormat.Jpeg);
-      bm.Dispose();
     }
 
     void WriteEncounters(StringBuilder sb, List<HeadbuttEncounter> encounters, string[] pokemonNames) {
