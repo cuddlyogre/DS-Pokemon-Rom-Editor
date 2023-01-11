@@ -34,8 +34,6 @@ namespace DSPRE.Editors {
     private Pen specialPen;
     private SolidBrush specialBrush;
 
-    public static NSBMDGlRenderer mapRenderer = new NSBMDGlRenderer();
-    public static NSBMDGlRenderer buildingsRenderer = new NSBMDGlRenderer();
     private static float perspective;
     private static float ang;
     private static float dist;
@@ -280,7 +278,7 @@ namespace DSPRE.Editors {
         Helpers.MW_LoadModelTextures(building, areaData.buildingsTileset); // Load building textures                
       }
 
-      Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl.Width, openGlControl.Height, ang, dist, elev, perspective);
+      Helpers.RenderMap(ref Helpers.mapRenderer, ref Helpers.buildingsRenderer, ref currentMapFile, openGlControl.Width, openGlControl.Height, ang, dist, elev, perspective);
       return Helpers.GrabMapScreenshot(width, height);
     }
 

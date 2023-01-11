@@ -21,8 +21,6 @@ namespace DSPRE.Editors {
     public static MapFile currentMapFile;
     public Rectangle eventMatrixRectangle;
     public Brush eventBrush;
-    public static NSBMDGlRenderer mapRenderer = new NSBMDGlRenderer();
-    public static NSBMDGlRenderer buildingsRenderer = new NSBMDGlRenderer();
 
     public EventEditor() {
       InitializeComponent();
@@ -1942,7 +1940,7 @@ namespace DSPRE.Editors {
         float dist = 115.0f;
         float elev = 90f;
         float perspective = 4f;
-        Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, width, height, ang, dist, elev, perspective);
+        Helpers.RenderMap(ref Helpers.mapRenderer, ref Helpers.buildingsRenderer, ref currentMapFile, width, height, ang, dist, elev, perspective);
         openGlControl.Invalidate();
         openGlPictureBox.BackgroundImage = Helpers.GrabMapScreenshot(width, height);
       }

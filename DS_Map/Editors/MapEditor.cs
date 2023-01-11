@@ -15,8 +15,6 @@ namespace DSPRE.Editors {
   public partial class MapEditor : UserControl {
     public bool mapEditorIsReady { get; set; } = false;
 
-    private static NSBMDGlRenderer mapRenderer = new NSBMDGlRenderer();
-    private static NSBMDGlRenderer buildingsRenderer = new NSBMDGlRenderer();
     private MapFile currentMapFile;
     private byte bldDecimalPositions = 1;
     private bool mapTexturesOn = true;
@@ -219,7 +217,7 @@ namespace DSPRE.Editors {
     private void RenderMap() {
       int width = openGlControl.Width;
       int height = openGlControl.Height;
-      Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, width, height, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
+      Helpers.RenderMap(ref Helpers.mapRenderer, ref Helpers.buildingsRenderer, ref currentMapFile, width, height, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
       openGlControl.Invalidate();
     }
 
