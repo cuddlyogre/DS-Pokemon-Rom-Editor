@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
@@ -24,6 +25,11 @@ namespace DSPRE.Editors {
 
     private int width;
     private int height;
+
+    private Pen normalPen;
+    private SolidBrush normalBrush;
+    private Pen specialPen;
+    private SolidBrush specialBrush;
 
     public static NSBMDGlRenderer mapRenderer = new NSBMDGlRenderer();
     public static NSBMDGlRenderer buildingsRenderer = new NSBMDGlRenderer();
@@ -57,6 +63,14 @@ namespace DSPRE.Editors {
       List<string> internalNames = headerNames.Item2;
       string[] pokemonNames = RomInfo.GetPokemonNames();
 
+      Color normalColor = Color.FromArgb(128, Color.DarkBlue);
+      normalPen = new Pen(normalColor);
+      normalBrush = new SolidBrush(normalColor);
+
+      Color specialColor = Color.FromArgb(128, Color.DarkRed);
+      specialPen = new Pen(specialColor);
+      specialBrush = new SolidBrush(specialColor);
+
       Helpers.DisableHandlers();
 
       headbuttEncounterEditorTabNormal.comboBoxPokemon.Items.AddRange(pokemonNames);
@@ -89,7 +103,7 @@ namespace DSPRE.Editors {
 
       comboBoxMapFile.Items.Clear();
       labelLocationName.Text = "";
-      
+
       listBoxTrees = null;
       headbuttTree = null;
 
@@ -195,6 +209,14 @@ namespace DSPRE.Editors {
       height = openGlControl.Height;
       Bitmap bm = RenderMap();
       openGlControl.Invalidate();
+
+      if (headbuttEncounterFile != null) {
+        using (Graphics gSmall = Graphics.FromImage(bm)) {
+          MarkTrees(gSmall, normalPen, normalBrush, headbuttEncounterFile.normalTreeGroups);
+          MarkTrees(gSmall, specialPen, specialBrush, headbuttEncounterFile.specialTreeGroups);
+        }
+      }
+
       openGlPictureBox.BackgroundImage = bm;
     }
 
@@ -225,6 +247,23 @@ namespace DSPRE.Editors {
 
       Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl.Width, openGlControl.Height, ang, dist, elev, perspective);
       return Helpers.GrabMapScreenshot(width, height);
+    }
+
+    private void MarkTrees(Graphics gSmall, Pen paintPen, SolidBrush paintBrush, BindingList<HeadbuttTreeGroup> treeGroups) {
+      HeadbuttEncounterMap map = comboBoxMapFile.SelectedItem as HeadbuttEncounterMap;
+      if (map == null) return;
+
+      foreach (HeadbuttTreeGroup treeGroup in treeGroups) {
+        foreach (HeadbuttTree tree in treeGroup.trees) {
+          if (tree.unused) continue;
+          if (tree.matrixX != map.x || tree.matrixY != map.y) continue;
+          int tileWidth = openGlControl.Width / MapFile.mapSize;
+          int tileHeight = openGlControl.Height / MapFile.mapSize;
+          Rectangle smallCell = new Rectangle(tree.mapX * tileWidth, tree.mapY * tileHeight, tileWidth, tileHeight);
+          gSmall.DrawRectangle(paintPen, smallCell);
+          gSmall.FillRectangle(paintBrush, smallCell);
+        }
+      }
     }
 
     public void makeCurrent() {

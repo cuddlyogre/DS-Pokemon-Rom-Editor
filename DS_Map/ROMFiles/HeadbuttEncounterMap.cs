@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DSPRE.ROMFiles
-{
+namespace DSPRE.ROMFiles {
   //This class is in case a MapHeader uses the same MapFile more than once
   //ToString is the matrix x,y and mapID
   class HeadbuttEncounterMap {

@@ -32,9 +32,12 @@ namespace DSPRE.Editors {
       this.buttonSave = new System.Windows.Forms.Button();
       this.tabControl2 = new System.Windows.Forms.TabControl();
       this.tabPageNormal = new System.Windows.Forms.TabPage();
+      this.headbuttEncounterEditorTabNormal = new DSPRE.Editors.HeadbuttEncounterEditorTab();
       this.tabPageSpecial = new System.Windows.Forms.TabPage();
+      this.headbuttEncounterEditorTabSpecial = new DSPRE.Editors.HeadbuttEncounterEditorTab();
       this.mapRenderPanel = new System.Windows.Forms.Panel();
       this.openGlPictureBox = new System.Windows.Forms.PictureBox();
+      this.openGlControl = new DSPRE.SimpleOpenGlControl2();
       this.radio3D = new System.Windows.Forms.RadioButton();
       this.radio2D = new System.Windows.Forms.RadioButton();
       this.wireframeCheckBox = new System.Windows.Forms.CheckBox();
@@ -53,9 +56,6 @@ namespace DSPRE.Editors {
       this.groupBox3 = new System.Windows.Forms.GroupBox();
       this.numericUpDownTreeMapX = new System.Windows.Forms.NumericUpDown();
       this.numericUpDownTreeMapY = new System.Windows.Forms.NumericUpDown();
-      this.openGlControl = new DSPRE.SimpleOpenGlControl2();
-      this.headbuttEncounterEditorTabNormal = new DSPRE.Editors.HeadbuttEncounterEditorTab();
-      this.headbuttEncounterEditorTabSpecial = new DSPRE.Editors.HeadbuttEncounterEditorTab();
       this.tabControl2.SuspendLayout();
       this.tabPageNormal.SuspendLayout();
       this.tabPageSpecial.SuspendLayout();
@@ -117,6 +117,13 @@ namespace DSPRE.Editors {
       this.tabPageNormal.Text = "Normal";
       this.tabPageNormal.UseVisualStyleBackColor = true;
       // 
+      // headbuttEncounterEditorTabNormal
+      // 
+      this.headbuttEncounterEditorTabNormal.Location = new System.Drawing.Point(2, 2);
+      this.headbuttEncounterEditorTabNormal.Name = "headbuttEncounterEditorTabNormal";
+      this.headbuttEncounterEditorTabNormal.Size = new System.Drawing.Size(264, 519);
+      this.headbuttEncounterEditorTabNormal.TabIndex = 0;
+      // 
       // tabPageSpecial
       // 
       this.tabPageSpecial.Controls.Add(this.headbuttEncounterEditorTabSpecial);
@@ -127,6 +134,13 @@ namespace DSPRE.Editors {
       this.tabPageSpecial.TabIndex = 1;
       this.tabPageSpecial.Text = "Special";
       this.tabPageSpecial.UseVisualStyleBackColor = true;
+      // 
+      // headbuttEncounterEditorTabSpecial
+      // 
+      this.headbuttEncounterEditorTabSpecial.Location = new System.Drawing.Point(2, 2);
+      this.headbuttEncounterEditorTabSpecial.Name = "headbuttEncounterEditorTabSpecial";
+      this.headbuttEncounterEditorTabSpecial.Size = new System.Drawing.Size(402, 518);
+      this.headbuttEncounterEditorTabSpecial.TabIndex = 0;
       // 
       // mapRenderPanel
       // 
@@ -147,13 +161,31 @@ namespace DSPRE.Editors {
       this.openGlPictureBox.TabIndex = 3;
       this.openGlPictureBox.TabStop = false;
       // 
+      // openGlControl
+      // 
+      this.openGlControl.AccumBits = ((byte)(0));
+      this.openGlControl.AutoCheckErrors = false;
+      this.openGlControl.AutoFinish = false;
+      this.openGlControl.AutoMakeCurrent = true;
+      this.openGlControl.AutoSwapBuffers = true;
+      this.openGlControl.BackColor = System.Drawing.Color.Black;
+      this.openGlControl.ColorBits = ((byte)(32));
+      this.openGlControl.DepthBits = ((byte)(64));
+      this.openGlControl.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.openGlControl.ForeColor = System.Drawing.Color.Black;
+      this.openGlControl.Location = new System.Drawing.Point(0, 0);
+      this.openGlControl.Name = "openGlControl";
+      this.openGlControl.Size = new System.Drawing.Size(608, 608);
+      this.openGlControl.StencilBits = ((byte)(0));
+      this.openGlControl.TabIndex = 2;
+      // 
       // radio3D
       // 
       this.radio3D.Appearance = System.Windows.Forms.Appearance.Button;
       this.radio3D.AutoSize = true;
       this.radio3D.Checked = true;
       this.radio3D.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-      this.radio3D.Location = new System.Drawing.Point(1044, 543);
+      this.radio3D.Location = new System.Drawing.Point(1039, 543);
       this.radio3D.Name = "radio3D";
       this.radio3D.Size = new System.Drawing.Size(31, 23);
       this.radio3D.TabIndex = 26;
@@ -167,7 +199,7 @@ namespace DSPRE.Editors {
       this.radio2D.Appearance = System.Windows.Forms.Appearance.Button;
       this.radio2D.AutoSize = true;
       this.radio2D.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-      this.radio2D.Location = new System.Drawing.Point(1044, 567);
+      this.radio2D.Location = new System.Drawing.Point(1039, 567);
       this.radio2D.Name = "radio2D";
       this.radio2D.Size = new System.Drawing.Size(31, 23);
       this.radio2D.TabIndex = 25;
@@ -181,7 +213,7 @@ namespace DSPRE.Editors {
       this.wireframeCheckBox.Appearance = System.Windows.Forms.Appearance.Button;
       this.wireframeCheckBox.AutoSize = true;
       this.wireframeCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-      this.wireframeCheckBox.Location = new System.Drawing.Point(1044, 591);
+      this.wireframeCheckBox.Location = new System.Drawing.Point(1039, 591);
       this.wireframeCheckBox.Name = "wireframeCheckBox";
       this.wireframeCheckBox.Size = new System.Drawing.Size(31, 23);
       this.wireframeCheckBox.TabIndex = 27;
@@ -192,7 +224,7 @@ namespace DSPRE.Editors {
       // mapScreenshotButton
       // 
       this.mapScreenshotButton.Image = global::DSPRE.Properties.Resources.cameraIcon;
-      this.mapScreenshotButton.Location = new System.Drawing.Point(1039, 500);
+      this.mapScreenshotButton.Location = new System.Drawing.Point(1034, 500);
       this.mapScreenshotButton.Name = "mapScreenshotButton";
       this.mapScreenshotButton.Size = new System.Drawing.Size(41, 40);
       this.mapScreenshotButton.TabIndex = 39;
@@ -358,38 +390,6 @@ namespace DSPRE.Editors {
       this.numericUpDownTreeMapY.TabIndex = 15;
       this.numericUpDownTreeMapY.ValueChanged += new System.EventHandler(this.numericUpDownTreeMapY_ValueChanged);
       // 
-      // openGlControl
-      // 
-      this.openGlControl.AccumBits = ((byte)(0));
-      this.openGlControl.AutoCheckErrors = false;
-      this.openGlControl.AutoFinish = false;
-      this.openGlControl.AutoMakeCurrent = true;
-      this.openGlControl.AutoSwapBuffers = true;
-      this.openGlControl.BackColor = System.Drawing.Color.Black;
-      this.openGlControl.ColorBits = ((byte)(32));
-      this.openGlControl.DepthBits = ((byte)(64));
-      this.openGlControl.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.openGlControl.ForeColor = System.Drawing.Color.Black;
-      this.openGlControl.Location = new System.Drawing.Point(0, 0);
-      this.openGlControl.Name = "openGlControl";
-      this.openGlControl.Size = new System.Drawing.Size(608, 608);
-      this.openGlControl.StencilBits = ((byte)(0));
-      this.openGlControl.TabIndex = 2;
-      // 
-      // headbuttEncounterEditorTabNormal
-      // 
-      this.headbuttEncounterEditorTabNormal.Location = new System.Drawing.Point(2, 2);
-      this.headbuttEncounterEditorTabNormal.Name = "headbuttEncounterEditorTabNormal";
-      this.headbuttEncounterEditorTabNormal.Size = new System.Drawing.Size(402, 519);
-      this.headbuttEncounterEditorTabNormal.TabIndex = 0;
-      // 
-      // headbuttEncounterEditorTabSpecial
-      // 
-      this.headbuttEncounterEditorTabSpecial.Location = new System.Drawing.Point(2, 2);
-      this.headbuttEncounterEditorTabSpecial.Name = "headbuttEncounterEditorTabSpecial";
-      this.headbuttEncounterEditorTabSpecial.Size = new System.Drawing.Size(402, 518);
-      this.headbuttEncounterEditorTabSpecial.TabIndex = 0;
-      // 
       // HeadbuttEncounterEditor
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -413,7 +413,7 @@ namespace DSPRE.Editors {
       this.Controls.Add(this.groupBox1);
       this.Location = new System.Drawing.Point(15, 15);
       this.Name = "HeadbuttEncounterEditor";
-      this.Size = new System.Drawing.Size(1087, 620);
+      this.Size = new System.Drawing.Size(1080, 620);
       this.tabControl2.ResumeLayout(false);
       this.tabPageNormal.ResumeLayout(false);
       this.tabPageSpecial.ResumeLayout(false);
