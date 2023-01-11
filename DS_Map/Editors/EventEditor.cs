@@ -22,6 +22,11 @@ namespace DSPRE.Editors {
     public Rectangle eventMatrixRectangle;
     public Brush eventBrush;
 
+    private static float perspective;
+    private static float ang;
+    private static float dist;
+    private static float elev;
+
     public EventEditor() {
       InitializeComponent();
       openGlControl.InitializeContexts();
@@ -793,11 +798,11 @@ namespace DSPRE.Editors {
           DialogResult main = MessageBox.Show("The selected event tried to reference a bigger Matrix than the one which is currently being displayed.\nDo you want to check for another potentially compatible matrix?", "Event is out of range", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
           if (main.Equals(DialogResult.Yes)) {
-            ushort[] result = HeaderSearch.AdvancedSearch(0, 
-                (ushort)EditorPanels.headerEditor.internalNames.Count, 
-                EditorPanels.headerEditor.internalNames, 
-                (int)MapHeader.SearchableFields.EventFileID, 
-                (int)HeaderSearch.NumOperators.Equal, 
+            ushort[] result = HeaderSearch.AdvancedSearch(0,
+                (ushort)EditorPanels.headerEditor.internalNames.Count,
+                EditorPanels.headerEditor.internalNames,
+                (int)MapHeader.SearchableFields.EventFileID,
+                (int)HeaderSearch.NumOperators.Equal,
                 selectEventComboBox.SelectedIndex.ToString())
               .Select(s => ushort.Parse(s.Split()[0]))
               .ToArray();
@@ -1896,6 +1901,7 @@ namespace DSPRE.Editors {
         using (Graphics g = Graphics.FromImage(openGlPictureBox.BackgroundImage)) {
           g.Clear(Color.Black);
         }
+
         currentMapFile = null;
       }
       else {
@@ -1936,14 +1942,18 @@ namespace DSPRE.Editors {
 
         int width = openGlControl.Width;
         int height = openGlControl.Height;
-        float ang = 0f;
-        float dist = 115.0f;
-        float elev = 90f;
-        float perspective = 4f;
+        SetCam2DValues();
         Helpers.RenderMap(ref Helpers.mapRenderer, ref Helpers.buildingsRenderer, ref currentMapFile, width, height, ang, dist, elev, perspective);
         openGlControl.Invalidate();
         openGlPictureBox.BackgroundImage = Helpers.GrabMapScreenshot(width, height);
       }
+    }
+
+    private void SetCam2DValues() {
+      perspective = 4f;
+      ang = 0f;
+      dist = 115.2f;
+      elev = 90f;
     }
 
     private void selectEventComboBox_SelectedIndexChanged(object sender, EventArgs e) {
