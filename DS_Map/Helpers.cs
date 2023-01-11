@@ -120,7 +120,7 @@ namespace DSPRE {
       MW_LoadModelTextures(building.NSBMDFile, Filesystem.buildingTextures, fileID);
     }
 
-    private static void SetupRenderer(float ang, float dist, float elev, float perspective, int width, int height) {
+    public static void SetupRenderer(float ang, float dist, float elev, float perspective, int width, int height) {
       //TODO: improve this
       Gl.glEnable(Gl.GL_RESCALE_NORMAL);
       Gl.glEnable(Gl.GL_COLOR_MATERIAL);
