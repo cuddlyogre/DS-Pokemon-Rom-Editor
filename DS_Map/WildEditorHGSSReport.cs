@@ -1,8 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
@@ -207,13 +207,16 @@ namespace DSPRE {
         paintBrush = specialBrush;
       }
 
-      using (Graphics gSmall = Graphics.FromImage(bm)) {
+      using (Graphics g = Graphics.FromImage(bm)) {
+        g.InterpolationMode = InterpolationMode.NearestNeighbor;
+        g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
         foreach (HeadbuttTree tree in trees) {
           int tileWidth = openGlControl.Width / MapFile.mapSize;
           int tileHeight = openGlControl.Height / MapFile.mapSize;
           Rectangle smallCell = new Rectangle(tree.mapX * tileWidth, tree.mapY * tileHeight, tileWidth, tileHeight);
-          gSmall.DrawRectangle(paintPen, smallCell);
-          gSmall.FillRectangle(paintBrush, smallCell);
+          g.DrawRectangle(paintPen, smallCell);
+          g.FillRectangle(paintBrush, smallCell);
         }
       }
     }
