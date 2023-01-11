@@ -1940,12 +1940,10 @@ namespace DSPRE.Editors {
           Helpers.MW_LoadModelTextures(building, areaData.buildingsTileset); // Load building textures                
         }
 
-        int width = openGlControl.Width;
-        int height = openGlControl.Height;
         SetCam2DValues();
-        Helpers.RenderMap(ref Helpers.mapRenderer, ref Helpers.buildingsRenderer, ref currentMapFile, width, height, ang, dist, elev, perspective);
+        Helpers.RenderMap(ref currentMapFile, openGlControl.Width, openGlControl.Height, ang, dist, elev, perspective);
         openGlControl.Invalidate();
-        openGlPictureBox.BackgroundImage = Helpers.GrabMapScreenshot(width, height);
+        openGlPictureBox.BackgroundImage = Helpers.GrabMapScreenshot(openGlControl.Width, openGlControl.Height);
       }
     }
 

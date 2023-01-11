@@ -23,7 +23,6 @@ namespace DSPRE {
     public static bool hideBuildings = new bool();
 
     public static NSBMDGlRenderer mapRenderer = new NSBMDGlRenderer();
-    public static NSBMDGlRenderer buildingsRenderer = new NSBMDGlRenderer();
 
     public static ToolStripProgressBar toolStripProgressBar { get { return MainProgram.toolStripProgressBar; } }
 
@@ -162,7 +161,7 @@ namespace DSPRE {
       Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
     }
 
-    public static void RenderMap(ref NSBMDGlRenderer mapRenderer, ref NSBMDGlRenderer buildingsRenderer, ref MapFile mapFile, int width, int height, float ang, float dist, float elev, float perspective, bool mapTexturesON = true, bool buildingTexturesON = true) {
+    public static void RenderMap(ref MapFile mapFile, int width, int height, float ang, float dist, float elev, float perspective, bool mapTexturesON = true, bool buildingTexturesON = true) {
       #region Useless variables that the rendering API still needs
 
       MKDS_Course_Editor.NSBTA.NSBTA.NSBTA_File ani = new MKDS_Course_Editor.NSBTA.NSBTA.NSBTA_File();
@@ -207,14 +206,14 @@ namespace DSPRE {
 
       for (int i = 0; i < mapFile.buildings.Count; i++) {
         Building building = mapFile.buildings[i];
-        NSBMD file = building.NSBMDFile;
-        if (file is null) {
+        model = building.NSBMDFile;
+        if (model is null) {
           Console.WriteLine("Null building can't be rendered");
         }
         else {
-          buildingsRenderer.Model = file.models[0];
+          mapRenderer.Model = model.models[0];
           ScaleTranslateRotateBuilding(building);
-          buildingsRenderer.RenderModel("", ani, aniframeS, aniframeS, aniframeS, aniframeS, aniframeS, ca, false, -1, 0.0f, 0.0f, dist, elev, ang, true, tp, file);
+          mapRenderer.RenderModel("", ani, aniframeS, aniframeS, aniframeS, aniframeS, aniframeS, ca, false, -1, 0.0f, 0.0f, dist, elev, ang, true, tp, model);
         }
       }
     }

@@ -19,8 +19,6 @@ namespace DSPRE {
     private AreaData areaData;
     readonly string locationName;
 
-    public static NSBMDGlRenderer mapRenderer = new NSBMDGlRenderer();
-    public static NSBMDGlRenderer buildingsRenderer = new NSBMDGlRenderer();
     private static float perspective;
     private static float ang;
     private static float dist;
@@ -114,7 +112,7 @@ namespace DSPRE {
         Helpers.MW_LoadModelTextures(building, areaData.buildingsTileset); // Load building textures                
       }
 
-      Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl.Width, openGlControl.Height, ang, dist, elev, perspective);
+      Helpers.RenderMap(ref currentMapFile, openGlControl.Width, openGlControl.Height, ang, dist, elev, perspective);
       openGlControl.Invalidate();
 
       return Helpers.GrabMapScreenshot(width, height);

@@ -215,9 +215,7 @@ namespace DSPRE.Editors {
     }
 
     private void RenderMap() {
-      int width = openGlControl.Width;
-      int height = openGlControl.Height;
-      Helpers.RenderMap(ref Helpers.mapRenderer, ref Helpers.buildingsRenderer, ref currentMapFile, width, height, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
+      Helpers.RenderMap(ref currentMapFile, openGlControl.Width, openGlControl.Height, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
       openGlControl.Invalidate();
     }
 

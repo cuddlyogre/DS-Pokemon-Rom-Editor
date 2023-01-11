@@ -278,7 +278,7 @@ namespace DSPRE.Editors {
         Helpers.MW_LoadModelTextures(building, areaData.buildingsTileset); // Load building textures                
       }
 
-      Helpers.RenderMap(ref Helpers.mapRenderer, ref Helpers.buildingsRenderer, ref currentMapFile, openGlControl.Width, openGlControl.Height, ang, dist, elev, perspective);
+      Helpers.RenderMap(ref currentMapFile, openGlControl.Width, openGlControl.Height, ang, dist, elev, perspective);
       return Helpers.GrabMapScreenshot(width, height);
     }
 
