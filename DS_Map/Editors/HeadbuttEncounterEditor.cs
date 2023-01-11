@@ -18,6 +18,7 @@ namespace DSPRE.Editors {
 
     private MapHeaderHGSS mapHeader;
     private HeadbuttEncounterFile headbuttEncounterFile;
+    private HeadbuttEncounterMap headbuttEncounterMap;
     private GameMatrix gameMatrix;
     private AreaData areaData;
     private MapFile mapFile;
@@ -25,7 +26,9 @@ namespace DSPRE.Editors {
 
     private int width;
     private int height;
+    static SimpleOpenGlControl2 openGlControl;
 
+    private Pen selectedPen;
     private Pen normalPen;
     private SolidBrush normalBrush;
     private Pen specialPen;
@@ -42,6 +45,7 @@ namespace DSPRE.Editors {
       InitializeComponent();
     }
 
+    //TODO: refresh headers list if a header is added
     public void SetupHeadbuttEncounterEditor(bool force = false) {
       if (headbuttEncounterEditorIsReady && !force) return;
       headbuttEncounterEditorIsReady = true;
@@ -58,10 +62,23 @@ namespace DSPRE.Editors {
         RomInfo.DirNames.buildingTextures,
       });
 
+      width = openGlPictureBox.Width;
+      height = openGlPictureBox.Height;
+
+      openGlControl = new SimpleOpenGlControl2();
+      openGlControl.InitializeContexts();
+      openGlControl.Width = width;
+      openGlControl.Height = height;
+      openGlControl.Invalidate();
+      openGlControl.MakeCurrent();
+
       Tuple<List<string>, List<string>> headerNames = Helpers.BuildHeaderNames();
       List<string> headerListBoxNames = headerNames.Item1;
       List<string> internalNames = headerNames.Item2;
       string[] pokemonNames = RomInfo.GetPokemonNames();
+
+      Color selectedColor = Color.FromArgb(255, Color.White);
+      selectedPen = new Pen(selectedColor);
 
       Color normalColor = Color.FromArgb(128, Color.DarkBlue);
       normalPen = new Pen(normalColor);
@@ -94,17 +111,29 @@ namespace DSPRE.Editors {
       }
     }
 
+    public void makeCurrent() {
+      openGlControl.MakeCurrent();
+    }
+
+    public void OpenHeadbuttEncounterEditor(int headerID) {
+      SetupHeadbuttEncounterEditor();
+      comboBoxMapHeader.SelectedIndex = headerID;
+      EditorPanels.mainTabControl.SelectedTab = EditorPanels.headbuttEncounterEditorTabPage;
+    }
+
     private void comboBoxMapHeader_SelectedIndexChanged(object sender, EventArgs e) {
       setCurrentMap((ushort)comboBoxMapHeader.SelectedIndex);
     }
 
     public void setCurrentMap(ushort headerID) {
       this.mapFile = null;
+      this.headbuttEncounterMap = null;
 
       comboBoxMapFile.Items.Clear();
       labelLocationName.Text = "";
 
       listBoxTrees = null;
+      if (headbuttTree != null) headbuttTree.picked = false;
       headbuttTree = null;
 
       headbuttEncounterEditorTabNormal.Reset();
@@ -201,19 +230,25 @@ namespace DSPRE.Editors {
       HeadbuttEncounterMap map = comboBoxMapFile.SelectedItem as HeadbuttEncounterMap;
       int mapID = gameMatrix.maps[map.y, map.x];
       this.mapFile = new MapFile(mapID, RomInfo.gameFamily, discardMoveperms: true);
+      this.headbuttEncounterMap = map;
       RenderBackground();
     }
 
-    private void RenderBackground() {
-      width = openGlControl.Width;
-      height = openGlControl.Height;
+    private Bitmap GetMapBitmap() {
       Bitmap bm = RenderMap();
       openGlControl.Invalidate();
+      return bm;
+    }
+
+    private void RenderBackground() {
+      Bitmap bm = GetMapBitmap();
 
       if (headbuttEncounterFile != null) {
-        using (Graphics gSmall = Graphics.FromImage(bm)) {
-          MarkTrees(gSmall, normalPen, normalBrush, headbuttEncounterFile.normalTreeGroups);
-          MarkTrees(gSmall, specialPen, specialBrush, headbuttEncounterFile.specialTreeGroups);
+        using (Graphics g = Graphics.FromImage(bm)) {
+          g.InterpolationMode = InterpolationMode.NearestNeighbor;
+          g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+          MarkTrees(g, headbuttEncounterFile.normalTreeGroups, HeadbuttTree.Types.Normal);
+          MarkTrees(g, headbuttEncounterFile.specialTreeGroups, HeadbuttTree.Types.Special);
         }
       }
 
@@ -249,7 +284,7 @@ namespace DSPRE.Editors {
       return Helpers.GrabMapScreenshot(width, height);
     }
 
-    private void MarkTrees(Graphics gSmall, Pen paintPen, SolidBrush paintBrush, BindingList<HeadbuttTreeGroup> treeGroups) {
+    private void MarkTrees(Graphics g, BindingList<HeadbuttTreeGroup> treeGroups, HeadbuttTree.Types treeType) {
       HeadbuttEncounterMap map = comboBoxMapFile.SelectedItem as HeadbuttEncounterMap;
       if (map == null) return;
 
@@ -257,23 +292,36 @@ namespace DSPRE.Editors {
         foreach (HeadbuttTree tree in treeGroup.trees) {
           if (tree.unused) continue;
           if (tree.matrixX != map.x || tree.matrixY != map.y) continue;
-          int tileWidth = openGlControl.Width / MapFile.mapSize;
-          int tileHeight = openGlControl.Height / MapFile.mapSize;
-          Rectangle smallCell = new Rectangle(tree.mapX * tileWidth, tree.mapY * tileHeight, tileWidth, tileHeight);
-          gSmall.DrawRectangle(paintPen, smallCell);
-          gSmall.FillRectangle(paintBrush, smallCell);
+          MarkTree(g, tree, treeType);
         }
       }
     }
 
-    public void makeCurrent() {
-      openGlControl.MakeCurrent();
-    }
+    private void MarkTree(Graphics g, HeadbuttTree tree, HeadbuttTree.Types treeType) {
+      Pen paintPen;
+      SolidBrush paintBrush;
+      if (treeType == HeadbuttTree.Types.Normal) {
+        paintPen = normalPen;
+        paintBrush = normalBrush;
+      }
+      else {
+        paintPen = specialPen;
+        paintBrush = specialBrush;
+      }
 
-    public void OpenHeadbuttEncounterEditor(int headerID) {
-      SetupHeadbuttEncounterEditor();
-      comboBoxMapHeader.SelectedIndex = headerID;
-      EditorPanels.mainTabControl.SelectedTab = EditorPanels.headbuttEncounterEditorTabPage;
+      if (tree.picked) {
+        paintPen = selectedPen;
+      }
+
+      int tileWidth = openGlControl.Width / MapFile.mapSize;
+      int tileHeight = openGlControl.Height / MapFile.mapSize;
+      int tileX = tree.mapX * tileWidth;
+      int tileY = tree.mapY * tileHeight;
+
+      int padding = 1;
+      Rectangle rectangle = new Rectangle(tileX + padding, tileY + padding, tileWidth - padding, tileHeight - padding);
+      g.FillRectangle(paintBrush, rectangle);
+      g.DrawRectangle(paintPen, rectangle);
     }
 
     private void buttonSave_Click(object sender, EventArgs e) {
@@ -295,85 +343,6 @@ namespace DSPRE.Editors {
       }
     }
 
-    private void mapScreenshotButton_Click(object sender, EventArgs e) {
-      // MessageBox.Show("Choose where to save the map screenshot.", "Choose destination path", MessageBoxButtons.OK, MessageBoxIcon.Information);
-      // SaveFileDialog imageSFD = new SaveFileDialog {
-      //   Filter = "PNG File(*.png)|*.png",
-      // };
-      // if (imageSFD.ShowDialog() != DialogResult.OK) {
-      //   return;
-      // }
-      //
-      // Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref currentMapFile, openGlControl, ang, dist, elev, perspective, mapTexturesOn, bldTexturesOn);
-      //
-      // int newW = 512, newH = 512;
-      // Bitmap newImage = new Bitmap(newW, newH);
-      // using (var graphCtr = Graphics.FromImage(newImage)) {
-      //   graphCtr.SmoothingMode = SmoothingMode.HighQuality;
-      //   graphCtr.InterpolationMode = InterpolationMode.NearestNeighbor;
-      //   graphCtr.PixelOffsetMode = PixelOffsetMode.HighQuality;
-      //   graphCtr.DrawImage(Helpers.GrabMapScreenshot(openGlControl.Width, openGlControl.Height), 0, 0, newW, newH);
-      // }
-      //
-      // newImage.Save(imageSFD.FileName);
-      // MessageBox.Show("Screenshot saved.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-    }
-
-    private void radio2D_CheckedChanged(object sender, EventArgs e) {
-      // bool _2dmodeSelected = radio2D.Checked;
-      //
-      // if (_2dmodeSelected) {
-      //   SetCam2D();
-      // }
-      // else {
-      //   SetCam3D();
-      // }
-      //
-      // bldPlaceWithMouseCheckbox.Enabled = _2dmodeSelected;
-      // radio3D.Checked = !_2dmodeSelected;
-      //
-      // bldPlaceWithMouseCheckbox_CheckedChanged(null, null);
-    }
-
-    private void wireframeCheckBox_CheckedChanged(object sender, EventArgs e) {
-      SetCamWireframe();
-    }
-
-    private void SetCam2DValues() {
-      perspective = 4f;
-      ang = 0f;
-      dist = 115.2f;
-      elev = 90f;
-    }
-
-    private void SetCam2D() {
-      SetCam2DValues();
-      Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref mapFile, openGlControl.Width, openGlControl.Height, ang, dist, elev, perspective);
-    }
-
-    private void SetCam3DValues() {
-      perspective = 45f;
-      ang = 0f;
-      dist = 12.8f;
-      elev = 50.0f;
-    }
-
-    private void SetCam3D() {
-      SetCam3DValues();
-      Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref mapFile, openGlControl.Width, openGlControl.Height, ang, dist, elev, perspective);
-    }
-
-    private void SetCamWireframe() {
-      if (wireframeCheckBox.Checked) {
-        Gl.glPolygonMode(Gl.GL_FRONT_AND_BACK, Gl.GL_LINE);
-      }
-      else {
-        Gl.glPolygonMode(Gl.GL_FRONT_AND_BACK, Gl.GL_FILL);
-      }
-
-      Helpers.RenderMap(ref mapRenderer, ref buildingsRenderer, ref mapFile, openGlControl.Width, openGlControl.Height, ang, dist, elev, perspective);
-    }
-
     private void ListBoxTrees_SelectedIndexChanged(object sender, EventArgs e) {
       listBoxTrees = sender as ListBox2;
       headbuttTree = listBoxTrees.SelectedItem as HeadbuttTree;
@@ -384,6 +353,60 @@ namespace DSPRE.Editors {
       numericUpDownTreeMatrixY.Value = headbuttTree.matrixY;
       numericUpDownTreeMapX.Value = headbuttTree.mapX;
       numericUpDownTreeMapY.Value = headbuttTree.mapY;
+    }
+
+    private void openGlPictureBox_Click(object sender, EventArgs e) {
+      MouseEventArgs mea = (MouseEventArgs)e;
+
+      int tileWidth = openGlControl.Width / MapFile.mapSize;
+      int tileHeight = openGlControl.Height / MapFile.mapSize;
+      int mouseX = openGlPictureBox.PointToClient(MousePosition).X / tileWidth;
+      int mouseY = openGlPictureBox.PointToClient(MousePosition).Y / tileHeight;
+
+
+      if (mea.Button == MouseButtons.Left) {
+        if (this.headbuttEncounterMap != null) {
+          numericUpDownTreeMatrixX.Value = headbuttEncounterMap.x;
+          numericUpDownTreeMatrixY.Value = headbuttEncounterMap.y;
+          numericUpDownTreeMapX.Value = mouseX;
+          numericUpDownTreeMapY.Value = mouseY;
+        }
+      }
+      else if (mea.Button == MouseButtons.Middle) {
+        //warp
+      }
+      else if (mea.Button == MouseButtons.Right) {
+        if (headbuttTree != null) headbuttTree.picked = false;
+
+        if (FindTreeFromMap(headbuttEncounterEditorTabNormal.listBoxTreeGroups, headbuttEncounterEditorTabNormal.listBoxTrees, mouseX, mouseY)) {
+          tabControl.SelectedTab = tabPageNormal;
+        }
+        else if (FindTreeFromMap(headbuttEncounterEditorTabSpecial.listBoxTreeGroups, headbuttEncounterEditorTabSpecial.listBoxTrees, mouseX, mouseY)) {
+          tabControl.SelectedTab = tabPageSpecial;
+        }
+        else {
+          headbuttEncounterEditorTabNormal.listBoxTreeGroups.SelectedItem = null;
+          headbuttEncounterEditorTabNormal.listBoxTrees.SelectedItem = null;
+          headbuttEncounterEditorTabSpecial.listBoxTreeGroups.SelectedItem = null;
+          headbuttEncounterEditorTabSpecial.listBoxTrees.SelectedItem = null;
+        }
+      }
+
+      RenderBackground();
+    }
+
+    private bool FindTreeFromMap(ListBox2 listBoxTreeGroups, ListBox2 listBoxTrees, int x, int y) {
+      foreach (HeadbuttTreeGroup headbuttTreeGroup in listBoxTreeGroups.Items) {
+        foreach (HeadbuttTree tree in headbuttTreeGroup.trees) {
+          if (tree.mapX != x || tree.mapY != y) continue;
+          listBoxTreeGroups.SelectedItem = headbuttTreeGroup;
+          listBoxTrees.SelectedItem = tree;
+          tree.picked = true;
+          return true;
+        }
+      }
+
+      return false;
     }
 
     private void numericUpDownTreeGlobalX_ValueChanged(object sender, EventArgs e) {
@@ -420,6 +443,20 @@ namespace DSPRE.Editors {
       if (headbuttTree == null) return;
       headbuttTree.mapY = (ushort)((NumericUpDown)sender).Value;
       listBoxTrees.RefreshItem(listBoxTrees.SelectedIndex);
+    }
+
+    private void mapScreenshotButton_Click(object sender, EventArgs e) {
+      SaveFileDialog imageSFD = new SaveFileDialog { Filter = "PNG File(*.png)|*.png", };
+      if (imageSFD.ShowDialog() != DialogResult.OK) return;
+      openGlPictureBox.BackgroundImage.Save(imageSFD.FileName);
+      MessageBox.Show("Screenshot saved.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+    }
+
+    private void SetCam2DValues() {
+      perspective = 4f;
+      ang = 0f;
+      dist = 115.2f;
+      elev = 90f;
     }
   }
 }

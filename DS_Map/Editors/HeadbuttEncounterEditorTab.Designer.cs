@@ -174,16 +174,15 @@ namespace DSPRE.Editors
       this.listBoxTrees.Name = "listBoxTrees";
       this.listBoxTrees.Size = new System.Drawing.Size(255, 82);
       this.listBoxTrees.TabIndex = 11;
-      this.listBoxTrees.SelectedIndexChanged += new System.EventHandler(this.listBoxTrees_SelectedIndexChanged);
       // 
       // listBoxEncounters
       // 
-      this.listBoxEncounters.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.listBoxEncounters.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       this.listBoxEncounters.FormattingEnabled = true;
-      this.listBoxEncounters.ItemHeight = 19;
+      this.listBoxEncounters.ItemHeight = 14;
       this.listBoxEncounters.Location = new System.Drawing.Point(3, 15);
       this.listBoxEncounters.Name = "listBoxEncounters";
-      this.listBoxEncounters.Size = new System.Drawing.Size(255, 175);
+      this.listBoxEncounters.Size = new System.Drawing.Size(255, 172);
       this.listBoxEncounters.TabIndex = 13;
       this.listBoxEncounters.SelectedIndexChanged += new System.EventHandler(this.listBoxEncounters_SelectedIndexChanged);
       // 

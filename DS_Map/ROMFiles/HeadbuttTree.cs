@@ -2,6 +2,8 @@ using System.IO;
 
 namespace DSPRE.ROMFiles {
   public class HeadbuttTree {
+    public bool picked = false;
+
     private ushort _globalX;
     private ushort _globalY;
     private ushort _matrixX;
