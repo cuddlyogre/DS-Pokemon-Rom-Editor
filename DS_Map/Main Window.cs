@@ -19,6 +19,9 @@ namespace DSPRE {
       EditorPanels.Initialize(this);
       Helpers.Initialize(this);
       SetMenuLayout(Properties.Settings.Default.menuLayout); //Read user settings for menu layout
+
+      aboutToolStripMenuItem.DropDownItems.Remove(encounterReportToolStripMenuItem);
+      mainTabControl.TabPages.Remove(EditorPanels.headbuttEncounterEditorTabPage);
     }
 
     public bool iconON = false;
@@ -556,6 +559,11 @@ namespace DSPRE {
       headerSearchToolStripMenuItem.Enabled = true;
       spawnEditorToolStripButton.Enabled = true;
       spawnEditorToolStripMenuItem.Enabled = true;
+
+      if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
+        aboutToolStripMenuItem.DropDownItems.Add(encounterReportToolStripMenuItem);
+        mainTabControl.TabPages.Insert(mainTabControl.TabPages.IndexOf(EditorPanels.mapEditorTabPage) + 1, EditorPanels.headbuttEncounterEditorTabPage);
+      }
 
       scriptCommandsButton.Enabled = true;
       Helpers.statusLabelMessage();
