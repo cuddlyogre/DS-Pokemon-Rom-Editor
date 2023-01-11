@@ -27,7 +27,6 @@ namespace DSPRE.Editors {
     private static float dist;
     private static float elev;
 
-    private const int mapEditorSquareSize = 19;
     private Rectangle mainCell;
     private Pen paintPen;
     private SolidBrush paintBrush;
@@ -1526,14 +1525,16 @@ namespace DSPRE.Editors {
 
     private void mapOpenGlControl_Click(object sender, EventArgs e) {
       if (radio2D.Checked && bldPlaceWithMouseCheckbox.Checked) {
-        PointF coordinates = mapRenderPanel.PointToClient(Cursor.Position);
-        PointF mouseTilePos = new PointF(coordinates.X / mapEditorSquareSize, coordinates.Y / mapEditorSquareSize);
+        int tileWidth = openGlControl.Width / MapFile.mapSize;
+        int tileHeight = openGlControl.Height / MapFile.mapSize;
+        int mouseX = openGlPictureBox.PointToClient(MousePosition).X / tileWidth;
+        int mouseY = openGlPictureBox.PointToClient(MousePosition).Y / tileHeight;
 
         if (buildingsListBox.SelectedIndex > -1) {
           if (!bldPlaceLockXcheckbox.Checked)
-            xBuildUpDown.Value = (decimal)(Math.Round(mouseTilePos.X, bldDecimalPositions) - 16);
+            xBuildUpDown.Value = (decimal)(Math.Round((float)mouseX, bldDecimalPositions) - 16);
           if (!bldPlaceLockZcheckbox.Checked)
-            zBuildUpDown.Value = (decimal)(Math.Round(mouseTilePos.Y, bldDecimalPositions) - 16);
+            zBuildUpDown.Value = (decimal)(Math.Round((float)mouseY, bldDecimalPositions) - 16);
         }
       }
     }
@@ -1605,35 +1606,42 @@ namespace DSPRE.Editors {
       RenderMap();
     }
 
-    private void movPictureBox_Click(object sender, EventArgs e) {
+    private void openGlPictureBox_Click(object sender, EventArgs e) {
       MouseEventArgs mea = (MouseEventArgs)e;
 
-      int xCoord = openGlPictureBox.PointToClient(MousePosition).X / mapEditorSquareSize;
-      int yCoord = openGlPictureBox.PointToClient(MousePosition).Y / mapEditorSquareSize;
+      int tileWidth = openGlControl.Width / MapFile.mapSize;
+      int tileHeight = openGlControl.Height / MapFile.mapSize;
+      int mouseX = openGlPictureBox.PointToClient(MousePosition).X / tileWidth;
+      int mouseY = openGlPictureBox.PointToClient(MousePosition).Y / tileHeight;
 
       if (mea.Button == MouseButtons.Middle) {
-        FloodFillCell(xCoord, yCoord);
+        FloodFillCell(mouseX, mouseY);
       }
       else if (mea.Button == MouseButtons.Left) {
-        EditCell(xCoord, yCoord);
+        EditCell(mouseX, mouseY);
       }
       else {
         if (selectCollisionPanel.BackColor == Color.MidnightBlue) {
-          byte newValue = currentMapFile.collisions[yCoord, xCoord];
+          byte newValue = currentMapFile.collisions[mouseY, mouseX];
           updateCollisions(newValue);
         }
         else {
-          byte newValue = currentMapFile.types[yCoord, xCoord];
+          byte newValue = currentMapFile.types[mouseY, mouseX];
           typePainterUpDown.Value = newValue;
           updateTypeCollisions(newValue);
         }
       }
     }
 
-    private void EditCell(int xPosition, int yPosition) {
+    private void EditCell(int x, int y) {
       try {
-        mainCell = new Rectangle(xPosition * mapEditorSquareSize, yPosition * mapEditorSquareSize, mapEditorSquareSize, mapEditorSquareSize);
-        smallCell = new Rectangle(xPosition * 3, yPosition * 3, 3, 3);
+        int tileWidth = openGlControl.Width / MapFile.mapSize;
+        int tileHeight = openGlControl.Height / MapFile.mapSize;
+        int tileX = x * tileWidth;
+        int tileY = y * tileHeight;
+        
+        mainCell = new Rectangle(tileX, tileY, tileWidth, tileHeight);
+        smallCell = new Rectangle(x * 3, y * 3, 3, 3);
 
         using (Graphics mainG = Graphics.FromImage(openGlPictureBox.Image)) {
           /*  Draw new cell on main grid */
@@ -1660,7 +1668,7 @@ namespace DSPRE.Editors {
             smallG.FillRectangle(paintBrush, smallCell);
           }
 
-          currentMapFile.collisions[yPosition, xPosition] = paintByte;
+          currentMapFile.collisions[y, x] = paintByte;
           collisionPictureBox.Invalidate();
         }
         else {
@@ -1672,7 +1680,7 @@ namespace DSPRE.Editors {
             smallG.FillRectangle(paintBrush, smallCell);
           }
 
-          currentMapFile.types[yPosition, xPosition] = paintByte;
+          currentMapFile.types[y, x] = paintByte;
           typePictureBox.Invalidate();
         }
 
@@ -1711,7 +1719,12 @@ namespace DSPRE.Editors {
 
     private void movPictureBox_MouseMove(object sender, MouseEventArgs e) {
       if ((Control.MouseButtons & MouseButtons.Left) == MouseButtons.Left) {
-        EditCell(e.Location.X / mapEditorSquareSize, e.Location.Y / mapEditorSquareSize);
+        int tileWidth = openGlControl.Width / MapFile.mapSize;
+        int tileHeight = openGlControl.Height / MapFile.mapSize;
+        int mouseX = openGlPictureBox.PointToClient(MousePosition).X / tileWidth;
+        int mouseY = openGlPictureBox.PointToClient(MousePosition).Y / tileHeight;
+
+        EditCell(mouseX, mouseY);
       }
     }
 

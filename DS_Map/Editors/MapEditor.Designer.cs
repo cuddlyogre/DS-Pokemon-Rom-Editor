@@ -1336,7 +1336,7 @@ namespace DSPRE.Editors
       this.openGlPictureBox.Size = new System.Drawing.Size(608, 608);
       this.openGlPictureBox.TabIndex = 3;
       this.openGlPictureBox.TabStop = false;
-      this.openGlPictureBox.Click += new System.EventHandler(this.movPictureBox_Click);
+      this.openGlPictureBox.Click += new System.EventHandler(this.openGlPictureBox_Click);
       this.openGlPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.movPictureBox_MouseMove);
       // 
       // openGlControl
