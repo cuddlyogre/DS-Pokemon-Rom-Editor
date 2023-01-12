@@ -561,7 +561,6 @@ namespace DSPRE.Editors
       // 
       // groupBox2
       // 
-      this.groupBox2.BackColor = System.Drawing.SystemColors.Window;
       this.groupBox2.Controls.Add(this.cameraUpDown);
       this.groupBox2.Controls.Add(this.weatherUpDown);
       this.groupBox2.Controls.Add(this.musicNightUpDown);
