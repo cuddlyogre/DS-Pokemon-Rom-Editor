@@ -547,31 +547,31 @@ namespace DSPRE.Editors {
         headerID = currentMatrix.headers[e.RowIndex, e.ColumnIndex];
       }
       else {
-        ushort[] result = HeaderSearch.AdvancedSearch(0,
-            (ushort)EditorPanels.headerEditor.internalNames.Count,
-            EditorPanels.headerEditor.internalNames,
-            (int)MapHeader.SearchableFields.MatrixID,
-            (int)HeaderSearch.NumOperators.Equal,
-            selectMatrixComboBox.SelectedIndex.ToString())
-          .Select(s => ushort.Parse(s.Split()[0]))
-          .ToArray();
+        HashSet<string> result = HeaderSearch.AdvancedSearch(0,
+          (ushort)EditorPanels.headerEditor.internalNames.Count,
+          EditorPanels.headerEditor.internalNames,
+          (int)MapHeader.SearchableFields.MatrixID,
+          (int)HeaderSearch.NumOperators.Equal,
+          selectMatrixComboBox.SelectedIndex.ToString());
 
-        if (result.Length == 0) {
+        ushort[] headerIDs =  result.Select(s => ushort.Parse(s.Split()[0])).ToArray();
+
+        if (headerIDs.Length == 0) {
           headerID = EditorPanels.headerEditor.currentHeader.ID;
           Helpers.statusLabelMessage("This Matrix is not linked to any Header. DSPRE can't determine the most appropriate AreaData (and textures) to use.\nDisplaying Textures from the last selected Header (" + headerID + ")'s AreaData...");
         }
-        else if (result.Length == 1) {
-          headerID = result[0];
+        else if (headerIDs.Length == 1) {
+          headerID = headerIDs[0];
           Helpers.statusLabelMessage("Loading Header " + headerID + "'s textures.");
         }
         else {
-          if (result.Contains(EditorPanels.headerEditor.currentHeader.ID)) {
+          if (headerIDs.Contains(EditorPanels.headerEditor.currentHeader.ID)) {
             headerID = EditorPanels.headerEditor.currentHeader.ID;
             Helpers.statusLabelMessage("Multiple Headers are associated to this Matrix, including the last selected one [Header " + headerID + "]. Now using its textures.");
           }
           else {
             if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.DP)) {
-              foreach (ushort r in result) {
+              foreach (ushort r in headerIDs) {
                 MapHeaderDP hdp = (MapHeaderDP)MapHeader.GetMapHeader(r);
 
                 if (hdp.locationName != 0) {
@@ -581,7 +581,7 @@ namespace DSPRE.Editors {
               }
             }
             else if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.Plat)) {
-              foreach (ushort r in result) {
+              foreach (ushort r in headerIDs) {
                 MapHeaderPt hpt = (MapHeaderPt)MapHeader.GetMapHeader(r);
 
                 if (hpt.locationName != 0) {
@@ -591,7 +591,7 @@ namespace DSPRE.Editors {
               }
             }
             else {
-              foreach (ushort r in result) {
+              foreach (ushort r in headerIDs) {
                 MapHeaderHGSS hgss = (MapHeaderHGSS)MapHeader.GetMapHeader(r);
 
                 if (hgss.locationName != 0) {
@@ -806,10 +806,10 @@ namespace DSPRE.Editors {
           break;
       }
 
-      ushort headerNumber = 0;
+      ushort headerID = 0;
       HashSet<string> result = null;
       if (currentMatrix.hasHeadersSection) {
-        headerNumber = Convert.ToUInt16(selectedCell.Value);
+        headerID = Convert.ToUInt16(selectedCell.Value);
       }
       else {
         DialogResult d;
@@ -824,26 +824,28 @@ namespace DSPRE.Editors {
             (int)HeaderSearch.NumOperators.Equal,
             selectMatrixComboBox.SelectedIndex.ToString());
 
+          ushort[] headerIDs = result.Select(s => ushort.Parse(s.Split()[0])).ToArray();
+
           if (result.Count < 1) {
             MessageBox.Show("The current Matrix isn't assigned to any Header.\nThe default choice has been set to the last selected Header.", "No result", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            headerNumber = EditorPanels.headerEditor.currentHeader.ID;
+            headerID = EditorPanels.headerEditor.currentHeader.ID;
           }
           else if (result.Count == 1) {
-            headerNumber = ushort.Parse(result.First().Split()[0]);
+            headerID = headerIDs[0];
           }
           else {
             MessageBox.Show("Multiple Headers are using this Matrix.\nPick one from the list or reset the filter results to choose a different Header.", "Multiple results", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
           }
         }
         else {
-          headerNumber = EditorPanels.headerEditor.currentHeader.ID;
+          headerID = EditorPanels.headerEditor.currentHeader.ID;
         }
       }
 
       int matrixX = selectedCell.ColumnIndex;
       int matrixY = selectedCell.RowIndex;
 
-      using (SpawnEditor ed = new SpawnEditor(result, EditorPanels.headerEditor.headerListBoxNames, headerNumber, matrixX, matrixY)) {
+      using (SpawnEditor ed = new SpawnEditor(result, EditorPanels.headerEditor.headerListBoxNames, headerID, matrixX, matrixY)) {
         ed.ShowDialog();
       }
     }

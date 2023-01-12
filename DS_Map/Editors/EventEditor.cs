@@ -798,19 +798,19 @@ namespace DSPRE.Editors {
           DialogResult main = MessageBox.Show("The selected event tried to reference a bigger Matrix than the one which is currently being displayed.\nDo you want to check for another potentially compatible matrix?", "Event is out of range", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
           if (main.Equals(DialogResult.Yes)) {
-            ushort[] result = HeaderSearch.AdvancedSearch(0,
-                (ushort)EditorPanels.headerEditor.internalNames.Count,
-                EditorPanels.headerEditor.internalNames,
-                (int)MapHeader.SearchableFields.EventFileID,
-                (int)HeaderSearch.NumOperators.Equal,
-                selectEventComboBox.SelectedIndex.ToString())
-              .Select(s => ushort.Parse(s.Split()[0]))
-              .ToArray();
+            HashSet<string> result = HeaderSearch.AdvancedSearch(0,
+              (ushort)EditorPanels.headerEditor.internalNames.Count,
+              EditorPanels.headerEditor.internalNames,
+              (int)MapHeader.SearchableFields.EventFileID,
+              (int)HeaderSearch.NumOperators.Equal,
+              selectEventComboBox.SelectedIndex.ToString());
 
+            ushort[] headerIDs = result.Select(s => ushort.Parse(s.Split()[0])).ToArray();
+            
             Dictionary<ushort, ushort> dict = new Dictionary<ushort, ushort>();
 
             if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.DP)) {
-              foreach (ushort headerID in result) {
+              foreach (ushort headerID in headerIDs) {
                 MapHeaderDP hdp = (MapHeaderDP)MapHeader.GetMapHeader(headerID);
 
                 if (hdp.matrixID != eventMatrixUpDown.Value && hdp.locationName != 0) {
@@ -819,7 +819,7 @@ namespace DSPRE.Editors {
               }
             }
             else if (RomInfo.gameFamily.Equals(RomInfo.GameFamilies.Plat)) {
-              foreach (ushort headerID in result) {
+              foreach (ushort headerID in headerIDs) {
                 MapHeaderPt hpt = (MapHeaderPt)MapHeader.GetMapHeader(headerID);
 
                 if (hpt.matrixID != eventMatrixUpDown.Value && hpt.locationName != 0) {
@@ -828,7 +828,7 @@ namespace DSPRE.Editors {
               }
             }
             else {
-              foreach (ushort headerID in result) {
+              foreach (ushort headerID in headerIDs) {
                 MapHeaderHGSS hgss = (MapHeaderHGSS)MapHeader.GetMapHeader(headerID);
 
                 if (hgss.matrixID != eventMatrixUpDown.Value && hgss.locationName != 0) {
