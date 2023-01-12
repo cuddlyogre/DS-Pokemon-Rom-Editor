@@ -362,7 +362,7 @@ namespace DSPRE {
           byte[] row = reader.ReadBytes(RomInfo.internalNameLength);
 
           string internalName = Encoding.ASCII.GetString(row); //.TrimEnd();
-          headerListBoxNames.Add(i.ToString("D3") + MapHeader.nameSeparator + internalName);
+          headerListBoxNames.Add(MapHeader.BuildName(i, internalName));
           internalNames.Add(internalName.TrimEnd('\0'));
         }
       }

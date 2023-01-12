@@ -107,7 +107,7 @@ namespace DSPRE.Editors {
           }
 
           reader.BaseStream.Position += 0x14;
-          selectMapComboBox.Items.Add(i.ToString("D3") + MapHeader.nameSeparator + DSUtils.ReadNSBMDname(reader));
+          selectMapComboBox.Items.Add(MapHeader.BuildName(i, DSUtils.ReadNSBMDname(reader)));
         }
       }
 
@@ -192,7 +192,7 @@ namespace DSPRE.Editors {
       AreaData areaData = new AreaData(mapHeader.areaDataID);
 
       selectMapComboBox.SelectedIndex = mapID;
-      mapTextureComboBox.SelectedIndex   = areaData.mapTileset + 1;
+      mapTextureComboBox.SelectedIndex = areaData.mapTileset + 1;
       buildTextureComboBox.SelectedIndex = areaData.buildingsTileset + 1;
 
       if (areaData.areaType == AreaData.TYPE_INDOOR) {
@@ -483,19 +483,18 @@ namespace DSPRE.Editors {
 
       for (int i = 0; i < currentMapFile.buildings.Count; i++) {
         uint id = currentMapFile.buildings[i].modelID;
-        string baseName = (i + 1).ToString("D2") + MapHeader.nameSeparator;
         try {
-          buildingsListBox.Items.Add(baseName + buildIndexComboBox.Items[(int)id]);
+          buildingsListBox.Items.Add(MapHeader.BuildName((i + 1), $"{buildIndexComboBox.Items[(int)id]}"));
         }
         catch (ArgumentOutOfRangeException) {
           DialogResult d = MessageBox.Show("Building #" + id + " couldn't be found in the Building List.\n" +
                                            "Do you want to load Building 0 in its place?\n" +
                                            "(Choosing \"Cancel\" will discard this building altogether.)", "Building not found", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Error);
           if (d == DialogResult.Yes) {
-            buildingsListBox.Items.Add(baseName + buildIndexComboBox.Items[0]);
+            buildingsListBox.Items.Add(MapHeader.BuildName((i + 1), $"{buildIndexComboBox.Items[0]}"));
           }
           else if (d == DialogResult.No) {
-            buildingsListBox.Items.Add(baseName + "MISSING " + (int)id + '!');
+            buildingsListBox.Items.Add(MapHeader.BuildName((i + 1), $"MISSING {(int)id}!"));
           } // else do nothing
         }
       }
@@ -536,7 +535,7 @@ namespace DSPRE.Editors {
       }
 
       Helpers.DisableHandlers();
-      buildingsListBox.Items[buildingsListBox.SelectedIndex] = (buildingsListBox.SelectedIndex + 1).ToString("D2") + MapHeader.nameSeparator + buildIndexComboBox.SelectedItem;
+      buildingsListBox.Items[buildingsListBox.SelectedIndex] = MapHeader.BuildName((buildingsListBox.SelectedIndex + 1), $"{buildIndexComboBox.SelectedItem}");
       Helpers.EnableHandlers();
 
       Building building = currentMapFile.buildings[buildingsListBox.SelectedIndex];
@@ -582,7 +581,7 @@ namespace DSPRE.Editors {
       currentMapFile.buildings[currentMapFile.buildings.Count - 1] = building;
 
       /* Add new entry to buildings ListBox */
-      buildingsListBox.Items.Add((buildingsListBox.Items.Count + 1).ToString("D2") + MapHeader.nameSeparator + buildIndexComboBox.Items[(int)building.modelID]);
+      buildingsListBox.Items.Add(MapHeader.BuildName((buildingsListBox.Items.Count + 1), $"{buildIndexComboBox.Items[(int)building.modelID]}"));
       buildingsListBox.SelectedIndex = buildingsListBox.Items.Count - 1;
 
       /* Redraw scene with new building */
@@ -1635,7 +1634,7 @@ namespace DSPRE.Editors {
         int tileHeight = openGlControl.Height / MapFile.mapSize;
         int tileX = x * tileWidth;
         int tileY = y * tileHeight;
-        
+
         mainCell = new Rectangle(tileX, tileY, tileWidth, tileHeight);
         smallCell = new Rectangle(x * 3, y * 3, 3, 3);
 
@@ -1753,7 +1752,8 @@ namespace DSPRE.Editors {
       new MapFile(0, RomInfo.gameFamily, discardMoveperms: true).SaveToFileDefaultDir(selectMapComboBox.Items.Count);
 
       /* Update ComboBox and select new file */
-      selectMapComboBox.Items.Add(selectMapComboBox.Items.Count.ToString("D3") + MapHeader.nameSeparator + "newmap");
+      const string newmap = "NEWMAP";
+      selectMapComboBox.Items.Add(MapHeader.BuildName(selectMapComboBox.Items.Count, newmap));
       selectMapComboBox.SelectedIndex = selectMapComboBox.Items.Count - 1;
     }
 

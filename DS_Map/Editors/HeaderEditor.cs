@@ -475,7 +475,7 @@ namespace DSPRE.Editors {
       }
 
       internalNames[headerID] = internalNameBox.Text;
-      string elem = headerID.ToString("D3") + MapHeader.nameSeparator + internalNames[headerID];
+      string elem = MapHeader.BuildName(headerID, internalNames[headerID]);
       headerListBoxNames[headerID] = elem;
 
       if (EditorPanels.eventEditor.eventEditorIsReady) {
@@ -962,7 +962,7 @@ namespace DSPRE.Editors {
           }
 
           if (locationName.IndexOf(searchLocationTextBox.Text, StringComparison.InvariantCultureIgnoreCase) >= 0) {
-            headerListBox.Items.Add(i.ToString("D3") + MapHeader.nameSeparator + internalNames[i]);
+            headerListBox.Items.Add(MapHeader.BuildName(i, internalNames[i]));
             noResult = false;
           }
         }
@@ -1207,8 +1207,9 @@ namespace DSPRE.Editors {
       DSUtils.WriteToFile(RomInfo.internalNamesPath, StringToInternalName(newmap), (uint)RomInfo.GetHeaderCount() * RomInfo.internalNameLength);
 
       // Update headers ListBox and internal names list
-      headerListBox.Items.Add(headerListBox.Items.Count + MapHeader.nameSeparator + " " + newmap);
-      headerListBoxNames.Add(headerListBox.Items.Count + MapHeader.nameSeparator + " " + newmap);
+      string name = MapHeader.BuildName(headerListBox.Items.Count, " " + newmap);
+      headerListBox.Items.Add(name);
+      headerListBoxNames.Add(name);
       internalNames.Add(newmap);
 
       // Select new header

@@ -124,6 +124,10 @@ namespace DSPRE.ROMFiles {
     public byte flags { get; set; }
     public ushort wildPokemon { get; set; }
 
+    public static string BuildName(int headerID, string name) {
+      return headerID.ToString("D3") + MapHeader.nameSeparator + name;
+    }
+
     public static MapHeader LoadFromByteArray(byte[] headerData, ushort headerNumber, RomInfo.GameFamilies gameFamily = RomInfo.GameFamilies.NULL) {
       /* Encapsulate header data into the class appropriate for the gameVersion */
       if (headerData.Length < MapHeader.length) {

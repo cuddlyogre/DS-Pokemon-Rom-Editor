@@ -111,7 +111,7 @@ namespace DSPRE {
                 if (prependNumbers) {
                     for (int i = 0; i < intNames.Count; i++) {
                         string name = intNames[i];
-                        headerListBox.Items.Add(i.ToString("D3") + MapHeader.nameSeparator + name);
+                        headerListBox.Items.Add(MapHeader.BuildName(i, name));
                     }
                 } else {
                     headerListBox.Items.AddRange(intNames.ToArray());
@@ -128,25 +128,27 @@ namespace DSPRE {
             switch (fieldToSearch) {
                 case (int)MapHeader.SearchableFields.InternalName:
                     for (ushort i = startID; i < finalID; i++) {
-                        switch (oper) {
+                      string name = MapHeader.BuildName(i, intNames[i]);
+
+                      switch (oper) {
                             case (int)TextOperators.IsExactly:
                                 if (intNames[i].Equals(valToSearch)) {
-                                    result.Add(i.ToString("D3") + MapHeader.nameSeparator + intNames[i]);
+                                    result.Add(name);
                                 }
                                 break;
                             case (int)TextOperators.IsNot:
                                 if (!intNames[i].Equals(valToSearch)) {
-                                    result.Add(i.ToString("D3") + MapHeader.nameSeparator + intNames[i]);
+                                    result.Add(name);
                                 }
                                 break;
                             case (int)TextOperators.Contains:
                                 if (intNames[i].IndexOf(valToSearch, StringComparison.InvariantCultureIgnoreCase) >= 0) {
-                                    result.Add(i.ToString("D3") + MapHeader.nameSeparator + intNames[i]);
+                                    result.Add(name);
                                 }
                                 break;
                             case (int)TextOperators.DoesNotContain:
                                 if (intNames[i].IndexOf(valToSearch, StringComparison.InvariantCultureIgnoreCase) < 0) {
-                                    result.Add(i.ToString("D3") + MapHeader.nameSeparator + intNames[i]);
+                                    result.Add(name);
                                 }
                                 break;
                             default:
@@ -179,38 +181,38 @@ namespace DSPRE {
 
                     for (ushort i = startID; i < finalID; i++) {
                         MapHeader h = MapHeader.GetMapHeader(i);
-                        
                         int headerField = int.Parse(property.GetValue(h, null).ToString());
+                        string name = MapHeader.BuildName(i, intNames[i]);
 
                         switch (oper) {
                             case (int)NumOperators.Less:
                                 if (headerField < numToSearch) {
-                                    result.Add(i.ToString("D3") + MapHeader.nameSeparator + intNames[i]);
+                                    result.Add(name);
                                 }
                                 break;
                             case (int)NumOperators.Equal:
                                 if (headerField == numToSearch) {
-                                    result.Add(i.ToString("D3") + MapHeader.nameSeparator + intNames[i]);
+                                    result.Add(name);
                                 }
                                 break;
                             case (int)NumOperators.Greater: 
                                 if (headerField > numToSearch) {
-                                    result.Add(i.ToString("D3") + MapHeader.nameSeparator + intNames[i]);
+                                    result.Add(name);
                                 }
                                 break;
                             case (int)NumOperators.LessOrEqual:
                                 if (headerField <= numToSearch) {
-                                    result.Add(i.ToString("D3") + MapHeader.nameSeparator + intNames[i]);
+                                    result.Add(name);
                                 }
                                 break;
                             case (int)NumOperators.GreaterOrEqual:
                                 if (headerField >= numToSearch) {
-                                    result.Add(i.ToString("D3") + MapHeader.nameSeparator + intNames[i]);
+                                    result.Add(name);
                                 }
                                 break;
                             case (int)NumOperators.Different:
                                 if (headerField != numToSearch) {
-                                    result.Add(i.ToString("D3") + MapHeader.nameSeparator + intNames[i]);
+                                    result.Add(name);
                                 }
                                 break;
                             default:
