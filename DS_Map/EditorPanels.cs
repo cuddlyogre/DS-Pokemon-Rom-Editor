@@ -17,6 +17,7 @@ namespace DSPRE {
     public static ScriptEditor scriptEditor { get { return MainProgram.scriptEditor; } }
     public static LevelScriptEditor levelScriptEditor { get { return MainProgram.levelScriptEditor; } }
     public static HeadbuttEncounterEditor headbuttEncounterEditor { get { return MainProgram.headbuttEncounterEditor; } }
+    public static SafariZoneEditor safariZoneEditor { get { return MainProgram.safariZoneEditor; } }
     public static TextEditor textEditor { get { return MainProgram.textEditor; } }
     public static CameraEditor cameraEditor { get { return MainProgram.cameraEditor; } }
     public static TrainerEditor trainerEditor { get { return MainProgram.trainerEditor; } }
@@ -25,11 +26,12 @@ namespace DSPRE {
     public static TabPage headerEditorTabPage { get { return MainProgram.tabPageHeaderEditor; } }
     public static TabPage matrixEditorTabPage { get { return MainProgram.tabPageMatrixEditor; } }
     public static TabPage mapEditorTabPage { get { return MainProgram.tabPageMapEditor; } }
-    public static TabPage nsbtxEditorTabPage { get { return MainProgram.nsbtxEditorTabPage; } }
+    public static TabPage nsbtxEditorTabPage { get { return MainProgram.tabPageNSBTXEditor; } }
     public static TabPage eventEditorTabPage { get { return MainProgram.tabPageEventEditor; } }
     public static TabPage scriptEditorTabPage { get { return MainProgram.tabPageScriptEditor; } }
     public static TabPage levelScriptEditorTabPage { get { return MainProgram.tabPageLevelScriptEditor; } }
     public static TabPage headbuttEncounterEditorTabPage { get { return MainProgram.tabPageHeabuttEncounterEditor; } }
+    public static TabPage safariZoneEditorTabPage { get { return MainProgram.tabPageSafariZoneEditor; } }
     public static TabPage textEditorTabPage { get { return MainProgram.tabPageTextEditor; } }
     public static TabPage cameraEditorTabPage { get { return MainProgram.tabPageCameraEditor; } }
     public static TabPage trainerEditorTabPage { get { return MainProgram.tabPageTrainerEditor; } }

@@ -660,6 +660,7 @@ namespace DSPRE {
         headerEditor.SetupHeaderEditor(true);
         matrixEditor.SetupMatrixEditor(true);
         mapEditor.SetupMapEditor(true);
+        safariZoneEditor.SetupSafariZoneEditor(true);
         nsbtxEditor.SetupNSBTXEditor(true);
         eventEditor.SetupEventEditor(true);
         scriptEditor.SetupScriptEditor(true);
@@ -764,6 +765,11 @@ namespace DSPRE {
     private void tabPageTableEditor_Enter(object sender, EventArgs e) {
       headerEditor.resetHeaderSearch();
       tableEditor.SetupTableEditor();
+    }
+    
+    private void tabPageSafariZone_Enter(object sender, EventArgs e)
+    {
+      safariZoneEditor.SetupSafariZoneEditor();
     }
 
     private void spawnEditorToolStripButton_Click(object sender, EventArgs e) {

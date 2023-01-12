@@ -19,6 +19,7 @@ namespace DSPRE {
     public static string trainerGraphics { get { return RomInfo.gameDirs[RomInfo.DirNames.trainerGraphics].unpackedDir; } }
     public static string encounters { get { return RomInfo.gameDirs[RomInfo.DirNames.encounters].unpackedDir; } }
     public static string headbutt { get { return RomInfo.gameDirs[RomInfo.DirNames.headbutt].unpackedDir; } }
+    public static string safariZone { get { return RomInfo.gameDirs[RomInfo.DirNames.safariZone].unpackedDir; } }
     public static string monIcons { get { return RomInfo.gameDirs[RomInfo.DirNames.monIcons].unpackedDir; } }
     public static string synthOverlay { get { return RomInfo.gameDirs[RomInfo.DirNames.synthOverlay].unpackedDir; } }
     public static string interiorBuildingModels { get { return RomInfo.gameDirs[RomInfo.DirNames.interiorBuildingModels].unpackedDir; } }
@@ -81,6 +82,14 @@ namespace DSPRE {
 
     static string[] GetEncounterFiles() {
       return Directory.GetFiles(Filesystem.encounters);
+    }
+
+    static string[] GetSafariZoneFiles() {
+      return Directory.GetFiles(Filesystem.safariZone);
+    }
+
+    public static int GetSafariZoneCount() {
+      return GetSafariZoneFiles().Length;
     }
 
     public static int GetBuildingCount(bool interior) {
@@ -212,6 +221,10 @@ namespace DSPRE {
 
     public static string GetHeadbuttPath(int id) {
       return GetPath(Filesystem.headbutt, id);
+    }
+
+    public static string GetSafariZonePath(int id) {
+      return GetPath(Filesystem.safariZone, id);
     }
 
     public static string GetMonIconPath(int id, string format = "D4") {

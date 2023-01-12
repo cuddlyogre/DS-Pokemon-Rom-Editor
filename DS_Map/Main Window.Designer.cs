@@ -38,7 +38,11 @@ namespace DSPRE
       this.matrixEditor = new DSPRE.Editors.MatrixEditor();
       this.tabPageMapEditor = new System.Windows.Forms.TabPage();
       this.mapEditor = new DSPRE.Editors.MapEditor();
-      this.nsbtxEditorTabPage = new System.Windows.Forms.TabPage();
+      this.tabPageHeabuttEncounterEditor = new System.Windows.Forms.TabPage();
+      this.headbuttEncounterEditor = new DSPRE.Editors.HeadbuttEncounterEditor();
+      this.tabPageSafariZoneEditor = new System.Windows.Forms.TabPage();
+      this.safariZoneEditor = new DSPRE.Editors.SafariZoneEditor();
+      this.tabPageNSBTXEditor = new System.Windows.Forms.TabPage();
       this.nsbtxEditor = new DSPRE.Editors.NSBTXEditor();
       this.tabPageEventEditor = new System.Windows.Forms.TabPage();
       this.eventEditor = new DSPRE.Editors.EventEditor();
@@ -46,8 +50,6 @@ namespace DSPRE
       this.scriptEditor = new DSPRE.Editors.ScriptEditor();
       this.tabPageLevelScriptEditor = new System.Windows.Forms.TabPage();
       this.levelScriptEditor = new DSPRE.Editors.LevelScriptEditor();
-      this.tabPageHeabuttEncounterEditor = new System.Windows.Forms.TabPage();
-      this.headbuttEncounterEditor = new DSPRE.Editors.HeadbuttEncounterEditor();
       this.tabPageTextEditor = new System.Windows.Forms.TabPage();
       this.textEditor = new DSPRE.Editors.TextEditor();
       this.tabPageCameraEditor = new System.Windows.Forms.TabPage();
@@ -131,11 +133,12 @@ namespace DSPRE
       this.tabPageHeaderEditor.SuspendLayout();
       this.tabPageMatrixEditor.SuspendLayout();
       this.tabPageMapEditor.SuspendLayout();
-      this.nsbtxEditorTabPage.SuspendLayout();
+      this.tabPageHeabuttEncounterEditor.SuspendLayout();
+      this.tabPageSafariZoneEditor.SuspendLayout();
+      this.tabPageNSBTXEditor.SuspendLayout();
       this.tabPageEventEditor.SuspendLayout();
       this.tabPageScriptEditor.SuspendLayout();
       this.tabPageLevelScriptEditor.SuspendLayout();
-      this.tabPageHeabuttEncounterEditor.SuspendLayout();
       this.tabPageTextEditor.SuspendLayout();
       this.tabPageCameraEditor.SuspendLayout();
       this.tabPageTrainerEditor.SuspendLayout();
@@ -152,11 +155,12 @@ namespace DSPRE
       this.mainTabControl.Controls.Add(this.tabPageHeaderEditor);
       this.mainTabControl.Controls.Add(this.tabPageMatrixEditor);
       this.mainTabControl.Controls.Add(this.tabPageMapEditor);
-      this.mainTabControl.Controls.Add(this.nsbtxEditorTabPage);
+      this.mainTabControl.Controls.Add(this.tabPageHeabuttEncounterEditor);
+      this.mainTabControl.Controls.Add(this.tabPageSafariZoneEditor);
+      this.mainTabControl.Controls.Add(this.tabPageNSBTXEditor);
       this.mainTabControl.Controls.Add(this.tabPageEventEditor);
       this.mainTabControl.Controls.Add(this.tabPageScriptEditor);
       this.mainTabControl.Controls.Add(this.tabPageLevelScriptEditor);
-      this.mainTabControl.Controls.Add(this.tabPageHeabuttEncounterEditor);
       this.mainTabControl.Controls.Add(this.tabPageTextEditor);
       this.mainTabControl.Controls.Add(this.tabPageCameraEditor);
       this.mainTabControl.Controls.Add(this.tabPageTrainerEditor);
@@ -233,18 +237,59 @@ namespace DSPRE
       this.mapEditor.Size = new System.Drawing.Size(1168, 620);
       this.mapEditor.TabIndex = 0;
       // 
-      // nsbtxEditorTabPage
+      // tabPageHeabuttEncounterEditor
       // 
-      this.nsbtxEditorTabPage.Controls.Add(this.nsbtxEditor);
-      this.nsbtxEditorTabPage.ImageIndex = 6;
-      this.nsbtxEditorTabPage.Location = new System.Drawing.Point(4, 23);
-      this.nsbtxEditorTabPage.Name = "nsbtxEditorTabPage";
-      this.nsbtxEditorTabPage.Padding = new System.Windows.Forms.Padding(3);
-      this.nsbtxEditorTabPage.Size = new System.Drawing.Size(1185, 633);
-      this.nsbtxEditorTabPage.TabIndex = 6;
-      this.nsbtxEditorTabPage.Text = "NSBTX Editor";
-      this.nsbtxEditorTabPage.UseVisualStyleBackColor = true;
-      this.nsbtxEditorTabPage.Enter += new System.EventHandler(this.nsbtxEditorTabPage_Enter);
+      this.tabPageHeabuttEncounterEditor.Controls.Add(this.headbuttEncounterEditor);
+      this.tabPageHeabuttEncounterEditor.Location = new System.Drawing.Point(4, 23);
+      this.tabPageHeabuttEncounterEditor.Name = "tabPageHeabuttEncounterEditor";
+      this.tabPageHeabuttEncounterEditor.Padding = new System.Windows.Forms.Padding(3);
+      this.tabPageHeabuttEncounterEditor.Size = new System.Drawing.Size(1185, 633);
+      this.tabPageHeabuttEncounterEditor.TabIndex = 11;
+      this.tabPageHeabuttEncounterEditor.Text = "Headbutt Encounters";
+      this.tabPageHeabuttEncounterEditor.UseVisualStyleBackColor = true;
+      this.tabPageHeabuttEncounterEditor.Enter += new System.EventHandler(this.tabPageHeabuttEncounterEditor_Enter);
+      // 
+      // headbuttEncounterEditor
+      // 
+      this.headbuttEncounterEditor.BackColor = System.Drawing.SystemColors.Control;
+      this.headbuttEncounterEditor.headbuttEncounterEditorIsReady = false;
+      this.headbuttEncounterEditor.Location = new System.Drawing.Point(6, 6);
+      this.headbuttEncounterEditor.Name = "headbuttEncounterEditor";
+      this.headbuttEncounterEditor.Size = new System.Drawing.Size(1173, 621);
+      this.headbuttEncounterEditor.TabIndex = 0;
+      // 
+      // tabPageSafariZoneEditor
+      // 
+      this.tabPageSafariZoneEditor.Controls.Add(this.safariZoneEditor);
+      this.tabPageSafariZoneEditor.Location = new System.Drawing.Point(4, 23);
+      this.tabPageSafariZoneEditor.Name = "tabPageSafariZoneEditor";
+      this.tabPageSafariZoneEditor.Padding = new System.Windows.Forms.Padding(3);
+      this.tabPageSafariZoneEditor.Size = new System.Drawing.Size(1185, 633);
+      this.tabPageSafariZoneEditor.TabIndex = 12;
+      this.tabPageSafariZoneEditor.Text = "Safari Zone";
+      this.tabPageSafariZoneEditor.UseVisualStyleBackColor = true;
+      this.tabPageSafariZoneEditor.Enter += new System.EventHandler(this.tabPageSafariZone_Enter);
+      // 
+      // safariZoneEditor
+      // 
+      this.safariZoneEditor.Location = new System.Drawing.Point(7, 4);
+      this.safariZoneEditor.Name = "safariZoneEditor";
+      this.safariZoneEditor.safariZoneEditorIsReady = false;
+      this.safariZoneEditor.Size = new System.Drawing.Size(1042, 616);
+      this.safariZoneEditor.TabIndex = 0;
+      // 
+      // tabPageNSBTXEditor
+      // 
+      this.tabPageNSBTXEditor.Controls.Add(this.nsbtxEditor);
+      this.tabPageNSBTXEditor.ImageIndex = 6;
+      this.tabPageNSBTXEditor.Location = new System.Drawing.Point(4, 23);
+      this.tabPageNSBTXEditor.Name = "tabPageNSBTXEditor";
+      this.tabPageNSBTXEditor.Padding = new System.Windows.Forms.Padding(3);
+      this.tabPageNSBTXEditor.Size = new System.Drawing.Size(1185, 633);
+      this.tabPageNSBTXEditor.TabIndex = 6;
+      this.tabPageNSBTXEditor.Text = "NSBTX Editor";
+      this.tabPageNSBTXEditor.UseVisualStyleBackColor = true;
+      this.tabPageNSBTXEditor.Enter += new System.EventHandler(this.nsbtxEditorTabPage_Enter);
       // 
       // nsbtxEditor
       // 
@@ -316,27 +361,6 @@ namespace DSPRE
       this.levelScriptEditor.Name = "levelScriptEditor";
       this.levelScriptEditor.Size = new System.Drawing.Size(408, 534);
       this.levelScriptEditor.TabIndex = 0;
-      // 
-      // tabPageHeabuttEncounterEditor
-      // 
-      this.tabPageHeabuttEncounterEditor.Controls.Add(this.headbuttEncounterEditor);
-      this.tabPageHeabuttEncounterEditor.Location = new System.Drawing.Point(4, 23);
-      this.tabPageHeabuttEncounterEditor.Name = "tabPageHeabuttEncounterEditor";
-      this.tabPageHeabuttEncounterEditor.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPageHeabuttEncounterEditor.Size = new System.Drawing.Size(1185, 633);
-      this.tabPageHeabuttEncounterEditor.TabIndex = 11;
-      this.tabPageHeabuttEncounterEditor.Text = "Headbutt Encounters";
-      this.tabPageHeabuttEncounterEditor.UseVisualStyleBackColor = true;
-      this.tabPageHeabuttEncounterEditor.Enter += new System.EventHandler(this.tabPageHeabuttEncounterEditor_Enter);
-      // 
-      // headbuttEncounterEditor
-      // 
-      this.headbuttEncounterEditor.BackColor = System.Drawing.SystemColors.Control;
-      this.headbuttEncounterEditor.headbuttEncounterEditorIsReady = false;
-      this.headbuttEncounterEditor.Location = new System.Drawing.Point(6, 6);
-      this.headbuttEncounterEditor.Name = "headbuttEncounterEditor";
-      this.headbuttEncounterEditor.Size = new System.Drawing.Size(1173, 621);
-      this.headbuttEncounterEditor.TabIndex = 0;
       // 
       // tabPageTextEditor
       // 
@@ -758,7 +782,7 @@ namespace DSPRE
       this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusLabel,
             this.toolStripProgressBar});
-      this.statusStrip1.Location = new System.Drawing.Point(0, 732);
+      this.statusStrip1.Location = new System.Drawing.Point(0, 739);
       this.statusStrip1.Name = "statusStrip1";
       this.statusStrip1.Size = new System.Drawing.Size(1214, 22);
       this.statusStrip1.TabIndex = 13;
@@ -1126,7 +1150,7 @@ namespace DSPRE
       this.AllowDrop = true;
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(1214, 754);
+      this.ClientSize = new System.Drawing.Size(1214, 761);
       this.Controls.Add(this.versionLabel);
       this.Controls.Add(this.languageLabel);
       this.Controls.Add(this.gameIcon);
@@ -1146,11 +1170,12 @@ namespace DSPRE
       this.tabPageHeaderEditor.ResumeLayout(false);
       this.tabPageMatrixEditor.ResumeLayout(false);
       this.tabPageMapEditor.ResumeLayout(false);
-      this.nsbtxEditorTabPage.ResumeLayout(false);
+      this.tabPageHeabuttEncounterEditor.ResumeLayout(false);
+      this.tabPageSafariZoneEditor.ResumeLayout(false);
+      this.tabPageNSBTXEditor.ResumeLayout(false);
       this.tabPageEventEditor.ResumeLayout(false);
       this.tabPageScriptEditor.ResumeLayout(false);
       this.tabPageLevelScriptEditor.ResumeLayout(false);
-      this.tabPageHeabuttEncounterEditor.ResumeLayout(false);
       this.tabPageTextEditor.ResumeLayout(false);
       this.tabPageCameraEditor.ResumeLayout(false);
       this.tabPageTrainerEditor.ResumeLayout(false);
@@ -1197,7 +1222,7 @@ namespace DSPRE
         public System.Windows.Forms.TabPage tabPageScriptEditor;
         public System.Windows.Forms.TabPage tabPageTextEditor;
         private System.Windows.Forms.ToolStripButton openWildEditorButton;
-        public System.Windows.Forms.TabPage nsbtxEditorTabPage;
+        public System.Windows.Forms.TabPage tabPageNSBTXEditor;
         private System.Windows.Forms.ToolStripButton romToolboxToolStripButton;
         public System.Windows.Forms.TabPage tabPageHeaderEditor;
         private System.Windows.Forms.ToolStripButton buildingEditorButton;
@@ -1267,6 +1292,8 @@ namespace DSPRE
     public System.Windows.Forms.TabPage tabPageLevelScriptEditor;
     public DSPRE.Editors.LevelScriptEditor levelScriptEditor;
     private System.Windows.Forms.ToolStripMenuItem encounterReportToolStripMenuItem;
+    public System.Windows.Forms.TabPage tabPageSafariZoneEditor;
+    public SafariZoneEditor safariZoneEditor;
   }
 }
 

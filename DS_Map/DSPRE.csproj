@@ -167,6 +167,12 @@
     <Compile Include="Editors\NSBTXEditor.Designer.cs">
       <DependentUpon>NSBTXEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Editors\SafariZoneEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Editors\SafariZoneEditor.Designer.cs">
+      <DependentUpon>SafariZoneEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Editors\ScriptEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -212,6 +218,9 @@
     <Compile Include="ROMFiles\Overworld.cs" />
     <Compile Include="ROMFiles\Party.cs" />
     <Compile Include="ROMFiles\PartyPokemon.cs" />
+    <Compile Include="ROMFiles\SafariZoneEncounter.cs" />
+    <Compile Include="ROMFiles\SafariZoneEncounterFile.cs" />
+    <Compile Include="ROMFiles\SafariZoneObject.cs" />
     <Compile Include="ROMFiles\ScriptActionContainer.cs" />
     <Compile Include="ROMFiles\ScriptCommandContainer.cs" />
     <Compile Include="ROMFiles\ScriptReference.cs" />
@@ -399,6 +408,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Editors\NSBTXEditor.resx">
       <DependentUpon>NSBTXEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editors\SafariZoneEditor.resx">
+      <DependentUpon>SafariZoneEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Editors\ScriptEditor.resx">
       <DependentUpon>ScriptEditor.cs</DependentUpon>

@@ -6,8 +6,6 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
 using DSPRE.ROMFiles;
-using LibNDSFormats.NSBMD;
-using Tao.OpenGl;
 
 namespace DSPRE.Editors {
   public partial class HeadbuttEncounterEditor : UserControl {
@@ -87,6 +85,8 @@ namespace DSPRE.Editors {
       specialBrush = new SolidBrush(specialColor);
 
       Helpers.DisableHandlers();
+      
+      comboBoxMapHeader.Items.AddRange(headerListBoxNames.ToArray());
 
       headbuttEncounterEditorTabNormal.comboBoxPokemon.Items.AddRange(pokemonNames);
       headbuttEncounterEditorTabNormal.comboBoxPokemon.SelectedIndex = 0;
@@ -95,9 +95,6 @@ namespace DSPRE.Editors {
       headbuttEncounterEditorTabSpecial.comboBoxPokemon.Items.AddRange(pokemonNames);
       headbuttEncounterEditorTabSpecial.comboBoxPokemon.SelectedIndex = 0;
       headbuttEncounterEditorTabSpecial.listBoxTrees.SelectedIndexChanged += ListBoxTrees_SelectedIndexChanged;
-
-      openGlControl.InitializeContexts();
-      comboBoxMapHeader.Items.AddRange(headerListBoxNames.ToArray());
 
       openGlPictureBox.BringToFront();
       SetCam2DValues();
