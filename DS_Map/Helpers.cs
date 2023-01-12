@@ -22,12 +22,13 @@ namespace DSPRE {
     public static RomInfo romInfo;
     public static bool hideBuildings = new bool();
 
-    public static NSBMDGlRenderer mapRenderer = new NSBMDGlRenderer();
+    public static NSBMDGlRenderer mapRenderer;
 
     public static ToolStripProgressBar toolStripProgressBar { get { return MainProgram.toolStripProgressBar; } }
 
     public static void Initialize(MainProgram mainProgram) {
       MainProgram = mainProgram;
+      mapRenderer = new NSBMDGlRenderer();
     }
 
     static bool disableHandlersOld;
