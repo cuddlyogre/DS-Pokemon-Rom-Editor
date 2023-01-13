@@ -117,7 +117,7 @@ namespace DSPRE.ROMFiles {
     }
 
     public bool SaveToFile() {
-      string path = Filesystem.GetHeadbuttPath(this.ID);
+      string path = Filesystem.GetHeadbuttPath(ID);
       return SaveToFile(path);
     }
 

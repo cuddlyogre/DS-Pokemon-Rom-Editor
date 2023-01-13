@@ -4,7 +4,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using LibNDSFormats.NSBMD;
 using DSPRE.Resources;
 using DSPRE.ROMFiles;
 using NSMBe4.NSBMD;

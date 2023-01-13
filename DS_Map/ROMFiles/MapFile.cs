@@ -2,8 +2,6 @@ using System.IO;
 using System.Collections.Generic;
 using LibNDSFormats.NSBMD;
 using System.Windows.Forms;
-using System;
-using System.Drawing;
 
 namespace DSPRE.ROMFiles {
   /* ----------------------- MAP FILE DATA STRUCTURE (DPPtHGSS):--------------------------

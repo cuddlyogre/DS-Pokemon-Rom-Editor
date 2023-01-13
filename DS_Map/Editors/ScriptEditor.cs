@@ -9,7 +9,6 @@ using DSPRE.ROMFiles;
 using ScintillaNET;
 using ScintillaNET.Utils;
 using System.Globalization;
-using System.Windows.Documents;
 
 namespace DSPRE.Editors {
   public partial class ScriptEditor : UserControl {
