@@ -41,7 +41,6 @@ namespace DSPRE
       this.tabPageHeabuttEncounterEditor = new System.Windows.Forms.TabPage();
       this.headbuttEncounterEditor = new DSPRE.Editors.HeadbuttEncounterEditor();
       this.tabPageSafariZoneEditor = new System.Windows.Forms.TabPage();
-      this.safariZoneEditor = new DSPRE.Editors.SafariZoneEditor();
       this.tabPageNSBTXEditor = new System.Windows.Forms.TabPage();
       this.nsbtxEditor = new DSPRE.Editors.NSBTXEditor();
       this.tabPageEventEditor = new System.Windows.Forms.TabPage();
@@ -129,6 +128,7 @@ namespace DSPRE
       this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
       this.directoryEntry1 = new System.DirectoryServices.DirectoryEntry();
       this.directoryEntry2 = new System.DirectoryServices.DirectoryEntry();
+      this.safariZoneEditor = new DSPRE.Editors.SafariZoneEditor();
       this.mainTabControl.SuspendLayout();
       this.tabPageHeaderEditor.SuspendLayout();
       this.tabPageMatrixEditor.SuspendLayout();
@@ -269,14 +269,6 @@ namespace DSPRE
       this.tabPageSafariZoneEditor.Text = "Safari Zone";
       this.tabPageSafariZoneEditor.UseVisualStyleBackColor = true;
       this.tabPageSafariZoneEditor.Enter += new System.EventHandler(this.tabPageSafariZone_Enter);
-      // 
-      // safariZoneEditor
-      // 
-      this.safariZoneEditor.Location = new System.Drawing.Point(7, 4);
-      this.safariZoneEditor.Name = "safariZoneEditor";
-      this.safariZoneEditor.safariZoneEditorIsReady = false;
-      this.safariZoneEditor.Size = new System.Drawing.Size(1042, 616);
-      this.safariZoneEditor.TabIndex = 0;
       // 
       // tabPageNSBTXEditor
       // 
@@ -1144,6 +1136,14 @@ namespace DSPRE
       // openFileDialog1
       // 
       this.openFileDialog1.FileName = "openFileDialog1";
+      // 
+      // safariZoneEditor
+      // 
+      this.safariZoneEditor.Location = new System.Drawing.Point(7, 4);
+      this.safariZoneEditor.Name = "safariZoneEditor";
+      this.safariZoneEditor.safariZoneEditorIsReady = false;
+      this.safariZoneEditor.Size = new System.Drawing.Size(996, 341);
+      this.safariZoneEditor.TabIndex = 0;
       // 
       // MainProgram
       // 

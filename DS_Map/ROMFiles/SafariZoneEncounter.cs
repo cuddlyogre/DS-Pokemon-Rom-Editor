@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace DSPRE.ROMFiles
 {
-  class SafariZoneEncounter
+  public class SafariZoneEncounter
   {
     public ushort pokemonID;
     public byte level;
     public SafariZoneEncounter() {
-      level = 0;
+      level = 1;
       pokemonID = 0;
     }
 
