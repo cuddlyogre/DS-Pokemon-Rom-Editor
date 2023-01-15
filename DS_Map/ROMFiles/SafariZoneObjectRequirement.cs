@@ -20,8 +20,17 @@ namespace DSPRE.ROMFiles {
     }
 
     public SafariZoneObjectRequirement(BinaryReader br) {
-      this.typeID = br.ReadByte();
-      this.quantity = br.ReadByte();
+      readRequirement(br);
+    }
+
+    public void readRequirement(BinaryReader br) {
+      typeID = br.ReadByte();
+      quantity = br.ReadByte();
+    }
+
+    public void writeRequirement(BinaryWriter bw) {
+      bw.Write((byte)typeID);
+      bw.Write((byte)quantity);
     }
 
     public override string ToString() {

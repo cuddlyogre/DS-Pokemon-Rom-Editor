@@ -21,6 +21,10 @@ namespace DSPRE.ROMFiles
       ObjectSlots = br.ReadByte();
     }
 
+    public void writeObjectSlots(BinaryWriter bw) {
+      bw.Write((byte)ObjectSlots);
+    }
+
     public void readGroup(BinaryReader br) {
       //#2 Section - Tall Grass Encounters
       for (int i = 0; i < EncounterSlots; i++) {
@@ -58,6 +62,46 @@ namespace DSPRE.ROMFiles
       for (int i = 0; i < ObjectSlots; i++) {
         ObjectRequirements.Add(new SafariZoneObjectRequirement(br));
         OptionalObjectRequirements.Add(new SafariZoneObjectRequirement(br));
+      }
+    }
+
+    public void writeGroup(BinaryWriter bw) {
+      //#2 Section - Tall Grass Encounters
+      for (int i = 0; i < MorningEncounters.Count; i++) {
+        MorningEncounters[i].writeEncounter(bw);
+        bw.Write((byte)0);
+      }
+
+      for (int i = 0; i < EncounterSlots; i++) {
+        DayEncounters[i].writeEncounter(bw);
+        bw.Write((byte)0);
+      }
+
+      for (int i = 0; i < EncounterSlots; i++) {
+        NightEncounters[i].writeEncounter(bw);
+        bw.Write((byte)0);
+      }
+
+      //#3 Section - Tall Grass Encounters (Object Arrangement)
+      for (int i = 0; i < ObjectSlots; i++) {
+        MorningEncountersObject[i].writeEncounter(bw);
+        bw.Write((byte)0);
+      }
+
+      for (int i = 0; i < ObjectSlots; i++) {
+        DayEncountersObject[i].writeEncounter(bw);
+        bw.Write((byte)0);
+      }
+
+      for (int i = 0; i < ObjectSlots; i++) {
+        NightEncountersObject[i].writeEncounter(bw);
+        bw.Write((byte)0);
+      }
+
+      //#4 Section - Object Arrangement Requirements (Tall Grass)
+      for (int i = 0; i < ObjectSlots; i++) {
+        ObjectRequirements[i].writeRequirement(bw);
+        OptionalObjectRequirements[i].writeRequirement(bw);
       }
     }
   }

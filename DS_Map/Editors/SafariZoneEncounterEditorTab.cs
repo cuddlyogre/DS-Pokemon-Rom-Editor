@@ -37,6 +37,7 @@ namespace DSPRE.Editors {
       if (Helpers.HandlersDisabled) return;
       SafariZoneEncounter safariZoneEncounter = (SafariZoneEncounter)listBoxEncountersObject.SelectedItem;
       if (safariZoneEncounter == null) return;
+
       comboBoxPokemonObject.SelectedIndex = safariZoneEncounter.pokemonID;
       numericUpDownLevelObject.Value = safariZoneEncounter.level;
     }

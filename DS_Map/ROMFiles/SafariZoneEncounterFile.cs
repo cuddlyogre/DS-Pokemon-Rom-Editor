@@ -61,7 +61,22 @@ namespace DSPRE.ROMFiles {
 
     public byte[] ToByteArray() {
       MemoryStream newData = new MemoryStream();
-      using (BinaryWriter writer = new BinaryWriter(newData)) {
+      using (BinaryWriter bw = new BinaryWriter(newData)) {
+        grassEncounterGroup.writeObjectSlots(bw);
+        surfEncounterGroup.writeObjectSlots(bw);
+        oldRodEncounterGroup.writeObjectSlots(bw);
+        goodRodEncounterGroup.writeObjectSlots(bw);
+        superRodEncounterGroup.writeObjectSlots(bw);
+
+        bw.Write((byte)0);
+        bw.Write((byte)0);
+        bw.Write((byte)0);
+
+        grassEncounterGroup.writeGroup(bw);
+        surfEncounterGroup.writeGroup(bw);
+        oldRodEncounterGroup.writeGroup(bw);
+        goodRodEncounterGroup.writeGroup(bw);
+        superRodEncounterGroup.writeGroup(bw);
       }
       return newData.ToArray();
     }

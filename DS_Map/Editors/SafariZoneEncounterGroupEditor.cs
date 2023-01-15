@@ -8,6 +8,24 @@ namespace DSPRE.Editors {
 
     public SafariZoneEncounterGroupEditor() {
       InitializeComponent();
+      safariZoneEncounterEditorMorningTab.listBoxEncountersObject.SelectedIndexChanged += ListBoxEncountersObject_SelectedIndexChanged;
+      safariZoneEncounterEditorDayTab.listBoxEncountersObject.SelectedIndexChanged += ListBoxEncountersObject_SelectedIndexChanged;
+      safariZoneEncounterEditorNightTab.listBoxEncountersObject.SelectedIndexChanged += ListBoxEncountersObject_SelectedIndexChanged;
+      listBoxObjectRequirements.SelectedIndexChanged += ListBoxEncountersObject_SelectedIndexChanged;
+      listBoxObjectOptionalRequirements.SelectedIndexChanged += ListBoxEncountersObject_SelectedIndexChanged;
+    }
+
+    private void ListBoxEncountersObject_SelectedIndexChanged(object sender, EventArgs e) {
+      try {
+        ListBox2 s = sender as ListBox2;
+        safariZoneEncounterEditorMorningTab.listBoxEncountersObject.SelectedIndex = s.SelectedIndex;
+        safariZoneEncounterEditorDayTab.listBoxEncountersObject.SelectedIndex = s.SelectedIndex;
+        safariZoneEncounterEditorNightTab.listBoxEncountersObject.SelectedIndex = s.SelectedIndex;
+        listBoxObjectRequirements.SelectedIndex = s.SelectedIndex;
+        listBoxObjectOptionalRequirements.SelectedIndex = s.SelectedIndex;
+      }
+      catch (Exception ex) {
+      }
     }
 
     public void SetPokemonNames() {
@@ -43,7 +61,7 @@ namespace DSPRE.Editors {
       safariZoneEncounterEditorMorningTab.listBoxEncounters.DataSource = this.safariZoneEncounterGroup.MorningEncounters;
       safariZoneEncounterEditorDayTab.listBoxEncounters.DataSource = this.safariZoneEncounterGroup.DayEncounters;
       safariZoneEncounterEditorNightTab.listBoxEncounters.DataSource = this.safariZoneEncounterGroup.NightEncounters;
-      
+
       safariZoneEncounterEditorMorningTab.listBoxEncountersObject.DataSource = this.safariZoneEncounterGroup.MorningEncountersObject;
       safariZoneEncounterEditorDayTab.listBoxEncountersObject.DataSource = this.safariZoneEncounterGroup.DayEncountersObject;
       safariZoneEncounterEditorNightTab.listBoxEncountersObject.DataSource = this.safariZoneEncounterGroup.NightEncountersObject;
@@ -106,20 +124,19 @@ namespace DSPRE.Editors {
       safariZoneEncounterGroup.MorningEncountersObject.Add(new SafariZoneEncounter());
       safariZoneEncounterGroup.DayEncountersObject.Add(new SafariZoneEncounter());
       safariZoneEncounterGroup.NightEncountersObject.Add(new SafariZoneEncounter());
-      safariZoneEncounterGroup.ObjectRequirements.Add(new SafariZoneObjectRequirement(1,1));
-      safariZoneEncounterGroup.OptionalObjectRequirements.Add(new SafariZoneObjectRequirement(0,0));
+      safariZoneEncounterGroup.ObjectRequirements.Add(new SafariZoneObjectRequirement(1, 1));
+      safariZoneEncounterGroup.OptionalObjectRequirements.Add(new SafariZoneObjectRequirement(0, 0));
       safariZoneEncounterGroup.ObjectSlots = (byte)safariZoneEncounterGroup.ObjectRequirements.Count; //all the list counts should be the same
     }
 
-    private void buttonRemoveObjectEncounter_Click(object sender, EventArgs e)
-    {
+    private void buttonRemoveObjectEncounter_Click(object sender, EventArgs e) {
       if (this.safariZoneEncounterGroup == null) return;
       if (listBoxObjectOptionalRequirements.SelectedIndex == -1) return;
-      safariZoneEncounterGroup.MorningEncountersObject.RemoveAt(safariZoneEncounterGroup.MorningEncountersObject.Count-1);
-      safariZoneEncounterGroup.DayEncountersObject.RemoveAt(safariZoneEncounterGroup.DayEncountersObject.Count-1);
-      safariZoneEncounterGroup.NightEncountersObject.RemoveAt(safariZoneEncounterGroup.NightEncountersObject.Count-1);
-      safariZoneEncounterGroup.ObjectRequirements.RemoveAt(safariZoneEncounterGroup.ObjectRequirements.Count-1);
-      safariZoneEncounterGroup.OptionalObjectRequirements.RemoveAt(safariZoneEncounterGroup.OptionalObjectRequirements.Count-1);
+      safariZoneEncounterGroup.MorningEncountersObject.RemoveAt(safariZoneEncounterGroup.MorningEncountersObject.Count - 1);
+      safariZoneEncounterGroup.DayEncountersObject.RemoveAt(safariZoneEncounterGroup.DayEncountersObject.Count - 1);
+      safariZoneEncounterGroup.NightEncountersObject.RemoveAt(safariZoneEncounterGroup.NightEncountersObject.Count - 1);
+      safariZoneEncounterGroup.ObjectRequirements.RemoveAt(safariZoneEncounterGroup.ObjectRequirements.Count - 1);
+      safariZoneEncounterGroup.OptionalObjectRequirements.RemoveAt(safariZoneEncounterGroup.OptionalObjectRequirements.Count - 1);
       safariZoneEncounterGroup.ObjectSlots = (byte)safariZoneEncounterGroup.ObjectRequirements.Count; //all the list counts should be the same
     }
   }

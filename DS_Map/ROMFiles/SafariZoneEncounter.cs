@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace DSPRE.ROMFiles
 {
@@ -12,8 +13,17 @@ namespace DSPRE.ROMFiles
     }
 
     public SafariZoneEncounter(BinaryReader br) {
+      readEncounter(br);
+    }
+
+    public void readEncounter(BinaryReader br) {
       this.pokemonID = br.ReadUInt16();
       this.level = br.ReadByte();
+    }
+
+    public void writeEncounter(BinaryWriter bw) {
+      bw.Write((UInt16)pokemonID);
+      bw.Write((byte)level);
     }
 
     public override string ToString() {

@@ -32,18 +32,19 @@ namespace DSPRE.Editors
       this.buttonSaveAs = new System.Windows.Forms.Button();
       this.buttonSave = new System.Windows.Forms.Button();
       this.tabPageSuperRod = new System.Windows.Forms.TabPage();
-      this._safariZoneEncounterGroupEditorSuperRod = new DSPRE.Editors.SafariZoneEncounterGroupEditor();
+      this.safariZoneEncounterGroupEditorSuperRod = new DSPRE.Editors.SafariZoneEncounterGroupEditor();
       this.tabPageGoodRod = new System.Windows.Forms.TabPage();
-      this._safariZoneEncounterGroupEditorGoodRod = new DSPRE.Editors.SafariZoneEncounterGroupEditor();
+      this.safariZoneEncounterGroupEditorGoodRod = new DSPRE.Editors.SafariZoneEncounterGroupEditor();
       this.tabPageOldRod = new System.Windows.Forms.TabPage();
-      this._safariZoneEncounterGroupEditorOldRod = new DSPRE.Editors.SafariZoneEncounterGroupEditor();
+      this.safariZoneEncounterGroupEditorOldRod = new DSPRE.Editors.SafariZoneEncounterGroupEditor();
       this.tabPageSurf = new System.Windows.Forms.TabPage();
-      this._safariZoneEncounterGroupEditorSurf = new DSPRE.Editors.SafariZoneEncounterGroupEditor();
+      this.safariZoneEncounterGroupEditorSurf = new DSPRE.Editors.SafariZoneEncounterGroupEditor();
       this.tabPageGrass = new System.Windows.Forms.TabPage();
-      this._safariZoneEncounterGroupEditorGrass = new DSPRE.Editors.SafariZoneEncounterGroupEditor();
+      this.safariZoneEncounterGroupEditorGrass = new DSPRE.Editors.SafariZoneEncounterGroupEditor();
       this.tabControl1 = new System.Windows.Forms.TabControl();
       this.label1 = new System.Windows.Forms.Label();
       this.comboBoxFileID = new System.Windows.Forms.ComboBox();
+      this.buttonImport = new System.Windows.Forms.Button();
       this.tabPageSuperRod.SuspendLayout();
       this.tabPageGoodRod.SuspendLayout();
       this.tabPageOldRod.SuspendLayout();
@@ -74,79 +75,79 @@ namespace DSPRE.Editors
       // 
       // tabPageSuperRod
       // 
-      this.tabPageSuperRod.Controls.Add(this._safariZoneEncounterGroupEditorSuperRod);
+      this.tabPageSuperRod.Controls.Add(this.safariZoneEncounterGroupEditorSuperRod);
       this.tabPageSuperRod.Location = new System.Drawing.Point(4, 22);
       this.tabPageSuperRod.Name = "tabPageSuperRod";
       this.tabPageSuperRod.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPageSuperRod.Size = new System.Drawing.Size(978, 264);
+      this.tabPageSuperRod.Size = new System.Drawing.Size(935, 264);
       this.tabPageSuperRod.TabIndex = 4;
       this.tabPageSuperRod.Text = "Super Rod";
       this.tabPageSuperRod.UseVisualStyleBackColor = true;
       // 
-      // _safariZoneEncounterGroupEditorSuperRod
+      // safariZoneEncounterGroupEditorSuperRod
       // 
-      this._safariZoneEncounterGroupEditorSuperRod.Location = new System.Drawing.Point(6, 6);
-      this._safariZoneEncounterGroupEditorSuperRod.Name = "_safariZoneEncounterGroupEditorSuperRod";
-      this._safariZoneEncounterGroupEditorSuperRod.Size = new System.Drawing.Size(969, 255);
-      this._safariZoneEncounterGroupEditorSuperRod.TabIndex = 25;
+      this.safariZoneEncounterGroupEditorSuperRod.Location = new System.Drawing.Point(6, 6);
+      this.safariZoneEncounterGroupEditorSuperRod.Name = "safariZoneEncounterGroupEditorSuperRod";
+      this.safariZoneEncounterGroupEditorSuperRod.Size = new System.Drawing.Size(969, 255);
+      this.safariZoneEncounterGroupEditorSuperRod.TabIndex = 25;
       // 
       // tabPageGoodRod
       // 
-      this.tabPageGoodRod.Controls.Add(this._safariZoneEncounterGroupEditorGoodRod);
+      this.tabPageGoodRod.Controls.Add(this.safariZoneEncounterGroupEditorGoodRod);
       this.tabPageGoodRod.Location = new System.Drawing.Point(4, 22);
       this.tabPageGoodRod.Name = "tabPageGoodRod";
       this.tabPageGoodRod.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPageGoodRod.Size = new System.Drawing.Size(978, 264);
+      this.tabPageGoodRod.Size = new System.Drawing.Size(935, 264);
       this.tabPageGoodRod.TabIndex = 3;
       this.tabPageGoodRod.Text = "Good Rod";
       this.tabPageGoodRod.UseVisualStyleBackColor = true;
       // 
-      // _safariZoneEncounterGroupEditorGoodRod
+      // safariZoneEncounterGroupEditorGoodRod
       // 
-      this._safariZoneEncounterGroupEditorGoodRod.Location = new System.Drawing.Point(6, 6);
-      this._safariZoneEncounterGroupEditorGoodRod.Name = "_safariZoneEncounterGroupEditorGoodRod";
-      this._safariZoneEncounterGroupEditorGoodRod.Size = new System.Drawing.Size(969, 255);
-      this._safariZoneEncounterGroupEditorGoodRod.TabIndex = 25;
+      this.safariZoneEncounterGroupEditorGoodRod.Location = new System.Drawing.Point(6, 6);
+      this.safariZoneEncounterGroupEditorGoodRod.Name = "safariZoneEncounterGroupEditorGoodRod";
+      this.safariZoneEncounterGroupEditorGoodRod.Size = new System.Drawing.Size(969, 255);
+      this.safariZoneEncounterGroupEditorGoodRod.TabIndex = 25;
       // 
       // tabPageOldRod
       // 
-      this.tabPageOldRod.Controls.Add(this._safariZoneEncounterGroupEditorOldRod);
+      this.tabPageOldRod.Controls.Add(this.safariZoneEncounterGroupEditorOldRod);
       this.tabPageOldRod.Location = new System.Drawing.Point(4, 22);
       this.tabPageOldRod.Name = "tabPageOldRod";
       this.tabPageOldRod.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPageOldRod.Size = new System.Drawing.Size(978, 264);
+      this.tabPageOldRod.Size = new System.Drawing.Size(935, 264);
       this.tabPageOldRod.TabIndex = 2;
       this.tabPageOldRod.Text = "Old Rod";
       this.tabPageOldRod.UseVisualStyleBackColor = true;
       // 
-      // _safariZoneEncounterGroupEditorOldRod
+      // safariZoneEncounterGroupEditorOldRod
       // 
-      this._safariZoneEncounterGroupEditorOldRod.Location = new System.Drawing.Point(6, 6);
-      this._safariZoneEncounterGroupEditorOldRod.Name = "_safariZoneEncounterGroupEditorOldRod";
-      this._safariZoneEncounterGroupEditorOldRod.Size = new System.Drawing.Size(969, 255);
-      this._safariZoneEncounterGroupEditorOldRod.TabIndex = 25;
+      this.safariZoneEncounterGroupEditorOldRod.Location = new System.Drawing.Point(6, 6);
+      this.safariZoneEncounterGroupEditorOldRod.Name = "safariZoneEncounterGroupEditorOldRod";
+      this.safariZoneEncounterGroupEditorOldRod.Size = new System.Drawing.Size(969, 255);
+      this.safariZoneEncounterGroupEditorOldRod.TabIndex = 25;
       // 
       // tabPageSurf
       // 
-      this.tabPageSurf.Controls.Add(this._safariZoneEncounterGroupEditorSurf);
+      this.tabPageSurf.Controls.Add(this.safariZoneEncounterGroupEditorSurf);
       this.tabPageSurf.Location = new System.Drawing.Point(4, 22);
       this.tabPageSurf.Name = "tabPageSurf";
       this.tabPageSurf.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPageSurf.Size = new System.Drawing.Size(978, 264);
+      this.tabPageSurf.Size = new System.Drawing.Size(935, 264);
       this.tabPageSurf.TabIndex = 1;
       this.tabPageSurf.Text = "Surf";
       this.tabPageSurf.UseVisualStyleBackColor = true;
       // 
-      // _safariZoneEncounterGroupEditorSurf
+      // safariZoneEncounterGroupEditorSurf
       // 
-      this._safariZoneEncounterGroupEditorSurf.Location = new System.Drawing.Point(6, 6);
-      this._safariZoneEncounterGroupEditorSurf.Name = "_safariZoneEncounterGroupEditorSurf";
-      this._safariZoneEncounterGroupEditorSurf.Size = new System.Drawing.Size(969, 255);
-      this._safariZoneEncounterGroupEditorSurf.TabIndex = 25;
+      this.safariZoneEncounterGroupEditorSurf.Location = new System.Drawing.Point(6, 6);
+      this.safariZoneEncounterGroupEditorSurf.Name = "safariZoneEncounterGroupEditorSurf";
+      this.safariZoneEncounterGroupEditorSurf.Size = new System.Drawing.Size(969, 255);
+      this.safariZoneEncounterGroupEditorSurf.TabIndex = 25;
       // 
       // tabPageGrass
       // 
-      this.tabPageGrass.Controls.Add(this._safariZoneEncounterGroupEditorGrass);
+      this.tabPageGrass.Controls.Add(this.safariZoneEncounterGroupEditorGrass);
       this.tabPageGrass.Location = new System.Drawing.Point(4, 22);
       this.tabPageGrass.Name = "tabPageGrass";
       this.tabPageGrass.Padding = new System.Windows.Forms.Padding(3);
@@ -155,12 +156,12 @@ namespace DSPRE.Editors
       this.tabPageGrass.Text = "Grass";
       this.tabPageGrass.UseVisualStyleBackColor = true;
       // 
-      // _safariZoneEncounterGroupEditorGrass
+      // safariZoneEncounterGroupEditorGrass
       // 
-      this._safariZoneEncounterGroupEditorGrass.Location = new System.Drawing.Point(6, 6);
-      this._safariZoneEncounterGroupEditorGrass.Name = "_safariZoneEncounterGroupEditorGrass";
-      this._safariZoneEncounterGroupEditorGrass.Size = new System.Drawing.Size(969, 255);
-      this._safariZoneEncounterGroupEditorGrass.TabIndex = 25;
+      this.safariZoneEncounterGroupEditorGrass.Location = new System.Drawing.Point(6, 6);
+      this.safariZoneEncounterGroupEditorGrass.Name = "safariZoneEncounterGroupEditorGrass";
+      this.safariZoneEncounterGroupEditorGrass.Size = new System.Drawing.Size(969, 255);
+      this.safariZoneEncounterGroupEditorGrass.TabIndex = 25;
       // 
       // tabControl1
       // 
@@ -194,10 +195,21 @@ namespace DSPRE.Editors
       this.comboBoxFileID.TabIndex = 0;
       this.comboBoxFileID.SelectedIndexChanged += new System.EventHandler(this.comboBoxFileID_SelectedIndexChanged);
       // 
+      // buttonImport
+      // 
+      this.buttonImport.Location = new System.Drawing.Point(317, 14);
+      this.buttonImport.Name = "buttonImport";
+      this.buttonImport.Size = new System.Drawing.Size(75, 23);
+      this.buttonImport.TabIndex = 28;
+      this.buttonImport.Text = "Import";
+      this.buttonImport.UseVisualStyleBackColor = true;
+      this.buttonImport.Click += new System.EventHandler(this.buttonImport_Click);
+      // 
       // SafariZoneEditor
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+      this.Controls.Add(this.buttonImport);
       this.Controls.Add(this.buttonSaveAs);
       this.Controls.Add(this.buttonSave);
       this.Controls.Add(this.tabControl1);
@@ -221,17 +233,18 @@ namespace DSPRE.Editors
     private System.Windows.Forms.Button buttonSaveAs;
     private System.Windows.Forms.Button buttonSave;
     private System.Windows.Forms.TabPage tabPageSuperRod;
-    private SafariZoneEncounterGroupEditor _safariZoneEncounterGroupEditorSuperRod;
+    private SafariZoneEncounterGroupEditor safariZoneEncounterGroupEditorSuperRod;
     private System.Windows.Forms.TabPage tabPageGoodRod;
-    private SafariZoneEncounterGroupEditor _safariZoneEncounterGroupEditorGoodRod;
+    private SafariZoneEncounterGroupEditor safariZoneEncounterGroupEditorGoodRod;
     private System.Windows.Forms.TabPage tabPageOldRod;
-    private SafariZoneEncounterGroupEditor _safariZoneEncounterGroupEditorOldRod;
+    private SafariZoneEncounterGroupEditor safariZoneEncounterGroupEditorOldRod;
     private System.Windows.Forms.TabPage tabPageSurf;
-    private SafariZoneEncounterGroupEditor _safariZoneEncounterGroupEditorSurf;
+    private SafariZoneEncounterGroupEditor safariZoneEncounterGroupEditorSurf;
     private System.Windows.Forms.TabPage tabPageGrass;
-    private SafariZoneEncounterGroupEditor _safariZoneEncounterGroupEditorGrass;
+    private SafariZoneEncounterGroupEditor safariZoneEncounterGroupEditorGrass;
     private System.Windows.Forms.TabControl tabControl1;
     private System.Windows.Forms.Label label1;
     private System.Windows.Forms.ComboBox comboBoxFileID;
+    private System.Windows.Forms.Button buttonImport;
   }
 }
