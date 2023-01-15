@@ -36,114 +36,6 @@ namespace DSPRE {
 
     public static string expArmPath { get { return Path.Combine(synthOverlay, ROMToolboxDialog.expandedARMfileID.ToString("D4")); } }
 
-    static string[] GetBuildingModelFiles(bool interior) {
-      return Directory.GetFiles(Filesystem.GetBuildingModelsDirPath(interior));
-    }
-
-    public static string[] GetAreaDataFiles() {
-      return Directory.GetFiles(Filesystem.areaData);
-    }
-
-    static string[] GetMapTextureFiles() {
-      return Directory.GetFiles(Filesystem.mapTextures);
-    }
-
-    static string[] GetBuildingTextureFiles() {
-      return Directory.GetFiles(Filesystem.buildingTextures);
-    }
-
-    static string[] GetMatrixFiles() {
-      return Directory.GetFiles(Filesystem.matrices);
-    }
-
-    static string[] GetTextArchiveFiles() {
-      return Directory.GetFiles(Filesystem.textArchives);
-    }
-
-    static string[] GetMapFiles() {
-      return Directory.GetFiles(Filesystem.maps);
-    }
-
-    static string[] GetScriptFiles() {
-      return Directory.GetFiles(Filesystem.scripts);
-    }
-
-    static string[] GetEventFiles() {
-      return Directory.GetFiles(Filesystem.eventFiles);
-    }
-
-    static string[] GetTrainerPropertiesFiles() {
-      return Directory.GetFiles(Filesystem.trainerProperties);
-    }
-
-    static string[] GetDynamicHeaderFiles() {
-      return Directory.GetFiles(Filesystem.dynamicHeaders);
-    }
-
-    static string[] GetEncounterFiles() {
-      return Directory.GetFiles(Filesystem.encounters);
-    }
-
-    static string[] GetSafariZoneFiles() {
-      return Directory.GetFiles(Filesystem.safariZone);
-    }
-
-    public static int GetSafariZoneCount() {
-      return GetSafariZoneFiles().Length;
-    }
-
-    public static int GetBuildingCount(bool interior) {
-      return GetBuildingModelFiles(interior).Length;
-    }
-
-    public static int GetAreaDataCount() {
-      return GetAreaDataFiles().Length;
-    }
-
-    public static int GetMapTexturesCount() {
-      return GetMapTextureFiles().Length;
-    }
-
-    public static int GetBuildingTexturesCount() {
-      return GetBuildingTextureFiles().Length;
-    }
-
-    public static int GetMatrixCount() {
-      return GetMatrixFiles().Length;
-    }
-
-    public static int GetTextArchivesCount() {
-      return GetTextArchiveFiles().Length;
-    }
-
-    public static int GetMapCount() {
-      return GetMapFiles().Length;
-    }
-
-    public static int GetScriptCount() {
-      return GetScriptFiles().Length;
-    }
-
-    public static int GetEventFileCount() {
-      return GetEventFiles().Length;
-    }
-
-    public static int GetTrainerPropertiesCount() {
-      return GetTrainerPropertiesFiles().Length;
-    }
-
-    public static int GetDynamicHeadersCount() {
-      return GetDynamicHeaderFiles().Length;
-    }
-
-    public static int GetEncountersCount() {
-      return GetEncounterFiles().Length;
-    }
-
-    public static string GetBuildingModelPath(bool interior, int id) {
-      return GetPath(Filesystem.GetBuildingModelsDirPath(interior), id);
-    }
-
     public static string GetPath(string path, int id, string format = "D4") {
       return Path.Combine(path, id.ToString(format));
     }
@@ -152,24 +44,28 @@ namespace DSPRE {
       return Path.Combine(path, prefix + id.ToString(format) + "." + ext);
     }
 
-    public static string GetEventPath(int id) {
-      return GetPath(Filesystem.eventFiles, id);
+    static string[] GetBuildingModelFiles(bool interior) {
+      return Directory.GetFiles(Filesystem.GetBuildingModelsDirPath(interior));
     }
 
-    public static string GetOWSpritePath(int id) {
-      return GetPath(Filesystem.OWSprites, id);
+    public static string GetBuildingModelPath(bool interior, int id) {
+      return GetPath(Filesystem.GetBuildingModelsDirPath(interior), id);
     }
 
-    public static string GetDynamicHeaderPath(int id) {
-      return GetPath(Filesystem.dynamicHeaders, id);
+    public static int GetBuildingCount(bool interior) {
+      return GetBuildingModelFiles(interior).Length;
     }
 
-    public static string GetScriptPath(int id) {
-      return GetPath(Filesystem.scripts, id);
+    public static string[] GetAreaDataFiles() {
+      return Directory.GetFiles(Filesystem.areaData);
     }
 
-    public static string GetMapPath(int id) {
-      return GetPath(Filesystem.maps, id);
+    public static string GetAreaDataPath(int id) {
+      return GetPath(Filesystem.areaData, id);
+    }
+
+    public static int GetAreaDataCount() {
+      return GetAreaDataFiles().Length;
     }
 
     public static string GetTexturePath(bool useMapTiles, int textureID) {
@@ -179,32 +75,156 @@ namespace DSPRE {
       return tilesetPath;
     }
 
+    static string[] GetMapTextureFiles() {
+      return Directory.GetFiles(Filesystem.mapTextures);
+    }
+
     public static string GetMapTexturePath(int id) {
       return GetPath(Filesystem.mapTextures, id);
+    }
+
+    public static int GetMapTexturesCount() {
+      return GetMapTextureFiles().Length;
+    }
+
+    static string[] GetBuildingTextureFiles() {
+      return Directory.GetFiles(Filesystem.buildingTextures);
     }
 
     public static string GetBuildingTexturePath(int id) {
       return GetPath(Filesystem.buildingTextures, id);
     }
 
+    public static int GetBuildingTexturesCount() {
+      return GetBuildingTextureFiles().Length;
+    }
+
+    static string[] GetMatrixFiles() {
+      return Directory.GetFiles(Filesystem.matrices);
+    }
+
     public static string GetMatrixPath(int id) {
       return GetPath(Filesystem.matrices, id);
     }
 
-    public static string GetAreaDataPath(int id) {
-      return GetPath(Filesystem.areaData, id);
+    public static int GetMatrixCount() {
+      return GetMatrixFiles().Length;
+    }
+
+    static string[] GetTextArchiveFiles() {
+      return Directory.GetFiles(Filesystem.textArchives);
     }
 
     public static string GetTextArchivePath(int id) {
       return GetPath(Filesystem.textArchives, id);
     }
 
-    public static string GetBuildingConfigPath(int id) {
-      return GetPath(Filesystem.buildingConfigFiles, id);
+    public static int GetTextArchivesCount() {
+      return GetTextArchiveFiles().Length;
+    }
+
+    static string[] GetMapFiles() {
+      return Directory.GetFiles(Filesystem.maps);
+    }
+
+    public static string GetMapPath(int id) {
+      return GetPath(Filesystem.maps, id);
+    }
+
+    public static int GetMapCount() {
+      return GetMapFiles().Length;
+    }
+
+    static string[] GetScriptFiles() {
+      return Directory.GetFiles(Filesystem.scripts);
+    }
+
+    public static string GetScriptPath(int id) {
+      return GetPath(Filesystem.scripts, id);
+    }
+
+    public static int GetScriptCount() {
+      return GetScriptFiles().Length;
+    }
+
+    static string[] GetEventFiles() {
+      return Directory.GetFiles(Filesystem.eventFiles);
+    }
+
+    public static string GetEventPath(int id) {
+      return GetPath(Filesystem.eventFiles, id);
+    }
+
+    public static int GetEventFileCount() {
+      return GetEventFiles().Length;
+    }
+
+    static string[] GetTrainerPropertiesFiles() {
+      return Directory.GetFiles(Filesystem.trainerProperties);
     }
 
     public static string GetTrainerPropertiesPath(int id) {
       return GetPath(Filesystem.trainerProperties, id);
+    }
+
+    public static int GetTrainerPropertiesCount() {
+      return GetTrainerPropertiesFiles().Length;
+    }
+
+    static string[] GetDynamicHeaderFiles() {
+      return Directory.GetFiles(Filesystem.dynamicHeaders);
+    }
+
+    public static string GetDynamicHeaderPath(int id) {
+      return GetPath(Filesystem.dynamicHeaders, id);
+    }
+
+    public static int GetDynamicHeadersCount() {
+      return GetDynamicHeaderFiles().Length;
+    }
+
+    static string[] GetEncounterFiles() {
+      return Directory.GetFiles(Filesystem.encounters);
+    }
+
+    public static string GetEncounterPath(int id) {
+      return GetPath(Filesystem.encounters, id);
+    }
+
+    public static int GetEncountersCount() {
+      return GetEncounterFiles().Length;
+    }
+
+    static string[] GetSafariZoneFiles() {
+      return Directory.GetFiles(Filesystem.safariZone);
+    }
+
+    public static string GetSafariZonePath(int id) {
+      return GetPath(Filesystem.safariZone, id);
+    }
+
+    public static int GetSafariZoneCount() {
+      return GetSafariZoneFiles().Length;
+    }
+
+    static string[] GetHeadbuttFiles() {
+      return Directory.GetFiles(Filesystem.headbutt);
+    }
+
+    public static string GetHeadbuttPath(int id) {
+      return GetPath(Filesystem.headbutt, id);
+    }
+    
+    public static int GetHeadbuttCount() {
+      return GetHeadbuttFiles().Length;
+    }
+
+    public static string GetOWSpritePath(int id) {
+      return GetPath(Filesystem.OWSprites, id);
+    }
+
+    public static string GetBuildingConfigPath(int id) {
+      return GetPath(Filesystem.buildingConfigFiles, id);
     }
 
     public static string GetTrainerPartyPath(int id) {
@@ -213,18 +233,6 @@ namespace DSPRE {
 
     public static string GetTrainerGraphicsPath(int id) {
       return GetPath(Filesystem.trainerGraphics, id);
-    }
-
-    public static string GetEncounterPath(int id) {
-      return GetPath(Filesystem.encounters, id);
-    }
-
-    public static string GetHeadbuttPath(int id) {
-      return GetPath(Filesystem.headbutt, id);
-    }
-
-    public static string GetSafariZonePath(int id) {
-      return GetPath(Filesystem.safariZone, id);
     }
 
     public static string GetMonIconPath(int id, string format = "D4") {
