@@ -6,7 +6,7 @@ using System.IO;
 namespace DSPRE.ROMFiles {
   //https://hirotdk.neocities.org/FileSpecs.html#Headbutt
   public class HeadbuttEncounterFile {
-    public int ID;
+    public ushort ID;
 
     //get encounter tables, 12 normal pokemon definitions, 6 special pokemon definitions, 4 bytes per definition
     const int normalEncountersCount = 12;
@@ -19,7 +19,7 @@ namespace DSPRE.ROMFiles {
     public BindingList<HeadbuttTreeGroup> normalTreeGroups;
     public BindingList<HeadbuttTreeGroup> specialTreeGroups;
 
-    public HeadbuttEncounterFile(int id) {
+    public HeadbuttEncounterFile(ushort id) {
       this.ID = id;
       string path = Filesystem.GetHeadbuttPath(id);
       parse_file(path);

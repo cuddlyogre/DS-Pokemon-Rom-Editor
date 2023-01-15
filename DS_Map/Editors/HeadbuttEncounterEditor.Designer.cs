@@ -26,8 +26,6 @@ namespace DSPRE.Editors {
     /// the contents of this method with the code editor.
     /// </summary>
     private void InitializeComponent() {
-      this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-      this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
       this.buttonSaveAs = new System.Windows.Forms.Button();
       this.buttonSave = new System.Windows.Forms.Button();
       this.tabControl = new System.Windows.Forms.TabControl();
@@ -56,6 +54,7 @@ namespace DSPRE.Editors {
       this.LeftClickLabel = new System.Windows.Forms.Label();
       this.LeftClickPicture = new System.Windows.Forms.PictureBox();
       this.rightClickPicture = new System.Windows.Forms.PictureBox();
+      this.buttonImport = new System.Windows.Forms.Button();
       this.tabControl.SuspendLayout();
       this.tabPageNormal.SuspendLayout();
       this.tabPageSpecial.SuspendLayout();
@@ -73,10 +72,6 @@ namespace DSPRE.Editors {
       ((System.ComponentModel.ISupportInitialize)(this.LeftClickPicture)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.rightClickPicture)).BeginInit();
       this.SuspendLayout();
-      // 
-      // openFileDialog1
-      // 
-      this.openFileDialog1.FileName = "openFileDialog1";
       // 
       // buttonSaveAs
       // 
@@ -372,6 +367,16 @@ namespace DSPRE.Editors {
       this.rightClickPicture.TabIndex = 65;
       this.rightClickPicture.TabStop = false;
       // 
+      // buttonImport
+      // 
+      this.buttonImport.Location = new System.Drawing.Point(338, 55);
+      this.buttonImport.Name = "buttonImport";
+      this.buttonImport.Size = new System.Drawing.Size(75, 23);
+      this.buttonImport.TabIndex = 9;
+      this.buttonImport.Text = "Import";
+      this.buttonImport.UseVisualStyleBackColor = true;
+      this.buttonImport.Click += new System.EventHandler(this.buttonImport_Click);
+      // 
       // HeadbuttEncounterEditor
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -391,6 +396,7 @@ namespace DSPRE.Editors {
       this.Controls.Add(this.tabControl);
       this.Controls.Add(this.mapScreenshotButton);
       this.Controls.Add(this.groupBox2);
+      this.Controls.Add(this.buttonImport);
       this.Controls.Add(this.buttonSaveAs);
       this.Controls.Add(this.buttonSave);
       this.Controls.Add(this.groupBox1);
@@ -417,8 +423,6 @@ namespace DSPRE.Editors {
       this.PerformLayout();
 
     }
-    private System.Windows.Forms.OpenFileDialog openFileDialog1;
-    private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     private System.Windows.Forms.Button buttonSaveAs;
     private System.Windows.Forms.Button buttonSave;
 
@@ -449,6 +453,7 @@ namespace DSPRE.Editors {
     private System.Windows.Forms.Label LeftClickLabel;
     private System.Windows.Forms.PictureBox LeftClickPicture;
     private System.Windows.Forms.PictureBox rightClickPicture;
+    private System.Windows.Forms.Button buttonImport;
   }
 }
 

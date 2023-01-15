@@ -85,8 +85,15 @@ namespace DSPRE.Editors {
       specialBrush = new SolidBrush(specialColor);
 
       Helpers.DisableHandlers();
-      
-      comboBoxMapHeader.Items.AddRange(headerListBoxNames.ToArray());
+
+      for (int i = 0; i < Filesystem.GetHeadbuttCount(); i++) {
+        if (i < headerListBoxNames.Count) {
+          comboBoxMapHeader.Items.Add(headerListBoxNames[i]);
+        }
+        else {
+          i.ToString("D4");
+        }
+      }
 
       headbuttEncounterEditorTabNormal.comboBoxPokemon.Items.AddRange(pokemonNames);
       headbuttEncounterEditorTabNormal.comboBoxPokemon.SelectedIndex = 0;
@@ -117,10 +124,12 @@ namespace DSPRE.Editors {
     }
 
     private void comboBoxMapHeader_SelectedIndexChanged(object sender, EventArgs e) {
-      setCurrentMap((ushort)comboBoxMapHeader.SelectedIndex);
+      ushort headbuttID = (ushort)comboBoxMapHeader.SelectedIndex;
+      this.headbuttEncounterFile = new HeadbuttEncounterFile(headbuttID);
+      setCurrentMap(headbuttEncounterFile);
     }
 
-    public void setCurrentMap(ushort headerID) {
+    public void setCurrentMap(HeadbuttEncounterFile headbuttEncounterFile) {
       this.mapFile = null;
       this.headbuttEncounterMap = null;
 
@@ -143,10 +152,17 @@ namespace DSPRE.Editors {
 
       RenderBackground();
 
-      if (headerID == GameMatrix.EMPTY) return;
+      try {
+        if (headbuttEncounterFile.ID == GameMatrix.EMPTY) return;
+        this.mapHeader = (MapHeaderHGSS)MapHeader.GetMapHeader(headbuttEncounterFile.ID);
+      }
+      catch (Exception ex) {
+        //most likely more headbutt files than map headers
+        //there should be the same amount
+        Console.WriteLine(ex);
+        return;
+      }
 
-      this.mapHeader = (MapHeaderHGSS)MapHeader.GetMapHeader(headerID);
-      this.headbuttEncounterFile = new HeadbuttEncounterFile(this.mapHeader.ID);
       this.gameMatrix = new GameMatrix(mapHeader.matrixID);
       this.areaData = new AreaData(mapHeader.areaDataID);
 
@@ -219,6 +235,46 @@ namespace DSPRE.Editors {
       if (comboBoxMapFile.Items.Count > 0) {
         comboBoxMapFile.SelectedIndex = 0;
       }
+    }
+
+    private void buttonSave_Click(object sender, EventArgs e) {
+      if (headbuttEncounterFile == null) return;
+      headbuttEncounterFile.SaveToFile();
+    }
+
+    private void buttonSaveAs_Click(object sender, EventArgs e) {
+      if (headbuttEncounterFile == null) return;
+
+      SaveFileDialog sfd = new SaveFileDialog();
+      try {
+        sfd.InitialDirectory = Path.GetDirectoryName(sfd.FileName);
+        sfd.FileName = Path.GetFileName(sfd.FileName);
+      }
+      catch (Exception ex) {
+        sfd.InitialDirectory = Path.GetDirectoryName(Environment.SpecialFolder.UserProfile.ToString());
+        sfd.FileName = Path.GetFileName(sfd.FileName);
+      }
+
+      if (sfd.ShowDialog() != DialogResult.OK) return;
+
+      headbuttEncounterFile.SaveToFile(sfd.FileName);
+    }
+
+    private void buttonImport_Click(object sender, EventArgs e) {
+      OpenFileDialog ofd = new OpenFileDialog();
+      try {
+        ofd.InitialDirectory = Path.GetDirectoryName(ofd.FileName);
+        ofd.FileName = Path.GetFileName(ofd.FileName);
+      }
+      catch (Exception ex) {
+        ofd.InitialDirectory = Path.GetDirectoryName(Environment.SpecialFolder.UserProfile.ToString());
+        ofd.FileName = Path.GetFileName(ofd.FileName);
+      }
+
+      if (ofd.ShowDialog() != DialogResult.OK) return;
+
+      this.headbuttEncounterFile = new HeadbuttEncounterFile(ofd.FileName);
+      setCurrentMap(headbuttEncounterFile);
     }
 
     private void comboBoxMapFile_SelectedIndexChanged(object sender, EventArgs e) {
@@ -317,25 +373,6 @@ namespace DSPRE.Editors {
       Rectangle rectangle = new Rectangle(tileX + padding, tileY + padding, tileWidth - padding, tileHeight - padding);
       g.FillRectangle(paintBrush, rectangle);
       g.DrawRectangle(paintPen, rectangle);
-    }
-
-    private void buttonSave_Click(object sender, EventArgs e) {
-      headbuttEncounterFile.SaveToFile();
-    }
-
-    private void buttonSaveAs_Click(object sender, EventArgs e) {
-      try {
-        saveFileDialog1.InitialDirectory = Path.GetDirectoryName(saveFileDialog1.FileName);
-        saveFileDialog1.FileName = Path.GetFileName(saveFileDialog1.FileName);
-      }
-      catch (Exception ex) {
-        saveFileDialog1.InitialDirectory = Path.GetDirectoryName(Environment.SpecialFolder.UserProfile.ToString());
-        saveFileDialog1.FileName = Path.GetFileName(saveFileDialog1.FileName);
-      }
-
-      if (saveFileDialog1.ShowDialog() == DialogResult.OK) {
-        headbuttEncounterFile.SaveToFile(saveFileDialog1.FileName);
-      }
     }
 
     private void ListBoxTrees_SelectedIndexChanged(object sender, EventArgs e) {
