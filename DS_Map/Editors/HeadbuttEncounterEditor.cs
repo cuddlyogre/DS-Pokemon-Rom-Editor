@@ -274,6 +274,7 @@ namespace DSPRE.Editors {
       if (ofd.ShowDialog() != DialogResult.OK) return;
 
       this.headbuttEncounterFile = new HeadbuttEncounterFile(ofd.FileName);
+      headbuttEncounterFile.ID = (ushort)comboBoxMapHeader.SelectedIndex;
       setCurrentMap(headbuttEncounterFile);
     }
 
