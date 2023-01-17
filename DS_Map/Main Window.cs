@@ -22,6 +22,7 @@ namespace DSPRE {
 
       aboutToolStripMenuItem.DropDownItems.Remove(encounterReportToolStripMenuItem);
       mainTabControl.TabPages.Remove(EditorPanels.headbuttEncounterEditorTabPage);
+      mainTabControl.TabPages.Remove(EditorPanels.safariZoneEditorTabPage);
     }
 
     public bool iconON = false;
@@ -563,6 +564,7 @@ namespace DSPRE {
       if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
         aboutToolStripMenuItem.DropDownItems.Add(encounterReportToolStripMenuItem);
         mainTabControl.TabPages.Insert(mainTabControl.TabPages.IndexOf(EditorPanels.mapEditorTabPage) + 1, EditorPanels.headbuttEncounterEditorTabPage);
+        mainTabControl.TabPages.Insert(mainTabControl.TabPages.IndexOf(EditorPanels.headbuttEncounterEditorTabPage) + 1, EditorPanels.safariZoneEditorTabPage);
       }
 
       scriptCommandsButton.Enabled = true;
