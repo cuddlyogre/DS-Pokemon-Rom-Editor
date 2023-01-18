@@ -8,6 +8,15 @@ namespace DSPRE.HGSSReports {
     public static void WriteReports(string dir) {
       List<string> allEncounters = new List<string>();
 
+      List<string> allSafariZoneEncounters = new List<string>();
+      for (ushort i = 0; i < Filesystem.GetSafariZoneCount(); i++) {
+        SafariZoneEncounterReport safariZoneEncounterReport = new SafariZoneEncounterReport(i);
+        safariZoneEncounterReport.WriteFile(dir);
+
+        allEncounters.AddRange(safariZoneEncounterReport.allEncounters);
+        allSafariZoneEncounters.AddRange(safariZoneEncounterReport.allEncounters);
+      }
+
       List<string> allHeadbuttNormalEncounters = new List<string>();
       List<string> allHeadbuttSpecialEncounters = new List<string>();
 
@@ -96,6 +105,7 @@ namespace DSPRE.HGSSReports {
       }
 
       ii += 1;
+      allEncounters = new List<string>(new HashSet<string>(allEncounters));
 
       path = Path.Combine(dir, $"_{ii.ToString("D2")}_all_encounters.txt");
       using (StreamWriter writer = new StreamWriter(path)) {

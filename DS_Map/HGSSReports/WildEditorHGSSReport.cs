@@ -8,6 +8,7 @@ namespace DSPRE.HGSSReports
 {
   public class WildEditorHGSSReport {
     readonly int id;
+    private EncounterFileHGSS currentFile;
     readonly string locationName;
 
     byte walkingRate;
@@ -196,12 +197,12 @@ namespace DSPRE.HGSSReports
 
       if (wildPokemon == RomInfo.nullEncounterID) return;
 
-      EncounterFileHGSS currentFile = new EncounterFileHGSS(wildPokemon);
+      currentFile = new EncounterFileHGSS(wildPokemon);
       string[] pokemonNames = RomInfo.GetPokemonNames();
-      processEncounters(currentFile, pokemonNames);
+      processEncounters(pokemonNames);
     }
 
-    void processEncounters(EncounterFileHGSS currentFile, string[] pokemonNames) {
+    void processEncounters(string[] pokemonNames) {
       walkingRate = currentFile.walkingRate;
       surfRate = currentFile.surfRate;
       rockSmashRate = currentFile.rockSmashRate;
@@ -484,15 +485,15 @@ namespace DSPRE.HGSSReports
     }
 
     string rateRow(byte a, string b, string c, string d) {
-      return $"{a.ToString().PadLeft(5)} {b.PadLeft(15)} {c.PadLeft(15)} {d.PadLeft(15)}";
+      return $"{a.ToString(),5} {b,15} {c,15} {d,15}";
     }
 
     string radioRow(string a, string b) {
-      return $"{a.PadLeft(10)} {b.PadLeft(10)}";
+      return $"{a,10} {b,10}";
     }
 
     string swarmRow(string a) {
-      return $"{a.PadLeft(10)}";
+      return $"{a,10}";
     }
 
     string rockSmashRow(byte a, byte b, string c) {

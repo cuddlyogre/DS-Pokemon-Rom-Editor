@@ -210,6 +210,7 @@
     <Compile Include="HGSSReports\FullReport.cs" />
     <Compile Include="GameCamera.cs" />
     <Compile Include="Helpers.cs" />
+    <Compile Include="HGSSReports\SafariZoneEncounterReport.cs" />
     <Compile Include="ROMFiles\Building.cs" />
     <Compile Include="ROMFiles\EncounterFileDPPt.cs" />
     <Compile Include="ROMFiles\EncounterFileHGSS.cs" />
