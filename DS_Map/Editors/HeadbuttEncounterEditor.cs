@@ -68,8 +68,7 @@ namespace DSPRE.Editors {
       openGlControl.Invalidate();
       openGlControl.MakeCurrent();
 
-      Tuple<List<string>, List<string>> headerNames = Helpers.BuildHeaderNames();
-      List<string> headerListBoxNames = headerNames.Item1;
+      List<string> headerListBoxNames = Helpers.getHeaderListBoxNames();
 
       Color selectedColor = Color.FromArgb(255, Color.White);
       selectedPen = new Pen(selectedColor);

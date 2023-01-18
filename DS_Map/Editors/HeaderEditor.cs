@@ -70,9 +70,8 @@ namespace DSPRE.Editors {
 
       /* Read Header internal names */
       try {
-        Tuple<List<string>, List<string>> names = Helpers.BuildHeaderNames();
-        headerListBoxNames = names.Item1;
-        internalNames = names.Item2;
+        headerListBoxNames = Helpers.getHeaderListBoxNames();
+        internalNames = Helpers.getInternalNames();
 
         headerListBox.Items.Clear();
         headerListBox.Items.AddRange(headerListBoxNames.ToArray());

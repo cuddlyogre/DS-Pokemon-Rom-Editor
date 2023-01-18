@@ -182,13 +182,10 @@ namespace DSPRE.HGSSReports
     public WildEditorHGSSReport(List<MapHeaderHGSS> headers, int wildPokemon) {
       DSUtils.TryUnpackNarcs(new List<RomInfo.DirNames>() { RomInfo.DirNames.encounters });
 
-      Tuple<List<string>, List<string>> headerNames = Helpers.BuildHeaderNames();
-      List<string> headerListBoxNames = headerNames.Item1;
-      List<string> internalNames = headerNames.Item2;
-      string[] pokemonNames = RomInfo.GetPokemonNames();
-      TextArchive currentTextArchive = new TextArchive(RomInfo.locationNamesTextNumber);
+      List<string> internalNames = Helpers.getInternalNames();
 
       StringBuilder sb = new StringBuilder();
+      TextArchive currentTextArchive = new TextArchive(RomInfo.locationNamesTextNumber);
       foreach (MapHeaderHGSS header in headers) {
         string _locationName = currentTextArchive.messages[header.locationName];
         sb.Append($"{header.ID} {MapHeader.nameSeparator.Trim()} {internalNames[header.ID].Trim()} - {_locationName}\n");
@@ -200,6 +197,7 @@ namespace DSPRE.HGSSReports
       if (wildPokemon == RomInfo.nullEncounterID) return;
 
       EncounterFileHGSS currentFile = new EncounterFileHGSS(wildPokemon);
+      string[] pokemonNames = RomInfo.GetPokemonNames();
       processEncounters(currentFile, pokemonNames);
     }
 

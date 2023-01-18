@@ -3,41 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using DSPRE.ROMFiles;
 
-namespace DSPRE.HGSSReports
-{
+namespace DSPRE.HGSSReports {
   public static class FullReport {
     public static void WriteReports(string dir) {
-      Tuple<List<string>, List<string>> headerNames = Helpers.BuildHeaderNames();
-      List<string> headerListBoxNames = headerNames.Item1;
-      string[] pokemonNames = RomInfo.GetPokemonNames();
-
-      Dictionary<int, List<MapHeaderHGSS>> headerEncounters = new Dictionary<int, List<MapHeaderHGSS>>();
-
-      //collect headers that use the same encounter file
-      for (ushort i = 0; i < headerListBoxNames.Count; i++) {
-        MapHeaderHGSS mapHeader = (MapHeaderHGSS)MapHeader.GetMapHeader(i);
-
-        ushort encounterID = mapHeader.wildPokemon;
-        if (!headerEncounters.ContainsKey(encounterID)) {
-          headerEncounters[encounterID] = new List<MapHeaderHGSS>();
-        }
-
-        headerEncounters[encounterID].Add(mapHeader);
-      }
-
       List<string> allEncounters = new List<string>();
-      List<string> allGrassEncounters = new List<string>();
-      List<string> allRadioHeonnEncounters = new List<string>();
-      List<string> allRadioSinnohEncounters = new List<string>();
-      List<string> allSwarmGrassEncounters = new List<string>();
-      List<string> allSwarmSurfEncounters = new List<string>();
-      List<string> allSwarmGoodRodEncounters = new List<string>();
-      List<string> allSwarmSuperRodEncounters = new List<string>();
-      List<string> allRockSmashEncounters = new List<string>();
-      List<string> allSurfEncounters = new List<string>();
-      List<string> allOldRodEncounters = new List<string>();
-      List<string> allGoodRodEncounters = new List<string>();
-      List<string> allSuperRodEncounters = new List<string>();
 
       List<string> allHeadbuttNormalEncounters = new List<string>();
       List<string> allHeadbuttSpecialEncounters = new List<string>();
@@ -53,6 +22,35 @@ namespace DSPRE.HGSSReports
         allHeadbuttNormalEncounters.AddRange(encounterReport.normalEncounters);
         allHeadbuttSpecialEncounters.AddRange(encounterReport.specialEncounters);
       }
+
+      //collect headers that use the same encounter file
+      List<string> headerListBoxNames = Helpers.getHeaderListBoxNames();
+
+      Dictionary<int, List<MapHeaderHGSS>> headerEncounters = new Dictionary<int, List<MapHeaderHGSS>>();
+
+      for (ushort i = 0; i < headerListBoxNames.Count; i++) {
+        MapHeaderHGSS mapHeader = (MapHeaderHGSS)MapHeader.GetMapHeader(i);
+
+        ushort encounterID = mapHeader.wildPokemon;
+        if (!headerEncounters.ContainsKey(encounterID)) {
+          headerEncounters[encounterID] = new List<MapHeaderHGSS>();
+        }
+
+        headerEncounters[encounterID].Add(mapHeader);
+      }
+
+      List<string> allGrassEncounters = new List<string>();
+      List<string> allRadioHeonnEncounters = new List<string>();
+      List<string> allRadioSinnohEncounters = new List<string>();
+      List<string> allSwarmGrassEncounters = new List<string>();
+      List<string> allSwarmSurfEncounters = new List<string>();
+      List<string> allSwarmGoodRodEncounters = new List<string>();
+      List<string> allSwarmSuperRodEncounters = new List<string>();
+      List<string> allRockSmashEncounters = new List<string>();
+      List<string> allSurfEncounters = new List<string>();
+      List<string> allOldRodEncounters = new List<string>();
+      List<string> allGoodRodEncounters = new List<string>();
+      List<string> allSuperRodEncounters = new List<string>();
 
       foreach (KeyValuePair<int, List<MapHeaderHGSS>> kv in headerEncounters) {
         int wildPokemon = kv.Key;
@@ -89,6 +87,7 @@ namespace DSPRE.HGSSReports
         allSuperRodEncounters.AddRange(report.superRodEncounters);
       }
 
+      string[] pokemonNames = RomInfo.GetPokemonNames();
       int ii = 0;
 
       string path = Path.Combine(dir, $"_{ii.ToString("D2")}_names.txt");

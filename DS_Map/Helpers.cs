@@ -351,23 +351,34 @@ namespace DSPRE {
       }
     }
 
-    public static Tuple<List<string>, List<string>> BuildHeaderNames() {
+    public static List<string> getHeaderListBoxNames() {
       List<string> headerListBoxNames = new List<string>();
-      List<string> internalNames = new List<string>();
-
-      int headerCount = RomInfo.GetHeaderCount();
 
       using (DSUtils.EasyReader reader = new DSUtils.EasyReader(RomInfo.internalNamesPath)) {
+        int headerCount = RomInfo.GetHeaderCount();
         for (int i = 0; i < headerCount; i++) {
           byte[] row = reader.ReadBytes(RomInfo.internalNameLength);
-
           string internalName = Encoding.ASCII.GetString(row); //.TrimEnd();
           headerListBoxNames.Add(MapHeader.BuildName(i, internalName));
+        }
+      }
+
+      return headerListBoxNames;
+    }
+
+    public static List<string> getInternalNames() {
+      List<string> internalNames = new List<string>();
+
+      using (DSUtils.EasyReader reader = new DSUtils.EasyReader(RomInfo.internalNamesPath)) {
+        int headerCount = RomInfo.GetHeaderCount();
+        for (int i = 0; i < headerCount; i++) {
+          byte[] row = reader.ReadBytes(RomInfo.internalNameLength);
+          string internalName = Encoding.ASCII.GetString(row); //.TrimEnd();
           internalNames.Add(internalName.TrimEnd('\0'));
         }
       }
 
-      return Tuple.Create(headerListBoxNames, internalNames);
+      return internalNames;
     }
 
     public static void OpenWildEditor(int encToOpen = 0) {

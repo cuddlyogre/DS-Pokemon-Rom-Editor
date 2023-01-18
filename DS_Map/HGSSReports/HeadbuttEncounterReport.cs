@@ -92,8 +92,8 @@ namespace DSPRE.HGSSReports {
     }
 
     public void WriteFile(string dir) {
-      Tuple<List<string>, List<string>> headerNames = Helpers.BuildHeaderNames();
-      List<string> internalNames = headerNames.Item2;
+      List<string> internalNames = Helpers.getInternalNames();
+
       string[] pokemonNames = RomInfo.GetPokemonNames();
 
       StringBuilder sb = new StringBuilder();
