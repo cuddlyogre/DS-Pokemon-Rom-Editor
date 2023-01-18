@@ -220,6 +220,10 @@ namespace DSPRE.Editors {
         }
       }
 
+      mapHeaderMapsIDsList.Sort((first, second) => {
+        int ret = first.mapID.CompareTo(second.mapID);
+        return ret != 0 ? ret : first.x.CompareTo(second.x);
+      });
       foreach (HeadbuttEncounterMap map in mapHeaderMapsIDsList) {
         comboBoxMapFile.Items.Add(map);
       }
