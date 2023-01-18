@@ -108,6 +108,12 @@
     <Compile Include="Editors\CameraEditor.Designer.cs">
       <DependentUpon>CameraEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Editors\EncountersEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Editors\EncountersEditor.Designer.cs">
+      <DependentUpon>EncountersEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Editors\EventEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -386,6 +392,9 @@
     <Compile Include="Resources\writeText.Designer.cs" />
     <EmbeddedResource Include="Editors\CameraEditor.resx">
       <DependentUpon>CameraEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editors\EncountersEditor.resx">
+      <DependentUpon>EncountersEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Editors\EventEditor.resx">
       <DependentUpon>EventEditor.cs</DependentUpon>

@@ -117,12 +117,6 @@ namespace DSPRE.Editors {
       openGlControl.MakeCurrent();
     }
 
-    public void OpenHeadbuttEncounterEditor(int headerID) {
-      SetupHeadbuttEncounterEditor();
-      comboBoxMapHeader.SelectedIndex = headerID;
-      EditorPanels.mainTabControl.SelectedTab = EditorPanels.headbuttEncounterEditorTabPage;
-    }
-
     private void comboBoxMapHeader_SelectedIndexChanged(object sender, EventArgs e) {
       ushort headbuttID = (ushort)comboBoxMapHeader.SelectedIndex;
       this.headbuttEncounterFile = new HeadbuttEncounterFile(headbuttID);

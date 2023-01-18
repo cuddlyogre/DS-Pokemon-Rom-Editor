@@ -21,8 +21,7 @@ namespace DSPRE {
       SetMenuLayout(Properties.Settings.Default.menuLayout); //Read user settings for menu layout
 
       aboutToolStripMenuItem.DropDownItems.Remove(encounterReportToolStripMenuItem);
-      mainTabControl.TabPages.Remove(EditorPanels.headbuttEncounterEditorTabPage);
-      mainTabControl.TabPages.Remove(EditorPanels.safariZoneEditorTabPage);
+      mainTabControl.TabPages.Remove(EditorPanels.tabPageEncountersEditor);
     }
 
     public bool iconON = false;
@@ -563,8 +562,7 @@ namespace DSPRE {
 
       if (RomInfo.gameFamily == RomInfo.GameFamilies.HGSS) {
         aboutToolStripMenuItem.DropDownItems.Add(encounterReportToolStripMenuItem);
-        mainTabControl.TabPages.Insert(mainTabControl.TabPages.IndexOf(EditorPanels.mapEditorTabPage) + 1, EditorPanels.headbuttEncounterEditorTabPage);
-        mainTabControl.TabPages.Insert(mainTabControl.TabPages.IndexOf(EditorPanels.headbuttEncounterEditorTabPage) + 1, EditorPanels.safariZoneEditorTabPage);
+        mainTabControl.TabPages.Insert(mainTabControl.TabPages.IndexOf(EditorPanels.mapEditorTabPage) + 1, EditorPanels.tabPageEncountersEditor);
       }
 
       scriptCommandsButton.Enabled = true;
@@ -662,12 +660,12 @@ namespace DSPRE {
         headerEditor.SetupHeaderEditor(true);
         matrixEditor.SetupMatrixEditor(true);
         mapEditor.SetupMapEditor(true);
-        safariZoneEditor.SetupSafariZoneEditor(true);
+        // safariZoneEditor.SetupSafariZoneEditor(true);
         nsbtxEditor.SetupNSBTXEditor(true);
         eventEditor.SetupEventEditor(true);
         scriptEditor.SetupScriptEditor(true);
         levelScriptEditor.SetUpLevelScriptEditor(true);
-        headbuttEncounterEditor.SetupHeadbuttEncounterEditor(true);
+        // headbuttEncounterEditor.SetupHeadbuttEncounterEditor(true);
         textEditor.SetupTextEditor(true);
         // cameraEditor.SetupCameraEditor(true);
         trainerEditor.SetupTrainerEditor(true);
@@ -729,6 +727,10 @@ namespace DSPRE {
       mapEditor.SetupMapEditor();
       mapEditor.makeCurrent();
     }
+    private void tabPageEncountersEditor_Enter(object sender, EventArgs e)
+    {
+      encountersEditor.SetupEncountersEditor();
+    }
 
     private void nsbtxEditorTabPage_Enter(object sender, EventArgs e) {
       nsbtxEditor.SetupNSBTXEditor();
@@ -747,11 +749,6 @@ namespace DSPRE {
       levelScriptEditor.SetUpLevelScriptEditor();
     }
 
-    private void tabPageHeabuttEncounterEditor_Enter(object sender, EventArgs e) {
-      headbuttEncounterEditor.SetupHeadbuttEncounterEditor();
-      headbuttEncounterEditor.makeCurrent();
-    }
-
     private void tabPageTextEditor_Enter(object sender, EventArgs e) {
       textEditor.SetupTextEditor();
     }
@@ -767,11 +764,6 @@ namespace DSPRE {
     private void tabPageTableEditor_Enter(object sender, EventArgs e) {
       headerEditor.resetHeaderSearch();
       tableEditor.SetupTableEditor();
-    }
-    
-    private void tabPageSafariZone_Enter(object sender, EventArgs e)
-    {
-      safariZoneEditor.SetupSafariZoneEditor();
     }
 
     private void spawnEditorToolStripButton_Click(object sender, EventArgs e) {
