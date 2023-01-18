@@ -70,8 +70,6 @@ namespace DSPRE.Editors {
 
       Tuple<List<string>, List<string>> headerNames = Helpers.BuildHeaderNames();
       List<string> headerListBoxNames = headerNames.Item1;
-      List<string> internalNames = headerNames.Item2;
-      string[] pokemonNames = RomInfo.GetPokemonNames();
 
       Color selectedColor = Color.FromArgb(255, Color.White);
       selectedPen = new Pen(selectedColor);
@@ -95,6 +93,7 @@ namespace DSPRE.Editors {
         }
       }
 
+      string[] pokemonNames = RomInfo.GetPokemonNames();
       headbuttEncounterEditorTabNormal.comboBoxPokemon.Items.AddRange(pokemonNames);
       headbuttEncounterEditorTabNormal.comboBoxPokemon.SelectedIndex = 0;
       headbuttEncounterEditorTabNormal.listBoxTrees.SelectedIndexChanged += ListBoxTrees_SelectedIndexChanged;

@@ -2,18 +2,18 @@
   //This class is in case a MapHeader uses the same MapFile more than once
   //ToString is the matrix x,y and mapID
   class HeadbuttEncounterMap {
+    public readonly int mapID;
     public readonly int x;
     public readonly int y;
-    public readonly int mapID;
 
     public HeadbuttEncounterMap(int x, int y, int mapID) {
+      this.mapID = mapID;
       this.x = x;
       this.y = y;
-      this.mapID = mapID;
     }
 
     public override string ToString() {
-      return $"{x},{y} - {mapID}";
+      return $"{mapID} - {x},{y}";
     }
 
     public override bool Equals(object obj) {
