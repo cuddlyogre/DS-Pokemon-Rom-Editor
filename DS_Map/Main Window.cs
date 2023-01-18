@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using DSPRE.HGSSReports;
 using NarcAPI;
 using DSPRE.Resources;
 using DSPRE.ROMFiles;
@@ -1347,7 +1348,7 @@ namespace DSPRE {
         return;
       }
 
-      FullEncounterReport.WriteReports(fbd.SelectedPath);
+      FullReport.WriteReports(fbd.SelectedPath);
     }
   }
 }

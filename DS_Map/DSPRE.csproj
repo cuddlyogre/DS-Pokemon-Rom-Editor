@@ -207,6 +207,7 @@
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Filesystem.cs" />
+    <Compile Include="HGSSReports\FullReport.cs" />
     <Compile Include="GameCamera.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="ROMFiles\Building.cs" />
@@ -237,7 +238,7 @@
     <Compile Include="ROMFiles\Trigger.cs" />
     <Compile Include="ROMFiles\VariableValueTrigger.cs" />
     <Compile Include="ROMFiles\Warp.cs" />
-    <Compile Include="WildEditorHGSSReport.cs" />
+    <Compile Include="HGSSReports\WildEditorHGSSReport.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -390,6 +391,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\writeText.Designer.cs" />
+    <Compile Include="HGSSReports\HeadbuttEncounterReport.cs" />
     <EmbeddedResource Include="Editors\CameraEditor.resx">
       <DependentUpon>CameraEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -737,5 +739,6 @@
       <Name>Images</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
