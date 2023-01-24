@@ -143,7 +143,7 @@ namespace DSPRE.HGSSReports {
           ushort mapID = gameMatrix.maps[tree.matrixY, tree.matrixX];
           if (mapID == GameMatrix.EMPTY) continue;
 
-          HeadbuttEncounterMap map = new HeadbuttEncounterMap(tree.matrixX, tree.matrixY, mapID);
+          HeadbuttEncounterMap map = new HeadbuttEncounterMap(mapID, tree.matrixX, tree.matrixY);
 
           if (!coordinates.ContainsKey(map)) {
             coordinates[map] = new List<HeadbuttTree>();

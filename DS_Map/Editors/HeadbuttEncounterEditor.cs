@@ -173,7 +173,7 @@ namespace DSPRE.Editors {
             if (gameMatrix.headers[y, x] == mapHeader.ID) {
               int mapID = gameMatrix.maps[y, x];
               if (mapID == GameMatrix.EMPTY) continue;
-              HeadbuttEncounterMap map = new HeadbuttEncounterMap(x, y, mapID);
+              HeadbuttEncounterMap map = new HeadbuttEncounterMap(mapID, x, y);
               if (mapHeaderMapsIDsList.Contains(map)) continue;
               mapHeaderMapsIDsList.Add(map);
             }
@@ -185,7 +185,7 @@ namespace DSPRE.Editors {
           for (int x = 0; x < gameMatrix.width; x++) {
             int mapID = gameMatrix.maps[y, x];
             if (mapID == GameMatrix.EMPTY) continue;
-            HeadbuttEncounterMap map = new HeadbuttEncounterMap(x, y, mapID);
+            HeadbuttEncounterMap map = new HeadbuttEncounterMap(mapID, x, y);
             if (mapHeaderMapsIDsList.Contains(map)) continue;
             mapHeaderMapsIDsList.Add(map);
           }
@@ -200,7 +200,7 @@ namespace DSPRE.Editors {
           int y = tree.matrixY;
           int mapID = gameMatrix.maps[y, x];
           if (mapID == GameMatrix.EMPTY) continue;
-          HeadbuttEncounterMap map = new HeadbuttEncounterMap(x, y, mapID);
+          HeadbuttEncounterMap map = new HeadbuttEncounterMap(mapID, x, y);
           if (mapHeaderMapsIDsList.Contains(map)) continue;
           mapHeaderMapsIDsList.Add(map);
         }
@@ -214,7 +214,7 @@ namespace DSPRE.Editors {
           int y = tree.matrixY;
           int mapID = gameMatrix.maps[y, x];
           if (mapID == GameMatrix.EMPTY) continue;
-          HeadbuttEncounterMap map = new HeadbuttEncounterMap(x, y, mapID);
+          HeadbuttEncounterMap map = new HeadbuttEncounterMap(mapID, x, y);
           if (mapHeaderMapsIDsList.Contains(map)) continue;
           mapHeaderMapsIDsList.Add(map);
         }

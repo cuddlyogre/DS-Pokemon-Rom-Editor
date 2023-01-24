@@ -6,7 +6,7 @@
     public readonly int x;
     public readonly int y;
 
-    public HeadbuttEncounterMap(int x, int y, int mapID) {
+    public HeadbuttEncounterMap(int mapID, int x, int y) {
       this.mapID = mapID;
       this.x = x;
       this.y = y;
